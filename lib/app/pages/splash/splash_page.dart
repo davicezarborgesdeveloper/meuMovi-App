@@ -39,11 +39,11 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   void navigationToNextPage() {
-    // Navigator.of(context)
-    //     .pushReplacementNamed(_logged ? '/home' : '/auth/login');
-
     Navigator.of(context)
-        .pushReplacementNamed(_logged ? '/home' : '/auth/signup');
+        .pushReplacementNamed(_logged ? '/home' : '/auth/login');
+
+    // Navigator.of(context)
+    //     .pushReplacementNamed(_logged ? '/home' : '/auth/signup');
   }
 
   @override

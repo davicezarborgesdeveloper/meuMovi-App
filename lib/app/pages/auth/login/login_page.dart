@@ -157,7 +157,7 @@ class _LoginPageState extends State<LoginPage> with Loader, Messages {
                                 .copyWith(color: ColorsApp.i.secondary),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () => Navigator.of(context)
-                                  .pushNamed('/auth/register'),
+                                  .pushNamed('/auth/signup/menu'),
                           ),
                         ],
                       ),
