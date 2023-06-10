@@ -11,18 +11,20 @@ import '../../../../core/ui/helpers/size_extensions.dart';
 import '../../../../core/ui/styles/colors_app.dart';
 import '../../../../core/ui/styles/text_styles.dart';
 import '../../../../core/widget/text_field_widget.dart';
-import 'service_taker_controller.dart';
+import 'service_taker_register_controller.dart';
 
-class ServiceTakerPage extends StatefulWidget {
-  const ServiceTakerPage({super.key});
+class ServiceTakerRegisterPage extends StatefulWidget {
+  const ServiceTakerRegisterPage({super.key});
 
   @override
-  State<ServiceTakerPage> createState() => _ServiceTakerPageState();
+  State<ServiceTakerRegisterPage> createState() =>
+      _ServiceTakerRegisterPageState();
 }
 
-class _ServiceTakerPageState extends State<ServiceTakerPage>
+class _ServiceTakerRegisterPageState extends State<ServiceTakerRegisterPage>
     with Loader, Messages {
-  final ServiceTakerController controller = ServiceTakerController();
+  final ServiceTakerRegisterController controller =
+      ServiceTakerRegisterController();
   late final ReactionDisposer statusDisposer;
   final cityEC = TextEditingController();
 

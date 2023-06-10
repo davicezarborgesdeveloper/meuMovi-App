@@ -154,6 +154,9 @@ abstract class WorkerRegisterControllerBase with Store {
   @action
   void invalidSendPressed() => _showErrors = true;
 
+  @action
+  void sendPressedNewPage() => _showErrors = false;
+
   @computed
   bool get cpfValid => cpf != null && cpf!.isCPFValid;
   String? get cpfError {

@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'service_taker_controller.dart';
+part of 'service_taker_register_controller.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -8,66 +8,67 @@ part of 'service_taker_controller.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
-mixin _$ServiceTakerController on ServiceTakerControllerBase, Store {
+mixin _$ServiceTakerRegisterController
+    on ServiceTakerRegisterControllerBase, Store {
   Computed<bool>? _$cnpjValidComputed;
 
   @override
   bool get cnpjValid =>
       (_$cnpjValidComputed ??= Computed<bool>(() => super.cnpjValid,
-              name: 'ServiceTakerControllerBase.cnpjValid'))
+              name: 'ServiceTakerRegisterControllerBase.cnpjValid'))
           .value;
   Computed<bool>? _$nameValidComputed;
 
   @override
   bool get nameValid =>
       (_$nameValidComputed ??= Computed<bool>(() => super.nameValid,
-              name: 'ServiceTakerControllerBase.nameValid'))
+              name: 'ServiceTakerRegisterControllerBase.nameValid'))
           .value;
   Computed<bool>? _$emailValidComputed;
 
   @override
   bool get emailValid =>
       (_$emailValidComputed ??= Computed<bool>(() => super.emailValid,
-              name: 'ServiceTakerControllerBase.emailValid'))
+              name: 'ServiceTakerRegisterControllerBase.emailValid'))
           .value;
   Computed<bool>? _$zipValidComputed;
 
   @override
   bool get zipValid =>
       (_$zipValidComputed ??= Computed<bool>(() => super.zipValid,
-              name: 'ServiceTakerControllerBase.zipValid'))
+              name: 'ServiceTakerRegisterControllerBase.zipValid'))
           .value;
   Computed<bool>? _$passwordValidComputed;
 
   @override
   bool get passwordValid =>
       (_$passwordValidComputed ??= Computed<bool>(() => super.passwordValid,
-              name: 'ServiceTakerControllerBase.passwordValid'))
+              name: 'ServiceTakerRegisterControllerBase.passwordValid'))
           .value;
   Computed<bool>? _$retypePassValidComputed;
 
   @override
   bool get retypePassValid =>
       (_$retypePassValidComputed ??= Computed<bool>(() => super.retypePassValid,
-              name: 'ServiceTakerControllerBase.retypePassValid'))
+              name: 'ServiceTakerRegisterControllerBase.retypePassValid'))
           .value;
   Computed<bool>? _$isFormValidComputed;
 
   @override
   bool get isFormValid =>
       (_$isFormValidComputed ??= Computed<bool>(() => super.isFormValid,
-              name: 'ServiceTakerControllerBase.isFormValid'))
+              name: 'ServiceTakerRegisterControllerBase.isFormValid'))
           .value;
   Computed<dynamic>? _$sendPressedComputed;
 
   @override
   dynamic get sendPressed =>
       (_$sendPressedComputed ??= Computed<dynamic>(() => super.sendPressed,
-              name: 'ServiceTakerControllerBase.sendPressed'))
+              name: 'ServiceTakerRegisterControllerBase.sendPressed'))
           .value;
 
-  late final _$_statusAtom =
-      Atom(name: 'ServiceTakerControllerBase._status', context: context);
+  late final _$_statusAtom = Atom(
+      name: 'ServiceTakerRegisterControllerBase._status', context: context);
 
   ServiceTakerRegisterStateStatus get status {
     _$_statusAtom.reportRead();
@@ -84,8 +85,9 @@ mixin _$ServiceTakerController on ServiceTakerControllerBase, Store {
     });
   }
 
-  late final _$_errorMessageAtom =
-      Atom(name: 'ServiceTakerControllerBase._errorMessage', context: context);
+  late final _$_errorMessageAtom = Atom(
+      name: 'ServiceTakerRegisterControllerBase._errorMessage',
+      context: context);
 
   String? get errorMessage {
     _$_errorMessageAtom.reportRead();
@@ -102,8 +104,8 @@ mixin _$ServiceTakerController on ServiceTakerControllerBase, Store {
     });
   }
 
-  late final _$_showErrorsAtom =
-      Atom(name: 'ServiceTakerControllerBase._showErrors', context: context);
+  late final _$_showErrorsAtom = Atom(
+      name: 'ServiceTakerRegisterControllerBase._showErrors', context: context);
 
   bool get showErrors {
     _$_showErrorsAtom.reportRead();
@@ -121,7 +123,7 @@ mixin _$ServiceTakerController on ServiceTakerControllerBase, Store {
   }
 
   late final _$cnpjAtom =
-      Atom(name: 'ServiceTakerControllerBase.cnpj', context: context);
+      Atom(name: 'ServiceTakerRegisterControllerBase.cnpj', context: context);
 
   @override
   String? get cnpj {
@@ -137,7 +139,7 @@ mixin _$ServiceTakerController on ServiceTakerControllerBase, Store {
   }
 
   late final _$nameAtom =
-      Atom(name: 'ServiceTakerControllerBase.name', context: context);
+      Atom(name: 'ServiceTakerRegisterControllerBase.name', context: context);
 
   @override
   String? get name {
@@ -153,7 +155,7 @@ mixin _$ServiceTakerController on ServiceTakerControllerBase, Store {
   }
 
   late final _$phoneAtom =
-      Atom(name: 'ServiceTakerControllerBase.phone', context: context);
+      Atom(name: 'ServiceTakerRegisterControllerBase.phone', context: context);
 
   @override
   String? get phone {
@@ -169,7 +171,7 @@ mixin _$ServiceTakerController on ServiceTakerControllerBase, Store {
   }
 
   late final _$emailAtom =
-      Atom(name: 'ServiceTakerControllerBase.email', context: context);
+      Atom(name: 'ServiceTakerRegisterControllerBase.email', context: context);
 
   @override
   String? get email {
@@ -185,7 +187,7 @@ mixin _$ServiceTakerController on ServiceTakerControllerBase, Store {
   }
 
   late final _$zipAtom =
-      Atom(name: 'ServiceTakerControllerBase.zip', context: context);
+      Atom(name: 'ServiceTakerRegisterControllerBase.zip', context: context);
 
   @override
   String? get zip {
@@ -201,7 +203,7 @@ mixin _$ServiceTakerController on ServiceTakerControllerBase, Store {
   }
 
   late final _$numberAtom =
-      Atom(name: 'ServiceTakerControllerBase.number', context: context);
+      Atom(name: 'ServiceTakerRegisterControllerBase.number', context: context);
 
   @override
   String? get number {
@@ -216,8 +218,8 @@ mixin _$ServiceTakerController on ServiceTakerControllerBase, Store {
     });
   }
 
-  late final _$passwordAtom =
-      Atom(name: 'ServiceTakerControllerBase.password', context: context);
+  late final _$passwordAtom = Atom(
+      name: 'ServiceTakerRegisterControllerBase.password', context: context);
 
   @override
   String? get password {
@@ -232,8 +234,8 @@ mixin _$ServiceTakerController on ServiceTakerControllerBase, Store {
     });
   }
 
-  late final _$retypePassAtom =
-      Atom(name: 'ServiceTakerControllerBase.retypePass', context: context);
+  late final _$retypePassAtom = Atom(
+      name: 'ServiceTakerRegisterControllerBase.retypePass', context: context);
 
   @override
   String? get retypePass {
@@ -249,7 +251,7 @@ mixin _$ServiceTakerController on ServiceTakerControllerBase, Store {
   }
 
   late final _$_cityAtom =
-      Atom(name: 'ServiceTakerControllerBase._city', context: context);
+      Atom(name: 'ServiceTakerRegisterControllerBase._city', context: context);
 
   String? get city {
     _$_cityAtom.reportRead();
@@ -266,8 +268,9 @@ mixin _$ServiceTakerController on ServiceTakerControllerBase, Store {
     });
   }
 
-  late final _$termsAcceptedAtom =
-      Atom(name: 'ServiceTakerControllerBase.termsAccepted', context: context);
+  late final _$termsAcceptedAtom = Atom(
+      name: 'ServiceTakerRegisterControllerBase.termsAccepted',
+      context: context);
 
   @override
   bool get termsAccepted {
@@ -282,132 +285,147 @@ mixin _$ServiceTakerController on ServiceTakerControllerBase, Store {
     });
   }
 
-  late final _$registerAsyncAction =
-      AsyncAction('ServiceTakerControllerBase.register', context: context);
+  late final _$registerAsyncAction = AsyncAction(
+      'ServiceTakerRegisterControllerBase.register',
+      context: context);
 
   @override
   Future<void> register() {
     return _$registerAsyncAction.run(() => super.register());
   }
 
-  late final _$searchZipAsyncAction =
-      AsyncAction('ServiceTakerControllerBase.searchZip', context: context);
+  late final _$searchZipAsyncAction = AsyncAction(
+      'ServiceTakerRegisterControllerBase.searchZip',
+      context: context);
 
   @override
   Future<void> searchZip(String zipFilter) {
     return _$searchZipAsyncAction.run(() => super.searchZip(zipFilter));
   }
 
-  late final _$ServiceTakerControllerBaseActionController =
-      ActionController(name: 'ServiceTakerControllerBase', context: context);
+  late final _$ServiceTakerRegisterControllerBaseActionController =
+      ActionController(
+          name: 'ServiceTakerRegisterControllerBase', context: context);
 
   @override
   void setCnpj(String value) {
-    final _$actionInfo = _$ServiceTakerControllerBaseActionController
-        .startAction(name: 'ServiceTakerControllerBase.setCnpj');
+    final _$actionInfo = _$ServiceTakerRegisterControllerBaseActionController
+        .startAction(name: 'ServiceTakerRegisterControllerBase.setCnpj');
     try {
       return super.setCnpj(value);
     } finally {
-      _$ServiceTakerControllerBaseActionController.endAction(_$actionInfo);
+      _$ServiceTakerRegisterControllerBaseActionController
+          .endAction(_$actionInfo);
     }
   }
 
   @override
   void setName(String value) {
-    final _$actionInfo = _$ServiceTakerControllerBaseActionController
-        .startAction(name: 'ServiceTakerControllerBase.setName');
+    final _$actionInfo = _$ServiceTakerRegisterControllerBaseActionController
+        .startAction(name: 'ServiceTakerRegisterControllerBase.setName');
     try {
       return super.setName(value);
     } finally {
-      _$ServiceTakerControllerBaseActionController.endAction(_$actionInfo);
+      _$ServiceTakerRegisterControllerBaseActionController
+          .endAction(_$actionInfo);
     }
   }
 
   @override
   void setPhone(String value) {
-    final _$actionInfo = _$ServiceTakerControllerBaseActionController
-        .startAction(name: 'ServiceTakerControllerBase.setPhone');
+    final _$actionInfo = _$ServiceTakerRegisterControllerBaseActionController
+        .startAction(name: 'ServiceTakerRegisterControllerBase.setPhone');
     try {
       return super.setPhone(value);
     } finally {
-      _$ServiceTakerControllerBaseActionController.endAction(_$actionInfo);
+      _$ServiceTakerRegisterControllerBaseActionController
+          .endAction(_$actionInfo);
     }
   }
 
   @override
   void setEmail(String value) {
-    final _$actionInfo = _$ServiceTakerControllerBaseActionController
-        .startAction(name: 'ServiceTakerControllerBase.setEmail');
+    final _$actionInfo = _$ServiceTakerRegisterControllerBaseActionController
+        .startAction(name: 'ServiceTakerRegisterControllerBase.setEmail');
     try {
       return super.setEmail(value);
     } finally {
-      _$ServiceTakerControllerBaseActionController.endAction(_$actionInfo);
+      _$ServiceTakerRegisterControllerBaseActionController
+          .endAction(_$actionInfo);
     }
   }
 
   @override
   void setZip(String value) {
-    final _$actionInfo = _$ServiceTakerControllerBaseActionController
-        .startAction(name: 'ServiceTakerControllerBase.setZip');
+    final _$actionInfo = _$ServiceTakerRegisterControllerBaseActionController
+        .startAction(name: 'ServiceTakerRegisterControllerBase.setZip');
     try {
       return super.setZip(value);
     } finally {
-      _$ServiceTakerControllerBaseActionController.endAction(_$actionInfo);
+      _$ServiceTakerRegisterControllerBaseActionController
+          .endAction(_$actionInfo);
     }
   }
 
   @override
   void setNumber(String value) {
-    final _$actionInfo = _$ServiceTakerControllerBaseActionController
-        .startAction(name: 'ServiceTakerControllerBase.setNumber');
+    final _$actionInfo = _$ServiceTakerRegisterControllerBaseActionController
+        .startAction(name: 'ServiceTakerRegisterControllerBase.setNumber');
     try {
       return super.setNumber(value);
     } finally {
-      _$ServiceTakerControllerBaseActionController.endAction(_$actionInfo);
+      _$ServiceTakerRegisterControllerBaseActionController
+          .endAction(_$actionInfo);
     }
   }
 
   @override
   void setPassword(String value) {
-    final _$actionInfo = _$ServiceTakerControllerBaseActionController
-        .startAction(name: 'ServiceTakerControllerBase.setPassword');
+    final _$actionInfo = _$ServiceTakerRegisterControllerBaseActionController
+        .startAction(name: 'ServiceTakerRegisterControllerBase.setPassword');
     try {
       return super.setPassword(value);
     } finally {
-      _$ServiceTakerControllerBaseActionController.endAction(_$actionInfo);
+      _$ServiceTakerRegisterControllerBaseActionController
+          .endAction(_$actionInfo);
     }
   }
 
   @override
   void setRetypePass(String value) {
-    final _$actionInfo = _$ServiceTakerControllerBaseActionController
-        .startAction(name: 'ServiceTakerControllerBase.setRetypePass');
+    final _$actionInfo = _$ServiceTakerRegisterControllerBaseActionController
+        .startAction(name: 'ServiceTakerRegisterControllerBase.setRetypePass');
     try {
       return super.setRetypePass(value);
     } finally {
-      _$ServiceTakerControllerBaseActionController.endAction(_$actionInfo);
+      _$ServiceTakerRegisterControllerBaseActionController
+          .endAction(_$actionInfo);
     }
   }
 
   @override
   void setTermsAccepted(bool value) {
-    final _$actionInfo = _$ServiceTakerControllerBaseActionController
-        .startAction(name: 'ServiceTakerControllerBase.setTermsAccepted');
+    final _$actionInfo =
+        _$ServiceTakerRegisterControllerBaseActionController.startAction(
+            name: 'ServiceTakerRegisterControllerBase.setTermsAccepted');
     try {
       return super.setTermsAccepted(value);
     } finally {
-      _$ServiceTakerControllerBaseActionController.endAction(_$actionInfo);
+      _$ServiceTakerRegisterControllerBaseActionController
+          .endAction(_$actionInfo);
     }
   }
 
   @override
   void invalidSendPressed() {
-    final _$actionInfo = _$ServiceTakerControllerBaseActionController
-        .startAction(name: 'ServiceTakerControllerBase.invalidSendPressed');
+    final _$actionInfo =
+        _$ServiceTakerRegisterControllerBaseActionController.startAction(
+            name: 'ServiceTakerRegisterControllerBase.invalidSendPressed');
     try {
       return super.invalidSendPressed();
     } finally {
-      _$ServiceTakerControllerBaseActionController.endAction(_$actionInfo);
+      _$ServiceTakerRegisterControllerBaseActionController
+          .endAction(_$actionInfo);
     }
   }
 

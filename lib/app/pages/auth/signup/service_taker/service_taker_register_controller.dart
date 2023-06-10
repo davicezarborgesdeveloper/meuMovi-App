@@ -4,7 +4,7 @@ import 'package:mobx/mobx.dart';
 
 import '../../../../core/extensions/validator_extensions.dart';
 import '../../../../repositories/zip/zip_repository.dart';
-part 'service_taker_controller.g.dart';
+part 'service_taker_register_controller.g.dart';
 
 enum ServiceTakerRegisterStateStatus {
   initial,
@@ -14,10 +14,10 @@ enum ServiceTakerRegisterStateStatus {
   saved,
 }
 
-class ServiceTakerController = ServiceTakerControllerBase
-    with _$ServiceTakerController;
+class ServiceTakerRegisterController = ServiceTakerRegisterControllerBase
+    with _$ServiceTakerRegisterController;
 
-abstract class ServiceTakerControllerBase with Store {
+abstract class ServiceTakerRegisterControllerBase with Store {
   @readonly
   var _status = ServiceTakerRegisterStateStatus.initial;
 
@@ -166,7 +166,8 @@ abstract class ServiceTakerControllerBase with Store {
       emailValid &&
       zipValid &&
       passwordValid &&
-      retypePassValid;
+      retypePassValid &&
+      termsAccepted;
 
   @computed
   dynamic get sendPressed => isFormValid ? register : null;

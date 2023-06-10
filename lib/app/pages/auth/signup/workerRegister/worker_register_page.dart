@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:meu_movi/app/pages/auth/signup/workerRegister/widgets/worker_register_address_data.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../core/ui/helpers/loader.dart';
 import '../../../../core/ui/helpers/messages.dart';
 import '../../../../core/ui/styles/text_styles.dart';
 import '../../../../core/widget/movi_stepper.dart';
-import 'widgets/Worker_address_data.dart';
 import 'widgets/worker_register_documents_data.dart';
 import 'widgets/worker_register_personal_data.dart';
 import 'worker_register_controller.dart';

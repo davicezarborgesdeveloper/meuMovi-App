@@ -46,9 +46,13 @@ class _DropdownWidgetState extends State<DropdownWidget> {
               ),
               value: widget.statusSelected ?? widget.selected,
               items: [
-                const DropdownMenuItem(
+                DropdownMenuItem(
                   value: null,
-                  child: Text('Selecione'),
+                  child: Text(
+                    'Selecione',
+                    style:
+                        context.textStyles.textRegular.copyWith(fontSize: 14),
+                  ),
                 ),
                 if (widget.listOptions is List<BankModel>)
                   ...widget.listOptions.map(

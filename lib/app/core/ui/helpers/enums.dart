@@ -15,6 +15,22 @@ enum MaritalStatus {
   }
 }
 
+enum CompanySector {
+  administracao('Administração', 'ADM'),
+  cadastro('Cadastro', 'CAD'),
+  diretoria('Diretoria', 'DIR'),
+  financeiro('Financeiro', 'FIN');
+
+  final String name;
+  final String acronym;
+
+  const CompanySector(this.name, this.acronym);
+
+  static CompanySector parse(String acronym) {
+    return values.firstWhere((s) => s.acronym == acronym);
+  }
+}
+
 enum BankReceiptType {
   pix('pix', 'px'),
   bank('bank', 'cc');

@@ -10,20 +10,10 @@ dart run build_runner watch -d
 
 <!-- ----------------------------------- -->
 
-firebase login
-firebase projects:list
-flutter run -d chrome --release
-flutter build web
-firebase init
-firebase deploy
-
-<!-- -------------------------- -->
-
-flutter build web
-firebase deploy
-
-<!-- ------------------------- -->
-
 flutter pub add firebase_core
 dart pub global activate flutterfire_cli
 flutterfire configure
+
+<!-- ------------------------- -->
+
+flutter build web --web-renderer html --release

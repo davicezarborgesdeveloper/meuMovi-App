@@ -4,26 +4,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
-import '../../../../../core/ui/helpers/debouncer.dart';
 import '../../../../../core/ui/helpers/size_extensions.dart';
 import '../../../../../core/ui/styles/colors_app.dart';
 import '../../../../../core/ui/styles/text_styles.dart';
 import '../../../../../core/widget/text_field_changed_widget.dart';
 import '../../../../../core/widget/text_field_widget.dart';
-import '../worker_register_controller.dart';
+import '../syndicate_register_controller.dart';
 
-class WorkerRegisterAddressData extends StatefulWidget {
-  final WorkerRegisterController controller;
-  const WorkerRegisterAddressData(this.controller, {Key? key})
-      : super(key: key);
+class SyndicateRegisterAddressPage extends StatefulWidget {
+  final SyndicateRegisterController controller;
+  const SyndicateRegisterAddressPage(this.controller, {super.key});
 
   @override
-  State<WorkerRegisterAddressData> createState() =>
-      _WorkerRegisterAddressDataState();
+  State<SyndicateRegisterAddressPage> createState() =>
+      _SyndicateRegisterAddressPageState();
 }
 
-class _WorkerRegisterAddressDataState extends State<WorkerRegisterAddressData> {
-  final debouncer = Debouncer(milliseconds: 500);
+class _SyndicateRegisterAddressPageState
+    extends State<SyndicateRegisterAddressPage> {
   final cityEC = TextEditingController();
   final stateEC = TextEditingController();
   final streetEC = TextEditingController();
@@ -173,14 +171,6 @@ class _WorkerRegisterAddressDataState extends State<WorkerRegisterAddressData> {
               ),
             ),
           ],
-        ),
-        Observer(
-          builder: (_) => TextFieldWidget(
-            label: 'Ponto de referência',
-            hintText: 'Digite um ponto de referência',
-            onChanged: widget.controller.setReferencePoint,
-            initialValue: widget.controller.referencePoint,
-          ),
         ),
         Padding(
           padding: const EdgeInsets.only(top: 16, bottom: 32),

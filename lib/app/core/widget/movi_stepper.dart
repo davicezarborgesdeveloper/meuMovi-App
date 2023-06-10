@@ -5,8 +5,6 @@ import '../ui/styles/text_styles.dart';
 
 class MoviStepper extends StatefulWidget {
   final int currentStep;
-  // final VoidCallback? onStepCancel;
-  // final VoidCallback? onStepContinue;
   final Widget? buttonCancel;
   final Widget buttonContinue;
   final List<Widget> steps;
@@ -40,7 +38,7 @@ class _MoviStepperState extends State<MoviStepper> {
       children: [
         Container(
           margin: const EdgeInsets.all(16),
-          height: 50,
+          height: 60,
           child: Center(
             child: ListView.builder(
               scrollDirection: Axis.horizontal,

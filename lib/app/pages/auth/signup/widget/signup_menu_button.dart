@@ -28,13 +28,10 @@ class SignupMenuButton extends StatelessWidget {
     return SizedBox(
       height: height,
       width: width,
-      child: OutlinedButton(
+      child: ElevatedButton(
         onPressed: onTap,
-        style: OutlinedButton.styleFrom(
-          side: BorderSide(
-            color: color ?? ColorsApp.i.primary,
-            width: 4,
-          ),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: color?.withOpacity(.7) ?? ColorsApp.i.primary,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12.0),
           ),
@@ -46,24 +43,30 @@ class SignupMenuButton extends StatelessWidget {
               Icon(
                 icon,
                 size: width * .18,
-                color: color ?? ColorsApp.i.primary,
+                color: Colors.white,
+              ),
+              const SizedBox(
+                width: 8,
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
+                // crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(
-                    title,
-                    style: context.textStyles.textBold
-                        .copyWith(color: color ?? ColorsApp.i.primary),
+                  SizedBox(
+                    width: width * .65,
+                    child: Text(
+                      title,
+                      style: context.textStyles.textBold
+                          .copyWith(color: Colors.white),
+                    ),
                   ),
                   SizedBox(
                     width: width * .65,
                     child: Text(
                       description,
                       style: context.textStyles.textLight
-                          .copyWith(color: color ?? ColorsApp.i.primary),
-                      textAlign: TextAlign.center,
+                          .copyWith(color: Colors.white, fontSize: 12),
+                      textAlign: TextAlign.left,
                     ),
                   ),
                 ],

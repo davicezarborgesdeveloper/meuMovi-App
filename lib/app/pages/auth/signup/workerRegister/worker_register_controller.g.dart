@@ -538,6 +538,17 @@ mixin _$WorkerRegisterController on WorkerRegisterControllerBase, Store {
   }
 
   @override
+  void sendPressedNewPage() {
+    final _$actionInfo = _$WorkerRegisterControllerBaseActionController
+        .startAction(name: 'WorkerRegisterControllerBase.sendPressedNewPage');
+    try {
+      return super.sendPressedNewPage();
+    } finally {
+      _$WorkerRegisterControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setZip(String value) {
     final _$actionInfo = _$WorkerRegisterControllerBaseActionController
         .startAction(name: 'WorkerRegisterControllerBase.setZip');

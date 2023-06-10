@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'app/pages/auth/login/login_page.dart';
 import 'app/pages/auth/remember/remember_me_page.dart';
-import 'app/pages/auth/signup/service_taker/service_taker_page.dart';
+import 'app/pages/auth/signup/service_taker/service_taker_register_page.dart';
 import 'app/pages/auth/signup/signup_menu_page.dart';
-import 'app/pages/auth/signup/syndicate/syndicate_page.dart';
+import 'app/pages/auth/signup/syndicate/syndicate_register_page.dart';
 import 'app/pages/auth/signup/workerRegister/worker_register_page.dart';
 import 'app/pages/base/base_page.dart';
 import 'app/pages/base/profile/profile_bank_data/profile_bank_data_page.dart';
@@ -28,9 +28,11 @@ class Rotas {
       case '/auth/signup/worker':
         return MaterialPageRoute(builder: (_) => const WorkerRegisterPage());
       case '/auth/signup/serviceTaker':
-        return MaterialPageRoute(builder: (_) => const ServiceTakerPage());
+        return MaterialPageRoute(
+          builder: (_) => const ServiceTakerRegisterPage(),
+        );
       case '/auth/signup/syndicate':
-        return MaterialPageRoute(builder: (_) => const SyndicatePage());
+        return MaterialPageRoute(builder: (_) => const SyndicateRegisterPage());
       case '/auth/signup/termsUse':
         return MaterialPageRoute(builder: (_) => const TermsUse());
       case '/auth/remember':
