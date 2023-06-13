@@ -16,4 +16,5 @@ flutterfire configure
 
 <!-- ------------------------- -->
 
+flutter run -d chrome --release
 flutter build web --web-renderer html --release

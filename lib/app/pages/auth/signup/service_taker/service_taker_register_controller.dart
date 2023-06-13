@@ -3,6 +3,9 @@ import 'dart:developer';
 import 'package:mobx/mobx.dart';
 
 import '../../../../core/extensions/validator_extensions.dart';
+import '../../../../core/rest_client/custom_dio.dart';
+import '../../../../models/new/service_taker_model.dart';
+import '../../../../repositories/auth/auth_repository.dart';
 import '../../../../repositories/zip/zip_repository.dart';
 part 'service_taker_register_controller.g.dart';
 
@@ -175,7 +178,30 @@ abstract class ServiceTakerRegisterControllerBase with Store {
   @action
   Future<void> register() async {
     _status = ServiceTakerRegisterStateStatus.loading;
-    _status = ServiceTakerRegisterStateStatus.saved;
+    try {
+      final serviceTaker = ServiceTakerModel(
+        user: cnpj!.replaceAll(RegExp(r'[^0-9]'), ''),
+        password: password!,
+        profileType: 1,
+        active: true,
+        cnpj: cnpj!.replaceAll(RegExp(r'[^0-9]'), ''),
+        companyName: name!,
+        phone: phone!.replaceAll(RegExp(r'[^0-9]'), ''),
+        email: email!,
+        zip: zip!.replaceAll(RegExp(r'[^0-9]'), ''),
+        number: number!,
+      );
+      CustomDio dio = CustomDio();
+      final userAuth =
+          await AuthRepository(dio).registerServiceTaker(serviceTaker);
+      final auth = await AuthRepository(dio)
+          .login(serviceTaker.user!, serviceTaker.password);
+      _status = ServiceTakerRegisterStateStatus.saved;
+    } catch (e, s) {
+      log('Erro ao registrar Tomadora', error: e, stackTrace: s);
+      _errorMessage = 'Erro ao registrar Tomadora';
+      _status = ServiceTakerRegisterStateStatus.error;
+    }
   }
 
   @action

@@ -1,14 +1,14 @@
 import 'dart:developer';
 
-import 'package:get_it/get_it.dart';
+import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../core/extensions/validator_extensions.dart';
-import '../../../../models/user_model.dart';
+import '../../../../core/rest_client/custom_dio.dart';
+import '../../../../models/new/address_model.dart';
+import '../../../../models/new/worker_model.dart';
+import '../../../../repositories/auth/auth_repository.dart';
 import '../../../../repositories/zip/zip_repository.dart';
-import '../../../../services/auth/auth_firebase_service_impl.dart';
-import '../../auth_controller.dart';
-import '../../user_controller.dart';
 part 'worker_register_controller.g.dart';
 
 enum WorkerRegisterStateStatus {
@@ -283,34 +283,44 @@ abstract class WorkerRegisterControllerBase with Store {
 
   @action
   Future<void> register() async {
+    _status = WorkerRegisterStateStatus.loading;
+
+    final dt = DateFormat('dd/MM/yyyy').parse(birthdate!);
     try {
-      _status = WorkerRegisterStateStatus.loading;
-      final address = Address(
-        zip: zip!,
-        city: city!,
-        state: state!,
-        street: street!,
-        district: district!,
-        number: number ?? '',
-        complement: complement ?? '',
-        referencePoint: referencePoint ?? '',
-      );
-      final user = UserModel(
+      final user = WorkerModel(
+        user: cpf!.replaceAll(RegExp(r'[^0-9]'), ''),
+        password: password!,
+        profileType: 0,
+        active: true,
         name: name!,
         lastname: lastname!,
-        birthdate: birthdate!,
-        email: email!,
-        cpf: cpf!,
-        rg: rg!,
-        address: address,
-        active: true,
+        documents: DocumentsModel(
+          cpf: cpf!.replaceAll(RegExp(r'[^0-9]'), ''),
+          rg: rg!.replaceAll(RegExp(r'[^0-9]'), ''),
+        ),
+        personal: PersonalModel(
+          birthdate: DateFormat('yyyy-MM-dd').format(dt),
+          email: email!,
+        ),
+        address: AddressModel(
+          zip: zip!.replaceAll(RegExp(r'[^0-9]'), ''),
+          city: city!,
+          state: state!,
+          street: street!,
+          district: district!,
+          number: number ?? '',
+          complement: complement ?? '',
+          referencePoint: referencePoint ?? '',
+        ),
       );
+      CustomDio dio = CustomDio();
+      final userAuth = await AuthRepository(dio).registerWorker(user);
+      final auth = await AuthRepository(dio).login(user.user!, user.password);
 
-      final auth = await AuthFirebaseServiceImpl()
-          .signup(email: email!, password: password!, user: user);
-      GetIt.I<AuthController>().setAuth(auth);
-      GetIt.I<UserController>().getCurrentUser(auth!.uid);
-      _status = WorkerRegisterStateStatus.saved;
+      // GetIt.I<AuthController>().setAuth(auth);
+      // GetIt.I<UserController>().getCurrentUser(auth!.uid);
+      // _status = WorkerRegisterStateStatus.saved;
+      _status = WorkerRegisterStateStatus.loaded;
     } catch (e, s) {
       log('Erro ao registrar usuário', error: e, stackTrace: s);
       _errorMessage = 'Erro ao registrar usuário';

@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import '../core/ui/helpers/enums.dart';
 
-class UserModel {
+class UserModelMod {
   String? id;
   final String name;
   final String lastname;
@@ -20,7 +20,7 @@ class UserModel {
   final Address address;
   final BankReceipt? bankReceipt;
   final bool active;
-  UserModel({
+  UserModelMod({
     this.id,
     required this.name,
     required this.lastname,
@@ -41,7 +41,7 @@ class UserModel {
 
   String get fullName => '$name $lastname';
 
-  UserModel copyWith({
+  UserModelMod copyWith({
     String? id,
     String? name,
     String? lastname,
@@ -59,7 +59,7 @@ class UserModel {
     BankReceipt? bankReceipt,
     bool? active,
   }) {
-    return UserModel(
+    return UserModelMod(
       id: id ?? this.id,
       name: name ?? this.name,
       lastname: lastname ?? this.lastname,
@@ -100,8 +100,8 @@ class UserModel {
     };
   }
 
-  factory UserModel.fromMap(Map<String, dynamic> map) {
-    return UserModel(
+  factory UserModelMod.fromMap(Map<String, dynamic> map) {
+    return UserModelMod(
       id: map['id'] != null ? map['id'] as String : null,
       name: (map['name'] ?? '') as String,
       lastname: (map['lastname'] ?? '') as String,
@@ -130,8 +130,8 @@ class UserModel {
 
   String toJson() => json.encode(toMap());
 
-  factory UserModel.fromJson(String source) =>
-      UserModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory UserModelMod.fromJson(String source) =>
+      UserModelMod.fromMap(json.decode(source) as Map<String, dynamic>);
 }
 
 class BankReceipt {

@@ -11,17 +11,16 @@ class SignupMenuPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        iconTheme: const IconThemeData(color: Colors.black),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
           child: Column(
             children: [
-              const SizedBox(
-                height: 42,
-              ),
-              LogoWidget(
-                width: context.percentWidth(.32),
-              ),
+              const LogoWidget(),
               const SizedBox(
                 height: 24,
               ),

@@ -6,7 +6,7 @@ import 'package:mobx/mobx.dart';
 import '../../../../../core/extensions/validator_extensions.dart';
 import '../../../../../core/ui/helpers/enums.dart';
 import '../../../../../models/bank_model.dart';
-import '../../../../../models/user_model.dart';
+import '../../../../../models/user_model_mod.dart';
 import '../../../../../repositories/banks/banks_repository.dart';
 import '../../../../../services/user/user_service.dart';
 import '../../../../auth/user_controller.dart';
@@ -182,7 +182,7 @@ abstract class BankAccountControllerBase with Store {
   Future<void> save() async {
     try {
       _status = BankAccountStateStatus.loading;
-      final UserModel? usrMod = GetIt.I<UserController>().user;
+      final UserModelMod? usrMod = GetIt.I<UserController>().user;
       final userSave = usrMod!.copyWith(
         bankReceipt: BankReceipt(
           cardholderName: cardholderName,

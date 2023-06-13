@@ -1,7 +1,7 @@
 import '../../core/global/constants.dart';
 import '../../core/storage/storage.dart';
 import '../../models/auth_model.dart';
-import '../../models/user_model.dart';
+import '../../models/user_model_mod.dart';
 import '../user/user_service.dart';
 import './auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -52,7 +52,7 @@ class AuthFirebaseServiceImpl implements AuthService {
   Future<AuthModel?> signup({
     required String email,
     required String password,
-    required UserModel user,
+    required UserModelMod user,
   }) async {
     final auth = FirebaseAuth.instance;
 

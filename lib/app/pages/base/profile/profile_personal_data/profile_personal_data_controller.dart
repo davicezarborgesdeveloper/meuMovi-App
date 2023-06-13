@@ -1,10 +1,11 @@
 import 'dart:developer';
 
 import 'package:get_it/get_it.dart';
+import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../core/ui/helpers/enums.dart';
-import '../../../../models/user_model.dart';
+import '../../../../models/user_model_mod.dart';
 import '../../../../services/user/user_service.dart';
 import '../../../auth/user_controller.dart';
 part 'profile_personal_data_controller.g.dart';
@@ -196,17 +197,18 @@ abstract class ProfilePersonalDataControllerBase with Store {
 
   @action
   Future<void> save() async {
+    final dt = DateFormat('dd/MM/yyyy').parse(birthdate!);
     try {
       _status = ProfilePersonalStateStatus.loading;
-      final UserModel? usrMod = GetIt.I<UserController>().user;
+      final UserModelMod? usrMod = GetIt.I<UserController>().user;
       final userSave = usrMod!.copyWith(
         name: name,
         lastname: lastname,
         surname: surname,
-        birthdate: birthdate,
+        birthdate: DateFormat('yyyy-MM-dd').format(dt),
         motherName: motherName,
         maritalStatus: maritalStatus,
-        phone: phone,
+        phone: phone!.replaceAll(RegExp(r'[^0-9]'), ''),
         email: email,
       );
       await UserService().update(userSave);
@@ -221,7 +223,7 @@ abstract class ProfilePersonalDataControllerBase with Store {
 
   @action
   Future<void> getUserData() async {
-    final UserModel? usrMod = GetIt.I<UserController>().user;
+    final UserModelMod? usrMod = GetIt.I<UserController>().user;
     if (usrMod != null) {
       name = usrMod.name;
       lastname = usrMod.lastname;

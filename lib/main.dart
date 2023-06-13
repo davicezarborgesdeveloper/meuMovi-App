@@ -4,11 +4,13 @@ import 'package:get_it/get_it.dart';
 
 import 'app/pages/auth/auth_controller.dart';
 import 'app/pages/auth/user_controller.dart';
+import 'app/core/env/env.dart';
 import 'firebase_options.dart';
 import 'meu_movi_app.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Env.instance.load();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

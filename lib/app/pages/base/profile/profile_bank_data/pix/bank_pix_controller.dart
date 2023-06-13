@@ -5,7 +5,7 @@ import 'package:mobx/mobx.dart';
 
 import '../../../../../core/extensions/validator_extensions.dart';
 import '../../../../../core/ui/helpers/enums.dart';
-import '../../../../../models/user_model.dart';
+import '../../../../../models/user_model_mod.dart';
 import '../../../../../services/user/user_service.dart';
 import '../../../../auth/user_controller.dart';
 part 'bank_pix_controller.g.dart';
@@ -90,7 +90,7 @@ abstract class BankPixControllerBase with Store {
   Future<void> save() async {
     try {
       _status = BankPixStateStatus.loading;
-      final UserModel? usrMod = GetIt.I<UserController>().user;
+      final UserModelMod? usrMod = GetIt.I<UserController>().user;
       final userSave = usrMod!.copyWith(
         bankReceipt: BankReceipt(
           pixKey: pixKey,

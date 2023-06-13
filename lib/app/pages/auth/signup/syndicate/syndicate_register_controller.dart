@@ -3,7 +3,12 @@ import 'dart:developer';
 import 'package:mobx/mobx.dart';
 
 import '../../../../core/extensions/validator_extensions.dart';
+import '../../../../core/rest_client/custom_dio.dart';
 import '../../../../core/ui/helpers/enums.dart';
+import '../../../../models/address.dart';
+import '../../../../models/new/address_model.dart';
+import '../../../../models/new/syndicate_model.dart';
+import '../../../../repositories/auth/auth_repository.dart';
 import '../../../../repositories/zip/zip_repository.dart';
 part 'syndicate_register_controller.g.dart';
 
@@ -38,6 +43,12 @@ abstract class SyndicateRegisterControllerBase with Store {
   @observable
   String? cnpj;
 
+  @observable
+  String? password;
+
+  @observable
+  String? retypePass;
+
   @action
   void setCorporateName(String value) => corporateName = value;
 
@@ -46,6 +57,12 @@ abstract class SyndicateRegisterControllerBase with Store {
 
   @action
   void setCNPJ(String value) => cnpj = value;
+
+  @action
+  void setPassword(String value) => password = value;
+
+  @action
+  void setRetypePass(String value) => retypePass = value;
 
   @computed
   bool get corporateNameValid =>
@@ -61,7 +78,7 @@ abstract class SyndicateRegisterControllerBase with Store {
   }
 
   @computed
-  bool get fantasyNameValid => name != null && fantasyName!.length > 3;
+  bool get fantasyNameValid => fantasyName != null && fantasyName!.length > 3;
   String? get fantasyNameError {
     if (!_showErrors || fantasyNameValid) {
       return null;
@@ -83,6 +100,28 @@ abstract class SyndicateRegisterControllerBase with Store {
       return 'CNPJ inválido';
     } else {
       return 'CNPJ muito curto';
+    }
+  }
+
+  @computed
+  bool get passwordValid => password != null && password!.length >= 6;
+  String? get passwordError {
+    if (!_showErrors || passwordValid) {
+      return null;
+    } else if (password == null || password!.isNotEmpty) {
+      return 'Senha Obrigatória';
+    } else {
+      return 'Senha muito curta';
+    }
+  }
+
+  @computed
+  bool get retypePassValid => retypePass != null && retypePass == password;
+  String? get retypePassError {
+    if (!_showErrors || retypePassValid) {
+      return null;
+    } else {
+      return 'Senhas não coincidem';
     }
   }
 
@@ -216,7 +255,11 @@ abstract class SyndicateRegisterControllerBase with Store {
 
   @computed
   bool get isFormValidInicialData =>
-      corporateNameValid && fantasyNameValid && cnpjValid;
+      corporateNameValid &&
+      fantasyNameValid &&
+      cnpjValid &&
+      passwordValid &&
+      retypePassValid;
 
   @computed
   bool get isFormValidResponsibleContact =>
@@ -247,5 +290,45 @@ abstract class SyndicateRegisterControllerBase with Store {
   }
 
   @action
-  Future<void> register() async {}
+  Future<void> register() async {
+    _status = SyndicateRegisterStateStatus.loading;
+    try {
+      final syndicate = SyndicateModel(
+        user: cnpj!.replaceAll(RegExp(r'[^0-9]'), ''),
+        password: password!,
+        profileType: 2,
+        active: true,
+        companyData: CompanyDataModel(
+          corporateName: corporateName!,
+          fantasyName: fantasyName!,
+          cnpj: cnpj!.replaceAll(RegExp(r'[^0-9]'), ''),
+        ),
+        responsibleContact: ResponsibleContact(
+          name: name!,
+          email: email!,
+          phone: phone!.replaceAll(RegExp(r'[^0-9]'), ''),
+          mobile: mobilePhone!.replaceAll(RegExp(r'[^0-9]'), ''),
+          sector: companySector!.acronym,
+        ),
+        address: AddressModel(
+          zip: zip!.replaceAll(RegExp(r'[^0-9]'), ''),
+          city: city!,
+          state: state!,
+          street: street!,
+          district: district!,
+          number: number ?? '',
+          complement: complement ?? '',
+        ),
+      );
+      // final
+      CustomDio dio = CustomDio();
+      final userAuth = await AuthRepository(dio).registerSyndicate(syndicate);
+      final auth =
+          await AuthRepository(dio).login(syndicate.user, syndicate.password);
+    } catch (e, s) {
+      log('Erro ao registrar usuário', error: e, stackTrace: s);
+      _errorMessage = 'Erro ao registrar usuário';
+      _status = SyndicateRegisterStateStatus.error;
+    }
+  }
 }

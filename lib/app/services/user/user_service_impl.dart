@@ -3,28 +3,28 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
-import '../../models/user_model.dart';
+import '../../models/user_model_mod.dart';
 import './user_service.dart';
 
 const String userCollection = 'users';
 
 class UserServiceImpl implements UserService {
   @override
-  Future<UserModel?> getUserById(String userId) async {
+  Future<UserModelMod?> getUserById(String userId) async {
     final users = FirebaseFirestore.instance.collection(userCollection);
     final document = await users.doc(userId).get();
-    return UserModel.fromMap(document.data()!);
+    return UserModelMod.fromMap(document.data()!);
   }
 
   @override
-  Future<void> save(UserModel user) async {
+  Future<void> save(UserModelMod user) async {
     final store = FirebaseFirestore.instance;
     final docRef = store.collection('users').doc(user.id);
     docRef.set(user.toMap());
   }
 
   @override
-  Future<void> update(UserModel user) async {
+  Future<void> update(UserModelMod user) async {
     final store = FirebaseFirestore.instance;
     final docRef = store.collection('users').doc(user.id);
     docRef.update(user.toMap());

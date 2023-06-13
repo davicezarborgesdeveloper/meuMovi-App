@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
-import '../../../../models/user_model.dart';
+import '../../../../models/user_model_mod.dart';
 import '../../../../services/user/user_service.dart';
 import '../../../auth/user_controller.dart';
 part 'profile_bank_data_controller.g.dart';
@@ -47,7 +47,7 @@ abstract class ProfileBankDataControllerBase with Store {
   Future<void> clearBankReceipt() async {
     try {
       _status = ProfileBankDataStateStatus.loading;
-      final UserModel? usrMod = GetIt.I<UserController>().user;
+      final UserModelMod? usrMod = GetIt.I<UserController>().user;
       await UserService().deleteField(usrMod!.id!, 'bankReceipt');
       GetIt.I<UserController>().setUser(usrMod.copyWith(bankReceipt: null));
       findBankReceipt();

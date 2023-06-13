@@ -107,49 +107,51 @@ class _SyndicateRegisterPageState extends State<SyndicateRegisterPage>
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-            Observer(
-              builder: (_) {
-                return MoviStepper(
-                  currentStep: _index,
-                  buttonCancel: _index != 0
-                      ? OutlinedButton(
-                          onPressed: () {
-                            if (_index > 0) {
-                              setState(() {
-                                _index -= 1;
-                              });
-                            }
-                          },
-                          style: OutlinedButton.styleFrom(
-                            side: const BorderSide(color: Colors.red),
-                          ),
-                          child: Text(
-                            'voltar',
-                            style: context.textStyles.textBold
-                                .copyWith(color: Colors.red),
-                          ),
-                        )
-                      : null,
-                  buttonContinue: GestureDetector(
-                    onTap: controller.invalidSendPressed,
-                    child: ElevatedButton(
-                      onPressed: nextForm,
-                      child: Text(
-                        _index == 2 ? 'Confirmar cadastro' : 'Proximo passo',
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Observer(
+                builder: (_) {
+                  return MoviStepper(
+                    currentStep: _index,
+                    buttonCancel: _index != 0
+                        ? OutlinedButton(
+                            onPressed: () {
+                              if (_index > 0) {
+                                setState(() {
+                                  _index -= 1;
+                                });
+                              }
+                            },
+                            style: OutlinedButton.styleFrom(
+                              side: const BorderSide(color: Colors.red),
+                            ),
+                            child: Text(
+                              'voltar',
+                              style: context.textStyles.textBold
+                                  .copyWith(color: Colors.red),
+                            ),
+                          )
+                        : null,
+                    buttonContinue: GestureDetector(
+                      onTap: controller.invalidSendPressed,
+                      child: ElevatedButton(
+                        onPressed: nextForm,
+                        child: Text(
+                          _index == 2 ? 'Confirmar cadastro' : 'Proximo passo',
+                        ),
                       ),
                     ),
-                  ),
-                  steps: [
-                    SyndicateRegisterInitialDataPage(controller),
-                    SyndicateRegisterResponsibleContactPage(controller),
-                    SyndicateRegisterAddressPage(controller),
-                  ],
-                );
-              },
-            ),
-          ]),
+                    steps: [
+                      SyndicateRegisterInitialDataPage(controller),
+                      SyndicateRegisterResponsibleContactPage(controller),
+                      SyndicateRegisterAddressPage(controller),
+                    ],
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

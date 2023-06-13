@@ -4,7 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../core/extensions/validator_extensions.dart';
-import '../../../../models/user_model.dart';
+import '../../../../models/user_model_mod.dart';
 import '../../../../services/user/user_service.dart';
 import '../../../auth/user_controller.dart';
 part 'profile_my_documents_controller.g.dart';
@@ -120,10 +120,10 @@ abstract class ProfileMyDocumentsControllerBase with Store {
   Future<void> save() async {
     try {
       _status = ProfileMyDocumentsStateStatus.loading;
-      final UserModel? usrMod = GetIt.I<UserController>().user;
+      final UserModelMod? usrMod = GetIt.I<UserController>().user;
       final userSave = usrMod!.copyWith(
-        cpf: cpf,
-        rg: rg,
+        cpf: cpf!.replaceAll(RegExp(r'[^0-9]'), ''),
+        rg: rg!.replaceAll(RegExp(r'[^0-9]'), ''),
         orgaoEmissor: orgaoEmissor,
         dataEmissao: dataEmissao,
       );
@@ -139,7 +139,7 @@ abstract class ProfileMyDocumentsControllerBase with Store {
 
   @action
   Future<void> getUserData() async {
-    final UserModel? usrMod = GetIt.I<UserController>().user;
+    final UserModelMod? usrMod = GetIt.I<UserController>().user;
     if (usrMod != null) {
       cpf = usrMod.cpf;
       rg = usrMod.rg;

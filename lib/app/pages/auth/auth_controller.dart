@@ -4,7 +4,7 @@ import 'package:mobx/mobx.dart';
 import '../../core/global/constants.dart';
 import '../../core/storage/storage.dart';
 import '../../models/auth_model.dart';
-import '../../models/user_model.dart';
+import '../../models/user_model_mod.dart';
 import '../../services/auth/auth_service.dart';
 import '../../services/user/user_service.dart';
 import 'user_controller.dart';
@@ -54,7 +54,7 @@ abstract class AuthControllerBase with Store {
 
   @action
   Future<void> deleteUser() async {
-    final UserModel? um = GetIt.I<UserController>().user;
+    final UserModelMod? um = GetIt.I<UserController>().user;
     um!.copyWith(active: false);
     await AuthService().deleteUser();
     await UserService().update(um);

@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
-import '../../../../models/user_model.dart';
+import '../../../../models/user_model_mod.dart';
 import '../../../../repositories/zip/zip_repository.dart';
 import '../../../../services/user/user_service.dart';
 import '../../../auth/user_controller.dart';
@@ -123,10 +123,10 @@ abstract class ProfileMyAddressControllerBase with Store {
   Future<void> save() async {
     try {
       _status = ProfileMyAddressStateStatus.loading;
-      final UserModel? usrMod = GetIt.I<UserController>().user;
+      final UserModelMod? usrMod = GetIt.I<UserController>().user;
       final userSave = usrMod!.copyWith(
         address: usrMod.address.copyWith(
-          zip: zip,
+          zip: zip!.replaceAll(RegExp(r'[^0-9]'), ''),
           city: city,
           state: state,
           street: street,
@@ -148,7 +148,7 @@ abstract class ProfileMyAddressControllerBase with Store {
 
   @action
   Future<void> getUserData() async {
-    final UserModel? usrMod = GetIt.I<UserController>().user;
+    final UserModelMod? usrMod = GetIt.I<UserController>().user;
     if (usrMod != null) {
       zip = usrMod.address.zip;
       city = usrMod.address.city;

@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:mobx/mobx.dart';
 
-import '../../models/user_model.dart';
+import '../../models/user_model_mod.dart';
 import '../../services/user/user_service.dart';
 part 'user_controller.g.dart';
 
@@ -10,10 +10,10 @@ class UserController = UserControllerBase with _$UserController;
 
 abstract class UserControllerBase with Store {
   @observable
-  UserModel? user;
+  UserModelMod? user;
 
   @action
-  void setUser(UserModel? value) => user = value;
+  void setUser(UserModelMod? value) => user = value;
 
   @action
   Future<void> getCurrentUser(String userId) async {
