@@ -45,7 +45,8 @@ class _ProfilePageState extends State<ProfilePage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            '${userCtrl.user?.fullName}',
+                            '',
+                            // '${userCtrl.user?.fullName}',
                             style: context.textStyles.textBold
                                 .copyWith(fontSize: 18, color: Colors.white),
                           ),
@@ -78,7 +79,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       ImageWidget(
                         (image) async {
-                          controller.uploadImage(image, userCtrl.user!.id!);
+                          // controller.uploadImage(image, userCtrl.user!.id!);
                         },
                         controller.urlImage,
                       ),

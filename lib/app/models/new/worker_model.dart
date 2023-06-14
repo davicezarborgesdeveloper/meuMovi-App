@@ -55,7 +55,11 @@ class WorkerModel implements UserModel {
       password: (map['password'] ?? '') as String,
       profileType:
           map['profileType'] != null ? map['profileType'] as int : null,
-      active: (map['active'] ?? false) as bool,
+      active: map['active'] != null
+          ? map['active'] == 1
+              ? true
+              : false
+          : false,
       name: (map['name'] ?? '') as String,
       lastname: (map['lastname'] ?? '') as String,
       documents:
@@ -67,8 +71,6 @@ class WorkerModel implements UserModel {
           : null,
     );
   }
-
-  String toJson() => json.encode(toMap());
 
   factory WorkerModel.fromJson(String source) =>
       WorkerModel.fromMap(json.decode(source) as Map<String, dynamic>);
@@ -99,6 +101,11 @@ class WorkerModel implements UserModel {
       address: address ?? this.address,
       bankData: bankData ?? this.bankData,
     );
+  }
+
+  @override
+  String toJson() {
+    return json.encode(toMap());
   }
 }
 

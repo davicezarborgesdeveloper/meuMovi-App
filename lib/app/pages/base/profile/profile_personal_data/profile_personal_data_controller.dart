@@ -1,13 +1,8 @@
 import 'dart:developer';
 
-import 'package:get_it/get_it.dart';
-import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../core/ui/helpers/enums.dart';
-import '../../../../models/user_model_mod.dart';
-import '../../../../services/user/user_service.dart';
-import '../../../auth/user_controller.dart';
 part 'profile_personal_data_controller.g.dart';
 
 enum ProfilePersonalStateStatus {
@@ -197,23 +192,23 @@ abstract class ProfilePersonalDataControllerBase with Store {
 
   @action
   Future<void> save() async {
-    final dt = DateFormat('dd/MM/yyyy').parse(birthdate!);
+    // final dt = DateFormat('dd/MM/yyyy').parse(birthdate!);
     try {
-      _status = ProfilePersonalStateStatus.loading;
-      final UserModelMod? usrMod = GetIt.I<UserController>().user;
-      final userSave = usrMod!.copyWith(
-        name: name,
-        lastname: lastname,
-        surname: surname,
-        birthdate: DateFormat('yyyy-MM-dd').format(dt),
-        motherName: motherName,
-        maritalStatus: maritalStatus,
-        phone: phone!.replaceAll(RegExp(r'[^0-9]'), ''),
-        email: email,
-      );
-      await UserService().update(userSave);
-      GetIt.I<UserController>().setUser(userSave);
-      _status = ProfilePersonalStateStatus.saved;
+      // _status = ProfilePersonalStateStatus.loading;
+      // final UserModelMod? usrMod = GetIt.I<UserController>().user;
+      // final userSave = usrMod!.copyWith(
+      //   name: name,
+      //   lastname: lastname,
+      //   surname: surname,
+      //   birthdate: DateFormat('yyyy-MM-dd').format(dt),
+      //   motherName: motherName,
+      //   maritalStatus: maritalStatus,
+      //   phone: phone!.replaceAll(RegExp(r'[^0-9]'), ''),
+      //   email: email,
+      // );
+      // await UserService().update(userSave);
+      // GetIt.I<UserController>().setUser(userSave);
+      // _status = ProfilePersonalStateStatus.saved;
     } on Exception catch (e, s) {
       log('Erro ao atualizar usuário', error: e, stackTrace: s);
       _errorMessage = 'Erro ao atualizar usuário';
@@ -223,16 +218,16 @@ abstract class ProfilePersonalDataControllerBase with Store {
 
   @action
   Future<void> getUserData() async {
-    final UserModelMod? usrMod = GetIt.I<UserController>().user;
-    if (usrMod != null) {
-      name = usrMod.name;
-      lastname = usrMod.lastname;
-      surname = usrMod.surname;
-      birthdate = usrMod.birthdate;
-      motherName = usrMod.motherName;
-      maritalStatus = usrMod.maritalStatus;
-      phone = usrMod.phone;
-      email = usrMod.email;
-    }
+    // final UserModelMod? usrMod = GetIt.I<UserController>().user;
+    // if (usrMod != null) {
+    //   name = usrMod.name;
+    //   lastname = usrMod.lastname;
+    //   surname = usrMod.surname;
+    //   birthdate = usrMod.birthdate;
+    //   motherName = usrMod.motherName;
+    //   maritalStatus = usrMod.maritalStatus;
+    //   phone = usrMod.phone;
+    //   email = usrMod.email;
+    // }
   }
 }

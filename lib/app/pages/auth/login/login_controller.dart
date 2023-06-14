@@ -5,7 +5,10 @@ import 'package:mobx/mobx.dart';
 
 import '../../../core/exceptions/unauthorized_exception.dart';
 import '../../../core/extensions/validator_extensions.dart';
-import '../../../services/auth/auth_service.dart';
+import '../../../core/global/constants.dart';
+import '../../../core/rest_client/custom_dio.dart';
+import '../../../core/storage/storage.dart';
+import '../../../repositories/auth/auth_repository.dart';
 import '../auth_controller.dart';
 import '../user_controller.dart';
 part 'login_controller.g.dart';
@@ -29,11 +32,11 @@ abstract class LoginControllerBase with Store {
   @readonly
   bool _showErrors = false;
 
-  // @observable
-  // String? cpf;
-
   @observable
-  String? email;
+  String? userLogin;
+
+  // @observable
+  // String? email;
 
   @observable
   String? password;
@@ -44,11 +47,11 @@ abstract class LoginControllerBase with Store {
   @action
   void invalidSendPressed() => _showErrors = true;
 
-  // @action
-  // void setCpf(String value) => cpf = value;
-
   @action
-  void setEmail(String value) => email = value;
+  void setUserLogin(String value) => userLogin = value;
+
+  // @action
+  // void setEmail(String value) => email = value;
 
   @action
   void setPassword(String value) => password = value;
@@ -56,19 +59,30 @@ abstract class LoginControllerBase with Store {
   @action
   void setRememberMe(bool value) => rememberMe = value;
 
-  // @computed
-  // bool get cpfValid => cpf != null && cpf!.isCPFValid;
-  // String? get cpfError {
-  //   if (!_showErrors || cpfValid) {
-  //     return null;
-  //   } else if (cpf != null && cpf!.isEmpty) {
-  //     return 'CPF Obrigatório';
-  //   } else if (!cpf!.isCPFValid) {
-  //     return 'CPF inválido';
-  //   } else {
-  //     return 'CPF muito curto';
-  //   }
-  // }
+  @computed
+  bool get userLoginValid {
+    if (userLogin != null) {
+      if (userLogin!.length > 14) {
+        return userLogin!.isCNPJValid;
+      } else {
+        return userLogin!.isCPFValid;
+      }
+    } else {
+      return false;
+    }
+  }
+
+  String? get userLoginError {
+    if (!_showErrors || userLoginValid) {
+      return null;
+    } else if (userLogin != null && userLogin!.isEmpty) {
+      return 'CPF Obrigatório';
+    } else if (!userLogin!.isCPFValid) {
+      return 'CPF inválido';
+    } else {
+      return 'CPF muito curto';
+    }
+  }
 
   @computed
   bool get passwordValid => password != null && password!.length >= 4;
@@ -82,20 +96,20 @@ abstract class LoginControllerBase with Store {
     }
   }
 
-  @computed
-  bool get emailValid => email != null && email!.isEmailValid;
-  String? get emailError {
-    if (!_showErrors || emailValid) {
-      return null;
-    } else if (email == null || email!.isEmpty) {
-      return 'Campo obrigatório';
-    } else {
-      return 'E-mail inválido';
-    }
-  }
+  // @computed
+  // bool get emailValid => email != null && email!.isEmailValid;
+  // String? get emailError {
+  //   if (!_showErrors || emailValid) {
+  //     return null;
+  //   } else if (email == null || email!.isEmpty) {
+  //     return 'Campo obrigatório';
+  //   } else {
+  //     return 'E-mail inválido';
+  //   }
+  // }
 
   @computed
-  bool get isFormValid => emailValid && passwordValid;
+  bool get isFormValid => userLoginValid && passwordValid;
 
   @computed
   dynamic get sendPressed => isFormValid ? login : null;
@@ -104,16 +118,24 @@ abstract class LoginControllerBase with Store {
   Future<void> login() async {
     try {
       _status = LoginStateStatus.loading;
-      final auth = await AuthService().login(email!, password!, rememberMe);
+      final CustomDio dio = CustomDio();
+      final auth = await AuthRepository(dio).login(
+        userLogin!.replaceAll(RegExp(r'[^0-9]'), ''),
+        password!,
+      );
+      await Storage()
+          .setData(SharedStoreKeys.accessToken.key, auth!.accessToken);
+
+      await Storage().setData(SharedStoreKeys.keepLogged.key, rememberMe);
       GetIt.I<AuthController>().setAuth(auth);
-      GetIt.I<UserController>().getCurrentUser(auth!.uid);
+      GetIt.I<UserController>().getCurrentUser(auth.userId);
       _status = LoginStateStatus.success;
     } on UnauthorizedException {
       _errorMessage = 'Login ou senha inválidos';
       _status = LoginStateStatus.error;
     } catch (e, s) {
-      log('Erro ao realizar login', error: e, stackTrace: s);
-      _errorMessage = 'Tente novamente mais tarde';
+      log('$e', error: e, stackTrace: s);
+      _errorMessage = '$e';
       _status = LoginStateStatus.error;
     }
   }

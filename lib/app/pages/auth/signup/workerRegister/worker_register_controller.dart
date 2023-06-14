@@ -1,14 +1,19 @@
 import 'dart:developer';
 
+import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../core/extensions/validator_extensions.dart';
+import '../../../../core/global/constants.dart';
 import '../../../../core/rest_client/custom_dio.dart';
+import '../../../../core/storage/storage.dart';
 import '../../../../models/new/address_model.dart';
 import '../../../../models/new/worker_model.dart';
 import '../../../../repositories/auth/auth_repository.dart';
 import '../../../../repositories/zip/zip_repository.dart';
+import '../../auth_controller.dart';
+import '../../user_controller.dart';
 part 'worker_register_controller.g.dart';
 
 enum WorkerRegisterStateStatus {
@@ -313,14 +318,15 @@ abstract class WorkerRegisterControllerBase with Store {
           referencePoint: referencePoint ?? '',
         ),
       );
-      CustomDio dio = CustomDio();
-      final userAuth = await AuthRepository(dio).registerWorker(user);
-      final auth = await AuthRepository(dio).login(user.user!, user.password);
-
-      // GetIt.I<AuthController>().setAuth(auth);
-      // GetIt.I<UserController>().getCurrentUser(auth!.uid);
-      // _status = WorkerRegisterStateStatus.saved;
-      _status = WorkerRegisterStateStatus.loaded;
+      final CustomDio dio = CustomDio();
+      final auth = await AuthRepository(dio).registerWorker(user);
+      await AuthRepository(dio).login(user.user!, user.password);
+      GetIt.I<AuthController>().setAuth(auth);
+      GetIt.I<UserController>().getCurrentUser(auth!.userId);
+      await Storage().setData(SharedStoreKeys.keepLogged.key, false);
+      await Storage()
+          .setData(SharedStoreKeys.accessToken.key, auth.accessToken);
+      _status = WorkerRegisterStateStatus.saved;
     } catch (e, s) {
       log('Erro ao registrar usuário', error: e, stackTrace: s);
       _errorMessage = 'Erro ao registrar usuário';

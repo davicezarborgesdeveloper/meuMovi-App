@@ -1,5 +1,7 @@
+import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 
@@ -28,6 +30,7 @@ class _LoginPageState extends State<LoginPage> with Loader, Messages {
       statusDisposer = reaction((_) => controller.status, (status) {
         switch (status) {
           case LoginStateStatus.initial:
+            hideLoader();
             break;
           case LoginStateStatus.loading:
             showLoader();
@@ -70,26 +73,21 @@ class _LoginPageState extends State<LoginPage> with Loader, Messages {
                   const SizedBox(
                     height: 40,
                   ),
-                  // Observer(
-                  //   builder: (_) => TextFieldWidget(
-                  //     label: 'CPF',
-                  //     hintText: 'Digite seu cpf',
-                  //     errorText: controller.cpfError,
-                  //     onChanged: controller.setCpf,
-                  //     keyboardType: TextInputType.number,
-                  //     inputFormatters: [
-                  //       FilteringTextInputFormatter.digitsOnly,
-                  //       CpfInputFormatter(),
-                  //     ],
-                  //   ),
-                  // ),
                   Observer(
                     builder: (_) => TextFieldWidget(
-                      label: 'E-mail',
-                      hintText: 'Digite seu e-mail',
-                      errorText: controller.emailError,
-                      onChanged: controller.setEmail,
-                      keyboardType: TextInputType.emailAddress,
+                      label: 'Usuário',
+                      hintText: 'Digite seu usuário',
+                      errorText: controller.userLoginError,
+                      onChanged: controller.setUserLogin,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                        if (controller.userLogin != null &&
+                            controller.userLogin!.length >= 14)
+                          CnpjInputFormatter()
+                        else
+                          CpfInputFormatter(),
+                      ],
                     ),
                   ),
                   Observer(
@@ -163,6 +161,26 @@ class _LoginPageState extends State<LoginPage> with Loader, Messages {
                       ),
                     ),
                   )
+                  // Padding(
+                  //   padding: const EdgeInsets.all(8.0),
+                  //   child: RichText(
+                  //     text: TextSpan(
+                  //       text: 'Não tem uma conta?',
+                  //       style: context.textStyles.textRegular
+                  //           .copyWith(color: Colors.grey[900]),
+                  //       children: [
+                  //         TextSpan(
+                  //           text: ' Cadastre-se',
+                  //           style: context.textStyles.textMedium
+                  //               .copyWith(color: ColorsApp.i.secondary),
+                  //           recognizer: TapGestureRecognizer()
+                  //             ..onTap = () => Navigator.of(context)
+                  //                 .pushNamed('/auth/signup/menu'),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // )
                 ],
               ),
             ),

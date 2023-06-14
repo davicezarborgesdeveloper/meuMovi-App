@@ -58,10 +58,15 @@ class ServiceTakerModel implements UserModel {
       email: (map['email'] ?? '') as String,
       zip: (map['zip'] ?? '') as String,
       number: (map['number'] ?? '') as String,
-      active: (map['active'] ?? false) as bool,
+      active: map['active'] != null
+          ? map['active'] == 1
+              ? true
+              : false
+          : false,
     );
   }
 
+  @override
   String toJson() => json.encode(toMap());
 
   factory ServiceTakerModel.fromJson(String source) =>

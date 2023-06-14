@@ -1,15 +1,19 @@
 import 'dart:developer';
 
+import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../core/extensions/validator_extensions.dart';
+import '../../../../core/global/constants.dart';
 import '../../../../core/rest_client/custom_dio.dart';
+import '../../../../core/storage/storage.dart';
 import '../../../../core/ui/helpers/enums.dart';
-import '../../../../models/address.dart';
 import '../../../../models/new/address_model.dart';
 import '../../../../models/new/syndicate_model.dart';
 import '../../../../repositories/auth/auth_repository.dart';
 import '../../../../repositories/zip/zip_repository.dart';
+import '../../auth_controller.dart';
+import '../../user_controller.dart';
 part 'syndicate_register_controller.g.dart';
 
 enum SyndicateRegisterStateStatus {
@@ -306,8 +310,10 @@ abstract class SyndicateRegisterControllerBase with Store {
         responsibleContact: ResponsibleContact(
           name: name!,
           email: email!,
-          phone: phone!.replaceAll(RegExp(r'[^0-9]'), ''),
-          mobile: mobilePhone!.replaceAll(RegExp(r'[^0-9]'), ''),
+          phone: phone != null ? phone!.replaceAll(RegExp(r'[^0-9]'), '') : '',
+          mobile: mobilePhone != null
+              ? mobilePhone!.replaceAll(RegExp(r'[^0-9]'), '')
+              : '',
           sector: companySector!.acronym,
         ),
         address: AddressModel(
@@ -321,10 +327,16 @@ abstract class SyndicateRegisterControllerBase with Store {
         ),
       );
       // final
-      CustomDio dio = CustomDio();
-      final userAuth = await AuthRepository(dio).registerSyndicate(syndicate);
-      final auth =
-          await AuthRepository(dio).login(syndicate.user, syndicate.password);
+      final CustomDio dio = CustomDio();
+      final auth = await AuthRepository(dio).registerSyndicate(syndicate);
+      await AuthRepository(dio).login(syndicate.user, syndicate.password);
+      await Storage().setData(SharedStoreKeys.keepLogged.key, false);
+      GetIt.I<AuthController>().setAuth(auth);
+      GetIt.I<UserController>().getCurrentUser(auth!.userId);
+      await Storage().setData(SharedStoreKeys.keepLogged.key, false);
+      await Storage()
+          .setData(SharedStoreKeys.accessToken.key, auth.accessToken);
+      _status = SyndicateRegisterStateStatus.loaded;
     } catch (e, s) {
       log('Erro ao registrar usuário', error: e, stackTrace: s);
       _errorMessage = 'Erro ao registrar usuário';

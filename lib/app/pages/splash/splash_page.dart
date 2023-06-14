@@ -26,7 +26,7 @@ class _SplashPageState extends State<SplashPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       statusDisposed = when((_) => authCtrl.isLoggedInKeep, () async {
         _logged = true;
-        GetIt.I<UserController>().getCurrentUser(authCtrl.auth!.uid);
+        GetIt.I<UserController>().getCurrentUser(authCtrl.auth!.userId);
       });
     });
     super.initState();
@@ -41,9 +41,6 @@ class _SplashPageState extends State<SplashPage> {
   void navigationToNextPage() {
     Navigator.of(context)
         .pushReplacementNamed(_logged ? '/home' : '/auth/login');
-
-    // Navigator.of(context)
-    //     .pushReplacementNamed(_logged ? '/home' : '/auth/signup');
   }
 
   @override

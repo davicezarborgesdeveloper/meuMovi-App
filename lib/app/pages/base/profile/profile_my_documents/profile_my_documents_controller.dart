@@ -1,12 +1,6 @@
-import 'dart:developer';
-
-import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../core/extensions/validator_extensions.dart';
-import '../../../../models/user_model_mod.dart';
-import '../../../../services/user/user_service.dart';
-import '../../../auth/user_controller.dart';
 part 'profile_my_documents_controller.g.dart';
 
 enum ProfileMyDocumentsStateStatus {
@@ -118,33 +112,33 @@ abstract class ProfileMyDocumentsControllerBase with Store {
 
   @action
   Future<void> save() async {
-    try {
-      _status = ProfileMyDocumentsStateStatus.loading;
-      final UserModelMod? usrMod = GetIt.I<UserController>().user;
-      final userSave = usrMod!.copyWith(
-        cpf: cpf!.replaceAll(RegExp(r'[^0-9]'), ''),
-        rg: rg!.replaceAll(RegExp(r'[^0-9]'), ''),
-        orgaoEmissor: orgaoEmissor,
-        dataEmissao: dataEmissao,
-      );
-      await UserService().update(userSave);
-      GetIt.I<UserController>().setUser(userSave);
-      _status = ProfileMyDocumentsStateStatus.saved;
-    } on Exception catch (e, s) {
-      log('Erro ao atualizar usuário', error: e, stackTrace: s);
-      _errorMessage = 'Erro ao atualizar usuário';
-      _status = ProfileMyDocumentsStateStatus.error;
-    }
+    // try {
+    //   _status = ProfileMyDocumentsStateStatus.loading;
+    //   final UserModelMod? usrMod = GetIt.I<UserController>().user;
+    //   final userSave = usrMod!.copyWith(
+    //     cpf: cpf!.replaceAll(RegExp(r'[^0-9]'), ''),
+    //     rg: rg!.replaceAll(RegExp(r'[^0-9]'), ''),
+    //     orgaoEmissor: orgaoEmissor,
+    //     dataEmissao: dataEmissao,
+    //   );
+    //   await UserService().update(userSave);
+    //   GetIt.I<UserController>().setUser(userSave);
+    //   _status = ProfileMyDocumentsStateStatus.saved;
+    // } on Exception catch (e, s) {
+    //   log('Erro ao atualizar usuário', error: e, stackTrace: s);
+    //   _errorMessage = 'Erro ao atualizar usuário';
+    //   _status = ProfileMyDocumentsStateStatus.error;
+    // }
   }
 
   @action
   Future<void> getUserData() async {
-    final UserModelMod? usrMod = GetIt.I<UserController>().user;
-    if (usrMod != null) {
-      cpf = usrMod.cpf;
-      rg = usrMod.rg;
-      orgaoEmissor = usrMod.orgaoEmissor;
-      dataEmissao = usrMod.dataEmissao;
-    }
+    // final UserModelMod? usrMod = GetIt.I<UserController>().user;
+    // if (usrMod != null) {
+    //   cpf = usrMod.cpf;
+    //   rg = usrMod.rg;
+    //   orgaoEmissor = usrMod.orgaoEmissor;
+    //   dataEmissao = usrMod.dataEmissao;
+    // }
   }
 }

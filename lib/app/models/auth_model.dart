@@ -4,27 +4,27 @@ import 'dart:convert';
 
 class AuthModel {
   final String displayName;
-  final String email;
-  final String uid;
+  final String userId;
+  final String accessToken;
   AuthModel({
     required this.displayName,
-    required this.email,
-    required this.uid,
+    required this.userId,
+    required this.accessToken,
   });
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'displayName': displayName,
-      'email': email,
-      'uid': uid,
+      'userId': userId,
+      'accessToken': accessToken,
     };
   }
 
   factory AuthModel.fromMap(Map<String, dynamic> map) {
     return AuthModel(
-      displayName: (map['displayName'] ?? '') as String,
-      email: (map['email'] ?? '') as String,
-      uid: (map['uid'] ?? '') as String,
+      displayName: (map['DISPLAYNAME'] ?? '') as String,
+      userId: (map['USER'] ?? '') as String,
+      accessToken: (map['token'] ?? '') as String,
     );
   }
 
@@ -32,4 +32,16 @@ class AuthModel {
 
   factory AuthModel.fromJson(String source) =>
       AuthModel.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  AuthModel copyWith({
+    String? displayName,
+    String? userId,
+    String? accessToken,
+  }) {
+    return AuthModel(
+      displayName: displayName ?? this.displayName,
+      userId: userId ?? this.userId,
+      accessToken: accessToken ?? this.accessToken,
+    );
+  }
 }

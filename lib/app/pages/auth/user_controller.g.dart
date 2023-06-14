@@ -13,13 +13,13 @@ mixin _$UserController on UserControllerBase, Store {
       Atom(name: 'UserControllerBase.user', context: context);
 
   @override
-  UserModelMod? get user {
+  UserModel? get user {
     _$userAtom.reportRead();
     return super.user;
   }
 
   @override
-  set user(UserModelMod? value) {
+  set user(UserModel? value) {
     _$userAtom.reportWrite(value, super.user, () {
       super.user = value;
     });
@@ -37,7 +37,7 @@ mixin _$UserController on UserControllerBase, Store {
       ActionController(name: 'UserControllerBase', context: context);
 
   @override
-  void setUser(UserModelMod? value) {
+  void setUser(UserModel? value) {
     final _$actionInfo = _$UserControllerBaseActionController.startAction(
         name: 'UserControllerBase.setUser');
     try {

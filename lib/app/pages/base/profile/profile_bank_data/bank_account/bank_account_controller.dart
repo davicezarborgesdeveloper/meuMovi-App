@@ -1,15 +1,11 @@
 import 'dart:developer';
 
-import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../../core/extensions/validator_extensions.dart';
 import '../../../../../core/ui/helpers/enums.dart';
 import '../../../../../models/bank_model.dart';
-import '../../../../../models/user_model_mod.dart';
 import '../../../../../repositories/banks/banks_repository.dart';
-import '../../../../../services/user/user_service.dart';
-import '../../../../auth/user_controller.dart';
 part 'bank_account_controller.g.dart';
 
 enum BankAccountStateStatus {
@@ -180,29 +176,29 @@ abstract class BankAccountControllerBase with Store {
 
   @action
   Future<void> save() async {
-    try {
-      _status = BankAccountStateStatus.loading;
-      final UserModelMod? usrMod = GetIt.I<UserController>().user;
-      final userSave = usrMod!.copyWith(
-        bankReceipt: BankReceipt(
-          cardholderName: cardholderName,
-          holdersCPF: holdersCPF,
-          bankName: bank!.fullname,
-          agency: agency,
-          account: account,
-          verifyingDigit: verifyingDigit,
-          accountType: accountType,
-          bankReceiptType: BankReceiptType.bank,
-        ),
-      );
-      await UserService().update(userSave);
-      GetIt.I<UserController>().setUser(userSave);
-      _status = BankAccountStateStatus.saved;
-    } on Exception catch (e, s) {
-      log('Erro ao atualizar usuário', error: e, stackTrace: s);
-      _errorMessage = 'Erro ao atualizar usuário';
-      _status = BankAccountStateStatus.error;
-    }
+    // try {
+    //   _status = BankAccountStateStatus.loading;
+    //   final UserModelMod? usrMod = GetIt.I<UserController>().user;
+    //   final userSave = usrMod!.copyWith(
+    //     bankReceipt: BankReceipt(
+    //       cardholderName: cardholderName,
+    //       holdersCPF: holdersCPF,
+    //       bankName: bank!.fullname,
+    //       agency: agency,
+    //       account: account,
+    //       verifyingDigit: verifyingDigit,
+    //       accountType: accountType,
+    //       bankReceiptType: BankReceiptType.bank,
+    //     ),
+    //   );
+    //   await UserService().update(userSave);
+    //   GetIt.I<UserController>().setUser(userSave);
+    //   _status = BankAccountStateStatus.saved;
+    // } on Exception catch (e, s) {
+    //   log('Erro ao atualizar usuário', error: e, stackTrace: s);
+    //   _errorMessage = 'Erro ao atualizar usuário';
+    //   _status = BankAccountStateStatus.error;
+    // }
   }
 
   @action

@@ -5,7 +5,6 @@ import '../../core/ui/styles/colors_app.dart';
 import '../auth/auth_controller.dart';
 import 'extract/extract_page.dart';
 import 'home/home_page.dart';
-import 'home/widget/home_appbar.dart';
 import 'profile/profile_page.dart';
 
 class BasePage extends StatefulWidget {
@@ -27,7 +26,8 @@ class _BasePageState extends State<BasePage> {
     super.initState();
     _screens = [
       {
-        'appBar': HomeAppbar(name: authController.auth!.displayName),
+        // 'appBar': HomeAppbar(name: authController.auth!.displayName),
+        'appBar': null,
         'screen': const HomePage()
       },
       {

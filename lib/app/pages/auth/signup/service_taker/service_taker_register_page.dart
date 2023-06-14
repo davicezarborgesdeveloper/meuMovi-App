@@ -251,8 +251,6 @@ class _ServiceTakerRegisterPageState extends State<ServiceTakerRegisterPage>
                         ),
                       ),
                     ),
-                    // Text(
-                    //     'Termo de uso Eu li e aceito as condições de uso, as políticas de privacidade, políticas de cookies e sou maior de 18 anos.')
                   ],
                 ),
               ),

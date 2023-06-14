@@ -1,11 +1,6 @@
-import 'dart:developer';
-
-import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../models/user_model_mod.dart';
-import '../../../../services/user/user_service.dart';
-import '../../../auth/user_controller.dart';
 part 'profile_bank_data_controller.g.dart';
 
 enum ProfileBankDataStateStatus {
@@ -31,30 +26,30 @@ abstract class ProfileBankDataControllerBase with Store {
 
   @action
   Future<void> findBankReceipt() async {
-    try {
-      _status = ProfileBankDataStateStatus.loading;
-      final userId = GetIt.I<UserController>().user!.id;
-      bankReceipt = (await UserService().getUserById(userId!))!.bankReceipt;
-      _status = ProfileBankDataStateStatus.loaded;
-    } catch (e, s) {
-      log('Erro ao buscar bancos', error: e, stackTrace: s);
-      _status = ProfileBankDataStateStatus.error;
-      _errorMessage = 'Erro ao buscar bancos';
-    }
+    // try {
+    //   _status = ProfileBankDataStateStatus.loading;
+    //   final userId = GetIt.I<UserController>().user!.id;
+    //   bankReceipt = (await UserService().getUserById(userId!))!.bankReceipt;
+    //   _status = ProfileBankDataStateStatus.loaded;
+    // } catch (e, s) {
+    //   log('Erro ao buscar bancos', error: e, stackTrace: s);
+    //   _status = ProfileBankDataStateStatus.error;
+    //   _errorMessage = 'Erro ao buscar bancos';
+    // }
   }
 
   @action
   Future<void> clearBankReceipt() async {
-    try {
-      _status = ProfileBankDataStateStatus.loading;
-      final UserModelMod? usrMod = GetIt.I<UserController>().user;
-      await UserService().deleteField(usrMod!.id!, 'bankReceipt');
-      GetIt.I<UserController>().setUser(usrMod.copyWith(bankReceipt: null));
-      findBankReceipt();
-    } catch (e, s) {
-      log('Erro ao buscar bancos', error: e, stackTrace: s);
-      _status = ProfileBankDataStateStatus.error;
-      _errorMessage = 'Erro ao buscar bancos';
-    }
+    // try {
+    //   _status = ProfileBankDataStateStatus.loading;
+    //   final UserModelMod? usrMod = GetIt.I<UserController>().user;
+    //   await UserService().deleteField(usrMod!.id!, 'bankReceipt');
+    //   GetIt.I<UserController>().setUser(usrMod.copyWith(bankReceipt: null));
+    //   findBankReceipt();
+    // } catch (e, s) {
+    //   log('Erro ao buscar bancos', error: e, stackTrace: s);
+    //   _status = ProfileBankDataStateStatus.error;
+    //   _errorMessage = 'Erro ao buscar bancos';
+    // }
   }
 }

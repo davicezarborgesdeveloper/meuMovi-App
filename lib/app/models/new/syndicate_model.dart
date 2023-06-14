@@ -43,7 +43,11 @@ class SyndicateModel implements UserModel {
       user: (map['user'] ?? '') as String,
       password: (map['password'] ?? '') as String,
       profileType: (map['profileType'] ?? 0) as int,
-      active: (map['active'] ?? false) as bool,
+      active: map['active'] != null
+          ? map['active'] == 1
+              ? true
+              : false
+          : false,
       companyData:
           CompanyDataModel.fromMap(map['companyData'] as Map<String, dynamic>),
       responsibleContact: ResponsibleContact.fromMap(
@@ -53,6 +57,7 @@ class SyndicateModel implements UserModel {
     );
   }
 
+  @override
   String toJson() => json.encode(toMap());
 
   factory SyndicateModel.fromJson(String source) =>

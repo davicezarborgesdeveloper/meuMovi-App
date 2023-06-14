@@ -1,12 +1,8 @@
 import 'dart:developer';
 
-import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
-import '../../../../models/user_model_mod.dart';
 import '../../../../repositories/zip/zip_repository.dart';
-import '../../../../services/user/user_service.dart';
-import '../../../auth/user_controller.dart';
 part 'profile_my_address_controller.g.dart';
 
 enum ProfileMyAddressStateStatus {
@@ -121,43 +117,43 @@ abstract class ProfileMyAddressControllerBase with Store {
 
   @action
   Future<void> save() async {
-    try {
-      _status = ProfileMyAddressStateStatus.loading;
-      final UserModelMod? usrMod = GetIt.I<UserController>().user;
-      final userSave = usrMod!.copyWith(
-        address: usrMod.address.copyWith(
-          zip: zip!.replaceAll(RegExp(r'[^0-9]'), ''),
-          city: city,
-          state: state,
-          street: street,
-          district: district,
-          number: number,
-          complement: complement,
-          referencePoint: referencePoint,
-        ),
-      );
-      await UserService().update(userSave);
-      GetIt.I<UserController>().setUser(userSave);
-      _status = ProfileMyAddressStateStatus.saved;
-    } on Exception catch (e, s) {
-      log('Erro ao atualizar usuário', error: e, stackTrace: s);
-      _errorMessage = 'Erro ao atualizar usuário';
-      _status = ProfileMyAddressStateStatus.error;
-    }
+    // try {
+    //   _status = ProfileMyAddressStateStatus.loading;
+    //   final UserModelMod? usrMod = GetIt.I<UserController>().user;
+    //   final userSave = usrMod!.copyWith(
+    //     address: usrMod.address.copyWith(
+    //       zip: zip!.replaceAll(RegExp(r'[^0-9]'), ''),
+    //       city: city,
+    //       state: state,
+    //       street: street,
+    //       district: district,
+    //       number: number,
+    //       complement: complement,
+    //       referencePoint: referencePoint,
+    //     ),
+    //   );
+    //   await UserService().update(userSave);
+    //   GetIt.I<UserController>().setUser(userSave);
+    //   _status = ProfileMyAddressStateStatus.saved;
+    // } on Exception catch (e, s) {
+    //   log('Erro ao atualizar usuário', error: e, stackTrace: s);
+    //   _errorMessage = 'Erro ao atualizar usuário';
+    //   _status = ProfileMyAddressStateStatus.error;
+    // }
   }
 
   @action
   Future<void> getUserData() async {
-    final UserModelMod? usrMod = GetIt.I<UserController>().user;
-    if (usrMod != null) {
-      zip = usrMod.address.zip;
-      city = usrMod.address.city;
-      state = usrMod.address.state;
-      street = usrMod.address.street;
-      district = usrMod.address.district;
-      number = usrMod.address.number;
-      complement = usrMod.address.complement;
-      referencePoint = usrMod.address.referencePoint;
-    }
+    // final UserModelMod? usrMod = GetIt.I<UserController>().user;
+    // if (usrMod != null) {
+    //   zip = usrMod.address.zip;
+    //   city = usrMod.address.city;
+    //   state = usrMod.address.state;
+    //   street = usrMod.address.street;
+    //   district = usrMod.address.district;
+    //   number = usrMod.address.number;
+    //   complement = usrMod.address.complement;
+    //   referencePoint = usrMod.address.referencePoint;
+    // }
   }
 }
