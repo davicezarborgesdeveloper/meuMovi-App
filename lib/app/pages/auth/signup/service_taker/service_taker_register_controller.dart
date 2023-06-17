@@ -1,9 +1,15 @@
 import 'dart:developer';
 
+import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../core/extensions/validator_extensions.dart';
+import '../../../../models/service_taker_model.dart';
 import '../../../../repositories/zip/zip_repository.dart';
+import '../../../../services/auth/auth_service.dart';
+import '../../../../services/user/user_service.dart';
+import '../../auth_controller.dart';
+import '../../user_controller.dart';
 part 'service_taker_register_controller.g.dart';
 
 enum ServiceTakerRegisterStateStatus {
@@ -26,6 +32,12 @@ abstract class ServiceTakerRegisterControllerBase with Store {
 
   @readonly
   bool _showErrors = false;
+
+  @observable
+  String? companyName;
+
+  @observable
+  String? fantasyName;
 
   @observable
   String? cnpj;
@@ -58,6 +70,15 @@ abstract class ServiceTakerRegisterControllerBase with Store {
   bool termsAccepted = false;
 
   @action
+  void setCompanyName(String value) => companyName = value;
+
+  @action
+  void setFantasyName(String value) => fantasyName = value;
+
+  @action
+  void setEmail(String value) => email = value;
+
+  @action
   void setCnpj(String value) => cnpj = value;
 
   @action
@@ -65,9 +86,6 @@ abstract class ServiceTakerRegisterControllerBase with Store {
 
   @action
   void setPhone(String value) => phone = value;
-
-  @action
-  void setEmail(String value) => email = value;
 
   @action
   void setZip(String value) => zip = value;
@@ -83,6 +101,30 @@ abstract class ServiceTakerRegisterControllerBase with Store {
 
   @action
   void setTermsAccepted(bool value) => termsAccepted = value;
+
+  @computed
+  bool get companyNameValid => companyName != null && companyName!.length > 3;
+  String? get companyNameError {
+    if (!_showErrors || companyNameValid) {
+      return null;
+    } else if (companyName == null || companyName!.isEmpty) {
+      return 'Razão Social Obrigatória';
+    } else {
+      return 'Razão Social muito curta';
+    }
+  }
+
+  @computed
+  bool get fantasyNameValid => fantasyName != null && fantasyName!.length > 3;
+  String? get fantasyNameError {
+    if (!_showErrors || fantasyNameValid) {
+      return null;
+    } else if (fantasyName == null || fantasyName!.isEmpty) {
+      return 'Nome fantasia Obrigatório';
+    } else {
+      return 'Nome fantasia muito curto';
+    }
+  }
 
   @computed
   bool get cnpjValid => cnpj != null && cnpj!.isCNPJValid;
@@ -160,7 +202,7 @@ abstract class ServiceTakerRegisterControllerBase with Store {
   void invalidSendPressed() => _showErrors = true;
 
   @computed
-  bool get isFormValid =>
+  bool get isFormValidSignup =>
       cnpjValid &&
       nameValid &&
       emailValid &&
@@ -170,12 +212,55 @@ abstract class ServiceTakerRegisterControllerBase with Store {
       termsAccepted;
 
   @computed
-  dynamic get sendPressed => isFormValid ? register : null;
+  bool get isFormValidRegister =>
+      fantasyNameValid &&
+      companyNameValid &&
+      emailValid &&
+      cnpjValid &&
+      nameValid &&
+      zipValid;
+
+  @computed
+  dynamic get sendPressedSignup => isFormValidSignup ? register : null;
+
+  @computed
+  dynamic get sendPressedRegister =>
+      isFormValidRegister ? setDefaultPassword : null;
+
+  @action
+  Future<void> setDefaultPassword() async {
+    password = 'meumovi2023';
+    register();
+  }
 
   @action
   Future<void> register() async {
     _status = ServiceTakerRegisterStateStatus.loading;
-    _status = ServiceTakerRegisterStateStatus.saved;
+    try {
+      final user = ServiceTakerModel(
+        user: cnpj!.replaceAll(RegExp(r'[^0-9]'), ''),
+        password: password!,
+        profileType: 1,
+        active: true,
+        fantasyName: fantasyName!,
+        companyName: companyName!,
+        cnpj: cnpj!.replaceAll(RegExp(r'[^0-9]'), ''),
+        name: name!,
+        phone: phone!.replaceAll(RegExp(r'[^0-9]'), ''),
+        email: email!,
+        zip: zip!.replaceAll(RegExp(r'[^0-9]'), ''),
+        number: number!,
+      );
+      await UserService().saveServiceTaker(user);
+      final auth = await AuthService().login(user.user, user.password, false);
+      GetIt.I<AuthController>().setAuth(auth);
+      GetIt.I<UserController>().getCurrentUser(user.user);
+      _status = ServiceTakerRegisterStateStatus.saved;
+    } catch (e, s) {
+      log('Erro ao registrar Tomadora', error: e, stackTrace: s);
+      _errorMessage = 'Erro ao registrar Tomadora';
+      _status = ServiceTakerRegisterStateStatus.error;
+    }
   }
 
   @action

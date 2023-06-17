@@ -30,6 +30,20 @@ mixin _$SyndicateRegisterController on SyndicateRegisterControllerBase, Store {
       (_$cnpjValidComputed ??= Computed<bool>(() => super.cnpjValid,
               name: 'SyndicateRegisterControllerBase.cnpjValid'))
           .value;
+  Computed<bool>? _$passwordValidComputed;
+
+  @override
+  bool get passwordValid =>
+      (_$passwordValidComputed ??= Computed<bool>(() => super.passwordValid,
+              name: 'SyndicateRegisterControllerBase.passwordValid'))
+          .value;
+  Computed<bool>? _$retypePassValidComputed;
+
+  @override
+  bool get retypePassValid =>
+      (_$retypePassValidComputed ??= Computed<bool>(() => super.retypePassValid,
+              name: 'SyndicateRegisterControllerBase.retypePassValid'))
+          .value;
   Computed<bool>? _$nameValidComputed;
 
   @override
@@ -181,6 +195,38 @@ mixin _$SyndicateRegisterController on SyndicateRegisterControllerBase, Store {
   set cnpj(String? value) {
     _$cnpjAtom.reportWrite(value, super.cnpj, () {
       super.cnpj = value;
+    });
+  }
+
+  late final _$passwordAtom =
+      Atom(name: 'SyndicateRegisterControllerBase.password', context: context);
+
+  @override
+  String? get password {
+    _$passwordAtom.reportRead();
+    return super.password;
+  }
+
+  @override
+  set password(String? value) {
+    _$passwordAtom.reportWrite(value, super.password, () {
+      super.password = value;
+    });
+  }
+
+  late final _$retypePassAtom = Atom(
+      name: 'SyndicateRegisterControllerBase.retypePass', context: context);
+
+  @override
+  String? get retypePass {
+    _$retypePassAtom.reportRead();
+    return super.retypePass;
+  }
+
+  @override
+  set retypePass(String? value) {
+    _$retypePassAtom.reportWrite(value, super.retypePass, () {
+      super.retypePass = value;
     });
   }
 
@@ -447,6 +493,28 @@ mixin _$SyndicateRegisterController on SyndicateRegisterControllerBase, Store {
   }
 
   @override
+  void setPassword(String value) {
+    final _$actionInfo = _$SyndicateRegisterControllerBaseActionController
+        .startAction(name: 'SyndicateRegisterControllerBase.setPassword');
+    try {
+      return super.setPassword(value);
+    } finally {
+      _$SyndicateRegisterControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setRetypePass(String value) {
+    final _$actionInfo = _$SyndicateRegisterControllerBaseActionController
+        .startAction(name: 'SyndicateRegisterControllerBase.setRetypePass');
+    try {
+      return super.setRetypePass(value);
+    } finally {
+      _$SyndicateRegisterControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setName(String value) {
     final _$actionInfo = _$SyndicateRegisterControllerBaseActionController
         .startAction(name: 'SyndicateRegisterControllerBase.setName');
@@ -619,6 +687,8 @@ mixin _$SyndicateRegisterController on SyndicateRegisterControllerBase, Store {
 corporateName: ${corporateName},
 fantasyName: ${fantasyName},
 cnpj: ${cnpj},
+password: ${password},
+retypePass: ${retypePass},
 name: ${name},
 email: ${email},
 phone: ${phone},
@@ -635,6 +705,8 @@ termsAccepted: ${termsAccepted},
 corporateNameValid: ${corporateNameValid},
 fantasyNameValid: ${fantasyNameValid},
 cnpjValid: ${cnpjValid},
+passwordValid: ${passwordValid},
+retypePassValid: ${retypePassValid},
 nameValid: ${nameValid},
 phoneValid: ${phoneValid},
 mobilePhoneValid: ${mobilePhoneValid},

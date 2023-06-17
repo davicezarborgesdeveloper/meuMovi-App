@@ -72,6 +72,26 @@ class _SyndicateRegisterInitialDataPageState
             ],
           ),
         ),
+        Observer(
+          builder: (_) => TextFieldWidget(
+            label: 'Senha',
+            hintText: 'Crie uma senha',
+            errorText: widget.controller.passwordError,
+            onChanged: widget.controller.setPassword,
+            initialValue: widget.controller.password,
+            obscure: true,
+          ),
+        ),
+        Observer(
+          builder: (_) => TextFieldWidget(
+            label: 'Confirmar a senha',
+            hintText: 'Confirme sua senha',
+            errorText: widget.controller.retypePassError,
+            onChanged: widget.controller.setRetypePass,
+            initialValue: widget.controller.retypePass,
+            obscure: true,
+          ),
+        ),
       ],
     );
   }

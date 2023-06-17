@@ -4,9 +4,6 @@ import 'package:mobx/mobx.dart';
 import '../../core/global/constants.dart';
 import '../../core/storage/storage.dart';
 import '../../models/auth_model.dart';
-import '../../models/user_model.dart';
-import '../../services/auth/auth_service.dart';
-import '../../services/user/user_service.dart';
 import 'user_controller.dart';
 part 'auth_controller.g.dart';
 
@@ -36,7 +33,7 @@ abstract class AuthControllerBase with Store {
           await Storage().getData(SharedStoreKeys.authAccess.key);
       if (userShared != null) {
         setAuth(AuthModel.fromJson(userShared));
-        GetIt.I<UserController>().getCurrentUser(auth!.uid);
+        // GetIt.I<UserController>().getCurrentUser(auth!.uid);
       } else {
         setAuth(null);
       }
@@ -47,20 +44,19 @@ abstract class AuthControllerBase with Store {
 
   @action
   Future<void> logout() async {
-    await AuthService().logout();
     setAuth(null);
     GetIt.I<UserController>().setUser(null);
   }
 
-  @action
-  Future<void> deleteUser() async {
-    final UserModel? um = GetIt.I<UserController>().user;
-    um!.copyWith(active: false);
-    await AuthService().deleteUser();
-    await UserService().update(um);
-    setAuth(null);
-    GetIt.I<UserController>().setUser(null);
-  }
+  // @action
+  // Future<void> deleteUser() async {
+  //   final UserModel? um = GetIt.I<UserController>().user;
+  //   um!.copyWith(active: false);
+  //   await AuthService().deleteUser();
+  //   await UserService().update(um);
+  //   setAuth(null);
+  //   GetIt.I<UserController>().setUser(null);
+  // }
 
   @computed
   bool get isLoggedIn => auth != null;

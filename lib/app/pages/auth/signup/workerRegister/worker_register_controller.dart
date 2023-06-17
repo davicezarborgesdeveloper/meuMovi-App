@@ -1,12 +1,15 @@
 import 'dart:developer';
 
 import 'package:get_it/get_it.dart';
+import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../core/extensions/validator_extensions.dart';
-import '../../../../models/user_model.dart';
+import '../../../../models/address_model.dart';
+import '../../../../models/worker_model.dart';
 import '../../../../repositories/zip/zip_repository.dart';
-import '../../../../services/auth/auth_firebase_service_impl.dart';
+import '../../../../services/auth/auth_service.dart';
+import '../../../../services/user/user_service.dart';
 import '../../auth_controller.dart';
 import '../../user_controller.dart';
 part 'worker_register_controller.g.dart';
@@ -267,7 +270,7 @@ abstract class WorkerRegisterControllerBase with Store {
   }
 
   @computed
-  bool get isFormValid1 =>
+  bool get isFormValidSignup =>
       nameValid &&
       lastnameValid &&
       birthdateValid &&
@@ -276,40 +279,56 @@ abstract class WorkerRegisterControllerBase with Store {
       retypePassValid;
 
   @computed
+  bool get isFormValidRegister =>
+      nameValid && lastnameValid && birthdateValid && emailValid;
+
+  @computed
   bool get isFormValid2 => cpfValid && rgValid;
 
   @computed
   bool get isFormValid3 => zipValid && termsAccepted;
 
   @action
+  Future<void> setDefaultPassword() async {
+    password = 'meumovi2023';
+    register();
+  }
+
+  @action
   Future<void> register() async {
     try {
+      final dt = DateFormat('dd/MM/yyyy').parse(birthdate!);
       _status = WorkerRegisterStateStatus.loading;
-      final address = Address(
-        zip: zip!,
-        city: city!,
-        state: state!,
-        street: street!,
-        district: district!,
-        number: number ?? '',
-        complement: complement ?? '',
-        referencePoint: referencePoint ?? '',
-      );
-      final user = UserModel(
+      final user = WorkerModel(
+        user: cpf!.replaceAll(RegExp(r'[^0-9]'), ''),
+        password: password!,
+        profileType: 0,
+        active: true,
         name: name!,
         lastname: lastname!,
-        birthdate: birthdate!,
-        email: email!,
-        cpf: cpf!,
-        rg: rg!,
-        address: address,
-        active: true,
+        documents: DocumentsModel(
+          cpf: cpf!.replaceAll(RegExp(r'[^0-9]'), ''),
+          rg: rg!.replaceAll(RegExp(r'[^0-9]'), ''),
+        ),
+        personal: PersonalModel(
+          birthdate: DateFormat('yyyy-MM-dd').format(dt),
+          email: email!,
+        ),
+        address: AddressModel(
+          zip: zip!.replaceAll(RegExp(r'[^0-9]'), ''),
+          city: city!,
+          state: state!,
+          street: street!,
+          district: district!,
+          number: number ?? '',
+          complement: complement ?? '',
+          referencePoint: referencePoint ?? '',
+        ),
       );
-
-      final auth = await AuthFirebaseServiceImpl()
-          .signup(email: email!, password: password!, user: user);
+      await UserService().saveWorker(user);
+      final auth = await AuthService().login(user.user!, user.password, false);
       GetIt.I<AuthController>().setAuth(auth);
-      GetIt.I<UserController>().getCurrentUser(auth!.uid);
+      GetIt.I<UserController>().getCurrentUser(user.user!);
       _status = WorkerRegisterStateStatus.saved;
     } catch (e, s) {
       log('Erro ao registrar usuário', error: e, stackTrace: s);

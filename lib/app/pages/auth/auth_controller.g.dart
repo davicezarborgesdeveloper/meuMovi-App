@@ -74,14 +74,6 @@ mixin _$AuthController on AuthControllerBase, Store {
     return _$logoutAsyncAction.run(() => super.logout());
   }
 
-  late final _$deleteUserAsyncAction =
-      AsyncAction('AuthControllerBase.deleteUser', context: context);
-
-  @override
-  Future<void> deleteUser() {
-    return _$deleteUserAsyncAction.run(() => super.deleteUser());
-  }
-
   late final _$AuthControllerBaseActionController =
       ActionController(name: 'AuthControllerBase', context: context);
 

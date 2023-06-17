@@ -7,18 +7,16 @@ import '../../../../../core/widget/text_field_changed_widget.dart';
 import '../../../../../core/widget/text_field_widget.dart';
 import '../worker_register_controller.dart';
 
-class WorkerRegisterPersonalData extends StatefulWidget {
+class WorkerSignupPersonalData extends StatefulWidget {
   final WorkerRegisterController controller;
-  const WorkerRegisterPersonalData(this.controller, {Key? key})
-      : super(key: key);
+  const WorkerSignupPersonalData(this.controller, {Key? key}) : super(key: key);
 
   @override
-  State<WorkerRegisterPersonalData> createState() =>
-      _WorkerRegisterPersonalDataState();
+  State<WorkerSignupPersonalData> createState() =>
+      _WorkerSignupPersonalDataState();
 }
 
-class _WorkerRegisterPersonalDataState
-    extends State<WorkerRegisterPersonalData> {
+class _WorkerSignupPersonalDataState extends State<WorkerSignupPersonalData> {
   final birthDateEC = TextEditingController();
 
   @override

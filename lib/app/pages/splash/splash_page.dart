@@ -26,7 +26,7 @@ class _SplashPageState extends State<SplashPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       statusDisposed = when((_) => authCtrl.isLoggedInKeep, () async {
         _logged = true;
-        GetIt.I<UserController>().getCurrentUser(authCtrl.auth!.uid);
+        GetIt.I<UserController>().getCurrentUser(authCtrl.auth!.userId);
       });
     });
     super.initState();

@@ -10,6 +10,20 @@ part of 'service_taker_register_controller.dart';
 
 mixin _$ServiceTakerRegisterController
     on ServiceTakerRegisterControllerBase, Store {
+  Computed<bool>? _$companyNameValidComputed;
+
+  @override
+  bool get companyNameValid => (_$companyNameValidComputed ??= Computed<bool>(
+          () => super.companyNameValid,
+          name: 'ServiceTakerRegisterControllerBase.companyNameValid'))
+      .value;
+  Computed<bool>? _$fantasyNameValidComputed;
+
+  @override
+  bool get fantasyNameValid => (_$fantasyNameValidComputed ??= Computed<bool>(
+          () => super.fantasyNameValid,
+          name: 'ServiceTakerRegisterControllerBase.fantasyNameValid'))
+      .value;
   Computed<bool>? _$cnpjValidComputed;
 
   @override
@@ -52,20 +66,34 @@ mixin _$ServiceTakerRegisterController
       (_$retypePassValidComputed ??= Computed<bool>(() => super.retypePassValid,
               name: 'ServiceTakerRegisterControllerBase.retypePassValid'))
           .value;
-  Computed<bool>? _$isFormValidComputed;
+  Computed<bool>? _$isFormValidSignupComputed;
 
   @override
-  bool get isFormValid =>
-      (_$isFormValidComputed ??= Computed<bool>(() => super.isFormValid,
-              name: 'ServiceTakerRegisterControllerBase.isFormValid'))
-          .value;
-  Computed<dynamic>? _$sendPressedComputed;
+  bool get isFormValidSignup => (_$isFormValidSignupComputed ??= Computed<bool>(
+          () => super.isFormValidSignup,
+          name: 'ServiceTakerRegisterControllerBase.isFormValidSignup'))
+      .value;
+  Computed<bool>? _$isFormValidRegisterComputed;
 
   @override
-  dynamic get sendPressed =>
-      (_$sendPressedComputed ??= Computed<dynamic>(() => super.sendPressed,
-              name: 'ServiceTakerRegisterControllerBase.sendPressed'))
-          .value;
+  bool get isFormValidRegister => (_$isFormValidRegisterComputed ??=
+          Computed<bool>(() => super.isFormValidRegister,
+              name: 'ServiceTakerRegisterControllerBase.isFormValidRegister'))
+      .value;
+  Computed<dynamic>? _$sendPressedSignupComputed;
+
+  @override
+  dynamic get sendPressedSignup => (_$sendPressedSignupComputed ??=
+          Computed<dynamic>(() => super.sendPressedSignup,
+              name: 'ServiceTakerRegisterControllerBase.sendPressedSignup'))
+      .value;
+  Computed<dynamic>? _$sendPressedRegisterComputed;
+
+  @override
+  dynamic get sendPressedRegister => (_$sendPressedRegisterComputed ??=
+          Computed<dynamic>(() => super.sendPressedRegister,
+              name: 'ServiceTakerRegisterControllerBase.sendPressedRegister'))
+      .value;
 
   late final _$_statusAtom = Atom(
       name: 'ServiceTakerRegisterControllerBase._status', context: context);
@@ -119,6 +147,38 @@ mixin _$ServiceTakerRegisterController
   set _showErrors(bool value) {
     _$_showErrorsAtom.reportWrite(value, super._showErrors, () {
       super._showErrors = value;
+    });
+  }
+
+  late final _$companyNameAtom = Atom(
+      name: 'ServiceTakerRegisterControllerBase.companyName', context: context);
+
+  @override
+  String? get companyName {
+    _$companyNameAtom.reportRead();
+    return super.companyName;
+  }
+
+  @override
+  set companyName(String? value) {
+    _$companyNameAtom.reportWrite(value, super.companyName, () {
+      super.companyName = value;
+    });
+  }
+
+  late final _$fantasyNameAtom = Atom(
+      name: 'ServiceTakerRegisterControllerBase.fantasyName', context: context);
+
+  @override
+  String? get fantasyName {
+    _$fantasyNameAtom.reportRead();
+    return super.fantasyName;
+  }
+
+  @override
+  set fantasyName(String? value) {
+    _$fantasyNameAtom.reportWrite(value, super.fantasyName, () {
+      super.fantasyName = value;
     });
   }
 
@@ -285,6 +345,16 @@ mixin _$ServiceTakerRegisterController
     });
   }
 
+  late final _$setDefaultPasswordAsyncAction = AsyncAction(
+      'ServiceTakerRegisterControllerBase.setDefaultPassword',
+      context: context);
+
+  @override
+  Future<void> setDefaultPassword() {
+    return _$setDefaultPasswordAsyncAction
+        .run(() => super.setDefaultPassword());
+  }
+
   late final _$registerAsyncAction = AsyncAction(
       'ServiceTakerRegisterControllerBase.register',
       context: context);
@@ -306,6 +376,42 @@ mixin _$ServiceTakerRegisterController
   late final _$ServiceTakerRegisterControllerBaseActionController =
       ActionController(
           name: 'ServiceTakerRegisterControllerBase', context: context);
+
+  @override
+  void setCompanyName(String value) {
+    final _$actionInfo = _$ServiceTakerRegisterControllerBaseActionController
+        .startAction(name: 'ServiceTakerRegisterControllerBase.setCompanyName');
+    try {
+      return super.setCompanyName(value);
+    } finally {
+      _$ServiceTakerRegisterControllerBaseActionController
+          .endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setFantasyName(String value) {
+    final _$actionInfo = _$ServiceTakerRegisterControllerBaseActionController
+        .startAction(name: 'ServiceTakerRegisterControllerBase.setFantasyName');
+    try {
+      return super.setFantasyName(value);
+    } finally {
+      _$ServiceTakerRegisterControllerBaseActionController
+          .endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setEmail(String value) {
+    final _$actionInfo = _$ServiceTakerRegisterControllerBaseActionController
+        .startAction(name: 'ServiceTakerRegisterControllerBase.setEmail');
+    try {
+      return super.setEmail(value);
+    } finally {
+      _$ServiceTakerRegisterControllerBaseActionController
+          .endAction(_$actionInfo);
+    }
+  }
 
   @override
   void setCnpj(String value) {
@@ -337,18 +443,6 @@ mixin _$ServiceTakerRegisterController
         .startAction(name: 'ServiceTakerRegisterControllerBase.setPhone');
     try {
       return super.setPhone(value);
-    } finally {
-      _$ServiceTakerRegisterControllerBaseActionController
-          .endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void setEmail(String value) {
-    final _$actionInfo = _$ServiceTakerRegisterControllerBaseActionController
-        .startAction(name: 'ServiceTakerRegisterControllerBase.setEmail');
-    try {
-      return super.setEmail(value);
     } finally {
       _$ServiceTakerRegisterControllerBaseActionController
           .endAction(_$actionInfo);
@@ -432,6 +526,8 @@ mixin _$ServiceTakerRegisterController
   @override
   String toString() {
     return '''
+companyName: ${companyName},
+fantasyName: ${fantasyName},
 cnpj: ${cnpj},
 name: ${name},
 phone: ${phone},
@@ -441,14 +537,18 @@ number: ${number},
 password: ${password},
 retypePass: ${retypePass},
 termsAccepted: ${termsAccepted},
+companyNameValid: ${companyNameValid},
+fantasyNameValid: ${fantasyNameValid},
 cnpjValid: ${cnpjValid},
 nameValid: ${nameValid},
 emailValid: ${emailValid},
 zipValid: ${zipValid},
 passwordValid: ${passwordValid},
 retypePassValid: ${retypePassValid},
-isFormValid: ${isFormValid},
-sendPressed: ${sendPressed}
+isFormValidSignup: ${isFormValidSignup},
+isFormValidRegister: ${isFormValidRegister},
+sendPressedSignup: ${sendPressedSignup},
+sendPressedRegister: ${sendPressedRegister}
     ''';
   }
 }

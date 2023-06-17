@@ -26,7 +26,6 @@ class _ServiceTakerRegisterPageState extends State<ServiceTakerRegisterPage>
   final ServiceTakerRegisterController controller =
       ServiceTakerRegisterController();
   late final ReactionDisposer statusDisposer;
-  final cityEC = TextEditingController();
 
   @override
   void initState() {
@@ -58,7 +57,6 @@ class _ServiceTakerRegisterPageState extends State<ServiceTakerRegisterPage>
 
   @override
   void dispose() {
-    cityEC.dispose();
     statusDisposer();
     super.dispose();
   }
@@ -144,9 +142,11 @@ class _ServiceTakerRegisterPageState extends State<ServiceTakerRegisterPage>
                                 'CEP',
                                 style: context.textStyles.textBold,
                               ),
-                              Text(
-                                cityEC.text,
-                                style: context.textStyles.textRegular,
+                              Observer(
+                                builder: (_) => Text(
+                                  controller.city ?? '',
+                                  style: context.textStyles.textRegular,
+                                ),
                               ),
                             ],
                           ),
@@ -156,7 +156,6 @@ class _ServiceTakerRegisterPageState extends State<ServiceTakerRegisterPage>
                               controller.setZip(value);
                               if (value.length >= 10) {
                                 await controller.searchZip(value);
-                                cityEC.text = controller.city!;
                               }
                             },
                             decoration: InputDecoration(
@@ -263,7 +262,7 @@ class _ServiceTakerRegisterPageState extends State<ServiceTakerRegisterPage>
                   child: GestureDetector(
                     onTap: controller.invalidSendPressed,
                     child: ElevatedButton(
-                      onPressed: controller.sendPressed,
+                      onPressed: controller.sendPressedSignup,
                       child: const Text('Confirmar cadastro'),
                     ),
                   ),

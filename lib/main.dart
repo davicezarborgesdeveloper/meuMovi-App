@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 
 import 'app/pages/auth/auth_controller.dart';
 import 'app/pages/auth/user_controller.dart';
+import 'app/pages/menu/menu_drawer_controller.dart';
 import 'firebase_options.dart';
 import 'meu_movi_app.dart';
 
@@ -17,6 +18,7 @@ void main() async {
 }
 
 Future<void> setupLocators() async {
+  GetIt.I.registerSingleton(MenuDrawerController());
   GetIt.I.registerSingleton(AuthController());
   GetIt.I.registerSingleton(UserController());
 }

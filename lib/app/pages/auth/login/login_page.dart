@@ -1,5 +1,7 @@
+import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 
@@ -85,11 +87,19 @@ class _LoginPageState extends State<LoginPage> with Loader, Messages {
                   // ),
                   Observer(
                     builder: (_) => TextFieldWidget(
-                      label: 'E-mail',
-                      hintText: 'Digite seu e-mail',
-                      errorText: controller.emailError,
-                      onChanged: controller.setEmail,
-                      keyboardType: TextInputType.emailAddress,
+                      label: 'Usuário',
+                      hintText: 'Digite seu usuário',
+                      errorText: controller.userLoginError,
+                      onChanged: controller.setUserLogin,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                        if (controller.userLogin != null &&
+                            controller.userLogin!.length >= 14)
+                          CnpjInputFormatter()
+                        else
+                          CpfInputFormatter(),
+                      ],
                     ),
                   ),
                   Observer(

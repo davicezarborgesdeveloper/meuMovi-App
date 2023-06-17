@@ -71,13 +71,20 @@ mixin _$WorkerRegisterController on WorkerRegisterControllerBase, Store {
       (_$zipValidComputed ??= Computed<bool>(() => super.zipValid,
               name: 'WorkerRegisterControllerBase.zipValid'))
           .value;
-  Computed<bool>? _$isFormValid1Computed;
+  Computed<bool>? _$isFormValidSignupComputed;
 
   @override
-  bool get isFormValid1 =>
-      (_$isFormValid1Computed ??= Computed<bool>(() => super.isFormValid1,
-              name: 'WorkerRegisterControllerBase.isFormValid1'))
-          .value;
+  bool get isFormValidSignup => (_$isFormValidSignupComputed ??= Computed<bool>(
+          () => super.isFormValidSignup,
+          name: 'WorkerRegisterControllerBase.isFormValidSignup'))
+      .value;
+  Computed<bool>? _$isFormValidRegisterComputed;
+
+  @override
+  bool get isFormValidRegister => (_$isFormValidRegisterComputed ??=
+          Computed<bool>(() => super.isFormValidRegister,
+              name: 'WorkerRegisterControllerBase.isFormValidRegister'))
+      .value;
   Computed<bool>? _$isFormValid2Computed;
 
   @override
@@ -427,6 +434,16 @@ mixin _$WorkerRegisterController on WorkerRegisterControllerBase, Store {
     return _$searchZipAsyncAction.run(() => super.searchZip(zipFilter));
   }
 
+  late final _$setDefaultPasswordAsyncAction = AsyncAction(
+      'WorkerRegisterControllerBase.setDefaultPassword',
+      context: context);
+
+  @override
+  Future<void> setDefaultPassword() {
+    return _$setDefaultPasswordAsyncAction
+        .run(() => super.setDefaultPassword());
+  }
+
   late final _$registerAsyncAction =
       AsyncAction('WorkerRegisterControllerBase.register', context: context);
 
@@ -676,7 +693,8 @@ retypePassValid: ${retypePassValid},
 cpfValid: ${cpfValid},
 rgValid: ${rgValid},
 zipValid: ${zipValid},
-isFormValid1: ${isFormValid1},
+isFormValidSignup: ${isFormValidSignup},
+isFormValidRegister: ${isFormValidRegister},
 isFormValid2: ${isFormValid2},
 isFormValid3: ${isFormValid3}
     ''';

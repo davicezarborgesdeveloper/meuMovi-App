@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:mobx/mobx.dart';
 
-import '../../core/ui/styles/colors_app.dart';
 import '../auth/auth_controller.dart';
-import 'extract/extract_page.dart';
-import 'home/home_page.dart';
-import 'home/widget/home_appbar.dart';
-import 'profile/profile_page.dart';
+import '../menu/menu_drawer_controller.dart';
+import 'syndicate/profile/profile_syndicate_page.dart';
+import 'syndicate/service_taker/register/service_taker_syndicate_register_page.dart';
+import 'syndicate/tasks/register/task_syndicate_register_page.dart';
+import 'syndicate/worker/worker_syndicate_register_page.dart';
+import 'worker/extract/extract_page.dart';
+import 'worker/home/home_page.dart';
+import 'worker/profile/profile_page.dart';
 
 class BasePage extends StatefulWidget {
   const BasePage({Key? key}) : super(key: key);
@@ -17,67 +21,38 @@ class BasePage extends StatefulWidget {
 
 class _BasePageState extends State<BasePage> {
   AuthController authController = GetIt.I<AuthController>();
-  int _selectedScreenIndex = 0;
-
-  // List<Widget>? _screens;
-  List<Map<String, Object?>>? _screens;
+  MenuDrawerController menuController = GetIt.I<MenuDrawerController>();
+  PageController pageController = PageController();
 
   @override
   void initState() {
     super.initState();
-    _screens = [
-      {
-        'appBar': HomeAppbar(name: authController.auth!.displayName),
-        'screen': const HomePage()
-      },
-      {
-        'appBar': AppBar(
-          title: const Text('Extrato'),
-        ),
-        'screen': const ExtractPage(),
-      },
-      {
-        'appBar': null,
-        'screen': const ProfilePage(),
-      },
-    ];
-  }
-
-  void _selectScreen(int index) {
-    setState(() {
-      _selectedScreenIndex = index;
-    });
-    return;
+    reaction(
+      (_) => menuController.page,
+      (page) => pageController.jumpToPage(page),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _screens![_selectedScreenIndex]['appBar'] as AppBar?,
-      body: Column(
-        children: [
-          _screens![_selectedScreenIndex]['screen'] as Widget,
-        ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: _selectScreen,
-        selectedItemColor: ColorsApp.i.primary,
-        unselectedItemColor: Colors.grey[400],
-        currentIndex: _selectedScreenIndex,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Inicio',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.credit_card),
-            label: 'Extrato',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Perfil',
-          ),
-        ],
+      body: PageView(
+        controller: pageController,
+        physics: const NeverScrollableScrollPhysics(),
+        children: authController.auth!.profileType == 0
+            ? [
+                const HomePage(),
+                const ExtractPage(),
+                const ProfilePage(),
+              ]
+            : authController.auth!.profileType == 1
+                ? []
+                : [
+                    const TasksSyndicateRegisterPage(),
+                    const WorkerSyndicateRegisterPage(),
+                    const ProfileSyndicatePage(),
+                    const ServiceTakerSyndicateRegisterPage(),
+                  ],
       ),
     );
   }

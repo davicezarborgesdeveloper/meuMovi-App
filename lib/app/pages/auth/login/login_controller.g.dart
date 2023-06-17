@@ -9,19 +9,19 @@ part of 'login_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$LoginController on LoginControllerBase, Store {
+  Computed<bool>? _$userLoginValidComputed;
+
+  @override
+  bool get userLoginValid =>
+      (_$userLoginValidComputed ??= Computed<bool>(() => super.userLoginValid,
+              name: 'LoginControllerBase.userLoginValid'))
+          .value;
   Computed<bool>? _$passwordValidComputed;
 
   @override
   bool get passwordValid =>
       (_$passwordValidComputed ??= Computed<bool>(() => super.passwordValid,
               name: 'LoginControllerBase.passwordValid'))
-          .value;
-  Computed<bool>? _$emailValidComputed;
-
-  @override
-  bool get emailValid =>
-      (_$emailValidComputed ??= Computed<bool>(() => super.emailValid,
-              name: 'LoginControllerBase.emailValid'))
           .value;
   Computed<bool>? _$isFormValidComputed;
 
@@ -92,19 +92,19 @@ mixin _$LoginController on LoginControllerBase, Store {
     });
   }
 
-  late final _$emailAtom =
-      Atom(name: 'LoginControllerBase.email', context: context);
+  late final _$userLoginAtom =
+      Atom(name: 'LoginControllerBase.userLogin', context: context);
 
   @override
-  String? get email {
-    _$emailAtom.reportRead();
-    return super.email;
+  String? get userLogin {
+    _$userLoginAtom.reportRead();
+    return super.userLogin;
   }
 
   @override
-  set email(String? value) {
-    _$emailAtom.reportWrite(value, super.email, () {
-      super.email = value;
+  set userLogin(String? value) {
+    _$userLoginAtom.reportWrite(value, super.userLogin, () {
+      super.userLogin = value;
     });
   }
 
@@ -163,11 +163,11 @@ mixin _$LoginController on LoginControllerBase, Store {
   }
 
   @override
-  void setEmail(String value) {
+  void setUserLogin(String value) {
     final _$actionInfo = _$LoginControllerBaseActionController.startAction(
-        name: 'LoginControllerBase.setEmail');
+        name: 'LoginControllerBase.setUserLogin');
     try {
-      return super.setEmail(value);
+      return super.setUserLogin(value);
     } finally {
       _$LoginControllerBaseActionController.endAction(_$actionInfo);
     }
@@ -198,11 +198,11 @@ mixin _$LoginController on LoginControllerBase, Store {
   @override
   String toString() {
     return '''
-email: ${email},
+userLogin: ${userLogin},
 password: ${password},
 rememberMe: ${rememberMe},
+userLoginValid: ${userLoginValid},
 passwordValid: ${passwordValid},
-emailValid: ${emailValid},
 isFormValid: ${isFormValid},
 sendPressed: ${sendPressed}
     ''';

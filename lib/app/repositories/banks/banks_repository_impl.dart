@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 
 import '../../core/exceptions/repository_exception.dart';
-import '../../models/bank_model.dart';
+import '../../models/old/bank_model.dart';
 import './banks_repository.dart';
 
 class BanksRepositoryImpl implements BanksRepository {

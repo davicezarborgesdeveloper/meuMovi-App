@@ -11,6 +11,10 @@ class SignupMenuPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        iconTheme: const IconThemeData(color: Colors.black),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
@@ -35,17 +39,6 @@ class SignupMenuPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         SignupMenuButton(
-                          icon: Icons.business_outlined,
-                          title: 'TOMADORA DE SERVIÇOS',
-                          description:
-                              'Solicite um trabalhador avulson sindicalizado e formal',
-                          onTap: () => Navigator.of(context)
-                              .pushNamed('/auth/signup/serviceTaker'),
-                          height: height,
-                          width: width,
-                          color: ColorsApp.i.black,
-                        ),
-                        SignupMenuButton(
                           icon: Icons.factory_outlined,
                           title: 'ENTIDADE SINDICAL',
                           description:
@@ -55,6 +48,17 @@ class SignupMenuPage extends StatelessWidget {
                           height: height,
                           width: width,
                           color: ColorsApp.i.primary,
+                        ),
+                        SignupMenuButton(
+                          icon: Icons.business_outlined,
+                          title: 'TOMADORA DE SERVIÇOS',
+                          description:
+                              'Solicite um trabalhador avulson sindicalizado e formal',
+                          onTap: () => Navigator.of(context)
+                              .pushNamed('/auth/signup/serviceTaker'),
+                          height: height,
+                          width: width,
+                          color: ColorsApp.i.black,
                         ),
                         SignupMenuButton(
                           icon: Icons.engineering,
