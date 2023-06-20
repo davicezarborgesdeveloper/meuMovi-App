@@ -13,6 +13,7 @@ class SyndicateModel implements UserModel {
   final CompanyDataModel companyData;
   final ResponsibleContact responsibleContact;
   final AddressModel address;
+  final String? imageUrl;
   SyndicateModel({
     this.id,
     required this.user,
@@ -22,6 +23,7 @@ class SyndicateModel implements UserModel {
     required this.companyData,
     required this.responsibleContact,
     required this.address,
+    this.imageUrl,
   });
 
   Map<String, dynamic> toMap() {
@@ -34,6 +36,7 @@ class SyndicateModel implements UserModel {
       'companyData': companyData.toMap(),
       'responsibleContact': responsibleContact.toMap(),
       'address': address.toMap(),
+      'imageUrl': imageUrl,
     };
   }
 
@@ -43,17 +46,14 @@ class SyndicateModel implements UserModel {
       user: (map['user'] ?? '') as String,
       password: (map['password'] ?? '') as String,
       profileType: (map['profileType'] ?? 0) as int,
-      active: map['active'] != null
-          ? map['active'] == 1
-              ? true
-              : false
-          : false,
+      active: (map['active'] ?? false) as bool,
       companyData:
           CompanyDataModel.fromMap(map['companyData'] as Map<String, dynamic>),
       responsibleContact: ResponsibleContact.fromMap(
         map['responsibleContact'] as Map<String, dynamic>,
       ),
       address: AddressModel.fromMap(map['address'] as Map<String, dynamic>),
+      imageUrl: map['imageUrl'] != null ? map['imageUrl'] as String : null,
     );
   }
 
@@ -72,6 +72,7 @@ class SyndicateModel implements UserModel {
     CompanyDataModel? companyData,
     ResponsibleContact? responsibleContact,
     AddressModel? address,
+    String? imageUrl,
   }) {
     return SyndicateModel(
       id: id ?? this.id,
@@ -82,6 +83,7 @@ class SyndicateModel implements UserModel {
       companyData: companyData ?? this.companyData,
       responsibleContact: responsibleContact ?? this.responsibleContact,
       address: address ?? this.address,
+      imageUrl: imageUrl ?? this.imageUrl,
     );
   }
 }

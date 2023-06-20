@@ -23,7 +23,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // WorkerModel worker = (userCtrl.user) as WorkerModel;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: ColorsApp.i.bg,

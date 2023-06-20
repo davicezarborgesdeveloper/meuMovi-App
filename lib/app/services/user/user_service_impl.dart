@@ -28,13 +28,6 @@ class UserServiceImpl implements UserService {
     }
   }
 
-  // @override
-  // Future<void> update(UserModel user) async {
-  //   final store = FirebaseFirestore.instance;
-  //   final docRef = store.collection('users').doc(user.id);
-  //   docRef.update(user.toMap());
-  // }
-
   @override
   Future<void> deleteField(String userId, String field) async {
     final store = FirebaseFirestore.instance;
@@ -68,6 +61,13 @@ class UserServiceImpl implements UserService {
   }
 
   @override
+  Future<void> workerUpdate(WorkerModel data) async {
+    final store = FirebaseFirestore.instance;
+    final docRef = store.collection('users').doc(data.user);
+    docRef.update(data.toMap());
+  }
+
+  @override
   Future<void> saveServiceTaker(ServiceTakerModel user) async {
     final store = FirebaseFirestore.instance;
     final docRef = store.collection('users').doc(user.user);
@@ -95,5 +95,19 @@ class UserServiceImpl implements UserService {
       'active': user.active,
       'displayName': user.companyData.fantasyName,
     });
+  }
+
+  @override
+  Future<void> syndicateUpdate(SyndicateModel data) async {
+    final store = FirebaseFirestore.instance;
+    final docRef = store.collection('users').doc(data.user);
+    docRef.update(data.toMap());
+  }
+
+  @override
+  Future<void> deleteDocument(String userId) async {
+    final store = FirebaseFirestore.instance;
+    store.collection('users').doc(userId).delete();
+    store.collection('login').doc(userId).delete();
   }
 }

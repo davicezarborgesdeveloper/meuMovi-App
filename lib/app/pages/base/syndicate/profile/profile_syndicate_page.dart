@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
+import 'package:mobx/mobx.dart';
 
+import '../../../../core/extensions/formatter_extensions.dart';
 import '../../../../core/ui/helpers/loader.dart';
 import '../../../../core/ui/helpers/messages.dart';
 import '../../../../core/ui/helpers/size_extensions.dart';
@@ -25,14 +27,47 @@ class _ProfileSyndicatePageState extends State<ProfileSyndicatePage>
     with Loader, Messages {
   final UserController userCtrl = GetIt.I<UserController>();
   final ProfileSyndicateController controller = ProfileSyndicateController();
+  late final ReactionDisposer statusDisposer;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      statusDisposer = reaction((_) => controller.status, (status) {
+        switch (status) {
+          case ProfileSyndicateStateStatus.initial:
+            break;
+          case ProfileSyndicateStateStatus.loading:
+            showLoader();
+            break;
+          case ProfileSyndicateStateStatus.loaded:
+            hideLoader();
+            break;
+          case ProfileSyndicateStateStatus.uploadImage:
+            hideLoader();
+            break;
+          case ProfileSyndicateStateStatus.error:
+            hideLoader();
+            showError(controller.errorMessage ?? 'Erro');
+            break;
+        }
+      });
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    statusDisposer();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = context.screenWidth;
-    final screenHeight = context.screenHeight - 60;
+    final screenHeight = context.screenHeight - context.appbarHeight;
     return Scaffold(
       appBar: AppBar(backgroundColor: Colors.black),
-      drawer: MenuDrawer(),
+      drawer: const MenuDrawer(),
       body: SizedBox(
         height: screenHeight,
         child: Stack(
@@ -42,67 +77,54 @@ class _ProfileSyndicatePageState extends State<ProfileSyndicatePage>
                 return Container(
                   color: Colors.black,
                   width: screenWidth,
-                  height: context.screenHeight * .25,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                  height: context.screenHeight * .3,
+                  child: userCtrl.user != null
+                      ? Column(
                           children: [
-                            if (userCtrl.user != null)
-                              Text(
-                                (userCtrl.user as SyndicateModel)
-                                    .companyData
-                                    .corporateName,
-                                style: context.textStyles.textBold.copyWith(
-                                  fontSize: 18,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            Row(
+                            const SizedBox(height: 8),
+                            ImageWidget(
+                              (image) async {
+                                controller.uploadImage(
+                                  image,
+                                  (userCtrl.user as SyndicateModel).user,
+                                );
+                              },
+                              controller.urlImage ??
+                                  (userCtrl.user as SyndicateModel).imageUrl,
+                            ),
+                            const SizedBox(height: 8),
+                            Column(
                               children: [
                                 Text(
-                                  '0 tarefas',
-                                  style: context.textStyles.textMedium
-                                      .copyWith(color: Colors.white),
+                                  (userCtrl.user as SyndicateModel)
+                                      .user
+                                      .formattedCNPJ,
+                                  style:
+                                      context.textStyles.textRegular.copyWith(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                  ),
                                 ),
-                                const SizedBox(width: 8),
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.star,
-                                      color: Colors.amber,
-                                      size: 18,
-                                    ),
-                                    const SizedBox(width: 4),
-                                    Text(
-                                      '5.00',
-                                      style: context.textStyles.textMedium
-                                          .copyWith(color: Colors.white),
-                                    ),
-                                  ],
-                                )
+                                Text(
+                                  (userCtrl.user as SyndicateModel)
+                                      .companyData
+                                      .fantasyName,
+                                  style:
+                                      context.textStyles.textSemiBold.copyWith(
+                                    fontSize: 14,
+                                    color: Colors.white,
+                                  ),
+                                ),
                               ],
-                            )
+                            ),
                           ],
-                        ),
-                        ImageWidget(
-                          (image) async {
-                            // controller.uploadImage(image, userCtrl.user!.id!);
-                          },
-                          controller.urlImage,
-                        ),
-                      ],
-                    ),
-                  ),
+                        )
+                      : Container(),
                 );
               },
             ),
             Positioned(
-              top: context.screenHeight * .23,
+              top: context.screenHeight * .25,
               child: Container(
                 width: screenWidth,
                 height: (context.screenHeight * .70),
@@ -117,28 +139,31 @@ class _ProfileSyndicatePageState extends State<ProfileSyndicatePage>
                   padding:
                       const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
                   child: Column(
-                    mainAxisSize: MainAxisSize.min,
                     children: [
                       OptionButtonProfile(
-                        onTap: () => {},
+                        onTap: () => Navigator.of(context)
+                            .pushNamed('/home/syndicate/legalData'),
                         icon: Icons.person_outline_rounded,
                         label: 'Dados Juridicos',
                       ),
                       OptionButtonProfile(
-                        onTap: () => {},
+                        onTap: () => Navigator.of(context)
+                            .pushNamed('/home/syndicate/contactData'),
                         icon: Icons.description_outlined,
                         label: 'Contato',
                       ),
                       OptionButtonProfile(
-                        onTap: () {},
+                        onTap: () => Navigator.of(context)
+                            .pushNamed('/home/syndicate/addressData'),
                         icon: Icons.location_on_outlined,
                         label: 'Endereço',
                       ),
                       OptionButtonProfile(
                         onTap: () async {
                           final navigator = Navigator.of(context);
-                          await navigator.pushReplacementNamed('/auth/login');
                           await GetIt.I<AuthController>().logout();
+
+                          await navigator.pushReplacementNamed('/auth/login');
                         },
                         icon: Icons.logout,
                         label: 'Sair',

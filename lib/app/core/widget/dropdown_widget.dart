@@ -88,7 +88,6 @@ class _DropdownWidgetState extends State<DropdownWidget> {
                 // else
               ],
               onChanged: (value) {
-                // print((value as BankModel).fullname);
                 widget.onSave!(value);
               },
             ),

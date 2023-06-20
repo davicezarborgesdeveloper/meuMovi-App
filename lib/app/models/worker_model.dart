@@ -2,6 +2,8 @@
 
 import 'dart:convert';
 
+import 'package:intl/intl.dart';
+
 import '../core/ui/helpers/enums.dart';
 import 'address_model.dart';
 import 'user_model.dart';
@@ -18,6 +20,7 @@ class WorkerModel implements UserModel {
   final PersonalModel personal;
   final AddressModel address;
   final BankDataModel? bankData;
+  final String? imageUrl;
   WorkerModel({
     this.id,
     this.user,
@@ -30,6 +33,7 @@ class WorkerModel implements UserModel {
     required this.personal,
     required this.address,
     this.bankData,
+    this.imageUrl,
   });
 
   Map<String, dynamic> toMap() {
@@ -45,6 +49,7 @@ class WorkerModel implements UserModel {
       'personal': personal.toMap(),
       'address': address.toMap(),
       'bankData': bankData?.toMap(),
+      'imageUrl': imageUrl,
     };
   }
 
@@ -69,6 +74,7 @@ class WorkerModel implements UserModel {
       bankData: map['bankData'] != null
           ? BankDataModel.fromMap(map['bankData'] as Map<String, dynamic>)
           : null,
+      imageUrl: map['imageUrl'] != null ? map['imageUrl'] as String : null,
     );
   }
 
@@ -87,6 +93,7 @@ class WorkerModel implements UserModel {
     PersonalModel? personal,
     AddressModel? address,
     BankDataModel? bankData,
+    String? imageUrl,
   }) {
     return WorkerModel(
       id: id ?? this.id,
@@ -100,6 +107,7 @@ class WorkerModel implements UserModel {
       personal: personal ?? this.personal,
       address: address ?? this.address,
       bankData: bankData ?? this.bankData,
+      imageUrl: imageUrl ?? this.imageUrl,
     );
   }
 
@@ -107,6 +115,8 @@ class WorkerModel implements UserModel {
   String toJson() {
     return json.encode(toMap());
   }
+
+  String get fullname => '$name $lastname';
 }
 
 class DocumentsModel {
@@ -178,8 +188,9 @@ class PersonalModel {
   });
 
   Map<String, dynamic> toMap() {
+    final dt = DateFormat('dd/MM/yyyy').parse(birthdate);
     return <String, dynamic>{
-      'birthdate': birthdate,
+      'birthdate': DateFormat('yyyy-MM-dd').format(dt),
       'motherName': motherName,
       'maritalStatus': maritalStatus?.acronym,
       'phone': phone,
@@ -188,9 +199,14 @@ class PersonalModel {
     };
   }
 
+  static String formatDate(String strData) {
+    final DateTime dt = DateFormat('yyyy-MM-dd').parse(strData);
+    return DateFormat('dd/MM/yyyy').format(dt);
+  }
+
   factory PersonalModel.fromMap(Map<String, dynamic> map) {
     return PersonalModel(
-      birthdate: (map['birthdate'] ?? '') as String,
+      birthdate: formatDate((map['birthdate'] ?? '') as String),
       motherName:
           map['motherName'] != null ? map['motherName'] as String : null,
       maritalStatus: map['maritalStatus'] != null

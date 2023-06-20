@@ -1,8 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-import 'package:meu_movi/app/models/service_taker_model.dart';
-
 import '../core/ui/helpers/enums.dart';
 
 class TaskModel {

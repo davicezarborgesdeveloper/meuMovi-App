@@ -10,7 +10,7 @@ import 'syndicate/tasks/register/task_syndicate_register_page.dart';
 import 'syndicate/worker/worker_syndicate_register_page.dart';
 import 'worker/extract/extract_page.dart';
 import 'worker/home/home_page.dart';
-import 'worker/profile/profile_page.dart';
+import 'worker/profile/profile_worker_page.dart';
 
 class BasePage extends StatefulWidget {
   const BasePage({Key? key}) : super(key: key);
@@ -43,14 +43,14 @@ class _BasePageState extends State<BasePage> {
             ? [
                 const HomePage(),
                 const ExtractPage(),
-                const ProfilePage(),
+                const ProfileWorkerPage(),
               ]
             : authController.auth!.profileType == 1
                 ? []
                 : [
+                    const ProfileSyndicatePage(),
                     const TasksSyndicateRegisterPage(),
                     const WorkerSyndicateRegisterPage(),
-                    const ProfileSyndicatePage(),
                     const ServiceTakerSyndicateRegisterPage(),
                   ],
       ),

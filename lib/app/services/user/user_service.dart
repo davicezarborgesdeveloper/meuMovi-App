@@ -8,12 +8,18 @@ import 'user_service_impl.dart';
 
 abstract class UserService {
   Future<UserModel?> getUserById(String id);
-  Future<void> saveWorker(WorkerModel user);
-  Future<void> saveServiceTaker(ServiceTakerModel user);
-  Future<void> saveSyndicate(SyndicateModel user);
   Future<String> uploadImage(Uint8List image, String userId);
-  // Future<void> update(UserModel user);
+
   Future<void> deleteField(String userId, String field);
+  Future<void> deleteDocument(String userId);
+
+  Future<void> saveWorker(WorkerModel user);
+  Future<void> workerUpdate(WorkerModel user);
+
+  Future<void> saveServiceTaker(ServiceTakerModel user);
+
+  Future<void> saveSyndicate(SyndicateModel user);
+  Future<void> syndicateUpdate(SyndicateModel user);
 
   factory UserService() {
     return UserServiceImpl();

@@ -19,7 +19,7 @@ class MenuButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: menuSelected ? Colors.grey.shade200 : Colors.white,
+        color: menuSelected ? Colors.grey.shade300 : ColorsApp.i.bg,
       ),
       child: ListTile(
         onTap: onPressed,

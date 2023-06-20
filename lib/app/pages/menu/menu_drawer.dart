@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
+import '../../core/ui/styles/colors_app.dart';
 import '../auth/auth_controller.dart';
 import 'menu_button.dart';
 import 'menu_drawer_controller.dart';
@@ -20,13 +21,13 @@ class _MenuDrawerState extends State<MenuDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    // menuValue =
-    //     authController.auth!.profileType == 0 ? MenuWorker : MenuSyndicate;
     return ClipRRect(
       borderRadius: const BorderRadius.horizontal(right: Radius.circular(50)),
-      child: SizedBox(
+      child: Container(
+        color: ColorsApp.i.bg,
         width: MediaQuery.of(context).size.width * 0.65,
         child: Drawer(
+          backgroundColor: ColorsApp.i.bg,
           child: ListView.builder(
             shrinkWrap: true,
             itemCount: authController.auth!.profileType == 0

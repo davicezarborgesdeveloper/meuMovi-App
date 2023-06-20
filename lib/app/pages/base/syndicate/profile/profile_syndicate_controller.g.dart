@@ -45,6 +45,42 @@ mixin _$ProfileSyndicateController on ProfileSyndicateControllerBase, Store {
     });
   }
 
+  late final _$_fantasyNameAtom = Atom(
+      name: 'ProfileSyndicateControllerBase._fantasyName', context: context);
+
+  String? get fantasyName {
+    _$_fantasyNameAtom.reportRead();
+    return super._fantasyName;
+  }
+
+  @override
+  String? get _fantasyName => fantasyName;
+
+  @override
+  set _fantasyName(String? value) {
+    _$_fantasyNameAtom.reportWrite(value, super._fantasyName, () {
+      super._fantasyName = value;
+    });
+  }
+
+  late final _$_cnpjAtom =
+      Atom(name: 'ProfileSyndicateControllerBase._cnpj', context: context);
+
+  String? get cnpj {
+    _$_cnpjAtom.reportRead();
+    return super._cnpj;
+  }
+
+  @override
+  String? get _cnpj => cnpj;
+
+  @override
+  set _cnpj(String? value) {
+    _$_cnpjAtom.reportWrite(value, super._cnpj, () {
+      super._cnpj = value;
+    });
+  }
+
   late final _$imageAtom =
       Atom(name: 'ProfileSyndicateControllerBase.image', context: context);
 
