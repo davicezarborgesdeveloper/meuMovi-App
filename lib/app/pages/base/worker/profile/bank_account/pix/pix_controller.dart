@@ -93,9 +93,10 @@ abstract class PixControllerBase with Store {
       final getData = GetIt.I<UserController>().user as WorkerModel;
       final saveData = getData.copyWith(
         bankData: BankDataModel(
-            pixKey: pixKey!.replaceAll(RegExp(r'[^0-9]'), ''),
-            pixKeyType: pixKeyType,
-            bankReceiptType: BankReceiptType.pix),
+          pixKey: pixKey!.replaceAll(RegExp(r'[^0-9]'), ''),
+          pixKeyType: pixKeyType,
+          bankReceiptType: BankReceiptType.pix,
+        ),
       );
       await UserService().workerUpdate(saveData);
       GetIt.I<UserController>().setUser(saveData);

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -61,11 +62,17 @@ class ImageWidget extends StatelessWidget {
                     height: 100,
                     fit: BoxFit.cover,
                   )
-                : Image.network(
-                    urlImage!,
+                : CachedNetworkImage(
                     width: 100,
                     height: 100,
-                    fit: BoxFit.cover,
+                    imageUrl: urlImage!,
+                    progressIndicatorBuilder:
+                        (context, url, downloadProgress) =>
+                            CircularProgressIndicator(
+                      value: downloadProgress.progress,
+                    ),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
                   ),
           ),
         ),

@@ -13,7 +13,6 @@ import '../../../../../core/ui/styles/text_styles.dart';
 import '../../../../../core/widget/dropdown_widget.dart';
 import '../../../../../core/widget/register_success.dart';
 import '../../../../../core/widget/text_field_widget.dart';
-import '../../../../menu/menu_drawer.dart';
 import 'task_register_controller.dart';
 
 class TasksSyndicateRegisterPage extends StatefulWidget {
@@ -80,7 +79,6 @@ class _TasksSyndicateRegisterPageState extends State<TasksSyndicateRegisterPage>
         ),
         iconTheme: IconThemeData(color: ColorsApp.i.primary),
       ),
-      drawer: const MenuDrawer(),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),

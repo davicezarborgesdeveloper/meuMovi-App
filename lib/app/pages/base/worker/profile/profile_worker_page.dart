@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
-import 'package:meu_movi/app/pages/base/worker/profile/widget/option_button_profile.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../core/ui/helpers/loader.dart';
@@ -14,6 +13,7 @@ import '../../../auth/user_controller.dart';
 import '../../../menu/menu_drawer.dart';
 import 'profile_worker_controller.dart';
 import 'widget/image_widget.dart';
+import 'widget/option_button_profile.dart';
 
 class ProfileWorkerPage extends StatefulWidget {
   const ProfileWorkerPage({super.key});

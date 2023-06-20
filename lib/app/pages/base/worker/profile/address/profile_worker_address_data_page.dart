@@ -2,7 +2,6 @@ import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:meu_movi/app/pages/base/worker/profile/address/profile_worker_address_data_controller.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../../core/ui/helpers/loader.dart';
@@ -10,6 +9,7 @@ import '../../../../../core/ui/helpers/messages.dart';
 import '../../../../../core/ui/styles/text_styles.dart';
 import '../../../../../core/widget/text_field_changed_widget.dart';
 import '../../../../../core/widget/text_field_widget.dart';
+import 'profile_worker_address_data_controller.dart';
 
 class ProfileWorkerAddressDataPage extends StatefulWidget {
   const ProfileWorkerAddressDataPage({super.key});

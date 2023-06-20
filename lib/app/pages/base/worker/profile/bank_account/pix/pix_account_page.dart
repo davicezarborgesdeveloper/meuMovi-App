@@ -2,7 +2,6 @@ import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:meu_movi/app/pages/base/worker/profile/bank_account/pix/pix_controller.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../../../core/ui/helpers/enums.dart';
@@ -11,6 +10,7 @@ import '../../../../../../core/ui/helpers/messages.dart';
 import '../../../../../../core/ui/styles/text_styles.dart';
 import '../../../../../../core/widget/dropdown_widget.dart';
 import '../../../../../../core/widget/text_field_widget.dart';
+import 'pix_controller.dart';
 
 class PixAccountPage extends StatefulWidget {
   const PixAccountPage({super.key});
@@ -33,7 +33,6 @@ class _PixAccountPageState extends State<PixAccountPage> with Loader, Messages {
             break;
           case PixStateStatus.loading:
             showLoader();
-            print('loading');
             break;
           case PixStateStatus.loaded:
             hideLoader();

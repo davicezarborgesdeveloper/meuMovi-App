@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:meu_movi/app/pages/base/worker/profile/bank_account/profile_worker_bank_account_controller.dart';
-import 'package:meu_movi/app/pages/base/worker/profile/bank_account/widgets/card_bank.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../../core/ui/helpers/loader.dart';
@@ -10,6 +8,8 @@ import '../../../../../core/ui/styles/colors_app.dart';
 import '../../../../../core/ui/styles/text_styles.dart';
 import 'bank/bank_account_page.dart';
 import 'pix/pix_account_page.dart';
+import 'profile_worker_bank_account_controller.dart';
+import 'widgets/card_bank.dart';
 
 class ProfileWorkerBankAccountPage extends StatefulWidget {
   const ProfileWorkerBankAccountPage({super.key});
