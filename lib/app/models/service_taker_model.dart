@@ -18,6 +18,7 @@ class ServiceTakerModel implements UserModel {
   final String zip;
   final String number;
   final bool active;
+  final String? imageUrl;
   ServiceTakerModel({
     this.id,
     required this.user,
@@ -32,6 +33,7 @@ class ServiceTakerModel implements UserModel {
     required this.zip,
     required this.number,
     required this.active,
+    this.imageUrl,
   });
 
   Map<String, dynamic> toMap() {
@@ -49,6 +51,7 @@ class ServiceTakerModel implements UserModel {
       'zip': zip,
       'number': number,
       'active': active,
+      'imageUrl': imageUrl,
     };
   }
 
@@ -67,6 +70,7 @@ class ServiceTakerModel implements UserModel {
       zip: (map['zip'] ?? '') as String,
       number: (map['number'] ?? '') as String,
       active: (map['active'] ?? false) as bool,
+      imageUrl: map['imageUrl'] != null ? map['imageUrl'] as String : null,
     );
   }
 
@@ -90,6 +94,7 @@ class ServiceTakerModel implements UserModel {
     String? zip,
     String? number,
     bool? active,
+    String? imageUrl,
   }) {
     return ServiceTakerModel(
       id: id ?? this.id,
@@ -105,6 +110,7 @@ class ServiceTakerModel implements UserModel {
       zip: zip ?? this.zip,
       number: number ?? this.number,
       active: active ?? this.active,
+      imageUrl: imageUrl ?? this.imageUrl,
     );
   }
 }

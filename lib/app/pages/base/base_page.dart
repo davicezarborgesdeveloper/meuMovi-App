@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:meu_movi/app/pages/base/service_taker/extract/extract_service_taker_page.dart';
+import 'package:meu_movi/app/pages/base/service_taker/home/home_service_taker_page.dart';
+import 'package:meu_movi/app/pages/base/service_taker/profile/profile_service_taker_page.dart';
 import 'package:mobx/mobx.dart';
 
 import '../auth/auth_controller.dart';
@@ -46,12 +49,16 @@ class _BasePageState extends State<BasePage> {
                 const ProfileWorkerPage(),
               ]
             : authController.auth!.profileType == 1
-                ? []
+                ? [
+                    const HomeServiceTakerPage(),
+                    const ExtractServiceTakerPage(),
+                    const ProfileServiceTakerPage(),
+                  ]
                 : [
-                    const ServiceTakerListPage(),
                     const ProfileSyndicatePage(),
                     const TaskListPage(),
                     const WorkerListPage(),
+                    const ServiceTakerListPage(),
                   ],
       ),
     );

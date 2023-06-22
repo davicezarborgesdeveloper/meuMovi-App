@@ -7,6 +7,8 @@ import 'app/pages/auth/signup/signup_menu_page.dart';
 import 'app/pages/auth/signup/syndicate/syndicate_register_page.dart';
 import 'app/pages/auth/signup/workerRegister/worker_register_page.dart';
 import 'app/pages/base/base_page.dart';
+import 'app/pages/base/service_taker/profile/edit_data/service_taker_edit_data_page.dart';
+import 'app/pages/base/service_taker/profile/settings/service_taker_settings_page.dart';
 import 'app/pages/base/syndicate/profile/address_data/address_data_syndicate_page.dart';
 import 'app/pages/base/syndicate/profile/contact_data/contact_data_syndicate_page.dart';
 import 'app/pages/base/syndicate/profile/legal_data/legal_data_page.dart';
@@ -74,7 +76,16 @@ class Rotas {
         return MaterialPageRoute(
           builder: (_) => const ProfileWorkerSettingsPage(),
         );
+      case '/home/serviceTaker/data':
+        return MaterialPageRoute(
+          builder: (_) => const ServiceTakerEditDataPage(),
+        );
+      case '/home/serviceTaker/settings':
+        return MaterialPageRoute(
+          builder: (_) => const ServiceTakerSettingsPage(),
+        );
     }
+
     return _erroRota();
   }
 

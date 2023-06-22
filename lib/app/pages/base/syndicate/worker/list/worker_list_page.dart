@@ -88,22 +88,22 @@ class _WorkerListPageState extends State<WorkerListPage> with Loader, Messages {
                     context.textStyles.textSemiBold.copyWith(color: Colors.red),
               ),
             ),
-            TextButton(
-              onPressed: () async {
-                Navigator.of(context).pop();
-                await Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => WorkerSyndicateRegisterPage(worker: model),
-                  ),
-                );
-                controller.findWorkers();
-              },
-              child: Text(
-                'Editar',
-                style: context.textStyles.textSemiBold
-                    .copyWith(color: Colors.blue),
-              ),
-            ),
+            // TextButton(
+            //   onPressed: () async {
+            //     Navigator.of(context).pop();
+            //     await Navigator.of(context).push(
+            //       MaterialPageRoute(
+            //         builder: (_) => WorkerSyndicateRegisterPage(worker: model),
+            //       ),
+            //     );
+            //     controller.findWorkers();
+            //   },
+            //   child: Text(
+            //     'Editar',
+            //     style: context.textStyles.textSemiBold
+            //         .copyWith(color: Colors.blue),
+            //   ),
+            // ),
           ],
         );
       },

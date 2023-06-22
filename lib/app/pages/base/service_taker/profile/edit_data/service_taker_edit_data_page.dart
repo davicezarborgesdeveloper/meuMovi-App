@@ -6,26 +6,22 @@ import 'package:mobx/mobx.dart';
 
 import '../../../../../core/ui/helpers/loader.dart';
 import '../../../../../core/ui/helpers/messages.dart';
-import '../../../../../core/ui/styles/colors_app.dart';
 import '../../../../../core/ui/styles/text_styles.dart';
-import '../../../../../core/widget/register_success.dart';
 import '../../../../../core/widget/text_field_widget.dart';
-import '../../../../../models/service_taker_model.dart';
-import '../../../../auth/signup/service_taker/service_taker_register_controller.dart';
+import 'service_taker_edit_data_controller.dart';
 
-class ServiceTakerSyndicateRegisterPage extends StatefulWidget {
-  final ServiceTakerModel? serviceTaker;
-  const ServiceTakerSyndicateRegisterPage({this.serviceTaker, super.key});
+class ServiceTakerEditDataPage extends StatefulWidget {
+  const ServiceTakerEditDataPage({super.key});
 
   @override
-  State<ServiceTakerSyndicateRegisterPage> createState() =>
-      _ServiceTakerSyndicateRegisterPageState();
+  State<ServiceTakerEditDataPage> createState() =>
+      _ServiceTakerEditDataPageState();
 }
 
-class _ServiceTakerSyndicateRegisterPageState
-    extends State<ServiceTakerSyndicateRegisterPage> with Loader, Messages {
-  final ServiceTakerRegisterController controller =
-      ServiceTakerRegisterController();
+class _ServiceTakerEditDataPageState extends State<ServiceTakerEditDataPage>
+    with Loader, Messages {
+  final ServiceTakerEditDataController controller =
+      ServiceTakerEditDataController();
   late final ReactionDisposer statusDisposer;
   final companyNameEC = TextEditingController();
   final fantasyNameEC = TextEditingController();
@@ -39,28 +35,23 @@ class _ServiceTakerSyndicateRegisterPageState
 
   @override
   void initState() {
-    if (widget.serviceTaker != null) {
-      controller.loadData(widget.serviceTaker);
-    }
     WidgetsBinding.instance.addPostFrameCallback((_) {
       statusDisposer = reaction((_) => controller.status, (status) {
         switch (status) {
-          case ServiceTakerRegisterStateStatus.initial:
+          case ServiceTakerEditDataStateStatus.initial:
             break;
-          case ServiceTakerRegisterStateStatus.loading:
+          case ServiceTakerEditDataStateStatus.loading:
             showLoader();
             break;
-          case ServiceTakerRegisterStateStatus.loaded:
+          case ServiceTakerEditDataStateStatus.loaded:
             hideLoader();
             break;
-          case ServiceTakerRegisterStateStatus.saved:
+          case ServiceTakerEditDataStateStatus.saved:
             hideLoader();
-            showDialog(
-              context: context,
-              builder: (_) => const RegisterSuccess(),
-            );
+            Navigator.of(context)
+                .pushNamedAndRemoveUntil('/home', (route) => false);
             break;
-          case ServiceTakerRegisterStateStatus.error:
+          case ServiceTakerEditDataStateStatus.error:
             hideLoader();
             showError(controller.errorMessage ?? 'Erro');
             break;
@@ -89,13 +80,14 @@ class _ServiceTakerSyndicateRegisterPageState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: ColorsApp.i.bg,
+        backgroundColor: Colors.grey[300],
         title: Text(
           'Tomadora de Serviços',
-          style:
-              context.textStyles.textBold.copyWith(color: ColorsApp.i.primary),
+          style: context.textStyles.textBold
+              .copyWith(fontSize: 18, color: Colors.black),
         ),
-        iconTheme: IconThemeData(color: ColorsApp.i.primary),
+        centerTitle: true,
+        iconTheme: const IconThemeData(color: Colors.black),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -235,8 +227,25 @@ class _ServiceTakerSyndicateRegisterPageState
                   ),
                 ],
               ),
-              const SizedBox(
-                height: 16,
+              Observer(
+                builder: (_) => TextFieldWidget(
+                  label: 'Senha',
+                  hintText: 'Crie uma senha',
+                  errorText: controller.passwordError,
+                  onChanged: controller.setPassword,
+                  initialValue: controller.password,
+                  obscure: true,
+                ),
+              ),
+              Observer(
+                builder: (_) => TextFieldWidget(
+                  label: 'Confirmar a senha',
+                  hintText: 'Confirme sua senha',
+                  errorText: controller.retypePassError,
+                  onChanged: controller.setRetypePass,
+                  initialValue: controller.retypePass,
+                  obscure: true,
+                ),
               ),
               Observer(
                 builder: (_) => SizedBox(
@@ -245,7 +254,7 @@ class _ServiceTakerSyndicateRegisterPageState
                   child: GestureDetector(
                     onTap: controller.invalidSendPressed,
                     child: ElevatedButton(
-                      onPressed: controller.sendPressedRegister,
+                      onPressed: controller.sendPressedSignup,
                       child: const Text('Confirmar cadastro'),
                     ),
                   ),

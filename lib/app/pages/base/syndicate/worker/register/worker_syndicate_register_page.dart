@@ -31,6 +31,9 @@ class _WorkerSyndicateRegisterPageState
 
   @override
   void initState() {
+    if (widget.worker != null) {
+      controller.loadData(widget.worker!);
+    }
     WidgetsBinding.instance.addPostFrameCallback((_) {
       statusDisposer = reaction((_) => controller.status, (status) {
         switch (status) {

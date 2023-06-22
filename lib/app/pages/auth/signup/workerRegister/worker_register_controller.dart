@@ -297,8 +297,8 @@ abstract class WorkerRegisterControllerBase with Store {
   @action
   Future<void> register() async {
     try {
-      final dt = DateFormat('dd/MM/yyyy').parse(birthdate!);
       _status = WorkerRegisterStateStatus.loading;
+      final dt = DateFormat('dd/MM/yyyy').parse(birthdate!);
       final user = WorkerModel(
         user: cpf!.replaceAll(RegExp(r'[^0-9]'), ''),
         password: password!,
@@ -335,5 +335,14 @@ abstract class WorkerRegisterControllerBase with Store {
       _errorMessage = 'Erro ao registrar usuário';
       _status = WorkerRegisterStateStatus.error;
     }
+  }
+
+  Future<void> loadData(WorkerModel model) async {
+    _status = WorkerRegisterStateStatus.loading;
+    name = model.name;
+    lastname = model.lastname;
+// birthdate = model.;
+// email = model.;
+    _status = WorkerRegisterStateStatus.loaded;
   }
 }

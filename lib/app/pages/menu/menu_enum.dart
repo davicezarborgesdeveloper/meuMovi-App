@@ -55,3 +55,29 @@ enum MenuWorker {
     this.label,
   );
 }
+
+enum MenuServiceTaker {
+  perfil(
+    Icons.home,
+    'Inicio',
+  ),
+  tarefas(
+    Icons.credit_card,
+    'Extrato',
+  ),
+  trabalhador(
+    Icons.person,
+    'Perfil',
+  ),
+  sair(
+    Icons.exit_to_app,
+    'Sair',
+  );
+
+  final IconData assetIcon;
+  final String label;
+  const MenuServiceTaker(
+    this.assetIcon,
+    this.label,
+  );
+}

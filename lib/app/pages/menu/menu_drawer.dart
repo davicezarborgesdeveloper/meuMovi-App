@@ -21,6 +21,11 @@ class _MenuDrawerState extends State<MenuDrawer> {
 
   @override
   Widget build(BuildContext context) {
+    final length = authController.auth!.profileType == 0
+        ? MenuWorker.values.length
+        : authController.auth!.profileType == 1
+            ? MenuServiceTaker.values.length
+            : MenuSyndicate.values.length;
     return ClipRRect(
       borderRadius: const BorderRadius.horizontal(right: Radius.circular(50)),
       child: Container(
@@ -30,16 +35,13 @@ class _MenuDrawerState extends State<MenuDrawer> {
           backgroundColor: ColorsApp.i.bg,
           child: ListView.builder(
             shrinkWrap: true,
-            itemCount: authController.auth!.profileType == 0
-                ? MenuWorker.values.length
-                : MenuSyndicate.values.length,
+            itemCount: length,
             itemBuilder: ((context, index) {
               final menu = authController.auth!.profileType == 0
                   ? MenuWorker.values[index]
-                  : MenuSyndicate.values[index];
-              final length = authController.auth!.profileType == 0
-                  ? MenuWorker.values.length
-                  : MenuSyndicate.values.length;
+                  : authController.auth!.profileType == 1
+                      ? MenuServiceTaker.values[index]
+                      : MenuSyndicate.values[index];
               return MenuButton(
                 menu: menu,
                 menuSelected: drawerController.page == index,
