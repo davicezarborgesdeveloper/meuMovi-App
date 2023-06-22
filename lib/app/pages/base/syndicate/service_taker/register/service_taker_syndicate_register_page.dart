@@ -10,11 +10,13 @@ import '../../../../../core/ui/styles/colors_app.dart';
 import '../../../../../core/ui/styles/text_styles.dart';
 import '../../../../../core/widget/register_success.dart';
 import '../../../../../core/widget/text_field_widget.dart';
+import '../../../../../models/service_taker_model.dart';
 import '../../../../auth/signup/service_taker/service_taker_register_controller.dart';
 import '../../../../menu/menu_drawer.dart';
 
 class ServiceTakerSyndicateRegisterPage extends StatefulWidget {
-  const ServiceTakerSyndicateRegisterPage({super.key});
+  final ServiceTakerModel? serviceTaker;
+  const ServiceTakerSyndicateRegisterPage({this.serviceTaker, super.key});
 
   @override
   State<ServiceTakerSyndicateRegisterPage> createState() =>
@@ -26,10 +28,21 @@ class _ServiceTakerSyndicateRegisterPageState
   final ServiceTakerRegisterController controller =
       ServiceTakerRegisterController();
   late final ReactionDisposer statusDisposer;
+  final companyNameEC = TextEditingController();
+  final fantasyNameEC = TextEditingController();
+  final cnpjEC = TextEditingController();
+  final nameEC = TextEditingController();
+  final phoneEC = TextEditingController();
+  final emaiEC = TextEditingController();
+  final zipEC = TextEditingController();
+  final numberEC = TextEditingController();
   final cityEC = TextEditingController();
 
   @override
   void initState() {
+    if (widget.serviceTaker != null) {
+      controller.loadData(widget.serviceTaker);
+    }
     WidgetsBinding.instance.addPostFrameCallback((_) {
       statusDisposer = reaction((_) => controller.status, (status) {
         switch (status) {
@@ -60,6 +73,14 @@ class _ServiceTakerSyndicateRegisterPageState
 
   @override
   void dispose() {
+    companyNameEC.dispose();
+    fantasyNameEC.dispose();
+    cnpjEC.dispose();
+    nameEC.dispose();
+    phoneEC.dispose();
+    emaiEC.dispose();
+    zipEC.dispose();
+    numberEC.dispose();
     cityEC.dispose();
     statusDisposer();
     super.dispose();
@@ -77,7 +98,6 @@ class _ServiceTakerSyndicateRegisterPageState
         ),
         iconTheme: IconThemeData(color: ColorsApp.i.primary),
       ),
-      drawer: const MenuDrawer(),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -86,6 +106,7 @@ class _ServiceTakerSyndicateRegisterPageState
             children: [
               Observer(
                 builder: (_) => TextFieldWidget(
+                  controller: companyNameEC,
                   label: 'Nome Fantasia',
                   hintText: 'Digite o nome fantasia da empresa',
                   errorText: controller.fantasyNameError,
@@ -95,6 +116,7 @@ class _ServiceTakerSyndicateRegisterPageState
               ),
               Observer(
                 builder: (_) => TextFieldWidget(
+                  controller: fantasyNameEC,
                   label: 'Razão Social',
                   hintText: 'Digite a razão social empresa',
                   errorText: controller.companyNameError,
@@ -104,6 +126,7 @@ class _ServiceTakerSyndicateRegisterPageState
               ),
               Observer(
                 builder: (_) => TextFieldWidget(
+                  controller: emaiEC,
                   label: 'E-mail',
                   hintText: 'Digite seu e-mail',
                   errorText: controller.emailError,
@@ -114,6 +137,7 @@ class _ServiceTakerSyndicateRegisterPageState
               ),
               Observer(
                 builder: (_) => TextFieldWidget(
+                  controller: cnpjEC,
                   label: 'CNPJ',
                   hintText: 'Digite o CNPJ',
                   errorText: controller.cnpjError,
@@ -128,6 +152,7 @@ class _ServiceTakerSyndicateRegisterPageState
               ),
               Observer(
                 builder: (_) => TextFieldWidget(
+                  controller: nameEC,
                   label: 'Nome do Responsavel',
                   hintText: 'Digite o nome do resonsavel da empresa',
                   errorText: controller.nameError,
@@ -137,6 +162,7 @@ class _ServiceTakerSyndicateRegisterPageState
               ),
               Observer(
                 builder: (_) => TextFieldWidget(
+                  controller: phoneEC,
                   label: 'Telefone/Whatsapp',
                   hintText: 'Digite o telefone',
                   onChanged: controller.setPhone,
@@ -152,69 +178,66 @@ class _ServiceTakerSyndicateRegisterPageState
                 children: [
                   Expanded(
                     flex: 7,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 8, 8, 8),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'CEP',
-                                style: context.textStyles.textBold,
-                              ),
-                              Observer(
-                                builder: (_) => Text(
-                                  controller.city ?? '',
-                                  style: context.textStyles.textRegular,
-                                ),
-                              ),
-                            ],
+                    child: Stack(
+                      // crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Positioned(
+                          right: 4,
+                          top: 8,
+                          child: Observer(
+                            builder: (_) => Text(
+                              controller.city ?? '',
+                              style: context.textStyles.textRegular,
+                            ),
                           ),
-                          const SizedBox(height: 8),
-                          TextFormField(
+                        ),
+                        Observer(
+                          builder: (_) => TextFieldWidget(
+                            controller: zipEC,
+                            label: 'CEP',
+                            hintText: 'Digite um CEP válido',
                             onChanged: (value) async {
                               controller.setZip(value);
                               if (value.length >= 10) {
                                 await controller.searchZip(value);
                               }
                             },
-                            decoration: InputDecoration(
-                              hintText: 'Digite um CEP válido',
-                              errorText: controller.zipError,
-                            ),
+                            initialValue: controller.zip,
+                            errorText: controller.zipError,
                             keyboardType: TextInputType.number,
                             inputFormatters: [
                               FilteringTextInputFormatter.digitsOnly,
                               CepInputFormatter(),
                             ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
+                  ),
+                  const SizedBox(
+                    width: 8,
                   ),
                   Expanded(
                     flex: 2,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 8, 8, 8),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Número',
-                            style: context.textStyles.textBold,
-                          ),
-                          const SizedBox(height: 8),
-                          TextFormField(
-                            onChanged: controller.setNumber,
-                            decoration: const InputDecoration(hintText: 'Nº'),
-                          ),
+                    child: Observer(
+                      builder: (_) => TextFieldWidget(
+                        controller: numberEC,
+                        label: 'Número',
+                        hintText: 'Nº',
+                        onChanged: controller.setNumber,
+                        initialValue: controller.number,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                          TelefoneInputFormatter()
                         ],
                       ),
                     ),
                   ),
                 ],
+              ),
+              const SizedBox(
+                height: 16,
               ),
               Observer(
                 builder: (_) => SizedBox(

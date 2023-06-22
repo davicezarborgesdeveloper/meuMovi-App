@@ -9,7 +9,7 @@ import '../../../../models/address_model.dart';
 import '../../../../models/worker_model.dart';
 import '../../../../repositories/zip/zip_repository.dart';
 import '../../../../services/auth/auth_service.dart';
-import '../../../../services/user/user_service.dart';
+import '../../../../services/worker/worker_service.dart';
 import '../../auth_controller.dart';
 import '../../user_controller.dart';
 part 'worker_register_controller.g.dart';
@@ -325,7 +325,7 @@ abstract class WorkerRegisterControllerBase with Store {
           referencePoint: referencePoint ?? '',
         ),
       );
-      await UserService().saveWorker(user);
+      await WorkerService().saveWorker(user);
       final auth = await AuthService().login(user.user!, user.password, false);
       GetIt.I<AuthController>().setAuth(auth);
       GetIt.I<UserController>().getCurrentUser(user.user!);

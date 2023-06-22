@@ -188,9 +188,8 @@ class PersonalModel {
   });
 
   Map<String, dynamic> toMap() {
-    final dt = DateFormat('dd/MM/yyyy').parse(birthdate);
     return <String, dynamic>{
-      'birthdate': DateFormat('yyyy-MM-dd').format(dt),
+      'birthdate': birthdate,
       'motherName': motherName,
       'maritalStatus': maritalStatus?.acronym,
       'phone': phone,

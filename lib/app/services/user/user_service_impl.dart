@@ -46,43 +46,6 @@ class UserServiceImpl implements UserService {
   }
 
   @override
-  Future<void> saveWorker(WorkerModel user) async {
-    final store = FirebaseFirestore.instance;
-    final docRef = store.collection('users').doc(user.user);
-
-    docRef.set(user.toMap());
-    store.collection('login').doc(user.user).set({
-      'user': user.user,
-      'password': user.password,
-      'profileType': user.profileType,
-      'active': user.active,
-      'displayName': '${user.name} ${user.lastname}',
-    });
-  }
-
-  @override
-  Future<void> workerUpdate(WorkerModel data) async {
-    final store = FirebaseFirestore.instance;
-    final docRef = store.collection('users').doc(data.user);
-    docRef.update(data.toMap());
-  }
-
-  @override
-  Future<void> saveServiceTaker(ServiceTakerModel user) async {
-    final store = FirebaseFirestore.instance;
-    final docRef = store.collection('users').doc(user.user);
-
-    docRef.set(user.toMap());
-    store.collection('login').doc(user.user).set({
-      'user': user.user,
-      'password': user.password,
-      'profileType': user.profileType,
-      'active': user.active,
-      'displayName': user.companyName,
-    });
-  }
-
-  @override
   Future<void> saveSyndicate(SyndicateModel user) async {
     final store = FirebaseFirestore.instance;
     final docRef = store.collection('users').doc(user.user);

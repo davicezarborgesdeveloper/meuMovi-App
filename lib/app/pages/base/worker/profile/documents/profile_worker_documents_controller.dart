@@ -6,7 +6,7 @@ import 'package:mobx/mobx.dart';
 
 import '../../../../../core/extensions/validator_extensions.dart';
 import '../../../../../models/worker_model.dart';
-import '../../../../../services/user/user_service.dart';
+import '../../../../../services/worker/worker_service.dart';
 import '../../../../auth/user_controller.dart';
 part 'profile_worker_documents_controller.g.dart';
 
@@ -131,7 +131,7 @@ abstract class ProfileWorkerDocumentsControllerBase with Store {
           dataEmissao: DateFormat('yyyy-MM-dd').format(dt),
         ),
       );
-      await UserService().workerUpdate(saveData);
+      await WorkerService().workerUpdate(saveData);
       GetIt.I<UserController>().setUser(saveData);
       _status = ProfileWorkerDocumentsStateStatus.saved;
     } on Exception catch (e, s) {

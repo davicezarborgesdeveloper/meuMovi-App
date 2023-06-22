@@ -8,7 +8,7 @@ import '../../../../../../core/ui/helpers/enums.dart';
 import '../../../../../../models/old/bank_model.dart';
 import '../../../../../../models/worker_model.dart';
 import '../../../../../../repositories/banks/banks_repository.dart';
-import '../../../../../../services/user/user_service.dart';
+import '../../../../../../services/worker/worker_service.dart';
 import '../../../../../auth/user_controller.dart';
 part 'bank_controller.g.dart';
 
@@ -194,7 +194,7 @@ abstract class BankControllerBase with Store {
           bankReceiptType: BankReceiptType.bank,
         ),
       );
-      await UserService().workerUpdate(saveData);
+      await WorkerService().workerUpdate(saveData);
       GetIt.I<UserController>().setUser(saveData);
       _status = BankStateStatus.saved;
     } on Exception catch (e, s) {

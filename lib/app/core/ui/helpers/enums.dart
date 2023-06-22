@@ -75,7 +75,7 @@ enum AccountType {
 
 enum ProductionType {
   externa('Externa', 'E'),
-  normal('Normail', 'N');
+  normal('Normal', 'N');
 
   final String name;
   final String acronym;

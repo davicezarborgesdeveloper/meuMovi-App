@@ -82,6 +82,34 @@ class _ServiceTakerRegisterPageState extends State<ServiceTakerRegisterPage>
             children: [
               Observer(
                 builder: (_) => TextFieldWidget(
+                  label: 'Nome Fantasia',
+                  hintText: 'Digite o nome fantasia da empresa',
+                  errorText: controller.fantasyNameError,
+                  onChanged: controller.setFantasyName,
+                  initialValue: controller.fantasyName,
+                ),
+              ),
+              Observer(
+                builder: (_) => TextFieldWidget(
+                  label: 'Razão Social',
+                  hintText: 'Digite a razão social empresa',
+                  errorText: controller.companyNameError,
+                  onChanged: controller.setCompanyName,
+                  initialValue: controller.companyName,
+                ),
+              ),
+              Observer(
+                builder: (_) => TextFieldWidget(
+                  label: 'E-mail',
+                  hintText: 'Digite seu e-mail',
+                  errorText: controller.emailError,
+                  onChanged: controller.setEmail,
+                  keyboardType: TextInputType.emailAddress,
+                  initialValue: controller.email,
+                ),
+              ),
+              Observer(
+                builder: (_) => TextFieldWidget(
                   label: 'CNPJ',
                   hintText: 'Digite o CNPJ',
                   errorText: controller.cnpjError,
@@ -96,8 +124,8 @@ class _ServiceTakerRegisterPageState extends State<ServiceTakerRegisterPage>
               ),
               Observer(
                 builder: (_) => TextFieldWidget(
-                  label: 'Nome',
-                  hintText: 'Digite o nome da empresa',
+                  label: 'Nome do Responsavel',
+                  hintText: 'Digite o nome do resonsavel da empresa',
                   errorText: controller.nameError,
                   onChanged: controller.setName,
                   initialValue: controller.name,
@@ -105,7 +133,7 @@ class _ServiceTakerRegisterPageState extends State<ServiceTakerRegisterPage>
               ),
               Observer(
                 builder: (_) => TextFieldWidget(
-                  label: 'Telefone',
+                  label: 'Telefone/Whatsapp',
                   hintText: 'Digite o telefone',
                   onChanged: controller.setPhone,
                   initialValue: controller.phone,
@@ -114,16 +142,6 @@ class _ServiceTakerRegisterPageState extends State<ServiceTakerRegisterPage>
                     FilteringTextInputFormatter.digitsOnly,
                     TelefoneInputFormatter()
                   ],
-                ),
-              ),
-              Observer(
-                builder: (_) => TextFieldWidget(
-                  label: 'E-mail',
-                  hintText: 'Digite seu e-mail',
-                  errorText: controller.emailError,
-                  onChanged: controller.setEmail,
-                  keyboardType: TextInputType.emailAddress,
-                  initialValue: controller.email,
                 ),
               ),
               Row(

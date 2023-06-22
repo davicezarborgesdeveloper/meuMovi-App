@@ -4,23 +4,23 @@ import 'dart:convert';
 import '../core/ui/helpers/enums.dart';
 
 class TaskModel {
-  final String code;
+  final String? code;
   final String descriptionService;
   // final ServiceTakerModel serviceTaker;
-  final String companyId;
+  final String? companyId;
   final String companyName;
-  final String idCostCenter;
-  final String descCostCenter;
+  final String? idCostCenter;
+  final String? descCostCenter;
   final String extraPercentage;
   final ProductionType? productionType;
   final ReportType? reportType;
   final bool calculateNightTime;
   final String? hourDays;
-  final String valuePayroll;
-  final String invoiceAmount;
-  final String valueInvoice;
+  final double valuePayroll;
+  final double invoiceAmount;
+  final double valueInvoice;
   TaskModel({
-    required this.code,
+    this.code,
     required this.descriptionService,
     // required this.serviceTaker,
     required this.companyId,
@@ -77,9 +77,23 @@ class TaskModel {
           : null,
       calculateNightTime: (map['calculateNightTime'] ?? false) as bool,
       hourDays: map['hourDays'] != null ? map['hourDays'] as String : null,
-      valuePayroll: (map['valuePayroll'] ?? '') as String,
-      invoiceAmount: (map['invoiceAmount'] ?? '') as String,
-      valueInvoice: (map['valueInvoice'] ?? '') as String,
+      valuePayroll: map['valuePayroll'] != null
+          ? map['valuePayroll'] is int
+              ? (map['valuePayroll'] as int).toDouble()
+              : map['valuePayroll'] as double
+          : 0.00,
+      invoiceAmount: map['invoiceAmount'] != null
+          ? map['invoiceAmount'] is int
+              ? (map['invoiceAmount'] as int).toDouble()
+              : map['invoiceAmount'] as double
+          : 0.00,
+      valueInvoice: map['valueInvoice'] != null
+          ? map['valueInvoice'] is int
+              ? (map['valueInvoice'] as int).toDouble()
+              : map['valueInvoice'] as double
+          : 0.00,
+      // valueInvoice: (map['valueInvoice'] ?? '0.00') as double,
+      // a.toDouble();
     );
   }
 
@@ -87,4 +101,43 @@ class TaskModel {
 
   factory TaskModel.fromJson(String source) =>
       TaskModel.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  @override
+  String toString() {
+    return 'TaskModel(code: $code, descriptionService: $descriptionService, companyId: $companyId, companyName: $companyName, idCostCenter: $idCostCenter, descCostCenter: $descCostCenter, extraPercentage: $extraPercentage, productionType: $productionType, reportType: $reportType, calculateNightTime: $calculateNightTime, hourDays: $hourDays, valuePayroll: $valuePayroll, invoiceAmount: $invoiceAmount, valueInvoice: $valueInvoice)';
+  }
+
+  TaskModel copyWith({
+    String? code,
+    String? descriptionService,
+    String? companyId,
+    String? companyName,
+    String? idCostCenter,
+    String? descCostCenter,
+    String? extraPercentage,
+    ProductionType? productionType,
+    ReportType? reportType,
+    bool? calculateNightTime,
+    String? hourDays,
+    double? valuePayroll,
+    double? invoiceAmount,
+    double? valueInvoice,
+  }) {
+    return TaskModel(
+      code: code ?? this.code,
+      descriptionService: descriptionService ?? this.descriptionService,
+      companyId: companyId ?? this.companyId,
+      companyName: companyName ?? this.companyName,
+      idCostCenter: idCostCenter ?? this.idCostCenter,
+      descCostCenter: descCostCenter ?? this.descCostCenter,
+      extraPercentage: extraPercentage ?? this.extraPercentage,
+      productionType: productionType ?? this.productionType,
+      reportType: reportType ?? this.reportType,
+      calculateNightTime: calculateNightTime ?? this.calculateNightTime,
+      hourDays: hourDays ?? this.hourDays,
+      valuePayroll: valuePayroll ?? this.valuePayroll,
+      invoiceAmount: invoiceAmount ?? this.invoiceAmount,
+      valueInvoice: valueInvoice ?? this.valueInvoice,
+    );
+  }
 }

@@ -3,11 +3,12 @@ import 'dart:developer';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
+import '../../../../core/extensions/formatter_extensions.dart';
 import '../../../../core/extensions/validator_extensions.dart';
 import '../../../../models/service_taker_model.dart';
 import '../../../../repositories/zip/zip_repository.dart';
 import '../../../../services/auth/auth_service.dart';
-import '../../../../services/user/user_service.dart';
+import '../../../../services/service_taker/service_taker_service.dart';
 import '../../auth_controller.dart';
 import '../../user_controller.dart';
 part 'service_taker_register_controller.g.dart';
@@ -251,7 +252,7 @@ abstract class ServiceTakerRegisterControllerBase with Store {
         zip: zip!.replaceAll(RegExp(r'[^0-9]'), ''),
         number: number!,
       );
-      await UserService().saveServiceTaker(user);
+      await ServiceTakerService().saveServiceTaker(user);
       final auth = await AuthService().login(user.user, user.password, false);
       GetIt.I<AuthController>().setAuth(auth);
       GetIt.I<UserController>().getCurrentUser(user.user);
@@ -274,5 +275,18 @@ abstract class ServiceTakerRegisterControllerBase with Store {
       log('Erro ao buscar cep', error: e, stackTrace: s);
       _status = ServiceTakerRegisterStateStatus.error;
     }
+  }
+
+  Future<void> loadData(ServiceTakerModel? model) async {
+    _status = ServiceTakerRegisterStateStatus.loading;
+    companyName = model!.companyName;
+    fantasyName = model.fantasyName;
+    cnpj = model.cnpj.formattedCNPJ;
+    name = model.name;
+    phone = model.phone.formattedPhone;
+    email = model.email;
+    zip = model.zip.formattedZip;
+    number = model.number;
+    await searchZip(model.zip);
   }
 }

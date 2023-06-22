@@ -6,7 +6,7 @@ import 'package:mobx/mobx.dart';
 import '../../../../../core/extensions/formatter_extensions.dart';
 import '../../../../../models/worker_model.dart';
 import '../../../../../repositories/zip/zip_repository.dart';
-import '../../../../../services/user/user_service.dart';
+import '../../../../../services/worker/worker_service.dart';
 import '../../../../auth/user_controller.dart';
 part 'profile_worker_address_data_controller.g.dart';
 
@@ -137,7 +137,7 @@ abstract class ProfileWorkerAddressDataControllerBase with Store {
           referencePoint: referencePoint,
         ),
       );
-      await UserService().workerUpdate(saveData);
+      await WorkerService().workerUpdate(saveData);
       GetIt.I<UserController>().setUser(saveData);
       _status = ProfileWorkerAddressDataStateStatus.saved;
     } on Exception catch (e, s) {

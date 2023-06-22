@@ -2,20 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 
-import '../../../../core/ui/helpers/loader.dart';
-import '../../../../core/ui/helpers/messages.dart';
-import '../../../../core/ui/styles/colors_app.dart';
-import '../../../../core/ui/styles/text_styles.dart';
-import '../../../../core/widget/movi_stepper.dart';
-import '../../../../core/widget/register_success.dart';
-import '../../../auth/signup/workerRegister/widgets/worker_register_address_data.dart';
-import '../../../auth/signup/workerRegister/widgets/worker_register_documents_data.dart';
-import '../../../auth/signup/workerRegister/worker_register_controller.dart';
-import '../../../menu/menu_drawer.dart';
-import 'widgets/worker_register_personal_data.dart';
+import '../../../../../core/ui/helpers/loader.dart';
+import '../../../../../core/ui/helpers/messages.dart';
+import '../../../../../core/ui/styles/colors_app.dart';
+import '../../../../../core/ui/styles/text_styles.dart';
+import '../../../../../core/widget/movi_stepper.dart';
+import '../../../../../core/widget/register_success.dart';
+import '../../../../../models/worker_model.dart';
+import '../../../../auth/signup/workerRegister/widgets/worker_register_address_data.dart';
+import '../../../../auth/signup/workerRegister/widgets/worker_register_documents_data.dart';
+import '../../../../auth/signup/workerRegister/worker_register_controller.dart';
+import '../widgets/worker_register_personal_data.dart';
 
 class WorkerSyndicateRegisterPage extends StatefulWidget {
-  const WorkerSyndicateRegisterPage({super.key});
+  final WorkerModel? worker;
+  const WorkerSyndicateRegisterPage({this.worker, super.key});
 
   @override
   State<WorkerSyndicateRegisterPage> createState() =>
@@ -109,7 +110,6 @@ class _WorkerSyndicateRegisterPageState
         ),
         iconTheme: IconThemeData(color: ColorsApp.i.primary),
       ),
-      drawer: const MenuDrawer(),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),

@@ -1,6 +1,4 @@
-import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 
@@ -13,10 +11,12 @@ import '../../../../../core/ui/styles/text_styles.dart';
 import '../../../../../core/widget/dropdown_widget.dart';
 import '../../../../../core/widget/register_success.dart';
 import '../../../../../core/widget/text_field_widget.dart';
+import '../../../../../models/task_model.dart';
 import 'task_register_controller.dart';
 
 class TasksSyndicateRegisterPage extends StatefulWidget {
-  const TasksSyndicateRegisterPage({super.key});
+  final TaskModel? task;
+  const TasksSyndicateRegisterPage({this.task, super.key});
 
   @override
   State<TasksSyndicateRegisterPage> createState() =>
@@ -25,14 +25,28 @@ class TasksSyndicateRegisterPage extends StatefulWidget {
 
 class _TasksSyndicateRegisterPageState extends State<TasksSyndicateRegisterPage>
     with Loader, Messages {
-  final TaskRegisterController controller = TaskRegisterController();
+  late final TaskRegisterController controller = TaskRegisterController();
   late final ReactionDisposer statusDisposer;
-  final serviceTakerEC = TextEditingController();
+  final descriptionServiceEC = TextEditingController();
+  final companyIdEC = TextEditingController();
+  final companyNamEC = TextEditingController();
+  final idCostCenterEC = TextEditingController();
+  final descCostCenterEC = TextEditingController();
+  final extraPercentageEC = TextEditingController();
+  final hourDaysEC = TextEditingController();
+  final valuePayrollEC = TextEditingController();
+  final invoiceAmountEC = TextEditingController();
+  final valueInvoiceEC = TextEditingController();
+  // final serviceTakerEC = TextEditingController();
 
   @override
   void initState() {
+    if (widget.task != null) {
+      controller.loadData(widget.task);
+    }
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      statusDisposer = reaction((_) => controller.status, (status) {
+      statusDisposer = reaction((_) => controller.status, (status) async {
         switch (status) {
           case TaskRegisterStateStatus.initial:
             break;
@@ -43,12 +57,15 @@ class _TasksSyndicateRegisterPageState extends State<TasksSyndicateRegisterPage>
             hideLoader();
             break;
           case TaskRegisterStateStatus.saved:
+            final navigator = Navigator.of(context);
             hideLoader();
-            showDialog(
+            await showDialog(
               context: context,
               barrierDismissible: false,
               builder: (_) => const RegisterSuccess(),
             );
+            navigator.pop();
+
             break;
           case TaskRegisterStateStatus.error:
             hideLoader();
@@ -62,7 +79,17 @@ class _TasksSyndicateRegisterPageState extends State<TasksSyndicateRegisterPage>
 
   @override
   void dispose() {
-    serviceTakerEC.dispose();
+    // serviceTakerEC.dispose();
+    descriptionServiceEC.dispose();
+    companyIdEC.dispose();
+    companyNamEC.dispose();
+    idCostCenterEC.dispose();
+    descCostCenterEC.dispose();
+    extraPercentageEC.dispose();
+    hourDaysEC.dispose();
+    valuePayrollEC.dispose();
+    invoiceAmountEC.dispose();
+    valueInvoiceEC.dispose();
     statusDisposer();
     super.dispose();
   }
@@ -87,6 +114,7 @@ class _TasksSyndicateRegisterPageState extends State<TasksSyndicateRegisterPage>
             children: [
               Observer(
                 builder: (_) => TextFieldWidget(
+                  controller: descriptionServiceEC,
                   label: 'Descrição do Serviço',
                   hintText: '',
                   errorText: controller.descriptionServiceError,
@@ -98,46 +126,27 @@ class _TasksSyndicateRegisterPageState extends State<TasksSyndicateRegisterPage>
                 children: [
                   Expanded(
                     flex: 2,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 8, 8, 8),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'cod.',
-                            style: context.textStyles.textBold,
-                          ),
-                          const SizedBox(height: 8),
-                          TextFormField(
-                            onChanged: controller.setCompanyId,
-                            decoration: InputDecoration(
-                              errorText: controller.companyIdError,
-                            ),
-                            keyboardType: TextInputType.number,
-                          ),
-                        ],
+                    child: Observer(
+                      builder: (_) => TextFieldWidget(
+                        controller: companyIdEC,
+                        label: 'cod.',
+                        hintText: '',
+                        onChanged: controller.setCompanyId,
+                        initialValue: controller.companyId,
                       ),
                     ),
                   ),
+                  const SizedBox(width: 8),
                   Expanded(
                     flex: 5,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(8, 8, 0, 8),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Razão Social da Tomadora',
-                            style: context.textStyles.textBold,
-                          ),
-                          const SizedBox(height: 8),
-                          TextFormField(
-                            onChanged: controller.setCompanyName,
-                            decoration: InputDecoration(
-                              errorText: controller.companyNameError,
-                            ),
-                          ),
-                        ],
+                    child: Observer(
+                      builder: (_) => TextFieldWidget(
+                        controller: companyNamEC,
+                        label: 'Razão Social da Tomadora',
+                        hintText: '',
+                        errorText: controller.companyNameError,
+                        onChanged: controller.setCompanyName,
+                        initialValue: controller.companyName,
                       ),
                     ),
                   ),
@@ -147,46 +156,26 @@ class _TasksSyndicateRegisterPageState extends State<TasksSyndicateRegisterPage>
                 children: [
                   Expanded(
                     flex: 2,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 8, 8, 8),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'cod.',
-                            style: context.textStyles.textBold,
-                          ),
-                          const SizedBox(height: 8),
-                          TextFormField(
-                            onChanged: controller.setIdCostCenter,
-                            decoration: InputDecoration(
-                              errorText: controller.idCostCenterError,
-                            ),
-                            keyboardType: TextInputType.number,
-                          ),
-                        ],
+                    child: Observer(
+                      builder: (_) => TextFieldWidget(
+                        controller: idCostCenterEC,
+                        label: 'cod.',
+                        hintText: '',
+                        onChanged: controller.setIdCostCenter,
+                        initialValue: controller.idCostCenter,
                       ),
                     ),
                   ),
+                  const SizedBox(width: 8),
                   Expanded(
                     flex: 5,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(8, 8, 0, 8),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Descrição do Centro de Custo',
-                            style: context.textStyles.textBold,
-                          ),
-                          const SizedBox(height: 8),
-                          TextFormField(
-                            onChanged: controller.setDescCostCenter,
-                            decoration: InputDecoration(
-                              errorText: controller.descCostCenterError,
-                            ),
-                          ),
-                        ],
+                    child: Observer(
+                      builder: (_) => TextFieldWidget(
+                        controller: descCostCenterEC,
+                        label: 'Descrição do Centro de Custo',
+                        hintText: '',
+                        onChanged: controller.setDescCostCenter,
+                        initialValue: controller.descCostCenter,
                       ),
                     ),
                   ),
@@ -204,34 +193,19 @@ class _TasksSyndicateRegisterPageState extends State<TasksSyndicateRegisterPage>
                       listOptions: ProductionType.values,
                     ),
                   ),
+                  const SizedBox(width: 8),
                   Expanded(
                     flex: 2,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Percentual Extras',
-                            style: context.textStyles.textBold,
-                          ),
-                          const SizedBox(height: 8),
-                          TextFormField(
-                            onChanged: controller.setExtraPercentage,
-                            decoration: InputDecoration(
-                              errorText: controller.extraPercentageError,
-                              isDense: false,
-                            ),
-                            keyboardType: TextInputType.number,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly,
-                              CentavosInputFormatter()
-                            ],
-                          ),
-                        ],
+                    child: Observer(
+                      builder: (_) => TextFieldWidget(
+                        controller: extraPercentageEC,
+                        label: 'Percentual Extras',
+                        hintText: '0,00',
+                        onChanged: controller.setExtraPercentage,
+                        initialValue: controller.extraPercentage,
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
               DropdownWidget(
@@ -275,6 +249,7 @@ class _TasksSyndicateRegisterPageState extends State<TasksSyndicateRegisterPage>
                           ),
                           const SizedBox(height: 8),
                           TextFormField(
+                            controller: hourDaysEC,
                             onChanged: controller.setHourDays,
                             decoration: InputDecoration(
                               errorText: controller.hourDaysError,
@@ -289,6 +264,7 @@ class _TasksSyndicateRegisterPageState extends State<TasksSyndicateRegisterPage>
               ),
               Observer(
                 builder: (_) => TextFieldWidget(
+                  controller: valuePayrollEC,
                   label: 'Valor p/ Folha',
                   hintText: '',
                   errorText: controller.valuePayrollError,
@@ -301,6 +277,7 @@ class _TasksSyndicateRegisterPageState extends State<TasksSyndicateRegisterPage>
                 builder: (_) => TextFieldWidget(
                   label: 'Valor p/Fatura',
                   hintText: '',
+                  controller: invoiceAmountEC,
                   errorText: controller.invoiceAmountError,
                   onChanged: controller.setInvoiceAmount,
                   initialValue: controller.invoiceAmount,
@@ -311,6 +288,7 @@ class _TasksSyndicateRegisterPageState extends State<TasksSyndicateRegisterPage>
                 builder: (_) => TextFieldWidget(
                   label: 'Valor p/ Nota Fiscal',
                   hintText: '',
+                  controller: valueInvoiceEC,
                   errorText: controller.valueInvoiceError,
                   onChanged: controller.setValueInvoice,
                   initialValue: controller.valueInvoice,

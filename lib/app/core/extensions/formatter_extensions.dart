@@ -11,6 +11,10 @@ extension FormatterString on String {
     return UtilBrasilFields.obterCnpj(this);
   }
 
+  String get formattedCPF {
+    return UtilBrasilFields.obterCpf(this);
+  }
+
   String get formattedPhone {
     if (length > 0) {
       return UtilBrasilFields.obterTelefone(this);

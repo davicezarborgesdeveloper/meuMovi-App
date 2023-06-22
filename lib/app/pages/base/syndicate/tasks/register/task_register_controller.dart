@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:mobx/mobx.dart';
-import 'package:uuid/uuid.dart';
 
 import '../../../../../core/ui/helpers/enums.dart';
 import '../../../../../models/service_taker_model.dart';
@@ -224,9 +223,8 @@ abstract class TaskRegisterControllerBase with Store {
   }
 
   @computed
-  bool get valuePayrollValid => calculateNightTime
-      ? valuePayroll != null && valuePayroll!.isNotEmpty
-      : true;
+  bool get valuePayrollValid =>
+      valuePayroll != null && valuePayroll!.isNotEmpty;
   String? get valuePayrollError {
     if (!_showErrors || valuePayrollValid) {
       return null;
@@ -236,9 +234,8 @@ abstract class TaskRegisterControllerBase with Store {
   }
 
   @computed
-  bool get invoiceAmountValid => calculateNightTime
-      ? invoiceAmount != null && invoiceAmount!.isNotEmpty
-      : true;
+  bool get invoiceAmountValid =>
+      invoiceAmount != null && invoiceAmount!.isNotEmpty;
   String? get invoiceAmountError {
     if (!_showErrors || invoiceAmountValid) {
       return null;
@@ -248,9 +245,8 @@ abstract class TaskRegisterControllerBase with Store {
   }
 
   @computed
-  bool get valueInvoiceValid => calculateNightTime
-      ? valueInvoice != null && valueInvoice!.isNotEmpty
-      : true;
+  bool get valueInvoiceValid =>
+      valueInvoice != null && valueInvoice!.isNotEmpty;
   String? get valueInvoiceError {
     if (!_showErrors || valueInvoiceValid) {
       return null;
@@ -265,12 +261,8 @@ abstract class TaskRegisterControllerBase with Store {
   @computed
   bool get isFormValid =>
       descriptionServiceValid &&
-      companyIdValid &&
       companyNameValid &&
-      idCostCenterValid &&
-      descCostCenterValid &&
       productionTypeValid &&
-      extraPercentageValid &&
       reportTypeValid &&
       hourDaysValid &&
       valuePayrollValid &&
@@ -284,23 +276,22 @@ abstract class TaskRegisterControllerBase with Store {
   Future<void> register() async {
     try {
       _status = TaskRegisterStateStatus.loading;
-      const uuid = Uuid();
       final task = TaskModel(
-        code: uuid.v5(Uuid.NAMESPACE_URL, 'https://meumovi.fgsistem.com.br/'),
+        code: _code,
         descriptionService: descriptionService!,
-        companyId: companyId!,
+        companyId: companyId,
         companyName: companyName!,
         // serviceTaker: serviceTaker!,
-        idCostCenter: idCostCenter!,
-        descCostCenter: descCostCenter!,
-        extraPercentage: extraPercentage!,
+        idCostCenter: idCostCenter,
+        descCostCenter: descCostCenter,
+        extraPercentage: extraPercentage ?? '0.00',
         productionType: productionType!,
         reportType: reportType!,
         calculateNightTime: calculateNightTime,
-        hourDays: hourDays!,
-        valuePayroll: valueInvoice!,
-        invoiceAmount: invoiceAmount!,
-        valueInvoice: valueInvoice!,
+        hourDays: hourDays,
+        valuePayroll: double.parse(valuePayroll!.replaceAll(',', '.')),
+        invoiceAmount: double.parse(invoiceAmount!.replaceAll(',', '.')),
+        valueInvoice: double.parse(valueInvoice!.replaceAll(',', '.')),
       );
       await TaskService().save(task);
       _status = TaskRegisterStateStatus.saved;
@@ -309,5 +300,23 @@ abstract class TaskRegisterControllerBase with Store {
       _errorMessage = 'Erro ao registrar usuário';
       _status = TaskRegisterStateStatus.error;
     }
+  }
+
+  Future<void> loadData(TaskModel? taskmodel) async {
+    _status = TaskRegisterStateStatus.loading;
+    _code = taskmodel!.code;
+    descriptionService = taskmodel.descriptionService;
+    companyId = taskmodel.companyId!;
+    companyName = taskmodel.companyName;
+    idCostCenter = taskmodel.idCostCenter!;
+    descCostCenter = taskmodel.descCostCenter!;
+    extraPercentage = taskmodel.extraPercentage;
+    hourDays = taskmodel.hourDays ?? '0,00';
+    valuePayroll = taskmodel.valuePayroll.toString();
+    invoiceAmount = taskmodel.invoiceAmount.toString();
+    valueInvoice = taskmodel.valueInvoice.toString();
+    productionType = ProductionType.parse(taskmodel.productionType!.acronym);
+    reportType = ReportType.parse(taskmodel.reportType!.acronym);
+    _status = TaskRegisterStateStatus.loaded;
   }
 }

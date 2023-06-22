@@ -7,6 +7,7 @@ import 'package:mobx/mobx.dart';
 import '../../../../models/syndicate_model.dart';
 import '../../../../models/worker_model.dart';
 import '../../../../services/user/user_service.dart';
+import '../../../../services/worker/worker_service.dart';
 import '../../../auth/user_controller.dart';
 part 'profile_worker_controller.g.dart';
 
@@ -60,7 +61,7 @@ abstract class ProfileWorkerControllerBase with Store {
       }
       final getData = GetIt.I<UserController>().user as WorkerModel;
       final saveData = getData.copyWith(imageUrl: _urlImage);
-      await UserService().workerUpdate(saveData);
+      await WorkerService().workerUpdate(saveData);
       _status = ProfileWorkerStateStatus.uploadImage;
     } on Exception catch (e, s) {
       log('Erro ao salvar foto do usuário', error: e, stackTrace: s);

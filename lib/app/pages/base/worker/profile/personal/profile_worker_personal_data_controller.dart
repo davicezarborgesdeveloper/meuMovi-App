@@ -6,7 +6,7 @@ import 'package:mobx/mobx.dart';
 
 import '../../../../../core/ui/helpers/enums.dart';
 import '../../../../../models/worker_model.dart';
-import '../../../../../services/user/user_service.dart';
+import '../../../../../services/worker/worker_service.dart';
 import '../../../../auth/user_controller.dart';
 part 'profile_worker_personal_data_controller.g.dart';
 
@@ -210,7 +210,7 @@ abstract class ProfileWorkerPersonalDataControllerBase with Store {
           email: email!,
         ),
       );
-      await UserService().workerUpdate(saveData);
+      await WorkerService().workerUpdate(saveData);
       GetIt.I<UserController>().setUser(saveData);
       _status = ProfileWorkerPersonalStateStatus.saved;
     } on Exception catch (e, s) {

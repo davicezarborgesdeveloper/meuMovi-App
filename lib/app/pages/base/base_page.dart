@@ -5,10 +5,9 @@ import 'package:mobx/mobx.dart';
 import '../auth/auth_controller.dart';
 import '../menu/menu_drawer_controller.dart';
 import 'syndicate/profile/profile_syndicate_page.dart';
-import 'syndicate/service_taker/register/service_taker_syndicate_register_page.dart';
-import 'syndicate/tasks/register/task_syndicate_register_page.dart';
-import 'syndicate/tasks/task_list/task_list_page.dart';
-import 'syndicate/worker/worker_syndicate_register_page.dart';
+import 'syndicate/service_taker/list/service_taker_list_page.dart';
+import 'syndicate/tasks/list/task_list_page.dart';
+import 'syndicate/worker/list/worker_list_page.dart';
 import 'worker/extract/extract_page.dart';
 import 'worker/home/home_page.dart';
 import 'worker/profile/profile_worker_page.dart';
@@ -49,10 +48,10 @@ class _BasePageState extends State<BasePage> {
             : authController.auth!.profileType == 1
                 ? []
                 : [
-                    const TaskListPage(),
-                    const WorkerSyndicateRegisterPage(),
-                    const ServiceTakerSyndicateRegisterPage(),
+                    const ServiceTakerListPage(),
                     const ProfileSyndicatePage(),
+                    const TaskListPage(),
+                    const WorkerListPage(),
                   ],
       ),
     );
