@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'user_model.dart';
+import 'worker_model.dart';
 
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
@@ -11,6 +12,7 @@ class ServiceTakerModel implements UserModel {
   final int profileType;
   final String companyName;
   final String fantasyName;
+  final EmployeerModel? employeer;
   final String email;
   final String cnpj;
   final String name;
@@ -26,6 +28,7 @@ class ServiceTakerModel implements UserModel {
     required this.profileType,
     required this.companyName,
     required this.fantasyName,
+    this.employeer,
     required this.email,
     required this.cnpj,
     required this.name,
@@ -44,6 +47,7 @@ class ServiceTakerModel implements UserModel {
       'profileType': profileType,
       'companyName': companyName,
       'fantasyName': fantasyName,
+      'employeer': employeer?.toMap(),
       'email': email,
       'cnpj': cnpj,
       'name': name,
@@ -71,6 +75,9 @@ class ServiceTakerModel implements UserModel {
       number: (map['number'] ?? '') as String,
       active: (map['active'] ?? false) as bool,
       imageUrl: map['imageUrl'] != null ? map['imageUrl'] as String : null,
+      employeer: map['employeer'] != null
+          ? EmployeerModel.fromMap(map['employeer'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -95,6 +102,7 @@ class ServiceTakerModel implements UserModel {
     String? number,
     bool? active,
     String? imageUrl,
+    EmployeerModel? employeer,
   }) {
     return ServiceTakerModel(
       id: id ?? this.id,
@@ -111,6 +119,7 @@ class ServiceTakerModel implements UserModel {
       number: number ?? this.number,
       active: active ?? this.active,
       imageUrl: imageUrl ?? this.imageUrl,
+      employeer: employeer ?? this.employeer,
     );
   }
 }

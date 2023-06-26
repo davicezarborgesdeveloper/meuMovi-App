@@ -12,9 +12,9 @@ import '../../../../services/auth/auth_service.dart';
 import '../../../../services/worker/worker_service.dart';
 import '../../auth_controller.dart';
 import '../../user_controller.dart';
-part 'worker_register_controller.g.dart';
+part 'worker_signup_controller.g.dart';
 
-enum WorkerRegisterStateStatus {
+enum WorkerSignupStateStatus {
   initial,
   loading,
   loaded,
@@ -22,12 +22,12 @@ enum WorkerRegisterStateStatus {
   saved,
 }
 
-class WorkerRegisterController = WorkerRegisterControllerBase
-    with _$WorkerRegisterController;
+class WorkerSignupController = WorkerSignupControllerBase
+    with _$WorkerSignupController;
 
-abstract class WorkerRegisterControllerBase with Store {
+abstract class WorkerSignupControllerBase with Store {
   @readonly
-  var _status = WorkerRegisterStateStatus.initial;
+  var _status = WorkerSignupStateStatus.initial;
 
   @readonly
   String? _errorMessage;
@@ -261,17 +261,17 @@ abstract class WorkerRegisterControllerBase with Store {
 
   @action
   Future<void> searchZip(String zipFilter) async {
-    _status = WorkerRegisterStateStatus.loading;
+    _status = WorkerSignupStateStatus.loading;
     try {
       final address = await ZipRepository().getAddressFromZip(zipFilter);
       city = address!.cidade.nome;
       state = address.estado.sigla;
       street = address.logradouro;
       district = address.bairro;
-      _status = WorkerRegisterStateStatus.loaded;
+      _status = WorkerSignupStateStatus.loaded;
     } catch (e, s) {
       log('Erro ao buscar cep', error: e, stackTrace: s);
-      _status = WorkerRegisterStateStatus.error;
+      _status = WorkerSignupStateStatus.error;
     }
   }
 
@@ -303,7 +303,7 @@ abstract class WorkerRegisterControllerBase with Store {
   @action
   Future<void> register() async {
     try {
-      _status = WorkerRegisterStateStatus.loading;
+      _status = WorkerSignupStateStatus.loading;
       final dt = DateFormat('dd/MM/yyyy').parse(birthdate!);
       final user = WorkerModel(
         user: cpf!.replaceAll(RegExp(r'[^0-9]'), ''),
@@ -335,18 +335,18 @@ abstract class WorkerRegisterControllerBase with Store {
       final auth = await AuthService().login(user.user!, user.password, false);
       GetIt.I<AuthController>().setAuth(auth);
       GetIt.I<UserController>().getCurrentUser(user.user!);
-      _status = WorkerRegisterStateStatus.saved;
+      _status = WorkerSignupStateStatus.saved;
     } catch (e, s) {
       log('Erro ao registrar usuário', error: e, stackTrace: s);
       _errorMessage = 'Erro ao registrar usuário';
-      _status = WorkerRegisterStateStatus.error;
+      _status = WorkerSignupStateStatus.error;
     }
   }
 
   Future<void> loadData(WorkerModel model) async {
-    _status = WorkerRegisterStateStatus.loading;
+    _status = WorkerSignupStateStatus.loading;
     name = model.name;
     lastname = model.lastname;
-    _status = WorkerRegisterStateStatus.loaded;
+    _status = WorkerSignupStateStatus.loaded;
   }
 }

@@ -162,7 +162,6 @@ class _ProfileSyndicatePageState extends State<ProfileSyndicatePage>
                         onTap: () async {
                           final navigator = Navigator.of(context);
                           await GetIt.I<AuthController>().logout();
-
                           await navigator.pushReplacementNamed('/auth/login');
                         },
                         icon: Icons.logout,

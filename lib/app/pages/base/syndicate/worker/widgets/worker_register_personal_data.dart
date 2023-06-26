@@ -5,12 +5,16 @@ import 'package:intl/intl.dart';
 import '../../../../../core/ui/styles/text_styles.dart';
 import '../../../../../core/widget/text_field_changed_widget.dart';
 import '../../../../../core/widget/text_field_widget.dart';
-import '../../../../auth/signup/workerRegister/worker_register_controller.dart';
+import '../register/worker_syndicate_register_controller.dart';
 
 class WorkerRegisterPersonalData extends StatefulWidget {
-  final WorkerRegisterController controller;
-  const WorkerRegisterPersonalData(this.controller, {Key? key})
-      : super(key: key);
+  final WorkerSyndicateRegisterController controller;
+  final List<TextEditingController> textControllers;
+  const WorkerRegisterPersonalData(
+    this.controller,
+    this.textControllers, {
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<WorkerRegisterPersonalData> createState() =>
@@ -70,6 +74,7 @@ class _WorkerRegisterPersonalDataState
         ),
         Observer(
           builder: (_) => TextFieldWidget(
+            controller: widget.textControllers[0],
             label: 'Nome',
             hintText: 'Digite seu primeiro nome',
             errorText: widget.controller.nameError,
@@ -79,6 +84,7 @@ class _WorkerRegisterPersonalDataState
         ),
         Observer(
           builder: (_) => TextFieldWidget(
+            controller: widget.textControllers[1],
             label: 'Sobrenome',
             hintText: 'Digite seu sobrenome',
             errorText: widget.controller.lastnameError,
@@ -88,7 +94,7 @@ class _WorkerRegisterPersonalDataState
         ),
         Observer(
           builder: (_) => TextFieldChangedWidget(
-            controller: birthDateEC,
+            controller: widget.textControllers[2],
             label: 'Data de Nascimento',
             hintText: 'Data de Nascimento',
             readOnly: true,
@@ -97,7 +103,7 @@ class _WorkerRegisterPersonalDataState
             onTap: () async {
               final result = await showDateDialog(widget.controller.birthdate);
               if (result != null) {
-                birthDateEC.text = result;
+                widget.textControllers[2].text = result;
                 widget.controller.setBirthdate(result);
               }
             },
@@ -105,6 +111,7 @@ class _WorkerRegisterPersonalDataState
         ),
         Observer(
           builder: (_) => TextFieldWidget(
+            controller: widget.textControllers[3],
             label: 'E-mail',
             hintText: 'Digite seu e-mail',
             errorText: widget.controller.emailError,

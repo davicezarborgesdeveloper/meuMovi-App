@@ -9,10 +9,10 @@ import '../../../../../core/ui/styles/text_styles.dart';
 import '../../../../../core/widget/movi_stepper.dart';
 import '../../../../../core/widget/register_success.dart';
 import '../../../../../models/worker_model.dart';
-import '../../../../auth/signup/workerRegister/widgets/worker_register_address_data.dart';
-import '../../../../auth/signup/workerRegister/widgets/worker_register_documents_data.dart';
-import '../../../../auth/signup/workerRegister/worker_register_controller.dart';
+import '../widgets/worker_register_address_data.dart';
+import '../widgets/worker_register_documents_data.dart';
 import '../widgets/worker_register_personal_data.dart';
+import 'worker_syndicate_register_controller.dart';
 
 class WorkerSyndicateRegisterPage extends StatefulWidget {
   final WorkerModel? worker;
@@ -25,9 +25,25 @@ class WorkerSyndicateRegisterPage extends StatefulWidget {
 
 class _WorkerSyndicateRegisterPageState
     extends State<WorkerSyndicateRegisterPage> with Loader, Messages {
-  final WorkerRegisterController controller = WorkerRegisterController();
+  final WorkerSyndicateRegisterController controller =
+      WorkerSyndicateRegisterController();
   late final ReactionDisposer statusDisposer;
   int _index = 0;
+  final nameEC = TextEditingController();
+  final lastnameEC = TextEditingController();
+  final birthDateEC = TextEditingController();
+  final emailEC = TextEditingController();
+  final cpfEC = TextEditingController();
+  final rgEC = TextEditingController();
+  final employeeEC = TextEditingController();
+  final zipEC = TextEditingController();
+  final cityEC = TextEditingController();
+  final stateEC = TextEditingController();
+  final streetEC = TextEditingController();
+  final districtEC = TextEditingController();
+  final numberEC = TextEditingController();
+  final complentEC = TextEditingController();
+  final referencePointEC = TextEditingController();
 
   @override
   void initState() {
@@ -35,24 +51,28 @@ class _WorkerSyndicateRegisterPageState
       controller.loadData(widget.worker!);
     }
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      statusDisposer = reaction((_) => controller.status, (status) {
+      statusDisposer = reaction((_) => controller.status, (status) async {
         switch (status) {
-          case WorkerRegisterStateStatus.initial:
+          case WorkerSyndicateRegisterStateStatus.initial:
             break;
-          case WorkerRegisterStateStatus.loading:
+          case WorkerSyndicateRegisterStateStatus.loading:
             showLoader();
             break;
-          case WorkerRegisterStateStatus.loaded:
+          case WorkerSyndicateRegisterStateStatus.loaded:
             hideLoader();
             break;
-          case WorkerRegisterStateStatus.saved:
+          case WorkerSyndicateRegisterStateStatus.saved:
             hideLoader();
-            showDialog(
+            final navigator = Navigator.of(context);
+            hideLoader();
+            await showDialog(
               context: context,
+              barrierDismissible: false,
               builder: (_) => const RegisterSuccess(),
             );
+            navigator.pop();
             break;
-          case WorkerRegisterStateStatus.error:
+          case WorkerSyndicateRegisterStateStatus.error:
             hideLoader();
             showError(controller.errorMessage ?? 'Erro');
             break;
@@ -64,6 +84,21 @@ class _WorkerSyndicateRegisterPageState
 
   @override
   void dispose() {
+    nameEC.dispose();
+    lastnameEC.dispose();
+    birthDateEC.dispose();
+    emailEC.dispose();
+    cpfEC.dispose();
+    rgEC.dispose();
+    employeeEC.dispose();
+    zipEC.dispose();
+    cityEC.dispose();
+    stateEC.dispose();
+    streetEC.dispose();
+    districtEC.dispose();
+    numberEC.dispose();
+    complentEC.dispose();
+    referencePointEC.dispose();
     statusDisposer();
     super.dispose();
   }
@@ -152,9 +187,27 @@ class _WorkerSyndicateRegisterPageState
                       ),
                     ),
                     steps: [
-                      WorkerRegisterPersonalData(controller),
-                      WorkerRegisterDocumentsData(controller),
-                      WorkerRegisterAddressData(controller),
+                      WorkerRegisterPersonalData(controller, [
+                        nameEC,
+                        lastnameEC,
+                        birthDateEC,
+                        emailEC,
+                      ]),
+                      WorkerRegisterDocumentsData(controller, [
+                        cpfEC,
+                        rgEC,
+                        employeeEC,
+                      ]),
+                      WorkerRegisterAddressData(controller, [
+                        zipEC,
+                        cityEC,
+                        stateEC,
+                        streetEC,
+                        districtEC,
+                        numberEC,
+                        complentEC,
+                        referencePointEC,
+                      ]),
                     ],
                   );
                 },

@@ -10,8 +10,11 @@ import '../../../../core/ui/helpers/messages.dart';
 import '../../../../core/ui/helpers/size_extensions.dart';
 import '../../../../core/ui/styles/colors_app.dart';
 import '../../../../core/ui/styles/text_styles.dart';
+import '../../../../core/widget/text_field_changed_widget.dart';
 import '../../../../core/widget/text_field_widget.dart';
-import 'service_taker_register_controller.dart';
+import '../../../../models/worker_model.dart';
+import '../../../base/worker/profile/documents/widgets/employeer_picker.dart';
+import 'service_taker_signup_controller.dart';
 
 class ServiceTakerRegisterPage extends StatefulWidget {
   const ServiceTakerRegisterPage({super.key});
@@ -23,29 +26,30 @@ class ServiceTakerRegisterPage extends StatefulWidget {
 
 class _ServiceTakerRegisterPageState extends State<ServiceTakerRegisterPage>
     with Loader, Messages {
-  final ServiceTakerRegisterController controller =
-      ServiceTakerRegisterController();
+  final ServiceTakerSignupController controller =
+      ServiceTakerSignupController();
   late final ReactionDisposer statusDisposer;
+  final employeerEC = TextEditingController();
 
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       statusDisposer = reaction((_) => controller.status, (status) {
         switch (status) {
-          case ServiceTakerRegisterStateStatus.initial:
+          case ServiceTakerSignupStateStatus.initial:
             break;
-          case ServiceTakerRegisterStateStatus.loading:
+          case ServiceTakerSignupStateStatus.loading:
             showLoader();
             break;
-          case ServiceTakerRegisterStateStatus.loaded:
+          case ServiceTakerSignupStateStatus.loaded:
             hideLoader();
             break;
-          case ServiceTakerRegisterStateStatus.saved:
+          case ServiceTakerSignupStateStatus.saved:
             hideLoader();
             Navigator.of(context)
                 .pushNamedAndRemoveUntil('/home', (route) => false);
             break;
-          case ServiceTakerRegisterStateStatus.error:
+          case ServiceTakerSignupStateStatus.error:
             hideLoader();
             showError(controller.errorMessage ?? 'Erro');
             break;
@@ -53,6 +57,18 @@ class _ServiceTakerRegisterPageState extends State<ServiceTakerRegisterPage>
       });
     });
     super.initState();
+  }
+
+  Future<EmployeerModel?> showDialogEmployeer() async {
+    final employeerResult = await showDialog(
+      context: context,
+      builder: (context) => const EmployeerPicker(),
+    );
+    if (employeerResult != null) {
+      return employeerResult;
+    } else {
+      return null;
+    }
   }
 
   @override
@@ -96,6 +112,23 @@ class _ServiceTakerRegisterPageState extends State<ServiceTakerRegisterPage>
                   errorText: controller.companyNameError,
                   onChanged: controller.setCompanyName,
                   initialValue: controller.companyName,
+                ),
+              ),
+              Observer(
+                builder: (_) => TextFieldChangedWidget(
+                  controller: employeerEC,
+                  label: 'Empregadora',
+                  hintText: '',
+                  readOnly: true,
+                  initialValue: controller.employeer?.name,
+                  // errorText: controller.employeerError,
+                  onTap: () async {
+                    final result = await showDialogEmployeer();
+                    if (result != null) {
+                      employeerEC.text = result.name;
+                      controller.setEmployeer(result);
+                    }
+                  },
                 ),
               ),
               Observer(
@@ -268,8 +301,6 @@ class _ServiceTakerRegisterPageState extends State<ServiceTakerRegisterPage>
                         ),
                       ),
                     ),
-                    // Text(
-                    //     'Termo de uso Eu li e aceito as condições de uso, as políticas de privacidade, políticas de cookies e sou maior de 18 anos.')
                   ],
                 ),
               ),

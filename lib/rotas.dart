@@ -5,7 +5,7 @@ import 'app/pages/auth/remember/remember_me_page.dart';
 import 'app/pages/auth/signup/service_taker/service_taker_register_page.dart';
 import 'app/pages/auth/signup/signup_menu_page.dart';
 import 'app/pages/auth/signup/syndicate/syndicate_register_page.dart';
-import 'app/pages/auth/signup/workerRegister/worker_register_page.dart';
+import 'app/pages/auth/signup/workerRegister/worker_signup_page.dart';
 import 'app/pages/base/base_page.dart';
 import 'app/pages/base/service_taker/profile/edit_data/service_taker_edit_data_page.dart';
 import 'app/pages/base/service_taker/profile/settings/service_taker_settings_page.dart';
@@ -31,7 +31,7 @@ class Rotas {
       case '/auth/signup/menu':
         return MaterialPageRoute(builder: (_) => const SignupMenuPage());
       case '/auth/signup/worker':
-        return MaterialPageRoute(builder: (_) => const WorkerRegisterPage());
+        return MaterialPageRoute(builder: (_) => const WorkerSignupPage());
       case '/auth/signup/serviceTaker':
         return MaterialPageRoute(
           builder: (_) => const ServiceTakerRegisterPage(),

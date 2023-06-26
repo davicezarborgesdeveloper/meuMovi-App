@@ -8,30 +8,44 @@ const String userCollection = 'users';
 
 class WorkerServiceImpl implements WorkerService {
   @override
-  Future<void> saveWorker(WorkerModel user) async {
+  Future<void> saveWorker(WorkerModel data) async {
     final store = FirebaseFirestore.instance;
-    final docRef = store.collection(userCollection).doc(user.user);
-    user = user.copyWith(
-      personal: user.personal.copyWith(
-        birthdate: DateFormat('yyyy-MM-dd')
-            .format(DateFormat('dd/MM/yyyy').parse(user.personal.birthdate)),
+    final docRef = store.collection(userCollection).doc(data.user);
+    late String? birthdate;
+    String? emissionDate = '';
+    try {
+      birthdate = DateFormat('yyyy-MM-dd')
+          .format(DateFormat('dd/MM/yyyy').parse(data.personal.birthdate));
+    } on FormatException {
+      birthdate = data.personal.birthdate;
+    }
+
+    if (data.documents.dataEmissao != null) {
+      try {
+        emissionDate = DateFormat('yyyy-MM-dd').format(
+          DateFormat('dd/MM/yyyy').parse(data.documents.dataEmissao!),
+        );
+      } on FormatException {
+        emissionDate = data.documents.dataEmissao!;
+      }
+    }
+
+    data = data.copyWith(
+      personal: data.personal.copyWith(
+        birthdate: birthdate,
       ),
-      documents: user.documents.copyWith(
-        dataEmissao: user.documents.dataEmissao != null
-            ? DateFormat('yyyy-MM-dd').format(
-                DateFormat('dd/MM/yyyy').parse(user.documents.dataEmissao!),
-              )
-            : null,
+      documents: data.documents.copyWith(
+        dataEmissao: emissionDate,
       ),
     );
 
-    docRef.set(user.toMap());
-    store.collection('login').doc(user.user).set({
-      'user': user.user,
-      'password': user.password,
-      'profileType': user.profileType,
-      'active': user.active,
-      'displayName': '${user.name} ${user.lastname}',
+    docRef.set(data.toMap());
+    store.collection('login').doc(data.user).set({
+      'user': data.user,
+      'password': data.password,
+      'profileType': data.profileType,
+      'active': data.active,
+      'displayName': '${data.name} ${data.lastname}',
     });
   }
 
@@ -40,16 +54,15 @@ class WorkerServiceImpl implements WorkerService {
     final store = FirebaseFirestore.instance;
     final docRef = store.collection(userCollection).doc(data.user);
     late String? birthdate;
-    late String? emissionDate;
+    String? emissionDate = '';
 
     try {
       birthdate = DateFormat('yyyy-MM-dd')
           .format(DateFormat('dd/MM/yyyy').parse(data.personal.birthdate));
     } on FormatException {
-      birthdate = DateFormat('yyyy-MM-dd')
-          .format(DateFormat('dd/MM/yyyy').parse(data.personal.birthdate));
-      birthdate = data.documents.dataEmissao!;
+      birthdate = data.personal.birthdate;
     }
+
     if (data.documents.dataEmissao != null) {
       try {
         emissionDate = DateFormat('yyyy-MM-dd').format(

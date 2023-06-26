@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../core/extensions/formatter_extensions.dart';
+import '../../../../../core/ui/helpers/size_extensions.dart';
 import '../../../../../core/ui/styles/colors_app.dart';
 import '../../../../../core/ui/styles/text_styles.dart';
 import '../../../../../models/service_taker_model.dart';
@@ -22,10 +23,10 @@ class ServiceTakerTile extends StatelessWidget {
           borderRadius: const BorderRadius.all(Radius.circular(12)),
         ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
                   serviceTaker.fantasyName,
@@ -84,12 +85,15 @@ class ServiceTakerTile extends StatelessWidget {
                       style: context.textStyles.textSemiBold,
                     ),
                     const SizedBox(height: 4),
-                    Text(
-                      serviceTaker.email,
-                      style:
-                          context.textStyles.textRegular.copyWith(fontSize: 12),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
+                    SizedBox(
+                      width: context.percentWidth(.5),
+                      child: Text(
+                        serviceTaker.email,
+                        style: context.textStyles.textRegular
+                            .copyWith(fontSize: 12),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                      ),
                     ),
                   ],
                 ),

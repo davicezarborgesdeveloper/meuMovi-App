@@ -5,11 +5,16 @@ import 'package:intl/intl.dart';
 import '../../../../../core/ui/styles/text_styles.dart';
 import '../../../../../core/widget/text_field_changed_widget.dart';
 import '../../../../../core/widget/text_field_widget.dart';
-import '../worker_register_controller.dart';
+import '../worker_signup_controller.dart';
 
 class WorkerSignupPersonalData extends StatefulWidget {
-  final WorkerRegisterController controller;
-  const WorkerSignupPersonalData(this.controller, {Key? key}) : super(key: key);
+  final WorkerSignupController controller;
+  final List<TextEditingController> textControllers;
+  const WorkerSignupPersonalData(
+    this.controller,
+    this.textControllers, {
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<WorkerSignupPersonalData> createState() =>
@@ -17,11 +22,8 @@ class WorkerSignupPersonalData extends StatefulWidget {
 }
 
 class _WorkerSignupPersonalDataState extends State<WorkerSignupPersonalData> {
-  final birthDateEC = TextEditingController();
-
   @override
   void dispose() {
-    birthDateEC.dispose();
     super.dispose();
   }
 
@@ -68,6 +70,7 @@ class _WorkerSignupPersonalDataState extends State<WorkerSignupPersonalData> {
         ),
         Observer(
           builder: (_) => TextFieldWidget(
+            controller: widget.textControllers[0],
             label: 'Nome',
             hintText: 'Digite seu primeiro nome',
             errorText: widget.controller.nameError,
@@ -77,6 +80,7 @@ class _WorkerSignupPersonalDataState extends State<WorkerSignupPersonalData> {
         ),
         Observer(
           builder: (_) => TextFieldWidget(
+            controller: widget.textControllers[1],
             label: 'Sobrenome',
             hintText: 'Digite seu sobrenome',
             errorText: widget.controller.lastnameError,
@@ -86,7 +90,7 @@ class _WorkerSignupPersonalDataState extends State<WorkerSignupPersonalData> {
         ),
         Observer(
           builder: (_) => TextFieldChangedWidget(
-            controller: birthDateEC,
+            controller: widget.textControllers[2],
             label: 'Data de Nascimento',
             hintText: 'Data de Nascimento',
             readOnly: true,
@@ -95,7 +99,7 @@ class _WorkerSignupPersonalDataState extends State<WorkerSignupPersonalData> {
             onTap: () async {
               final result = await showDateDialog(widget.controller.birthdate);
               if (result != null) {
-                birthDateEC.text = result;
+                widget.textControllers[2].text = result;
                 widget.controller.setBirthdate(result);
               }
             },
@@ -103,6 +107,7 @@ class _WorkerSignupPersonalDataState extends State<WorkerSignupPersonalData> {
         ),
         Observer(
           builder: (_) => TextFieldWidget(
+            controller: widget.textControllers[3],
             label: 'E-mail',
             hintText: 'Digite seu e-mail',
             errorText: widget.controller.emailError,
@@ -113,6 +118,7 @@ class _WorkerSignupPersonalDataState extends State<WorkerSignupPersonalData> {
         ),
         Observer(
           builder: (_) => TextFieldWidget(
+            controller: widget.textControllers[4],
             label: 'Senha',
             hintText: 'Crie uma senha',
             errorText: widget.controller.passwordError,
@@ -123,6 +129,7 @@ class _WorkerSignupPersonalDataState extends State<WorkerSignupPersonalData> {
         ),
         Observer(
           builder: (_) => TextFieldWidget(
+            controller: widget.textControllers[5],
             label: 'Confirmar a senha',
             hintText: 'Confirme sua senha',
             errorText: widget.controller.retypePassError,

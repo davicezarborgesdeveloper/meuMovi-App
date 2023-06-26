@@ -9,30 +9,25 @@ import '../../../../../core/ui/styles/colors_app.dart';
 import '../../../../../core/ui/styles/text_styles.dart';
 import '../../../../../core/widget/text_field_changed_widget.dart';
 import '../../../../../core/widget/text_field_widget.dart';
-import '../worker_register_controller.dart';
+import '../worker_signup_controller.dart';
 
-class WorkerRegisterAddressData extends StatefulWidget {
-  final WorkerRegisterController controller;
-  const WorkerRegisterAddressData(this.controller, {Key? key})
-      : super(key: key);
+class WorkerSignupAddressData extends StatefulWidget {
+  final WorkerSignupController controller;
+  final List<TextEditingController> textControllers;
+  const WorkerSignupAddressData(
+    this.controller,
+    this.textControllers, {
+    Key? key,
+  }) : super(key: key);
 
   @override
-  State<WorkerRegisterAddressData> createState() =>
-      _WorkerRegisterAddressDataState();
+  State<WorkerSignupAddressData> createState() =>
+      _WorkerSignupAddressDataState();
 }
 
-class _WorkerRegisterAddressDataState extends State<WorkerRegisterAddressData> {
-  final cityEC = TextEditingController();
-  final stateEC = TextEditingController();
-  final streetEC = TextEditingController();
-  final districtEC = TextEditingController();
-
+class _WorkerSignupAddressDataState extends State<WorkerSignupAddressData> {
   @override
   void dispose() {
-    cityEC.dispose();
-    stateEC.dispose();
-    streetEC.dispose();
-    districtEC.dispose();
     super.dispose();
   }
 
@@ -67,10 +62,10 @@ class _WorkerRegisterAddressDataState extends State<WorkerRegisterAddressData> {
               widget.controller.setZip(value);
               if (value.length >= 10) {
                 await widget.controller.searchZip(value);
-                cityEC.text = widget.controller.city!;
-                stateEC.text = widget.controller.state!;
-                streetEC.text = widget.controller.street!;
-                districtEC.text = widget.controller.district!;
+                widget.textControllers[1].text = widget.controller.city!;
+                widget.textControllers[2].text = widget.controller.state!;
+                widget.textControllers[3].text = widget.controller.street!;
+                widget.textControllers[4].text = widget.controller.district!;
               }
             },
             initialValue: widget.controller.zip,
@@ -84,7 +79,7 @@ class _WorkerRegisterAddressDataState extends State<WorkerRegisterAddressData> {
         Observer(
           builder: (_) {
             return TextFieldChangedWidget(
-              controller: cityEC,
+              controller: widget.textControllers[1],
               label: 'Cidade',
               hintText: 'Cidade',
               readOnly: true,
@@ -96,7 +91,7 @@ class _WorkerRegisterAddressDataState extends State<WorkerRegisterAddressData> {
         Observer(
           builder: (_) {
             return TextFieldChangedWidget(
-              controller: stateEC,
+              controller: widget.textControllers[2],
               label: 'Estado',
               hintText: 'Estado',
               readOnly: true,
@@ -108,7 +103,7 @@ class _WorkerRegisterAddressDataState extends State<WorkerRegisterAddressData> {
         Observer(
           builder: (_) {
             return TextFieldChangedWidget(
-              controller: streetEC,
+              controller: widget.textControllers[3],
               label: 'Rua',
               hintText: 'Digite o nome da sua rua',
               readOnly: false,
@@ -120,7 +115,7 @@ class _WorkerRegisterAddressDataState extends State<WorkerRegisterAddressData> {
         Observer(
           builder: (_) {
             return TextFieldChangedWidget(
-              controller: districtEC,
+              controller: widget.textControllers[4],
               label: 'Bairro',
               hintText: 'Digite o nome do seu bairro',
               readOnly: false,
@@ -143,6 +138,7 @@ class _WorkerRegisterAddressDataState extends State<WorkerRegisterAddressData> {
                     ),
                     const SizedBox(height: 8),
                     TextFormField(
+                      controller: widget.textControllers[5],
                       onChanged: widget.controller.setNumber,
                       decoration: const InputDecoration(hintText: 'Número'),
                     ),
@@ -162,6 +158,7 @@ class _WorkerRegisterAddressDataState extends State<WorkerRegisterAddressData> {
                     ),
                     const SizedBox(height: 8),
                     TextFormField(
+                      controller: widget.textControllers[6],
                       onChanged: widget.controller.setComplement,
                       decoration:
                           const InputDecoration(hintText: 'Bloco, apto...'),
@@ -174,6 +171,7 @@ class _WorkerRegisterAddressDataState extends State<WorkerRegisterAddressData> {
         ),
         Observer(
           builder: (_) => TextFieldWidget(
+            controller: widget.textControllers[7],
             label: 'Ponto de referência',
             hintText: 'Digite um ponto de referência',
             onChanged: widget.controller.setReferencePoint,

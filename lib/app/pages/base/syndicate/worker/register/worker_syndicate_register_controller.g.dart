@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'worker_register_controller.dart';
+part of 'worker_syndicate_register_controller.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -8,118 +8,121 @@ part of 'worker_register_controller.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
-mixin _$WorkerRegisterController on WorkerRegisterControllerBase, Store {
+mixin _$WorkerSyndicateRegisterController
+    on WorkerSyndicateRegisterControllerBase, Store {
   Computed<bool>? _$nameValidComputed;
 
   @override
   bool get nameValid =>
       (_$nameValidComputed ??= Computed<bool>(() => super.nameValid,
-              name: 'WorkerRegisterControllerBase.nameValid'))
+              name: 'WorkerSyndicateRegisterControllerBase.nameValid'))
           .value;
   Computed<bool>? _$lastnameValidComputed;
 
   @override
   bool get lastnameValid =>
       (_$lastnameValidComputed ??= Computed<bool>(() => super.lastnameValid,
-              name: 'WorkerRegisterControllerBase.lastnameValid'))
+              name: 'WorkerSyndicateRegisterControllerBase.lastnameValid'))
           .value;
   Computed<bool>? _$birthdateValidComputed;
 
   @override
   bool get birthdateValid =>
       (_$birthdateValidComputed ??= Computed<bool>(() => super.birthdateValid,
-              name: 'WorkerRegisterControllerBase.birthdateValid'))
+              name: 'WorkerSyndicateRegisterControllerBase.birthdateValid'))
           .value;
   Computed<bool>? _$emailValidComputed;
 
   @override
   bool get emailValid =>
       (_$emailValidComputed ??= Computed<bool>(() => super.emailValid,
-              name: 'WorkerRegisterControllerBase.emailValid'))
+              name: 'WorkerSyndicateRegisterControllerBase.emailValid'))
           .value;
   Computed<bool>? _$passwordValidComputed;
 
   @override
   bool get passwordValid =>
       (_$passwordValidComputed ??= Computed<bool>(() => super.passwordValid,
-              name: 'WorkerRegisterControllerBase.passwordValid'))
+              name: 'WorkerSyndicateRegisterControllerBase.passwordValid'))
           .value;
   Computed<bool>? _$retypePassValidComputed;
 
   @override
   bool get retypePassValid =>
       (_$retypePassValidComputed ??= Computed<bool>(() => super.retypePassValid,
-              name: 'WorkerRegisterControllerBase.retypePassValid'))
+              name: 'WorkerSyndicateRegisterControllerBase.retypePassValid'))
           .value;
   Computed<bool>? _$cpfValidComputed;
 
   @override
   bool get cpfValid =>
       (_$cpfValidComputed ??= Computed<bool>(() => super.cpfValid,
-              name: 'WorkerRegisterControllerBase.cpfValid'))
+              name: 'WorkerSyndicateRegisterControllerBase.cpfValid'))
           .value;
   Computed<bool>? _$rgValidComputed;
 
   @override
   bool get rgValid => (_$rgValidComputed ??= Computed<bool>(() => super.rgValid,
-          name: 'WorkerRegisterControllerBase.rgValid'))
+          name: 'WorkerSyndicateRegisterControllerBase.rgValid'))
       .value;
   Computed<bool>? _$zipValidComputed;
 
   @override
   bool get zipValid =>
       (_$zipValidComputed ??= Computed<bool>(() => super.zipValid,
-              name: 'WorkerRegisterControllerBase.zipValid'))
+              name: 'WorkerSyndicateRegisterControllerBase.zipValid'))
           .value;
   Computed<bool>? _$isFormValidSignupComputed;
 
   @override
   bool get isFormValidSignup => (_$isFormValidSignupComputed ??= Computed<bool>(
           () => super.isFormValidSignup,
-          name: 'WorkerRegisterControllerBase.isFormValidSignup'))
+          name: 'WorkerSyndicateRegisterControllerBase.isFormValidSignup'))
       .value;
   Computed<bool>? _$isFormValidRegisterComputed;
 
   @override
   bool get isFormValidRegister => (_$isFormValidRegisterComputed ??=
           Computed<bool>(() => super.isFormValidRegister,
-              name: 'WorkerRegisterControllerBase.isFormValidRegister'))
+              name:
+                  'WorkerSyndicateRegisterControllerBase.isFormValidRegister'))
       .value;
   Computed<bool>? _$isFormValid2Computed;
 
   @override
   bool get isFormValid2 =>
       (_$isFormValid2Computed ??= Computed<bool>(() => super.isFormValid2,
-              name: 'WorkerRegisterControllerBase.isFormValid2'))
+              name: 'WorkerSyndicateRegisterControllerBase.isFormValid2'))
           .value;
   Computed<bool>? _$isFormValid3Computed;
 
   @override
   bool get isFormValid3 =>
       (_$isFormValid3Computed ??= Computed<bool>(() => super.isFormValid3,
-              name: 'WorkerRegisterControllerBase.isFormValid3'))
+              name: 'WorkerSyndicateRegisterControllerBase.isFormValid3'))
           .value;
 
-  late final _$_statusAtom =
-      Atom(name: 'WorkerRegisterControllerBase._status', context: context);
+  late final _$_statusAtom = Atom(
+      name: 'WorkerSyndicateRegisterControllerBase._status', context: context);
 
-  WorkerRegisterStateStatus get status {
+  WorkerSyndicateRegisterStateStatus get status {
     _$_statusAtom.reportRead();
     return super._status;
   }
 
   @override
-  WorkerRegisterStateStatus get _status => status;
+  WorkerSyndicateRegisterStateStatus get _status => status;
 
   @override
-  set _status(WorkerRegisterStateStatus value) {
+  set _status(WorkerSyndicateRegisterStateStatus value) {
     _$_statusAtom.reportWrite(value, super._status, () {
       super._status = value;
     });
   }
 
   late final _$_errorMessageAtom = Atom(
-      name: 'WorkerRegisterControllerBase._errorMessage', context: context);
+      name: 'WorkerSyndicateRegisterControllerBase._errorMessage',
+      context: context);
 
   String? get errorMessage {
     _$_errorMessageAtom.reportRead();
@@ -136,8 +139,9 @@ mixin _$WorkerRegisterController on WorkerRegisterControllerBase, Store {
     });
   }
 
-  late final _$_showErrorsAtom =
-      Atom(name: 'WorkerRegisterControllerBase._showErrors', context: context);
+  late final _$_showErrorsAtom = Atom(
+      name: 'WorkerSyndicateRegisterControllerBase._showErrors',
+      context: context);
 
   bool get showErrors {
     _$_showErrorsAtom.reportRead();
@@ -154,8 +158,8 @@ mixin _$WorkerRegisterController on WorkerRegisterControllerBase, Store {
     });
   }
 
-  late final _$nameAtom =
-      Atom(name: 'WorkerRegisterControllerBase.name', context: context);
+  late final _$nameAtom = Atom(
+      name: 'WorkerSyndicateRegisterControllerBase.name', context: context);
 
   @override
   String? get name {
@@ -170,8 +174,8 @@ mixin _$WorkerRegisterController on WorkerRegisterControllerBase, Store {
     });
   }
 
-  late final _$lastnameAtom =
-      Atom(name: 'WorkerRegisterControllerBase.lastname', context: context);
+  late final _$lastnameAtom = Atom(
+      name: 'WorkerSyndicateRegisterControllerBase.lastname', context: context);
 
   @override
   String? get lastname {
@@ -186,8 +190,9 @@ mixin _$WorkerRegisterController on WorkerRegisterControllerBase, Store {
     });
   }
 
-  late final _$birthdateAtom =
-      Atom(name: 'WorkerRegisterControllerBase.birthdate', context: context);
+  late final _$birthdateAtom = Atom(
+      name: 'WorkerSyndicateRegisterControllerBase.birthdate',
+      context: context);
 
   @override
   String? get birthdate {
@@ -202,8 +207,8 @@ mixin _$WorkerRegisterController on WorkerRegisterControllerBase, Store {
     });
   }
 
-  late final _$emailAtom =
-      Atom(name: 'WorkerRegisterControllerBase.email', context: context);
+  late final _$emailAtom = Atom(
+      name: 'WorkerSyndicateRegisterControllerBase.email', context: context);
 
   @override
   String? get email {
@@ -218,8 +223,8 @@ mixin _$WorkerRegisterController on WorkerRegisterControllerBase, Store {
     });
   }
 
-  late final _$passwordAtom =
-      Atom(name: 'WorkerRegisterControllerBase.password', context: context);
+  late final _$passwordAtom = Atom(
+      name: 'WorkerSyndicateRegisterControllerBase.password', context: context);
 
   @override
   String? get password {
@@ -234,8 +239,9 @@ mixin _$WorkerRegisterController on WorkerRegisterControllerBase, Store {
     });
   }
 
-  late final _$retypePassAtom =
-      Atom(name: 'WorkerRegisterControllerBase.retypePass', context: context);
+  late final _$retypePassAtom = Atom(
+      name: 'WorkerSyndicateRegisterControllerBase.retypePass',
+      context: context);
 
   @override
   String? get retypePass {
@@ -251,7 +257,7 @@ mixin _$WorkerRegisterController on WorkerRegisterControllerBase, Store {
   }
 
   late final _$cpfAtom =
-      Atom(name: 'WorkerRegisterControllerBase.cpf', context: context);
+      Atom(name: 'WorkerSyndicateRegisterControllerBase.cpf', context: context);
 
   @override
   String? get cpf {
@@ -267,7 +273,7 @@ mixin _$WorkerRegisterController on WorkerRegisterControllerBase, Store {
   }
 
   late final _$rgAtom =
-      Atom(name: 'WorkerRegisterControllerBase.rg', context: context);
+      Atom(name: 'WorkerSyndicateRegisterControllerBase.rg', context: context);
 
   @override
   String? get rg {
@@ -282,8 +288,9 @@ mixin _$WorkerRegisterController on WorkerRegisterControllerBase, Store {
     });
   }
 
-  late final _$employeerAtom =
-      Atom(name: 'WorkerRegisterControllerBase.employeer', context: context);
+  late final _$employeerAtom = Atom(
+      name: 'WorkerSyndicateRegisterControllerBase.employeer',
+      context: context);
 
   @override
   EmployeerModel? get employeer {
@@ -299,7 +306,7 @@ mixin _$WorkerRegisterController on WorkerRegisterControllerBase, Store {
   }
 
   late final _$zipAtom =
-      Atom(name: 'WorkerRegisterControllerBase.zip', context: context);
+      Atom(name: 'WorkerSyndicateRegisterControllerBase.zip', context: context);
 
   @override
   String? get zip {
@@ -314,8 +321,8 @@ mixin _$WorkerRegisterController on WorkerRegisterControllerBase, Store {
     });
   }
 
-  late final _$cityAtom =
-      Atom(name: 'WorkerRegisterControllerBase.city', context: context);
+  late final _$cityAtom = Atom(
+      name: 'WorkerSyndicateRegisterControllerBase.city', context: context);
 
   @override
   String? get city {
@@ -330,8 +337,8 @@ mixin _$WorkerRegisterController on WorkerRegisterControllerBase, Store {
     });
   }
 
-  late final _$stateAtom =
-      Atom(name: 'WorkerRegisterControllerBase.state', context: context);
+  late final _$stateAtom = Atom(
+      name: 'WorkerSyndicateRegisterControllerBase.state', context: context);
 
   @override
   String? get state {
@@ -346,8 +353,8 @@ mixin _$WorkerRegisterController on WorkerRegisterControllerBase, Store {
     });
   }
 
-  late final _$streetAtom =
-      Atom(name: 'WorkerRegisterControllerBase.street', context: context);
+  late final _$streetAtom = Atom(
+      name: 'WorkerSyndicateRegisterControllerBase.street', context: context);
 
   @override
   String? get street {
@@ -362,8 +369,8 @@ mixin _$WorkerRegisterController on WorkerRegisterControllerBase, Store {
     });
   }
 
-  late final _$districtAtom =
-      Atom(name: 'WorkerRegisterControllerBase.district', context: context);
+  late final _$districtAtom = Atom(
+      name: 'WorkerSyndicateRegisterControllerBase.district', context: context);
 
   @override
   String? get district {
@@ -378,8 +385,8 @@ mixin _$WorkerRegisterController on WorkerRegisterControllerBase, Store {
     });
   }
 
-  late final _$numberAtom =
-      Atom(name: 'WorkerRegisterControllerBase.number', context: context);
+  late final _$numberAtom = Atom(
+      name: 'WorkerSyndicateRegisterControllerBase.number', context: context);
 
   @override
   String? get number {
@@ -394,8 +401,9 @@ mixin _$WorkerRegisterController on WorkerRegisterControllerBase, Store {
     });
   }
 
-  late final _$complementAtom =
-      Atom(name: 'WorkerRegisterControllerBase.complement', context: context);
+  late final _$complementAtom = Atom(
+      name: 'WorkerSyndicateRegisterControllerBase.complement',
+      context: context);
 
   @override
   String? get complement {
@@ -411,7 +419,8 @@ mixin _$WorkerRegisterController on WorkerRegisterControllerBase, Store {
   }
 
   late final _$referencePointAtom = Atom(
-      name: 'WorkerRegisterControllerBase.referencePoint', context: context);
+      name: 'WorkerSyndicateRegisterControllerBase.referencePoint',
+      context: context);
 
   @override
   String? get referencePoint {
@@ -427,7 +436,8 @@ mixin _$WorkerRegisterController on WorkerRegisterControllerBase, Store {
   }
 
   late final _$termsAcceptedAtom = Atom(
-      name: 'WorkerRegisterControllerBase.termsAccepted', context: context);
+      name: 'WorkerSyndicateRegisterControllerBase.termsAccepted',
+      context: context);
 
   @override
   bool get termsAccepted {
@@ -442,8 +452,9 @@ mixin _$WorkerRegisterController on WorkerRegisterControllerBase, Store {
     });
   }
 
-  late final _$searchZipAsyncAction =
-      AsyncAction('WorkerRegisterControllerBase.searchZip', context: context);
+  late final _$searchZipAsyncAction = AsyncAction(
+      'WorkerSyndicateRegisterControllerBase.searchZip',
+      context: context);
 
   @override
   Future<void> searchZip(String zipFilter) {
@@ -451,7 +462,7 @@ mixin _$WorkerRegisterController on WorkerRegisterControllerBase, Store {
   }
 
   late final _$setDefaultPasswordAsyncAction = AsyncAction(
-      'WorkerRegisterControllerBase.setDefaultPassword',
+      'WorkerSyndicateRegisterControllerBase.setDefaultPassword',
       context: context);
 
   @override
@@ -460,234 +471,264 @@ mixin _$WorkerRegisterController on WorkerRegisterControllerBase, Store {
         .run(() => super.setDefaultPassword());
   }
 
-  late final _$registerAsyncAction =
-      AsyncAction('WorkerRegisterControllerBase.register', context: context);
+  late final _$registerAsyncAction = AsyncAction(
+      'WorkerSyndicateRegisterControllerBase.register',
+      context: context);
 
   @override
   Future<void> register() {
     return _$registerAsyncAction.run(() => super.register());
   }
 
-  late final _$WorkerRegisterControllerBaseActionController =
-      ActionController(name: 'WorkerRegisterControllerBase', context: context);
+  late final _$WorkerSyndicateRegisterControllerBaseActionController =
+      ActionController(
+          name: 'WorkerSyndicateRegisterControllerBase', context: context);
 
   @override
   void setName(String value) {
-    final _$actionInfo = _$WorkerRegisterControllerBaseActionController
-        .startAction(name: 'WorkerRegisterControllerBase.setName');
+    final _$actionInfo = _$WorkerSyndicateRegisterControllerBaseActionController
+        .startAction(name: 'WorkerSyndicateRegisterControllerBase.setName');
     try {
       return super.setName(value);
     } finally {
-      _$WorkerRegisterControllerBaseActionController.endAction(_$actionInfo);
+      _$WorkerSyndicateRegisterControllerBaseActionController
+          .endAction(_$actionInfo);
     }
   }
 
   @override
   void setLastname(String value) {
-    final _$actionInfo = _$WorkerRegisterControllerBaseActionController
-        .startAction(name: 'WorkerRegisterControllerBase.setLastname');
+    final _$actionInfo = _$WorkerSyndicateRegisterControllerBaseActionController
+        .startAction(name: 'WorkerSyndicateRegisterControllerBase.setLastname');
     try {
       return super.setLastname(value);
     } finally {
-      _$WorkerRegisterControllerBaseActionController.endAction(_$actionInfo);
+      _$WorkerSyndicateRegisterControllerBaseActionController
+          .endAction(_$actionInfo);
     }
   }
 
   @override
   void setBirthdate(String value) {
-    final _$actionInfo = _$WorkerRegisterControllerBaseActionController
-        .startAction(name: 'WorkerRegisterControllerBase.setBirthdate');
+    final _$actionInfo =
+        _$WorkerSyndicateRegisterControllerBaseActionController.startAction(
+            name: 'WorkerSyndicateRegisterControllerBase.setBirthdate');
     try {
       return super.setBirthdate(value);
     } finally {
-      _$WorkerRegisterControllerBaseActionController.endAction(_$actionInfo);
+      _$WorkerSyndicateRegisterControllerBaseActionController
+          .endAction(_$actionInfo);
     }
   }
 
   @override
   void setEmail(String value) {
-    final _$actionInfo = _$WorkerRegisterControllerBaseActionController
-        .startAction(name: 'WorkerRegisterControllerBase.setEmail');
+    final _$actionInfo = _$WorkerSyndicateRegisterControllerBaseActionController
+        .startAction(name: 'WorkerSyndicateRegisterControllerBase.setEmail');
     try {
       return super.setEmail(value);
     } finally {
-      _$WorkerRegisterControllerBaseActionController.endAction(_$actionInfo);
+      _$WorkerSyndicateRegisterControllerBaseActionController
+          .endAction(_$actionInfo);
     }
   }
 
   @override
   void setPassword(String value) {
-    final _$actionInfo = _$WorkerRegisterControllerBaseActionController
-        .startAction(name: 'WorkerRegisterControllerBase.setPassword');
+    final _$actionInfo = _$WorkerSyndicateRegisterControllerBaseActionController
+        .startAction(name: 'WorkerSyndicateRegisterControllerBase.setPassword');
     try {
       return super.setPassword(value);
     } finally {
-      _$WorkerRegisterControllerBaseActionController.endAction(_$actionInfo);
+      _$WorkerSyndicateRegisterControllerBaseActionController
+          .endAction(_$actionInfo);
     }
   }
 
   @override
   void setRetypePass(String value) {
-    final _$actionInfo = _$WorkerRegisterControllerBaseActionController
-        .startAction(name: 'WorkerRegisterControllerBase.setRetypePass');
+    final _$actionInfo =
+        _$WorkerSyndicateRegisterControllerBaseActionController.startAction(
+            name: 'WorkerSyndicateRegisterControllerBase.setRetypePass');
     try {
       return super.setRetypePass(value);
     } finally {
-      _$WorkerRegisterControllerBaseActionController.endAction(_$actionInfo);
+      _$WorkerSyndicateRegisterControllerBaseActionController
+          .endAction(_$actionInfo);
     }
   }
 
   @override
   void setCPF(String value) {
-    final _$actionInfo = _$WorkerRegisterControllerBaseActionController
-        .startAction(name: 'WorkerRegisterControllerBase.setCPF');
+    final _$actionInfo = _$WorkerSyndicateRegisterControllerBaseActionController
+        .startAction(name: 'WorkerSyndicateRegisterControllerBase.setCPF');
     try {
       return super.setCPF(value);
     } finally {
-      _$WorkerRegisterControllerBaseActionController.endAction(_$actionInfo);
+      _$WorkerSyndicateRegisterControllerBaseActionController
+          .endAction(_$actionInfo);
     }
   }
 
   @override
   void setRG(String value) {
-    final _$actionInfo = _$WorkerRegisterControllerBaseActionController
-        .startAction(name: 'WorkerRegisterControllerBase.setRG');
+    final _$actionInfo = _$WorkerSyndicateRegisterControllerBaseActionController
+        .startAction(name: 'WorkerSyndicateRegisterControllerBase.setRG');
     try {
       return super.setRG(value);
     } finally {
-      _$WorkerRegisterControllerBaseActionController.endAction(_$actionInfo);
+      _$WorkerSyndicateRegisterControllerBaseActionController
+          .endAction(_$actionInfo);
     }
   }
 
   @override
   void setEmployeer(EmployeerModel? value) {
-    final _$actionInfo = _$WorkerRegisterControllerBaseActionController
-        .startAction(name: 'WorkerRegisterControllerBase.setEmployeer');
+    final _$actionInfo =
+        _$WorkerSyndicateRegisterControllerBaseActionController.startAction(
+            name: 'WorkerSyndicateRegisterControllerBase.setEmployeer');
     try {
       return super.setEmployeer(value);
     } finally {
-      _$WorkerRegisterControllerBaseActionController.endAction(_$actionInfo);
+      _$WorkerSyndicateRegisterControllerBaseActionController
+          .endAction(_$actionInfo);
     }
   }
 
   @override
   void invalidSendPressed() {
-    final _$actionInfo = _$WorkerRegisterControllerBaseActionController
-        .startAction(name: 'WorkerRegisterControllerBase.invalidSendPressed');
+    final _$actionInfo =
+        _$WorkerSyndicateRegisterControllerBaseActionController.startAction(
+            name: 'WorkerSyndicateRegisterControllerBase.invalidSendPressed');
     try {
       return super.invalidSendPressed();
     } finally {
-      _$WorkerRegisterControllerBaseActionController.endAction(_$actionInfo);
+      _$WorkerSyndicateRegisterControllerBaseActionController
+          .endAction(_$actionInfo);
     }
   }
 
   @override
   void sendPressedNewPage() {
-    final _$actionInfo = _$WorkerRegisterControllerBaseActionController
-        .startAction(name: 'WorkerRegisterControllerBase.sendPressedNewPage');
+    final _$actionInfo =
+        _$WorkerSyndicateRegisterControllerBaseActionController.startAction(
+            name: 'WorkerSyndicateRegisterControllerBase.sendPressedNewPage');
     try {
       return super.sendPressedNewPage();
     } finally {
-      _$WorkerRegisterControllerBaseActionController.endAction(_$actionInfo);
+      _$WorkerSyndicateRegisterControllerBaseActionController
+          .endAction(_$actionInfo);
     }
   }
 
   @override
   void setZip(String value) {
-    final _$actionInfo = _$WorkerRegisterControllerBaseActionController
-        .startAction(name: 'WorkerRegisterControllerBase.setZip');
+    final _$actionInfo = _$WorkerSyndicateRegisterControllerBaseActionController
+        .startAction(name: 'WorkerSyndicateRegisterControllerBase.setZip');
     try {
       return super.setZip(value);
     } finally {
-      _$WorkerRegisterControllerBaseActionController.endAction(_$actionInfo);
+      _$WorkerSyndicateRegisterControllerBaseActionController
+          .endAction(_$actionInfo);
     }
   }
 
   @override
   void setCity(String value) {
-    final _$actionInfo = _$WorkerRegisterControllerBaseActionController
-        .startAction(name: 'WorkerRegisterControllerBase.setCity');
+    final _$actionInfo = _$WorkerSyndicateRegisterControllerBaseActionController
+        .startAction(name: 'WorkerSyndicateRegisterControllerBase.setCity');
     try {
       return super.setCity(value);
     } finally {
-      _$WorkerRegisterControllerBaseActionController.endAction(_$actionInfo);
+      _$WorkerSyndicateRegisterControllerBaseActionController
+          .endAction(_$actionInfo);
     }
   }
 
   @override
   void setState(String value) {
-    final _$actionInfo = _$WorkerRegisterControllerBaseActionController
-        .startAction(name: 'WorkerRegisterControllerBase.setState');
+    final _$actionInfo = _$WorkerSyndicateRegisterControllerBaseActionController
+        .startAction(name: 'WorkerSyndicateRegisterControllerBase.setState');
     try {
       return super.setState(value);
     } finally {
-      _$WorkerRegisterControllerBaseActionController.endAction(_$actionInfo);
+      _$WorkerSyndicateRegisterControllerBaseActionController
+          .endAction(_$actionInfo);
     }
   }
 
   @override
   void setStreet(String value) {
-    final _$actionInfo = _$WorkerRegisterControllerBaseActionController
-        .startAction(name: 'WorkerRegisterControllerBase.setStreet');
+    final _$actionInfo = _$WorkerSyndicateRegisterControllerBaseActionController
+        .startAction(name: 'WorkerSyndicateRegisterControllerBase.setStreet');
     try {
       return super.setStreet(value);
     } finally {
-      _$WorkerRegisterControllerBaseActionController.endAction(_$actionInfo);
+      _$WorkerSyndicateRegisterControllerBaseActionController
+          .endAction(_$actionInfo);
     }
   }
 
   @override
   void setDistrict(String value) {
-    final _$actionInfo = _$WorkerRegisterControllerBaseActionController
-        .startAction(name: 'WorkerRegisterControllerBase.setDistrict');
+    final _$actionInfo = _$WorkerSyndicateRegisterControllerBaseActionController
+        .startAction(name: 'WorkerSyndicateRegisterControllerBase.setDistrict');
     try {
       return super.setDistrict(value);
     } finally {
-      _$WorkerRegisterControllerBaseActionController.endAction(_$actionInfo);
+      _$WorkerSyndicateRegisterControllerBaseActionController
+          .endAction(_$actionInfo);
     }
   }
 
   @override
   void setNumber(String value) {
-    final _$actionInfo = _$WorkerRegisterControllerBaseActionController
-        .startAction(name: 'WorkerRegisterControllerBase.setNumber');
+    final _$actionInfo = _$WorkerSyndicateRegisterControllerBaseActionController
+        .startAction(name: 'WorkerSyndicateRegisterControllerBase.setNumber');
     try {
       return super.setNumber(value);
     } finally {
-      _$WorkerRegisterControllerBaseActionController.endAction(_$actionInfo);
+      _$WorkerSyndicateRegisterControllerBaseActionController
+          .endAction(_$actionInfo);
     }
   }
 
   @override
   void setComplement(String value) {
-    final _$actionInfo = _$WorkerRegisterControllerBaseActionController
-        .startAction(name: 'WorkerRegisterControllerBase.setComplement');
+    final _$actionInfo =
+        _$WorkerSyndicateRegisterControllerBaseActionController.startAction(
+            name: 'WorkerSyndicateRegisterControllerBase.setComplement');
     try {
       return super.setComplement(value);
     } finally {
-      _$WorkerRegisterControllerBaseActionController.endAction(_$actionInfo);
+      _$WorkerSyndicateRegisterControllerBaseActionController
+          .endAction(_$actionInfo);
     }
   }
 
   @override
   void setReferencePoint(String value) {
-    final _$actionInfo = _$WorkerRegisterControllerBaseActionController
-        .startAction(name: 'WorkerRegisterControllerBase.setReferencePoint');
+    final _$actionInfo =
+        _$WorkerSyndicateRegisterControllerBaseActionController.startAction(
+            name: 'WorkerSyndicateRegisterControllerBase.setReferencePoint');
     try {
       return super.setReferencePoint(value);
     } finally {
-      _$WorkerRegisterControllerBaseActionController.endAction(_$actionInfo);
+      _$WorkerSyndicateRegisterControllerBaseActionController
+          .endAction(_$actionInfo);
     }
   }
 
   @override
   void setTermsAccepted(bool value) {
-    final _$actionInfo = _$WorkerRegisterControllerBaseActionController
-        .startAction(name: 'WorkerRegisterControllerBase.setTermsAccepted');
+    final _$actionInfo =
+        _$WorkerSyndicateRegisterControllerBaseActionController.startAction(
+            name: 'WorkerSyndicateRegisterControllerBase.setTermsAccepted');
     try {
       return super.setTermsAccepted(value);
     } finally {
-      _$WorkerRegisterControllerBaseActionController.endAction(_$actionInfo);
+      _$WorkerSyndicateRegisterControllerBaseActionController
+          .endAction(_$actionInfo);
     }
   }
 

@@ -9,9 +9,12 @@ import '../../../../../core/ui/helpers/messages.dart';
 import '../../../../../core/ui/styles/colors_app.dart';
 import '../../../../../core/ui/styles/text_styles.dart';
 import '../../../../../core/widget/register_success.dart';
+import '../../../../../core/widget/text_field_changed_widget.dart';
 import '../../../../../core/widget/text_field_widget.dart';
 import '../../../../../models/service_taker_model.dart';
-import '../../../../auth/signup/service_taker/service_taker_register_controller.dart';
+import '../../../../../models/worker_model.dart';
+import '../../../worker/profile/documents/widgets/employeer_picker.dart';
+import 'service_taker_syndicate_register_controller.dart';
 
 class ServiceTakerSyndicateRegisterPage extends StatefulWidget {
   final ServiceTakerModel? serviceTaker;
@@ -24,8 +27,8 @@ class ServiceTakerSyndicateRegisterPage extends StatefulWidget {
 
 class _ServiceTakerSyndicateRegisterPageState
     extends State<ServiceTakerSyndicateRegisterPage> with Loader, Messages {
-  final ServiceTakerRegisterController controller =
-      ServiceTakerRegisterController();
+  final ServiceTakerSyndicateRegisterController controller =
+      ServiceTakerSyndicateRegisterController();
   late final ReactionDisposer statusDisposer;
   final companyNameEC = TextEditingController();
   final fantasyNameEC = TextEditingController();
@@ -36,6 +39,7 @@ class _ServiceTakerSyndicateRegisterPageState
   final zipEC = TextEditingController();
   final numberEC = TextEditingController();
   final cityEC = TextEditingController();
+  final employeerEC = TextEditingController();
 
   @override
   void initState() {
@@ -43,7 +47,7 @@ class _ServiceTakerSyndicateRegisterPageState
       controller.loadData(widget.serviceTaker);
     }
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      statusDisposer = reaction((_) => controller.status, (status) {
+      statusDisposer = reaction((_) => controller.status, (status) async {
         switch (status) {
           case ServiceTakerRegisterStateStatus.initial:
             break;
@@ -55,10 +59,13 @@ class _ServiceTakerSyndicateRegisterPageState
             break;
           case ServiceTakerRegisterStateStatus.saved:
             hideLoader();
-            showDialog(
+            final navigator = Navigator.of(context);
+            await showDialog(
               context: context,
               builder: (_) => const RegisterSuccess(),
             );
+            navigator.pop();
+            // navigator.pop();
             break;
           case ServiceTakerRegisterStateStatus.error:
             hideLoader();
@@ -68,6 +75,18 @@ class _ServiceTakerSyndicateRegisterPageState
       });
     });
     super.initState();
+  }
+
+  Future<EmployeerModel?> showDialogEmployeer() async {
+    final employeerResult = await showDialog(
+      context: context,
+      builder: (context) => const EmployeerPicker(),
+    );
+    if (employeerResult != null) {
+      return employeerResult;
+    } else {
+      return null;
+    }
   }
 
   @override
@@ -81,6 +100,7 @@ class _ServiceTakerSyndicateRegisterPageState
     zipEC.dispose();
     numberEC.dispose();
     cityEC.dispose();
+    employeerEC.dispose();
     statusDisposer();
     super.dispose();
   }
@@ -121,6 +141,23 @@ class _ServiceTakerSyndicateRegisterPageState
                   errorText: controller.companyNameError,
                   onChanged: controller.setCompanyName,
                   initialValue: controller.companyName,
+                ),
+              ),
+              Observer(
+                builder: (_) => TextFieldChangedWidget(
+                  controller: employeerEC,
+                  label: 'Empregadora',
+                  hintText: '',
+                  readOnly: true,
+                  initialValue: controller.employeer?.name,
+                  // errorText: controller.employeerError,
+                  onTap: () async {
+                    final result = await showDialogEmployeer();
+                    if (result != null) {
+                      employeerEC.text = result.name;
+                      controller.setEmployeer(result);
+                    }
+                  },
                 ),
               ),
               Observer(
@@ -228,7 +265,6 @@ class _ServiceTakerSyndicateRegisterPageState
                         keyboardType: TextInputType.number,
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly,
-                          TelefoneInputFormatter()
                         ],
                       ),
                     ),

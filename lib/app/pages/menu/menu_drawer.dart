@@ -45,9 +45,11 @@ class _MenuDrawerState extends State<MenuDrawer> {
               return MenuButton(
                 menu: menu,
                 menuSelected: drawerController.page == index,
-                onPressed: () {
+                onPressed: () async {
                   if ((length - 1) == index) {
-                    Navigator.of(context).pushReplacementNamed('/auth/login');
+                    final navigator = Navigator.of(context);
+                    await GetIt.I<AuthController>().logout();
+                    await navigator.pushReplacementNamed('/auth/login');
                   } else {
                     drawerController.setPage(index);
                     Navigator.of(context).pop();

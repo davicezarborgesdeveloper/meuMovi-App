@@ -6,43 +6,60 @@ import '../../../../core/ui/helpers/loader.dart';
 import '../../../../core/ui/helpers/messages.dart';
 import '../../../../core/ui/styles/text_styles.dart';
 import '../../../../core/widget/movi_stepper.dart';
-import 'widgets/worker_register_address_data.dart';
-import 'widgets/worker_register_documents_data.dart';
-import 'widgets/worker_register_personal_data.dart';
-import 'worker_register_controller.dart';
+import 'widgets/worker_signup_address_data.dart';
+import 'widgets/worker_signup_documents_data.dart';
+import 'widgets/worker_signup_personal_data.dart';
+import 'worker_signup_controller.dart';
 
-class WorkerRegisterPage extends StatefulWidget {
-  const WorkerRegisterPage({Key? key}) : super(key: key);
+class WorkerSignupPage extends StatefulWidget {
+  const WorkerSignupPage({Key? key}) : super(key: key);
 
   @override
-  State<WorkerRegisterPage> createState() => _WorkerRegisterPageState();
+  State<WorkerSignupPage> createState() => _WorkerSignupPageState();
 }
 
-class _WorkerRegisterPageState extends State<WorkerRegisterPage>
+class _WorkerSignupPageState extends State<WorkerSignupPage>
     with Loader, Messages {
-  final WorkerRegisterController controller = WorkerRegisterController();
+  final WorkerSignupController controller = WorkerSignupController();
   late final ReactionDisposer statusDisposer;
   int _index = 0;
+  final nameEC = TextEditingController();
+  final lastnameEC = TextEditingController();
+  final birthDateEC = TextEditingController();
+  final emailEC = TextEditingController();
+  final passEC = TextEditingController();
+  final repassEC = TextEditingController();
+  final cpfEC = TextEditingController();
+  final rgEC = TextEditingController();
+  final employeeEC = TextEditingController();
+  final zipEC = TextEditingController();
+  final cityEC = TextEditingController();
+  final stateEC = TextEditingController();
+  final streetEC = TextEditingController();
+  final districtEC = TextEditingController();
+  final numberEC = TextEditingController();
+  final complentEC = TextEditingController();
+  final referencePointEC = TextEditingController();
 
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       statusDisposer = reaction((_) => controller.status, (status) {
         switch (status) {
-          case WorkerRegisterStateStatus.initial:
+          case WorkerSignupStateStatus.initial:
             break;
-          case WorkerRegisterStateStatus.loading:
+          case WorkerSignupStateStatus.loading:
             showLoader();
             break;
-          case WorkerRegisterStateStatus.loaded:
+          case WorkerSignupStateStatus.loaded:
             hideLoader();
             break;
-          case WorkerRegisterStateStatus.saved:
+          case WorkerSignupStateStatus.saved:
             hideLoader();
             Navigator.of(context)
                 .pushNamedAndRemoveUntil('/home', (route) => false);
             break;
-          case WorkerRegisterStateStatus.error:
+          case WorkerSignupStateStatus.error:
             hideLoader();
             showError(controller.errorMessage ?? 'Erro');
             break;
@@ -54,6 +71,23 @@ class _WorkerRegisterPageState extends State<WorkerRegisterPage>
 
   @override
   void dispose() {
+    nameEC.dispose();
+    lastnameEC.dispose();
+    birthDateEC.dispose();
+    emailEC.dispose();
+    passEC.dispose();
+    repassEC.dispose();
+    cpfEC.dispose();
+    rgEC.dispose();
+    employeeEC.dispose();
+    zipEC.dispose();
+    cityEC.dispose();
+    stateEC.dispose();
+    streetEC.dispose();
+    districtEC.dispose();
+    numberEC.dispose();
+    complentEC.dispose();
+    referencePointEC.dispose();
     statusDisposer();
     super.dispose();
   }
@@ -143,9 +177,29 @@ class _WorkerRegisterPageState extends State<WorkerRegisterPage>
                       ),
                     ),
                     steps: [
-                      WorkerSignupPersonalData(controller),
-                      WorkerRegisterDocumentsData(controller),
-                      WorkerRegisterAddressData(controller),
+                      WorkerSignupPersonalData(controller, [
+                        nameEC,
+                        lastnameEC,
+                        birthDateEC,
+                        emailEC,
+                        passEC,
+                        repassEC,
+                      ]),
+                      WorkerSignupDocumentsData(controller, [
+                        cpfEC,
+                        rgEC,
+                        employeeEC,
+                      ]),
+                      WorkerSignupAddressData(controller, [
+                        zipEC,
+                        cityEC,
+                        stateEC,
+                        streetEC,
+                        districtEC,
+                        numberEC,
+                        complentEC,
+                        referencePointEC,
+                      ]),
                     ],
                   );
                 },

@@ -6,14 +6,15 @@ import 'package:mobx/mobx.dart';
 import '../../../../core/extensions/formatter_extensions.dart';
 import '../../../../core/extensions/validator_extensions.dart';
 import '../../../../models/service_taker_model.dart';
+import '../../../../models/worker_model.dart';
 import '../../../../repositories/zip/zip_repository.dart';
 import '../../../../services/auth/auth_service.dart';
 import '../../../../services/service_taker/service_taker_service.dart';
 import '../../auth_controller.dart';
 import '../../user_controller.dart';
-part 'service_taker_register_controller.g.dart';
+part 'service_taker_signup_controller.g.dart';
 
-enum ServiceTakerRegisterStateStatus {
+enum ServiceTakerSignupStateStatus {
   initial,
   loading,
   loaded,
@@ -21,12 +22,12 @@ enum ServiceTakerRegisterStateStatus {
   saved,
 }
 
-class ServiceTakerRegisterController = ServiceTakerRegisterControllerBase
-    with _$ServiceTakerRegisterController;
+class ServiceTakerSignupController = ServiceTakerSignupControllerBase
+    with _$ServiceTakerSignupController;
 
-abstract class ServiceTakerRegisterControllerBase with Store {
+abstract class ServiceTakerSignupControllerBase with Store {
   @readonly
-  var _status = ServiceTakerRegisterStateStatus.initial;
+  var _status = ServiceTakerSignupStateStatus.initial;
 
   @readonly
   String? _errorMessage;
@@ -39,6 +40,9 @@ abstract class ServiceTakerRegisterControllerBase with Store {
 
   @observable
   String? fantasyName;
+
+  @observable
+  EmployeerModel? employeer;
 
   @observable
   String? cnpj;
@@ -102,6 +106,9 @@ abstract class ServiceTakerRegisterControllerBase with Store {
 
   @action
   void setTermsAccepted(bool value) => termsAccepted = value;
+
+  @action
+  void setEmployeer(EmployeerModel? value) => employeer = value;
 
   @computed
   bool get companyNameValid => companyName != null && companyName!.length > 3;
@@ -236,7 +243,7 @@ abstract class ServiceTakerRegisterControllerBase with Store {
 
   @action
   Future<void> register() async {
-    _status = ServiceTakerRegisterStateStatus.loading;
+    _status = ServiceTakerSignupStateStatus.loading;
     try {
       final user = ServiceTakerModel(
         user: cnpj!.replaceAll(RegExp(r'[^0-9]'), ''),
@@ -245,6 +252,10 @@ abstract class ServiceTakerRegisterControllerBase with Store {
         active: true,
         fantasyName: fantasyName!,
         companyName: companyName!,
+        employeer: EmployeerModel(
+          code: employeer!.code,
+          name: employeer!.name,
+        ),
         cnpj: cnpj!.replaceAll(RegExp(r'[^0-9]'), ''),
         name: name!,
         phone: phone!.replaceAll(RegExp(r'[^0-9]'), ''),
@@ -256,29 +267,29 @@ abstract class ServiceTakerRegisterControllerBase with Store {
       final auth = await AuthService().login(user.user, user.password, false);
       GetIt.I<AuthController>().setAuth(auth);
       GetIt.I<UserController>().getCurrentUser(user.user);
-      _status = ServiceTakerRegisterStateStatus.saved;
+      _status = ServiceTakerSignupStateStatus.saved;
     } catch (e, s) {
       log('Erro ao registrar Tomadora', error: e, stackTrace: s);
       _errorMessage = 'Erro ao registrar Tomadora';
-      _status = ServiceTakerRegisterStateStatus.error;
+      _status = ServiceTakerSignupStateStatus.error;
     }
   }
 
   @action
   Future<void> searchZip(String zipFilter) async {
-    _status = ServiceTakerRegisterStateStatus.loading;
+    _status = ServiceTakerSignupStateStatus.loading;
     try {
       final address = await ZipRepository().getAddressFromZip(zipFilter);
       _city = '${address!.cidade.nome}-${address.estado.sigla}';
-      _status = ServiceTakerRegisterStateStatus.loaded;
+      _status = ServiceTakerSignupStateStatus.loaded;
     } catch (e, s) {
       log('Erro ao buscar cep', error: e, stackTrace: s);
-      _status = ServiceTakerRegisterStateStatus.error;
+      _status = ServiceTakerSignupStateStatus.error;
     }
   }
 
   Future<void> loadData(ServiceTakerModel? model) async {
-    _status = ServiceTakerRegisterStateStatus.loading;
+    _status = ServiceTakerSignupStateStatus.loading;
     companyName = model!.companyName;
     fantasyName = model.fantasyName;
     cnpj = model.cnpj.formattedCNPJ;
@@ -287,6 +298,12 @@ abstract class ServiceTakerRegisterControllerBase with Store {
     email = model.email;
     zip = model.zip.formattedZip;
     number = model.number;
+    employeer = model.employeer != null
+        ? EmployeerModel(
+            code: model.employeer!.code,
+            name: model.employeer!.name,
+          )
+        : EmployeerModel(code: '', name: '');
     await searchZip(model.zip);
   }
 }

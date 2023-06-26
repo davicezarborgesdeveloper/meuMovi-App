@@ -8,12 +8,16 @@ import '../../../../../core/widget/text_field_changed_widget.dart';
 import '../../../../../core/widget/text_field_widget.dart';
 import '../../../../../models/worker_model.dart';
 import '../../../../base/worker/profile/documents/widgets/employeer_picker.dart';
-import '../worker_register_controller.dart';
+import '../register/worker_syndicate_register_controller.dart';
 
 class WorkerRegisterDocumentsData extends StatefulWidget {
-  final WorkerRegisterController controller;
-  const WorkerRegisterDocumentsData(this.controller, {Key? key})
-      : super(key: key);
+  final WorkerSyndicateRegisterController controller;
+  final List<TextEditingController> textControllers;
+  const WorkerRegisterDocumentsData(
+    this.controller,
+    this.textControllers, {
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<WorkerRegisterDocumentsData> createState() =>
@@ -65,6 +69,7 @@ class _WorkerRegisterDocumentsDataState
         ),
         Observer(
           builder: (_) => TextFieldWidget(
+            controller: widget.textControllers[0],
             label: 'CPF',
             hintText: 'Digite seu CPF',
             errorText: widget.controller.cpfError,
@@ -79,6 +84,7 @@ class _WorkerRegisterDocumentsDataState
         ),
         Observer(
           builder: (_) => TextFieldWidget(
+            controller: widget.textControllers[1],
             label: 'RG',
             hintText: 'Digite seu RG',
             errorText: widget.controller.rgError,
@@ -89,14 +95,14 @@ class _WorkerRegisterDocumentsDataState
         ),
         Observer(
           builder: (_) => TextFieldChangedWidget(
-            controller: employeerEC,
+            controller: widget.textControllers[2],
             label: 'Empregadora',
             hintText: '',
             readOnly: true,
             onTap: () async {
               final result = await showDialogEmployeer();
               if (result != null) {
-                employeerEC.text = result.name;
+                widget.textControllers[2].text = result.name;
                 widget.controller.setEmployeer(result);
               }
             },

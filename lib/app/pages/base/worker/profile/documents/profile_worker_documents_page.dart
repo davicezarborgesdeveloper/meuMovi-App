@@ -10,7 +10,6 @@ import '../../../../../core/ui/helpers/messages.dart';
 import '../../../../../core/ui/styles/text_styles.dart';
 import '../../../../../core/widget/text_field_changed_widget.dart';
 import '../../../../../core/widget/text_field_widget.dart';
-import '../../../../../models/syndicate_model.dart';
 import '../../../../../models/worker_model.dart';
 import 'profile_worker_documents_controller.dart';
 import 'widgets/employeer_picker.dart';
