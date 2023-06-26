@@ -124,11 +124,13 @@ class DocumentsModel {
   final String rg;
   final String? orgaoEmissor;
   final String? dataEmissao;
+  final EmployeerModel? employeer;
   DocumentsModel({
     required this.cpf,
     required this.rg,
     this.orgaoEmissor,
     this.dataEmissao,
+    this.employeer,
   });
 
   Map<String, dynamic> toMap() {
@@ -137,6 +139,7 @@ class DocumentsModel {
       'rg': rg,
       'orgaoEmissor': orgaoEmissor,
       'dataEmissao': dataEmissao,
+      'employeer': employeer?.toMap(),
     };
   }
 
@@ -148,6 +151,9 @@ class DocumentsModel {
           map['orgaoEmissor'] != null ? map['orgaoEmissor'] as String : null,
       dataEmissao:
           map['dataEmissao'] != null ? map['dataEmissao'] as String : null,
+      employeer: map['employeer'] != null
+          ? EmployeerModel.fromMap(map['employeer'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -161,14 +167,44 @@ class DocumentsModel {
     String? rg,
     String? orgaoEmissor,
     String? dataEmissao,
+    EmployeerModel? employeer,
   }) {
     return DocumentsModel(
       cpf: cpf ?? this.cpf,
       rg: rg ?? this.rg,
       orgaoEmissor: orgaoEmissor ?? this.orgaoEmissor,
       dataEmissao: dataEmissao ?? this.dataEmissao,
+      employeer: employeer ?? this.employeer,
     );
   }
+}
+
+class EmployeerModel {
+  final String code;
+  final String name;
+  EmployeerModel({
+    required this.code,
+    required this.name,
+  });
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'code': code,
+      'name': name,
+    };
+  }
+
+  factory EmployeerModel.fromMap(Map<String, dynamic> map) {
+    return EmployeerModel(
+      code: (map['code'] ?? '') as String,
+      name: (map['name'] ?? '') as String,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory EmployeerModel.fromJson(String source) =>
+      EmployeerModel.fromMap(json.decode(source) as Map<String, dynamic>);
 }
 
 class PersonalModel {

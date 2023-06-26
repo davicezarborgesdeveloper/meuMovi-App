@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
 
+import '../../../../../core/extensions/formatter_extensions.dart';
 import '../../../../../core/extensions/validator_extensions.dart';
 import '../../../../../models/worker_model.dart';
 import '../../../../../services/worker/worker_service.dart';
@@ -46,6 +47,9 @@ abstract class ProfileWorkerDocumentsControllerBase with Store {
   @observable
   String? dataEmissao;
 
+  @observable
+  EmployeerModel? employeer;
+
   @action
   void setCPF(String value) => cpf = value;
 
@@ -57,6 +61,9 @@ abstract class ProfileWorkerDocumentsControllerBase with Store {
 
   @action
   void setDataEmissao(String value) => dataEmissao = value;
+
+  @action
+  void setEmployeer(EmployeerModel? value) => employeer = value;
 
   @computed
   bool get cpfValid => cpf != null && cpf!.isCPFValid;
@@ -108,6 +115,16 @@ abstract class ProfileWorkerDocumentsControllerBase with Store {
   }
 
   @computed
+  bool get employeerValid => employeer != null;
+  String? get employeerError {
+    if (!_showErrors || employeerValid) {
+      return null;
+    } else {
+      return 'Empregadora obrigatória';
+    }
+  }
+
+  @computed
   bool get isFormValid =>
       cpfValid && rgValid && orgaoEmissorValid && dataEmissaoValid;
 
@@ -125,10 +142,14 @@ abstract class ProfileWorkerDocumentsControllerBase with Store {
       final getData = GetIt.I<UserController>().user as WorkerModel;
       final saveData = getData.copyWith(
         documents: DocumentsModel(
-          cpf: cpf!,
+          cpf: cpf!.replaceAll(RegExp(r'[^0-9]'), ''),
           rg: rg!,
           orgaoEmissor: orgaoEmissor!,
           dataEmissao: DateFormat('yyyy-MM-dd').format(dt),
+          employeer: EmployeerModel(
+            code: employeer!.code,
+            name: employeer!.name,
+          ),
         ),
       );
       await WorkerService().workerUpdate(saveData);
@@ -145,10 +166,18 @@ abstract class ProfileWorkerDocumentsControllerBase with Store {
   Future<void> getData() async {
     _status = ProfileWorkerDocumentsStateStatus.loading;
     final data = GetIt.I<UserController>().user as WorkerModel;
-    cpf = data.documents.cpf;
+    final dt = DateFormat('yyyy-MM-dd').parse(data.documents.dataEmissao!);
+    cpf = data.documents.cpf.formattedCPF;
     rg = data.documents.rg;
     orgaoEmissor = data.documents.orgaoEmissor;
-    dataEmissao = data.documents.dataEmissao;
+
+    dataEmissao = DateFormat('dd/MM/yyyy').format(dt);
+    employeer = data.documents.employeer != null
+        ? EmployeerModel(
+            code: data.documents.employeer!.code,
+            name: data.documents.employeer!.name,
+          )
+        : EmployeerModel(code: '', name: '');
     _status = ProfileWorkerDocumentsStateStatus.loaded;
   }
 }

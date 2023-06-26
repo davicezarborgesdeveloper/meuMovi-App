@@ -3,10 +3,11 @@ import 'dart:developer';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
+import '../../../../../core/extensions/formatter_extensions.dart';
 import '../../../../../models/address_model.dart';
 import '../../../../../models/syndicate_model.dart';
 import '../../../../../repositories/zip/zip_repository.dart';
-import '../../../../../services/user/user_service.dart';
+import '../../../../../services/syndicate/syndicate_service.dart';
 import '../../../../auth/user_controller.dart';
 part 'address_data_syndicate_controller.g.dart';
 
@@ -120,7 +121,7 @@ abstract class AddressDataSyndicateControllerBase with Store {
   @action
   Future<void> getData() async {
     final data = GetIt.I<UserController>().user as SyndicateModel;
-    zip = data.address.zip;
+    zip = data.address.zip.formattedZip;
     city = data.address.city;
     state = data.address.state;
     street = data.address.street;
@@ -145,7 +146,7 @@ abstract class AddressDataSyndicateControllerBase with Store {
           complement: complement!,
         ),
       );
-      await UserService().syndicateUpdate(saveData);
+      await SyndicateService().syndicateUpdate(saveData);
       _status = AddressDataStateStatus.saved;
     } on Exception catch (e, s) {
       log('Erro ao atualizar usuário', error: e, stackTrace: s);

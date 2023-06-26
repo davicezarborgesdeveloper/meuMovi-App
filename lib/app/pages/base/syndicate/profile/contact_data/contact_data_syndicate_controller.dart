@@ -7,7 +7,7 @@ import '../../../../../core/extensions/formatter_extensions.dart';
 import '../../../../../core/extensions/validator_extensions.dart';
 import '../../../../../core/ui/helpers/enums.dart';
 import '../../../../../models/syndicate_model.dart';
-import '../../../../../services/user/user_service.dart';
+import '../../../../../services/syndicate/syndicate_service.dart';
 import '../../../../auth/user_controller.dart';
 part 'contact_data_syndicate_controller.g.dart';
 
@@ -142,7 +142,7 @@ abstract class ContactDataSyndicateControllerBase with Store {
           sector: companySector!.acronym,
         ),
       );
-      await UserService().syndicateUpdate(saveData);
+      await SyndicateService().syndicateUpdate(saveData);
       _status = ContactDataSyndicateStateStatus.saved;
     } on Exception catch (e, s) {
       log('Erro ao atualizar usuário', error: e, stackTrace: s);

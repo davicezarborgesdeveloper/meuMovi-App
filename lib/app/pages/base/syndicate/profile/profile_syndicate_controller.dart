@@ -5,6 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../models/syndicate_model.dart';
+import '../../../../services/syndicate/syndicate_service.dart';
 import '../../../../services/user/user_service.dart';
 import '../../../auth/user_controller.dart';
 part 'profile_syndicate_controller.g.dart';
@@ -59,7 +60,7 @@ abstract class ProfileSyndicateControllerBase with Store {
       }
       final getData = GetIt.I<UserController>().user as SyndicateModel;
       final saveData = getData.copyWith(imageUrl: _urlImage);
-      await UserService().syndicateUpdate(saveData);
+      await SyndicateService().syndicateUpdate(saveData);
       _status = ProfileSyndicateStateStatus.uploadImage;
     } on Exception catch (e, s) {
       log('Erro ao salvar foto do usuário', error: e, stackTrace: s);

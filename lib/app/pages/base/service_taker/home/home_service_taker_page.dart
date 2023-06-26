@@ -21,6 +21,8 @@ class _HomeServiceTakerPageState extends State<HomeServiceTakerPage> {
   AuthController authController = GetIt.I<AuthController>();
   UserController userCtrl = GetIt.I<UserController>();
 
+  int buttonSelected = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,22 +49,26 @@ class _HomeServiceTakerPageState extends State<HomeServiceTakerPage> {
                       crossAxisSpacing: 8,
                       mainAxisSpacing: 8,
                       crossAxisCount: 2,
-                      children: const [
+                      children: [
                         TaskButton(
                           label: 'disponíveis',
-                          selected: true,
+                          option: 0,
+                          selected: buttonSelected,
                         ),
                         TaskButton(
                           label: 'confirmadas',
-                          selected: false,
+                          option: 1,
+                          selected: buttonSelected,
                         ),
                         TaskButton(
                           label: 'em andamento',
-                          selected: false,
+                          option: 2,
+                          selected: buttonSelected,
                         ),
                         TaskButton(
                           label: 'finalizadas',
-                          selected: false,
+                          option: 3,
+                          selected: buttonSelected,
                         )
                       ],
                     ),

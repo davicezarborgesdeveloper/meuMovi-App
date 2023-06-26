@@ -6,7 +6,7 @@ import 'package:mobx/mobx.dart';
 import '../../../../../core/extensions/formatter_extensions.dart';
 import '../../../../../core/extensions/validator_extensions.dart';
 import '../../../../../models/syndicate_model.dart';
-import '../../../../../services/user/user_service.dart';
+import '../../../../../services/syndicate/syndicate_service.dart';
 import '../../../../auth/user_controller.dart';
 part 'legal_data_controller.g.dart';
 
@@ -163,7 +163,7 @@ abstract class LegalDataControllerBase with Store {
           cnpj: cnpj!.replaceAll(RegExp(r'[^0-9]'), ''),
         ),
       );
-      await UserService().syndicateUpdate(saveData);
+      await SyndicateService().syndicateUpdate(saveData);
       GetIt.I<UserController>().setUser(saveData);
       _status = LegalDataStateStatus.saved;
     } on Exception catch (e, s) {

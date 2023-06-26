@@ -282,6 +282,22 @@ mixin _$WorkerRegisterController on WorkerRegisterControllerBase, Store {
     });
   }
 
+  late final _$employeerAtom =
+      Atom(name: 'WorkerRegisterControllerBase.employeer', context: context);
+
+  @override
+  EmployeerModel? get employeer {
+    _$employeerAtom.reportRead();
+    return super.employeer;
+  }
+
+  @override
+  set employeer(EmployeerModel? value) {
+    _$employeerAtom.reportWrite(value, super.employeer, () {
+      super.employeer = value;
+    });
+  }
+
   late final _$zipAtom =
       Atom(name: 'WorkerRegisterControllerBase.zip', context: context);
 
@@ -544,6 +560,17 @@ mixin _$WorkerRegisterController on WorkerRegisterControllerBase, Store {
   }
 
   @override
+  void setEmployeer(EmployeerModel? value) {
+    final _$actionInfo = _$WorkerRegisterControllerBaseActionController
+        .startAction(name: 'WorkerRegisterControllerBase.setEmployeer');
+    try {
+      return super.setEmployeer(value);
+    } finally {
+      _$WorkerRegisterControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void invalidSendPressed() {
     final _$actionInfo = _$WorkerRegisterControllerBaseActionController
         .startAction(name: 'WorkerRegisterControllerBase.invalidSendPressed');
@@ -675,6 +702,7 @@ password: ${password},
 retypePass: ${retypePass},
 cpf: ${cpf},
 rg: ${rg},
+employeer: ${employeer},
 zip: ${zip},
 city: ${city},
 state: ${state},

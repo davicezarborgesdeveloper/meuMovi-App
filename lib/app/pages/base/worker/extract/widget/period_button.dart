@@ -5,26 +5,34 @@ import '../../../../../core/ui/styles/text_styles.dart';
 
 class PeriodButton extends StatelessWidget {
   final String label;
-  final bool selected;
-  const PeriodButton({Key? key, required this.label, required this.selected})
-      : super(key: key);
+  final int option;
+  final int? selected;
+  final GestureTapCallback? onPressed;
+  const PeriodButton({
+    Key? key,
+    required this.label,
+    required this.option,
+    this.selected,
+    this.onPressed,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final isSelected = selected == option;
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        color: selected ? ColorsApp.i.primary : Colors.transparent,
+        color: isSelected ? ColorsApp.i.primary : Colors.transparent,
       ),
       child: TextButton(
+        onPressed: onPressed,
         child: Text(
           label,
           style: context.textStyles.textMedium.copyWith(
-            color: selected ? Colors.white : Colors.grey.shade700,
+            color: isSelected ? Colors.white : Colors.grey.shade700,
           ),
         ),
-        onPressed: () {},
       ),
     );
   }

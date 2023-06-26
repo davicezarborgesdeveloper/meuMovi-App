@@ -102,6 +102,21 @@ enum ReportType {
   }
 }
 
+enum OptionDistance {
+  km25('25km', '25'),
+  km50('50km', '50'),
+  km75('75km', '75'),
+  km100('100km', '100');
+
+  final String name;
+  final String acronym;
+  const OptionDistance(this.name, this.acronym);
+
+  static OptionDistance parse(String acronym) {
+    return values.firstWhere((s) => s.acronym == acronym);
+  }
+}
+
 // enum KindWork {
 //   carga('Carga', 'crg'),
 //   descarga('Descarga', 'dcg'),

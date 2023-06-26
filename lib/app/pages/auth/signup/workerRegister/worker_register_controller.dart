@@ -148,11 +148,17 @@ abstract class WorkerRegisterControllerBase with Store {
   @observable
   String? rg;
 
+  @observable
+  EmployeerModel? employeer;
+
   @action
   void setCPF(String value) => cpf = value;
 
   @action
   void setRG(String value) => rg = value;
+
+  @action
+  void setEmployeer(EmployeerModel? value) => employeer = value;
 
   @action
   void invalidSendPressed() => _showErrors = true;
@@ -341,8 +347,6 @@ abstract class WorkerRegisterControllerBase with Store {
     _status = WorkerRegisterStateStatus.loading;
     name = model.name;
     lastname = model.lastname;
-// birthdate = model.;
-// email = model.;
     _status = WorkerRegisterStateStatus.loaded;
   }
 }

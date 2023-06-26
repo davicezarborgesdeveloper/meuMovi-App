@@ -1,13 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../../../core/extensions/formatter_extensions.dart';
 import '../../../../core/ui/styles/colors_app.dart';
 import '../../../../core/ui/styles/text_styles.dart';
+import '../../../auth/auth_controller.dart';
 import '../../../menu/menu_drawer.dart';
 import '../../worker/extract/widget/period_button.dart';
+import 'extract_service_taker_controller.dart';
 
-class ExtractServiceTakerPage extends StatelessWidget {
+class ExtractServiceTakerPage extends StatefulWidget {
   const ExtractServiceTakerPage({super.key});
+
+  @override
+  State<ExtractServiceTakerPage> createState() =>
+      _ExtractServiceTakerPageState();
+}
+
+class _ExtractServiceTakerPageState extends State<ExtractServiceTakerPage> {
+  AuthController authController = GetIt.I<AuthController>();
+  ExtractServiceTakerController controller = ExtractServiceTakerController();
 
   @override
   Widget build(BuildContext context) {
@@ -45,13 +57,33 @@ class ExtractServiceTakerPage extends StatelessWidget {
             // height: 50,
             color: Colors.grey.shade300,
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: const Row(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                PeriodButton(label: '7 dias', selected: false),
-                PeriodButton(label: '15 dias', selected: false),
-                PeriodButton(label: '30 dias', selected: true),
-                PeriodButton(label: '60 dias', selected: false),
+                PeriodButton(
+                  label: '7 dias',
+                  option: 7,
+                  selected: controller.buttonSelected,
+                  onPressed: () => controller.setButtonSelected(7),
+                ),
+                PeriodButton(
+                  label: '15 dias',
+                  option: 15,
+                  selected: controller.buttonSelected,
+                  onPressed: () => controller.setButtonSelected(15),
+                ),
+                PeriodButton(
+                  label: '30 dias',
+                  option: 30,
+                  selected: controller.buttonSelected,
+                  onPressed: () => controller.setButtonSelected(30),
+                ),
+                PeriodButton(
+                  label: '60 dias',
+                  option: 60,
+                  selected: controller.buttonSelected,
+                  onPressed: () => controller.setButtonSelected(60),
+                ),
               ],
             ),
           ),

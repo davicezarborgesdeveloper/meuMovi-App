@@ -37,6 +37,13 @@ mixin _$ProfileWorkerDocumentsController
           () => super.dataEmissaoValid,
           name: 'ProfileWorkerDocumentsControllerBase.dataEmissaoValid'))
       .value;
+  Computed<bool>? _$employeerValidComputed;
+
+  @override
+  bool get employeerValid =>
+      (_$employeerValidComputed ??= Computed<bool>(() => super.employeerValid,
+              name: 'ProfileWorkerDocumentsControllerBase.employeerValid'))
+          .value;
   Computed<bool>? _$isFormValidComputed;
 
   @override
@@ -174,6 +181,22 @@ mixin _$ProfileWorkerDocumentsController
     });
   }
 
+  late final _$employeerAtom = Atom(
+      name: 'ProfileWorkerDocumentsControllerBase.employeer', context: context);
+
+  @override
+  EmployeerModel? get employeer {
+    _$employeerAtom.reportRead();
+    return super.employeer;
+  }
+
+  @override
+  set employeer(EmployeerModel? value) {
+    _$employeerAtom.reportWrite(value, super.employeer, () {
+      super.employeer = value;
+    });
+  }
+
   late final _$saveAsyncAction = AsyncAction(
       'ProfileWorkerDocumentsControllerBase.save',
       context: context);
@@ -247,6 +270,18 @@ mixin _$ProfileWorkerDocumentsController
   }
 
   @override
+  void setEmployeer(EmployeerModel? value) {
+    final _$actionInfo = _$ProfileWorkerDocumentsControllerBaseActionController
+        .startAction(name: 'ProfileWorkerDocumentsControllerBase.setEmployeer');
+    try {
+      return super.setEmployeer(value);
+    } finally {
+      _$ProfileWorkerDocumentsControllerBaseActionController
+          .endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void invalidSendPressed() {
     final _$actionInfo =
         _$ProfileWorkerDocumentsControllerBaseActionController.startAction(
@@ -266,10 +301,12 @@ cpf: ${cpf},
 rg: ${rg},
 orgaoEmissor: ${orgaoEmissor},
 dataEmissao: ${dataEmissao},
+employeer: ${employeer},
 cpfValid: ${cpfValid},
 rgValid: ${rgValid},
 orgaoEmissorValid: ${orgaoEmissorValid},
 dataEmissaoValid: ${dataEmissaoValid},
+employeerValid: ${employeerValid},
 isFormValid: ${isFormValid},
 sendPressed: ${sendPressed}
     ''';

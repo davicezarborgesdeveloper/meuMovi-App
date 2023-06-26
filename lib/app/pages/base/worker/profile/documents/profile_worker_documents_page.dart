@@ -10,7 +10,10 @@ import '../../../../../core/ui/helpers/messages.dart';
 import '../../../../../core/ui/styles/text_styles.dart';
 import '../../../../../core/widget/text_field_changed_widget.dart';
 import '../../../../../core/widget/text_field_widget.dart';
+import '../../../../../models/syndicate_model.dart';
+import '../../../../../models/worker_model.dart';
 import 'profile_worker_documents_controller.dart';
+import 'widgets/employeer_picker.dart';
 
 class ProfileWorkerDocumentsPage extends StatefulWidget {
   const ProfileWorkerDocumentsPage({super.key});
@@ -30,6 +33,7 @@ class _ProfileWorkerDocumentsPageState extends State<ProfileWorkerDocumentsPage>
   final rgEC = TextEditingController();
   final orgaoEmissorEC = TextEditingController();
   final dataEmissaoEC = TextEditingController();
+  final employeerEC = TextEditingController();
 
   @override
   void initState() {
@@ -54,6 +58,7 @@ class _ProfileWorkerDocumentsPageState extends State<ProfileWorkerDocumentsPage>
             break;
         }
       });
+      // employeerEC.text = controller.employeer!.companyData.fantasyName ?? '';
     });
     super.initState();
   }
@@ -77,12 +82,25 @@ class _ProfileWorkerDocumentsPageState extends State<ProfileWorkerDocumentsPage>
     return null;
   }
 
+  Future<EmployeerModel?> showDialogEmployeer() async {
+    final employeerResult = await showDialog(
+      context: context,
+      builder: (context) => const EmployeerPicker(),
+    );
+    if (employeerResult != null) {
+      return employeerResult;
+    } else {
+      return null;
+    }
+  }
+
   @override
   void dispose() {
     cpfEC.dispose();
     rgEC.dispose();
     orgaoEmissorEC.dispose();
     dataEmissaoEC.dispose();
+    employeerEC.dispose();
     statusDisposer();
     super.dispose();
   }
@@ -143,8 +161,8 @@ class _ProfileWorkerDocumentsPageState extends State<ProfileWorkerDocumentsPage>
               Observer(
                 builder: (_) => TextFieldChangedWidget(
                   controller: dataEmissaoEC,
-                  label: 'Data de Nascimento',
-                  hintText: 'Data de Nascimento',
+                  label: 'Data de Emissão',
+                  hintText: 'dd/mm/aaaa',
                   readOnly: true,
                   initialValue: controller.dataEmissao,
                   errorText: controller.dataEmissaoError,
@@ -153,6 +171,23 @@ class _ProfileWorkerDocumentsPageState extends State<ProfileWorkerDocumentsPage>
                     if (result != null) {
                       dataEmissaoEC.text = result;
                       controller.setDataEmissao(result);
+                    }
+                  },
+                ),
+              ),
+              Observer(
+                builder: (_) => TextFieldChangedWidget(
+                  controller: employeerEC,
+                  label: 'Empregadora',
+                  hintText: '',
+                  readOnly: true,
+                  initialValue: controller.employeer!.name,
+                  errorText: controller.employeerError,
+                  onTap: () async {
+                    final result = await showDialogEmployeer();
+                    if (result != null) {
+                      employeerEC.text = result.name;
+                      controller.setEmployeer(result);
                     }
                   },
                 ),

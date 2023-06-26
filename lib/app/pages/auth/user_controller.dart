@@ -17,6 +17,7 @@ abstract class UserControllerBase with Store {
 
   @action
   Future<void> getCurrentUser(String userId) async {
+    setUser(null);
     try {
       final usr = await UserService().getUserById(userId);
       setUser(usr);

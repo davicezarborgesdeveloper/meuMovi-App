@@ -8,7 +8,6 @@ import '../../../../../core/ui/styles/colors_app.dart';
 import '../../../../../core/ui/styles/text_styles.dart';
 import '../../../../../models/service_taker_model.dart';
 import '../../../../menu/menu_drawer.dart';
-import '../../tasks/register/task_syndicate_register_page.dart';
 import '../register/service_taker_syndicate_register_page.dart';
 import 'service_Taker_tile.dart';
 import 'service_taker_list_controller.dart';
@@ -129,7 +128,7 @@ class _ServiceTakerListPageState extends State<ServiceTakerListPage>
             onPressed: () async {
               await Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (_) => const TasksSyndicateRegisterPage(),
+                  builder: (_) => const ServiceTakerSyndicateRegisterPage(),
                 ),
               );
               controller.findServiceTaker();
