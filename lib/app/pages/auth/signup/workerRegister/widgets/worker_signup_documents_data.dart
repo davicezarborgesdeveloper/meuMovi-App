@@ -98,6 +98,7 @@ class _WorkerSignupDocumentsDataState extends State<WorkerSignupDocumentsData> {
             label: 'Empregadora',
             hintText: '',
             readOnly: true,
+            errorText: widget.controller.employeerError,
             onTap: () async {
               final result = await showDialogEmployeer();
               if (result != null) {

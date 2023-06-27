@@ -206,6 +206,18 @@ abstract class ServiceTakerSignupControllerBase with Store {
     }
   }
 
+  @computed
+  bool get employeerValid => employeer != null;
+  String? get employeerError {
+    if (!_showErrors || employeerValid) {
+      return null;
+      // } else if (employeer == null || email!.isEmpty) {
+      //   return 'Campo obrigatório';
+    } else {
+      return 'Empregadora Obrigatória';
+    }
+  }
+
   @action
   void invalidSendPressed() => _showErrors = true;
 
@@ -217,6 +229,7 @@ abstract class ServiceTakerSignupControllerBase with Store {
       zipValid &&
       passwordValid &&
       retypePassValid &&
+      employeerValid &&
       termsAccepted;
 
   @computed
@@ -258,10 +271,10 @@ abstract class ServiceTakerSignupControllerBase with Store {
         ),
         cnpj: cnpj!.replaceAll(RegExp(r'[^0-9]'), ''),
         name: name!,
-        phone: phone!.replaceAll(RegExp(r'[^0-9]'), ''),
+        phone: phone == null ? null : phone!.replaceAll(RegExp(r'[^0-9]'), ''),
         email: email!,
         zip: zip!.replaceAll(RegExp(r'[^0-9]'), ''),
-        number: number!,
+        number: number,
       );
       await ServiceTakerService().saveServiceTaker(user);
       final auth = await AuthService().login(user.user, user.password, false);
@@ -294,7 +307,7 @@ abstract class ServiceTakerSignupControllerBase with Store {
     fantasyName = model.fantasyName;
     cnpj = model.cnpj.formattedCNPJ;
     name = model.name;
-    phone = model.phone.formattedPhone;
+    phone = model.phone?.formattedPhone;
     email = model.email;
     zip = model.zip.formattedZip;
     number = model.number;

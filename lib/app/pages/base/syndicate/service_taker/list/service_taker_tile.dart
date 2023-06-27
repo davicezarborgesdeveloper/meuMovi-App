@@ -60,7 +60,7 @@ class ServiceTakerTile extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      serviceTaker.phone.formattedPhone,
+                      serviceTaker.phone!.formattedPhone,
                       style:
                           context.textStyles.textRegular.copyWith(fontSize: 12),
                     ),

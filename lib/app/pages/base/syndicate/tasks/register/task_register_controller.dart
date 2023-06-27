@@ -5,7 +5,6 @@ import 'package:mobx/mobx.dart';
 import '../../../../../core/ui/helpers/enums.dart';
 import '../../../../../models/service_taker_model.dart';
 import '../../../../../models/task_model.dart';
-import '../../../../../models/worker_model.dart';
 import '../../../../../services/task/task_service.dart';
 part 'task_register_controller.g.dart';
 
@@ -40,7 +39,7 @@ abstract class TaskRegisterControllerBase with Store {
   ServiceTakerModel? serviceTaker;
 
   @observable
-  EmployeerModel? employeer;
+  ServTakerModel? servTaker;
 
   @observable
   String? descCostCenter;
@@ -69,6 +68,9 @@ abstract class TaskRegisterControllerBase with Store {
   @observable
   String? valueInvoice;
 
+  @observable
+  String? syndicate;
+
   @action
   void setDescriptionService(String value) => descriptionService = value;
 
@@ -76,7 +78,7 @@ abstract class TaskRegisterControllerBase with Store {
   void setServiceTaker(ServiceTakerModel? value) => serviceTaker = value;
 
   @action
-  void setEmployeer(EmployeerModel? value) => employeer = value;
+  void setServTaker(ServTakerModel? value) => servTaker = value;
 
   @action
   void setDescCostCenter(String value) => descCostCenter = value;
@@ -104,6 +106,9 @@ abstract class TaskRegisterControllerBase with Store {
 
   @action
   void setValueInvoice(String value) => valueInvoice = value;
+
+  @action
+  void setSyndicate(String value) => syndicate = value;
 
   @computed
   bool get descriptionServiceValid =>
@@ -166,6 +171,16 @@ abstract class TaskRegisterControllerBase with Store {
       return null;
     } else {
       return 'Tipo de Produção Obrigatória';
+    }
+  }
+
+  @computed
+  bool get servTakerValid => servTaker != null;
+  String? get servTakerError {
+    if (!_showErrors || servTakerValid) {
+      return null;
+    } else {
+      return 'Tomadora Obrigatória';
     }
   }
 
@@ -239,10 +254,11 @@ abstract class TaskRegisterControllerBase with Store {
         descCostCenter: descCostCenter,
         extraPercentage: extraPercentage ?? '0.00',
         productionType: productionType!,
-        employeer: EmployeerModel(
-          code: employeer!.code,
-          name: employeer!.name,
+        servTaker: ServTakerModel(
+          code: servTaker!.code,
+          name: servTaker!.name,
         ),
+        syndicate: syndicate,
         reportType: reportType!,
         calculateNightTime: calculateNightTime,
         hourDays: hourDays,
@@ -271,12 +287,13 @@ abstract class TaskRegisterControllerBase with Store {
     valueInvoice = model.valueInvoice.toString();
     productionType = ProductionType.parse(model.productionType!.acronym);
     reportType = ReportType.parse(model.reportType!.acronym);
-    employeer = model.employeer != null
-        ? EmployeerModel(
-            code: model.employeer!.code,
-            name: model.employeer!.name,
+    syndicate = model.syndicate;
+    servTaker = model.servTaker != null
+        ? ServTakerModel(
+            code: model.servTaker!.code,
+            name: model.servTaker!.name,
           )
-        : EmployeerModel(code: '', name: '');
+        : ServTakerModel(code: '', name: '');
     _status = TaskRegisterStateStatus.loaded;
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../../core/ui/helpers/enums.dart';
@@ -13,9 +14,9 @@ import '../../../../../core/widget/register_success.dart';
 import '../../../../../core/widget/text_field_changed_widget.dart';
 import '../../../../../core/widget/text_field_widget.dart';
 import '../../../../../models/task_model.dart';
-import '../../../../../models/worker_model.dart';
-import '../../../worker/profile/documents/widgets/employeer_picker.dart';
+import '../../../../auth/auth_controller.dart';
 import 'task_register_controller.dart';
+import 'widgets/serv_taker_picker.dart';
 
 class TasksSyndicateRegisterPage extends StatefulWidget {
   final TaskModel? task;
@@ -28,6 +29,7 @@ class TasksSyndicateRegisterPage extends StatefulWidget {
 
 class _TasksSyndicateRegisterPageState extends State<TasksSyndicateRegisterPage>
     with Loader, Messages {
+  final AuthController authCtrl = GetIt.I<AuthController>();
   late final TaskRegisterController controller = TaskRegisterController();
   late final ReactionDisposer statusDisposer;
   final descriptionServiceEC = TextEditingController();
@@ -74,14 +76,17 @@ class _TasksSyndicateRegisterPageState extends State<TasksSyndicateRegisterPage>
             break;
         }
       });
+      if (authCtrl.auth != null) {
+        controller.setSyndicate(authCtrl.auth!.userId);
+      }
     });
     super.initState();
   }
 
-  Future<EmployeerModel?> showDialogEmployeer() async {
+  Future<ServTakerModel?> showDialogServTaker() async {
     final employeerResult = await showDialog(
       context: context,
-      builder: (context) => const EmployeerPicker(),
+      builder: (context) => const ServTakerPicker(),
     );
     if (employeerResult != null) {
       return employeerResult;
@@ -135,15 +140,16 @@ class _TasksSyndicateRegisterPageState extends State<TasksSyndicateRegisterPage>
               Observer(
                 builder: (_) => TextFieldChangedWidget(
                   controller: employeerEC,
-                  label: 'Empregadora',
+                  label: 'Tomadora',
                   hintText: '',
                   readOnly: true,
-                  initialValue: controller.employeer?.name,
+                  initialValue: controller.servTaker?.name,
+                  errorText: controller.servTakerError,
                   onTap: () async {
-                    final result = await showDialogEmployeer();
+                    final result = await showDialogServTaker();
                     if (result != null) {
                       employeerEC.text = result.name;
-                      controller.setEmployeer(result);
+                      controller.setServTaker(result);
                     }
                   },
                 ),

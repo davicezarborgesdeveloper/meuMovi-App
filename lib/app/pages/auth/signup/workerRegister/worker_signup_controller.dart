@@ -192,6 +192,17 @@ abstract class WorkerSignupControllerBase with Store {
     }
   }
 
+  @computed
+  bool get employeerValid => employeer != null;
+  String? get employeerError {
+    return 'tess';
+    // if (!_showErrors || employeerValid) {
+    //   return null;
+    // } else {
+    //   return 'Empregadora Obrigatória';
+    // }
+  }
+
   //--Dados Endereço
   @observable
   String? zip;

@@ -66,13 +66,12 @@ mixin _$ServiceTakerSyndicateRegisterController
           () => super.retypePassValid,
           name: 'ServiceTakerSyndicateRegisterControllerBase.retypePassValid'))
       .value;
-  Computed<bool>? _$isFormValidSignupComputed;
+  Computed<bool>? _$employeerValidComputed;
 
   @override
-  bool get isFormValidSignup => (_$isFormValidSignupComputed ??= Computed<bool>(
-          () => super.isFormValidSignup,
-          name:
-              'ServiceTakerSyndicateRegisterControllerBase.isFormValidSignup'))
+  bool get employeerValid => (_$employeerValidComputed ??= Computed<bool>(
+          () => super.employeerValid,
+          name: 'ServiceTakerSyndicateRegisterControllerBase.employeerValid'))
       .value;
   Computed<bool>? _$isFormValidRegisterComputed;
 
@@ -81,14 +80,6 @@ mixin _$ServiceTakerSyndicateRegisterController
               bool>(() => super.isFormValidRegister,
           name:
               'ServiceTakerSyndicateRegisterControllerBase.isFormValidRegister'))
-      .value;
-  Computed<dynamic>? _$sendPressedSignupComputed;
-
-  @override
-  dynamic get sendPressedSignup => (_$sendPressedSignupComputed ??= Computed<
-              dynamic>(() => super.sendPressedSignup,
-          name:
-              'ServiceTakerSyndicateRegisterControllerBase.sendPressedSignup'))
       .value;
   Computed<dynamic>? _$sendPressedRegisterComputed;
 
@@ -618,9 +609,8 @@ emailValid: ${emailValid},
 zipValid: ${zipValid},
 passwordValid: ${passwordValid},
 retypePassValid: ${retypePassValid},
-isFormValidSignup: ${isFormValidSignup},
+employeerValid: ${employeerValid},
 isFormValidRegister: ${isFormValidRegister},
-sendPressedSignup: ${sendPressedSignup},
 sendPressedRegister: ${sendPressedRegister}
     ''';
   }

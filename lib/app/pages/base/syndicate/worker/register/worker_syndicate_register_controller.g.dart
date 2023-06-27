@@ -65,6 +65,13 @@ mixin _$WorkerSyndicateRegisterController
   bool get rgValid => (_$rgValidComputed ??= Computed<bool>(() => super.rgValid,
           name: 'WorkerSyndicateRegisterControllerBase.rgValid'))
       .value;
+  Computed<bool>? _$employeerValidComputed;
+
+  @override
+  bool get employeerValid =>
+      (_$employeerValidComputed ??= Computed<bool>(() => super.employeerValid,
+              name: 'WorkerSyndicateRegisterControllerBase.employeerValid'))
+          .value;
   Computed<bool>? _$zipValidComputed;
 
   @override
@@ -761,6 +768,7 @@ passwordValid: ${passwordValid},
 retypePassValid: ${retypePassValid},
 cpfValid: ${cpfValid},
 rgValid: ${rgValid},
+employeerValid: ${employeerValid},
 zipValid: ${zipValid},
 isFormValidSignup: ${isFormValidSignup},
 isFormValidRegister: ${isFormValidRegister},

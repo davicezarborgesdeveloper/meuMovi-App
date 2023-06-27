@@ -16,9 +16,9 @@ class ServiceTakerModel implements UserModel {
   final String email;
   final String cnpj;
   final String name;
-  final String phone;
+  final String? phone;
   final String zip;
-  final String number;
+  final String? number;
   final bool active;
   final String? imageUrl;
   ServiceTakerModel({

@@ -188,6 +188,16 @@ abstract class WorkerSyndicateRegisterControllerBase with Store {
     }
   }
 
+  @computed
+  bool get employeerValid => employeer != null;
+  String? get employeerError {
+    if (!_showErrors || employeerValid) {
+      return null;
+    } else {
+      return 'Empregadora Obrigatória';
+    }
+  }
+
   //--Dados Endereço
   @observable
   String? zip;

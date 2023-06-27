@@ -202,18 +202,31 @@ abstract class ServiceTakerSyndicateRegisterControllerBase with Store {
     }
   }
 
+  @computed
+  bool get employeerValid => employeer != null;
+  String? get employeerError {
+    if (!_showErrors || employeerValid) {
+      return null;
+    } else {
+      return 'Empregadora Obrigatória';
+    }
+  }
+
   @action
   void invalidSendPressed() => _showErrors = true;
 
-  @computed
-  bool get isFormValidSignup =>
-      cnpjValid &&
-      nameValid &&
-      emailValid &&
-      zipValid &&
-      passwordValid &&
-      retypePassValid &&
-      termsAccepted;
+  // @computed
+  // bool get isFormValidSignup =>
+  //     cnpjValid &&
+  //     nameValid &&
+  //     emailValid &&
+  //     zipValid &&
+  //     passwordValid &&
+  //     retypePassValid &&
+  //     termsAccepted;
+
+  // @computed
+  // dynamic get sendPressedSignup => isFormValidSignup ? register : null;
 
   @computed
   bool get isFormValidRegister =>
@@ -222,10 +235,7 @@ abstract class ServiceTakerSyndicateRegisterControllerBase with Store {
       emailValid &&
       cnpjValid &&
       nameValid &&
-      zipValid;
-
-  @computed
-  dynamic get sendPressedSignup => isFormValidSignup ? register : null;
+      zipValid & employeerValid;
 
   @computed
   dynamic get sendPressedRegister =>
@@ -254,10 +264,10 @@ abstract class ServiceTakerSyndicateRegisterControllerBase with Store {
         ),
         cnpj: cnpj!.replaceAll(RegExp(r'[^0-9]'), ''),
         name: name!,
-        phone: phone!.replaceAll(RegExp(r'[^0-9]'), ''),
+        phone: phone == null ? null : phone!.replaceAll(RegExp(r'[^0-9]'), ''),
         email: email!,
         zip: zip!.replaceAll(RegExp(r'[^0-9]'), ''),
-        number: number!,
+        number: number,
       );
       await ServiceTakerService().saveServiceTaker(user);
       _status = ServiceTakerRegisterStateStatus.saved;
@@ -287,7 +297,7 @@ abstract class ServiceTakerSyndicateRegisterControllerBase with Store {
     fantasyName = model.fantasyName;
     cnpj = model.cnpj.formattedCNPJ;
     name = model.name;
-    phone = model.phone.formattedPhone;
+    phone = model.phone?.formattedPhone;
     email = model.email;
     zip = model.zip.formattedZip;
     number = model.number;

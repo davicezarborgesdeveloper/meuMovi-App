@@ -49,7 +49,7 @@ class TaskListTile extends StatelessWidget {
                     SizedBox(
                       width: context.percentWidth(.4),
                       child: Text(
-                        task.employeer!.name,
+                        task.servTaker!.name,
                         style: context.textStyles.textRegular
                             .copyWith(fontSize: 12),
                         overflow: TextOverflow.ellipsis,

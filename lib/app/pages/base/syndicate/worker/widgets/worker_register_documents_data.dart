@@ -99,6 +99,7 @@ class _WorkerRegisterDocumentsDataState
             label: 'Empregadora',
             hintText: '',
             readOnly: true,
+            errorText: widget.controller.employeerError,
             onTap: () async {
               final result = await showDialogEmployeer();
               if (result != null) {

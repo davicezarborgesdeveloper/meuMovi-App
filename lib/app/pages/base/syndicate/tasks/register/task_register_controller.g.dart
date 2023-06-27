@@ -51,6 +51,13 @@ mixin _$TaskRegisterController on TaskRegisterControllerBase, Store {
       (_$reportTypeValidComputed ??= Computed<bool>(() => super.reportTypeValid,
               name: 'TaskRegisterControllerBase.reportTypeValid'))
           .value;
+  Computed<bool>? _$servTakerValidComputed;
+
+  @override
+  bool get servTakerValid =>
+      (_$servTakerValidComputed ??= Computed<bool>(() => super.servTakerValid,
+              name: 'TaskRegisterControllerBase.servTakerValid'))
+          .value;
   Computed<bool>? _$hourDaysValidComputed;
 
   @override
@@ -198,19 +205,19 @@ mixin _$TaskRegisterController on TaskRegisterControllerBase, Store {
     });
   }
 
-  late final _$employeerAtom =
-      Atom(name: 'TaskRegisterControllerBase.employeer', context: context);
+  late final _$servTakerAtom =
+      Atom(name: 'TaskRegisterControllerBase.servTaker', context: context);
 
   @override
-  EmployeerModel? get employeer {
-    _$employeerAtom.reportRead();
-    return super.employeer;
+  ServTakerModel? get servTaker {
+    _$servTakerAtom.reportRead();
+    return super.servTaker;
   }
 
   @override
-  set employeer(EmployeerModel? value) {
-    _$employeerAtom.reportWrite(value, super.employeer, () {
-      super.employeer = value;
+  set servTaker(ServTakerModel? value) {
+    _$servTakerAtom.reportWrite(value, super.servTaker, () {
+      super.servTaker = value;
     });
   }
 
@@ -358,6 +365,22 @@ mixin _$TaskRegisterController on TaskRegisterControllerBase, Store {
     });
   }
 
+  late final _$syndicateAtom =
+      Atom(name: 'TaskRegisterControllerBase.syndicate', context: context);
+
+  @override
+  String? get syndicate {
+    _$syndicateAtom.reportRead();
+    return super.syndicate;
+  }
+
+  @override
+  set syndicate(String? value) {
+    _$syndicateAtom.reportWrite(value, super.syndicate, () {
+      super.syndicate = value;
+    });
+  }
+
   late final _$registerAsyncAction =
       AsyncAction('TaskRegisterControllerBase.register', context: context);
 
@@ -392,11 +415,11 @@ mixin _$TaskRegisterController on TaskRegisterControllerBase, Store {
   }
 
   @override
-  void setEmployeer(EmployeerModel? value) {
+  void setServTaker(ServTakerModel? value) {
     final _$actionInfo = _$TaskRegisterControllerBaseActionController
-        .startAction(name: 'TaskRegisterControllerBase.setEmployeer');
+        .startAction(name: 'TaskRegisterControllerBase.setServTaker');
     try {
-      return super.setEmployeer(value);
+      return super.setServTaker(value);
     } finally {
       _$TaskRegisterControllerBaseActionController.endAction(_$actionInfo);
     }
@@ -502,6 +525,17 @@ mixin _$TaskRegisterController on TaskRegisterControllerBase, Store {
   }
 
   @override
+  void setSyndicate(String value) {
+    final _$actionInfo = _$TaskRegisterControllerBaseActionController
+        .startAction(name: 'TaskRegisterControllerBase.setSyndicate');
+    try {
+      return super.setSyndicate(value);
+    } finally {
+      _$TaskRegisterControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void invalidSendPressed() {
     final _$actionInfo = _$TaskRegisterControllerBaseActionController
         .startAction(name: 'TaskRegisterControllerBase.invalidSendPressed');
@@ -517,7 +551,7 @@ mixin _$TaskRegisterController on TaskRegisterControllerBase, Store {
     return '''
 descriptionService: ${descriptionService},
 serviceTaker: ${serviceTaker},
-employeer: ${employeer},
+servTaker: ${servTaker},
 descCostCenter: ${descCostCenter},
 extraPercentage: ${extraPercentage},
 productionType: ${productionType},
@@ -527,12 +561,14 @@ hourDays: ${hourDays},
 valuePayroll: ${valuePayroll},
 invoiceAmount: ${invoiceAmount},
 valueInvoice: ${valueInvoice},
+syndicate: ${syndicate},
 descriptionServiceValid: ${descriptionServiceValid},
 serviceTakerValid: ${serviceTakerValid},
 descCostCenterValid: ${descCostCenterValid},
 productionTypeValid: ${productionTypeValid},
 extraPercentageValid: ${extraPercentageValid},
 reportTypeValid: ${reportTypeValid},
+servTakerValid: ${servTakerValid},
 hourDaysValid: ${hourDaysValid},
 valuePayrollValid: ${valuePayrollValid},
 invoiceAmountValid: ${invoiceAmountValid},

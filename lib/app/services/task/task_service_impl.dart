@@ -45,7 +45,7 @@ class TaskServiceImpl implements TaskService {
     } else {
       for (var doc in querySnapshot.docs) {
         final map = doc.data() as Map<String, dynamic>;
-        if (map['employeer']['code'] == userId) {
+        if (map['syndicate'] == userId) {
           list.add(TaskModel.fromMap(map));
         }
       }

@@ -166,12 +166,16 @@ abstract class ProfileWorkerDocumentsControllerBase with Store {
   Future<void> getData() async {
     _status = ProfileWorkerDocumentsStateStatus.loading;
     final data = GetIt.I<UserController>().user as WorkerModel;
-    final dt = DateFormat('yyyy-MM-dd').parse(data.documents.dataEmissao!);
+    late final DateTime dt;
+    if (data.documents.dataEmissao != null &&
+        data.documents.dataEmissao!.isNotEmpty) {
+      dt = DateFormat('yyyy-MM-dd').parse(data.documents.dataEmissao!);
+      dataEmissao = DateFormat('dd/MM/yyyy').format(dt);
+    }
     cpf = data.documents.cpf.formattedCPF;
     rg = data.documents.rg;
     orgaoEmissor = data.documents.orgaoEmissor;
 
-    dataEmissao = DateFormat('dd/MM/yyyy').format(dt);
     employeer = data.documents.employeer != null
         ? EmployeerModel(
             code: data.documents.employeer!.code,

@@ -262,7 +262,7 @@ abstract class ServiceTakerEditDataControllerBase with Store {
     fantasyName = data.fantasyName;
     cnpj = data.cnpj.formattedCNPJ;
     name = data.name;
-    phone = data.phone.formattedPhone;
+    phone = data.phone?.formattedPhone;
     email = data.email;
     zip = data.zip.formattedZip;
     number = data.number;

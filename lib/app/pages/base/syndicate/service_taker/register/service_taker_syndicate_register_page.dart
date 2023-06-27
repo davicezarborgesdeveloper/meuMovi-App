@@ -150,7 +150,7 @@ class _ServiceTakerSyndicateRegisterPageState
                   hintText: '',
                   readOnly: true,
                   initialValue: controller.employeer?.name,
-                  // errorText: controller.employeerError,
+                  errorText: controller.employeerError,
                   onTap: () async {
                     final result = await showDialogEmployeer();
                     if (result != null) {
