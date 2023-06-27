@@ -29,14 +29,20 @@ class ServiceTakerServiceImpl implements ServiceTakerService {
   }
 
   @override
-  Future<List<ServiceTakerModel>> getAllServiceTaker() async {
+  Future<List<ServiceTakerModel>> getAllServiceTaker([String? userId]) async {
     final collectionRef = FirebaseFirestore.instance.collection(userCollection);
     final QuerySnapshot querySnapshot = await collectionRef.get();
     final serviceTakerList = <ServiceTakerModel>[];
     for (var doc in querySnapshot.docs) {
       final map = doc.data() as Map<String, dynamic>;
       if (map['profileType'] == 1) {
-        serviceTakerList.add(ServiceTakerModel.fromMap(map));
+        if (userId != null) {
+          if (map['employeer']['code'] == userId) {
+            serviceTakerList.add(ServiceTakerModel.fromMap(map));
+          }
+        } else {
+          serviceTakerList.add(ServiceTakerModel.fromMap(map));
+        }
       }
     }
     return serviceTakerList;

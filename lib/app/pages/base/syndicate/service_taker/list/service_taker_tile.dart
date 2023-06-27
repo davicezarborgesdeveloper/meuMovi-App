@@ -86,7 +86,7 @@ class ServiceTakerTile extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     SizedBox(
-                      width: context.percentWidth(.5),
+                      width: context.percentWidth(.4),
                       child: Text(
                         serviceTaker.email,
                         style: context.textStyles.textRegular

@@ -87,14 +87,20 @@ class WorkerServiceImpl implements WorkerService {
   }
 
   @override
-  Future<List<WorkerModel>> getAllWorkers() async {
+  Future<List<WorkerModel>> getAllWorkers([String? userId]) async {
     final collectionRef = FirebaseFirestore.instance.collection(userCollection);
     final QuerySnapshot querySnapshot = await collectionRef.get();
     final workerList = <WorkerModel>[];
     for (var doc in querySnapshot.docs) {
       final map = doc.data() as Map<String, dynamic>;
       if (map['profileType'] == 0) {
-        workerList.add(WorkerModel.fromMap(map));
+        if (userId != null) {
+          if (map['documents']['employeer']['code'] == userId) {
+            workerList.add(WorkerModel.fromMap(map));
+          }
+        } else {
+          workerList.add(WorkerModel.fromMap(map));
+        }
       }
     }
     return workerList;

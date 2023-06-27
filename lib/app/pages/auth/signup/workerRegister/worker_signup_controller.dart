@@ -315,6 +315,7 @@ abstract class WorkerSignupControllerBase with Store {
         documents: DocumentsModel(
           cpf: cpf!.replaceAll(RegExp(r'[^0-9]'), ''),
           rg: rg!.replaceAll(RegExp(r'[^0-9]'), ''),
+          employeer: employeer,
         ),
         personal: PersonalModel(
           birthdate: DateFormat('yyyy-MM-dd').format(dt),

@@ -28,10 +28,10 @@ abstract class ServiceTakerListControllerBase with Store {
   @readonly
   var _serviceTaker = <ServiceTakerModel>[];
 
-  Future<void> findServiceTaker() async {
+  Future<void> findServiceTaker(String? userId) async {
     try {
       _status = ServiceTakerListStateStatus.loading;
-      _serviceTaker = await ServiceTakerService().getAllServiceTaker();
+      _serviceTaker = await ServiceTakerService().getAllServiceTaker(userId);
       _status = ServiceTakerListStateStatus.loaded;
     } catch (e, s) {
       log('Erro ao buscar listar tomadoras', error: e, stackTrace: s);

@@ -16,33 +16,12 @@ mixin _$TaskRegisterController on TaskRegisterControllerBase, Store {
           Computed<bool>(() => super.descriptionServiceValid,
               name: 'TaskRegisterControllerBase.descriptionServiceValid'))
       .value;
-  Computed<bool>? _$companyIdValidComputed;
-
-  @override
-  bool get companyIdValid =>
-      (_$companyIdValidComputed ??= Computed<bool>(() => super.companyIdValid,
-              name: 'TaskRegisterControllerBase.companyIdValid'))
-          .value;
-  Computed<bool>? _$companyNameValidComputed;
-
-  @override
-  bool get companyNameValid => (_$companyNameValidComputed ??= Computed<bool>(
-          () => super.companyNameValid,
-          name: 'TaskRegisterControllerBase.companyNameValid'))
-      .value;
   Computed<bool>? _$serviceTakerValidComputed;
 
   @override
   bool get serviceTakerValid => (_$serviceTakerValidComputed ??= Computed<bool>(
           () => super.serviceTakerValid,
           name: 'TaskRegisterControllerBase.serviceTakerValid'))
-      .value;
-  Computed<bool>? _$idCostCenterValidComputed;
-
-  @override
-  bool get idCostCenterValid => (_$idCostCenterValidComputed ??= Computed<bool>(
-          () => super.idCostCenterValid,
-          name: 'TaskRegisterControllerBase.idCostCenterValid'))
       .value;
   Computed<bool>? _$descCostCenterValidComputed;
 
@@ -203,38 +182,6 @@ mixin _$TaskRegisterController on TaskRegisterControllerBase, Store {
     });
   }
 
-  late final _$companyIdAtom =
-      Atom(name: 'TaskRegisterControllerBase.companyId', context: context);
-
-  @override
-  String? get companyId {
-    _$companyIdAtom.reportRead();
-    return super.companyId;
-  }
-
-  @override
-  set companyId(String? value) {
-    _$companyIdAtom.reportWrite(value, super.companyId, () {
-      super.companyId = value;
-    });
-  }
-
-  late final _$companyNameAtom =
-      Atom(name: 'TaskRegisterControllerBase.companyName', context: context);
-
-  @override
-  String? get companyName {
-    _$companyNameAtom.reportRead();
-    return super.companyName;
-  }
-
-  @override
-  set companyName(String? value) {
-    _$companyNameAtom.reportWrite(value, super.companyName, () {
-      super.companyName = value;
-    });
-  }
-
   late final _$serviceTakerAtom =
       Atom(name: 'TaskRegisterControllerBase.serviceTaker', context: context);
 
@@ -251,19 +198,19 @@ mixin _$TaskRegisterController on TaskRegisterControllerBase, Store {
     });
   }
 
-  late final _$idCostCenterAtom =
-      Atom(name: 'TaskRegisterControllerBase.idCostCenter', context: context);
+  late final _$employeerAtom =
+      Atom(name: 'TaskRegisterControllerBase.employeer', context: context);
 
   @override
-  String? get idCostCenter {
-    _$idCostCenterAtom.reportRead();
-    return super.idCostCenter;
+  EmployeerModel? get employeer {
+    _$employeerAtom.reportRead();
+    return super.employeer;
   }
 
   @override
-  set idCostCenter(String? value) {
-    _$idCostCenterAtom.reportWrite(value, super.idCostCenter, () {
-      super.idCostCenter = value;
+  set employeer(EmployeerModel? value) {
+    _$employeerAtom.reportWrite(value, super.employeer, () {
+      super.employeer = value;
     });
   }
 
@@ -434,28 +381,6 @@ mixin _$TaskRegisterController on TaskRegisterControllerBase, Store {
   }
 
   @override
-  void setCompanyId(String value) {
-    final _$actionInfo = _$TaskRegisterControllerBaseActionController
-        .startAction(name: 'TaskRegisterControllerBase.setCompanyId');
-    try {
-      return super.setCompanyId(value);
-    } finally {
-      _$TaskRegisterControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void setCompanyName(String value) {
-    final _$actionInfo = _$TaskRegisterControllerBaseActionController
-        .startAction(name: 'TaskRegisterControllerBase.setCompanyName');
-    try {
-      return super.setCompanyName(value);
-    } finally {
-      _$TaskRegisterControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   void setServiceTaker(ServiceTakerModel? value) {
     final _$actionInfo = _$TaskRegisterControllerBaseActionController
         .startAction(name: 'TaskRegisterControllerBase.setServiceTaker');
@@ -467,11 +392,11 @@ mixin _$TaskRegisterController on TaskRegisterControllerBase, Store {
   }
 
   @override
-  void setIdCostCenter(String value) {
+  void setEmployeer(EmployeerModel? value) {
     final _$actionInfo = _$TaskRegisterControllerBaseActionController
-        .startAction(name: 'TaskRegisterControllerBase.setIdCostCenter');
+        .startAction(name: 'TaskRegisterControllerBase.setEmployeer');
     try {
-      return super.setIdCostCenter(value);
+      return super.setEmployeer(value);
     } finally {
       _$TaskRegisterControllerBaseActionController.endAction(_$actionInfo);
     }
@@ -591,10 +516,8 @@ mixin _$TaskRegisterController on TaskRegisterControllerBase, Store {
   String toString() {
     return '''
 descriptionService: ${descriptionService},
-companyId: ${companyId},
-companyName: ${companyName},
 serviceTaker: ${serviceTaker},
-idCostCenter: ${idCostCenter},
+employeer: ${employeer},
 descCostCenter: ${descCostCenter},
 extraPercentage: ${extraPercentage},
 productionType: ${productionType},
@@ -605,10 +528,7 @@ valuePayroll: ${valuePayroll},
 invoiceAmount: ${invoiceAmount},
 valueInvoice: ${valueInvoice},
 descriptionServiceValid: ${descriptionServiceValid},
-companyIdValid: ${companyIdValid},
-companyNameValid: ${companyNameValid},
 serviceTakerValid: ${serviceTakerValid},
-idCostCenterValid: ${idCostCenterValid},
 descCostCenterValid: ${descCostCenterValid},
 productionTypeValid: ${productionTypeValid},
 extraPercentageValid: ${extraPercentageValid},

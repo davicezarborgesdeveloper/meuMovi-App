@@ -1,17 +1,16 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:meu_movi/app/models/worker_model.dart';
+
 import '../core/ui/helpers/enums.dart';
 
 class TaskModel {
   final String? code;
   final String descriptionService;
-  // final ServiceTakerModel serviceTaker;
-  final String? companyId;
-  final String companyName;
-  final String? idCostCenter;
   final String? descCostCenter;
   final String extraPercentage;
+  final EmployeerModel? employeer;
   final ProductionType? productionType;
   final ReportType? reportType;
   final bool calculateNightTime;
@@ -22,16 +21,13 @@ class TaskModel {
   TaskModel({
     this.code,
     required this.descriptionService,
-    // required this.serviceTaker,
-    required this.companyId,
-    required this.companyName,
-    required this.idCostCenter,
     required this.descCostCenter,
     required this.extraPercentage,
     required this.productionType,
     required this.reportType,
     required this.calculateNightTime,
     this.hourDays,
+    this.employeer,
     required this.valuePayroll,
     required this.invoiceAmount,
     required this.valueInvoice,
@@ -41,10 +37,7 @@ class TaskModel {
     return <String, dynamic>{
       'code': code,
       'descriptionService': descriptionService,
-      // 'serviceTaker': serviceTaker.toMap(),
-      'companyId': companyId,
-      'companyName': companyName,
-      'idCostCenter': idCostCenter,
+      'employeer': employeer?.toMap(),
       'descCostCenter': descCostCenter,
       'extraPercentage': extraPercentage,
       'productionType': productionType?.acronym,
@@ -61,12 +54,6 @@ class TaskModel {
     return TaskModel(
       code: (map['code'] ?? '') as String,
       descriptionService: (map['descriptionService'] ?? '') as String,
-      companyId: (map['companyId'] ?? '') as String,
-      companyName: (map['companyName'] ?? '') as String,
-
-      // serviceTaker: ServiceTakerModel.fromMap(
-      //     map['serviceTaker'] as Map<String, dynamic>),
-      idCostCenter: (map['idCostCenter'] ?? '') as String,
       descCostCenter: (map['descCostCenter'] ?? '') as String,
       extraPercentage: (map['extraPercentage'] ?? '') as String,
       productionType: map['productionType'] != null
@@ -92,8 +79,9 @@ class TaskModel {
               ? (map['valueInvoice'] as int).toDouble()
               : map['valueInvoice'] as double
           : 0.00,
-      // valueInvoice: (map['valueInvoice'] ?? '0.00') as double,
-      // a.toDouble();
+      employeer: map['employeer'] != null
+          ? EmployeerModel.fromMap(map['employeer'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -104,7 +92,7 @@ class TaskModel {
 
   @override
   String toString() {
-    return 'TaskModel(code: $code, descriptionService: $descriptionService, companyId: $companyId, companyName: $companyName, idCostCenter: $idCostCenter, descCostCenter: $descCostCenter, extraPercentage: $extraPercentage, productionType: $productionType, reportType: $reportType, calculateNightTime: $calculateNightTime, hourDays: $hourDays, valuePayroll: $valuePayroll, invoiceAmount: $invoiceAmount, valueInvoice: $valueInvoice)';
+    return 'TaskModel(code: $code, descriptionService: $descriptionService, descCostCenter: $descCostCenter, extraPercentage: $extraPercentage, productionType: $productionType, reportType: $reportType, calculateNightTime: $calculateNightTime, hourDays: $hourDays, valuePayroll: $valuePayroll, invoiceAmount: $invoiceAmount, valueInvoice: $valueInvoice)';
   }
 
   TaskModel copyWith({
@@ -122,13 +110,11 @@ class TaskModel {
     double? valuePayroll,
     double? invoiceAmount,
     double? valueInvoice,
+    EmployeerModel? employeer,
   }) {
     return TaskModel(
       code: code ?? this.code,
       descriptionService: descriptionService ?? this.descriptionService,
-      companyId: companyId ?? this.companyId,
-      companyName: companyName ?? this.companyName,
-      idCostCenter: idCostCenter ?? this.idCostCenter,
       descCostCenter: descCostCenter ?? this.descCostCenter,
       extraPercentage: extraPercentage ?? this.extraPercentage,
       productionType: productionType ?? this.productionType,
@@ -138,6 +124,7 @@ class TaskModel {
       valuePayroll: valuePayroll ?? this.valuePayroll,
       invoiceAmount: invoiceAmount ?? this.invoiceAmount,
       valueInvoice: valueInvoice ?? this.valueInvoice,
+      employeer: employeer ?? this.employeer,
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../../core/extensions/formatter_extensions.dart';
+import '../../../../../../core/ui/helpers/size_extensions.dart';
 import '../../../../../../core/ui/styles/colors_app.dart';
 import '../../../../../../core/ui/styles/text_styles.dart';
 import '../../../../../../models/task_model.dart';
@@ -45,10 +46,15 @@ class TaskListTile extends StatelessWidget {
                       style: context.textStyles.textSemiBold,
                     ),
                     const SizedBox(height: 4),
-                    Text(
-                      task.companyName,
-                      style:
-                          context.textStyles.textRegular.copyWith(fontSize: 12),
+                    SizedBox(
+                      width: context.percentWidth(.4),
+                      child: Text(
+                        task.employeer!.name,
+                        style: context.textStyles.textRegular
+                            .copyWith(fontSize: 12),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                      ),
                     ),
                     const SizedBox(height: 8),
                     Text(

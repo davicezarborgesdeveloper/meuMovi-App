@@ -5,6 +5,7 @@ import 'package:mobx/mobx.dart';
 import '../../../../../core/ui/helpers/enums.dart';
 import '../../../../../models/service_taker_model.dart';
 import '../../../../../models/task_model.dart';
+import '../../../../../models/worker_model.dart';
 import '../../../../../services/task/task_service.dart';
 part 'task_register_controller.g.dart';
 
@@ -36,16 +37,10 @@ abstract class TaskRegisterControllerBase with Store {
   String? descriptionService;
 
   @observable
-  String? companyId;
-
-  @observable
-  String? companyName;
-
-  @observable
   ServiceTakerModel? serviceTaker;
 
   @observable
-  String? idCostCenter;
+  EmployeerModel? employeer;
 
   @observable
   String? descCostCenter;
@@ -78,16 +73,10 @@ abstract class TaskRegisterControllerBase with Store {
   void setDescriptionService(String value) => descriptionService = value;
 
   @action
-  void setCompanyId(String value) => companyId = value;
-
-  @action
-  void setCompanyName(String value) => companyName = value;
-
-  @action
   void setServiceTaker(ServiceTakerModel? value) => serviceTaker = value;
 
   @action
-  void setIdCostCenter(String value) => idCostCenter = value;
+  void setEmployeer(EmployeerModel? value) => employeer = value;
 
   @action
   void setDescCostCenter(String value) => descCostCenter = value;
@@ -128,43 +117,12 @@ abstract class TaskRegisterControllerBase with Store {
   }
 
   @computed
-  bool get companyIdValid => companyId != null && companyId!.isNotEmpty;
-  String? get companyIdError {
-    if (!_showErrors || companyIdValid) {
-      return null;
-    } else {
-      return 'Codigo da tomadora obrigatório';
-    }
-  }
-
-  @computed
-  bool get companyNameValid => companyName != null && companyName!.isNotEmpty;
-  String? get companyNameError {
-    if (!_showErrors || companyNameValid) {
-      return null;
-    } else {
-      return 'Nome fantasia da tomadora obrigatório';
-    }
-  }
-
-  @computed
   bool get serviceTakerValid => serviceTaker != null && serviceTaker != null;
   String? get serviceTakerError {
     if (!_showErrors || serviceTakerValid) {
       return null;
     } else {
       return 'Tomadora de Serviço Obrigatório';
-    }
-  }
-
-  @computed
-  bool get idCostCenterValid =>
-      idCostCenter != null && idCostCenter!.isNotEmpty;
-  String? get idCostCenterError {
-    if (!_showErrors || idCostCenterValid) {
-      return null;
-    } else {
-      return 'Identificação Centro de Custo Obrigatória';
     }
   }
 
@@ -261,7 +219,6 @@ abstract class TaskRegisterControllerBase with Store {
   @computed
   bool get isFormValid =>
       descriptionServiceValid &&
-      companyNameValid &&
       productionTypeValid &&
       reportTypeValid &&
       hourDaysValid &&
@@ -279,13 +236,13 @@ abstract class TaskRegisterControllerBase with Store {
       final task = TaskModel(
         code: _code,
         descriptionService: descriptionService!,
-        companyId: companyId,
-        companyName: companyName!,
-        // serviceTaker: serviceTaker!,
-        idCostCenter: idCostCenter,
         descCostCenter: descCostCenter,
         extraPercentage: extraPercentage ?? '0.00',
         productionType: productionType!,
+        employeer: EmployeerModel(
+          code: employeer!.code,
+          name: employeer!.name,
+        ),
         reportType: reportType!,
         calculateNightTime: calculateNightTime,
         hourDays: hourDays,
@@ -302,21 +259,24 @@ abstract class TaskRegisterControllerBase with Store {
     }
   }
 
-  Future<void> loadData(TaskModel? taskmodel) async {
+  Future<void> loadData(TaskModel? model) async {
     _status = TaskRegisterStateStatus.loading;
-    _code = taskmodel!.code;
-    descriptionService = taskmodel.descriptionService;
-    companyId = taskmodel.companyId!;
-    companyName = taskmodel.companyName;
-    idCostCenter = taskmodel.idCostCenter!;
-    descCostCenter = taskmodel.descCostCenter!;
-    extraPercentage = taskmodel.extraPercentage;
-    hourDays = taskmodel.hourDays ?? '0,00';
-    valuePayroll = taskmodel.valuePayroll.toString();
-    invoiceAmount = taskmodel.invoiceAmount.toString();
-    valueInvoice = taskmodel.valueInvoice.toString();
-    productionType = ProductionType.parse(taskmodel.productionType!.acronym);
-    reportType = ReportType.parse(taskmodel.reportType!.acronym);
+    _code = model!.code;
+    descriptionService = model.descriptionService;
+    descCostCenter = model.descCostCenter!;
+    extraPercentage = model.extraPercentage;
+    hourDays = model.hourDays ?? '0,00';
+    valuePayroll = model.valuePayroll.toString();
+    invoiceAmount = model.invoiceAmount.toString();
+    valueInvoice = model.valueInvoice.toString();
+    productionType = ProductionType.parse(model.productionType!.acronym);
+    reportType = ReportType.parse(model.reportType!.acronym);
+    employeer = model.employeer != null
+        ? EmployeerModel(
+            code: model.employeer!.code,
+            name: model.employeer!.name,
+          )
+        : EmployeerModel(code: '', name: '');
     _status = TaskRegisterStateStatus.loaded;
   }
 }

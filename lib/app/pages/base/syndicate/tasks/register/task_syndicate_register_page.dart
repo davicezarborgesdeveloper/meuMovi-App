@@ -10,8 +10,11 @@ import '../../../../../core/ui/styles/colors_app.dart';
 import '../../../../../core/ui/styles/text_styles.dart';
 import '../../../../../core/widget/dropdown_widget.dart';
 import '../../../../../core/widget/register_success.dart';
+import '../../../../../core/widget/text_field_changed_widget.dart';
 import '../../../../../core/widget/text_field_widget.dart';
 import '../../../../../models/task_model.dart';
+import '../../../../../models/worker_model.dart';
+import '../../../worker/profile/documents/widgets/employeer_picker.dart';
 import 'task_register_controller.dart';
 
 class TasksSyndicateRegisterPage extends StatefulWidget {
@@ -28,16 +31,14 @@ class _TasksSyndicateRegisterPageState extends State<TasksSyndicateRegisterPage>
   late final TaskRegisterController controller = TaskRegisterController();
   late final ReactionDisposer statusDisposer;
   final descriptionServiceEC = TextEditingController();
-  final companyIdEC = TextEditingController();
   final companyNamEC = TextEditingController();
-  final idCostCenterEC = TextEditingController();
   final descCostCenterEC = TextEditingController();
   final extraPercentageEC = TextEditingController();
   final hourDaysEC = TextEditingController();
   final valuePayrollEC = TextEditingController();
   final invoiceAmountEC = TextEditingController();
   final valueInvoiceEC = TextEditingController();
-  // final serviceTakerEC = TextEditingController();
+  final employeerEC = TextEditingController();
 
   @override
   void initState() {
@@ -77,13 +78,22 @@ class _TasksSyndicateRegisterPageState extends State<TasksSyndicateRegisterPage>
     super.initState();
   }
 
+  Future<EmployeerModel?> showDialogEmployeer() async {
+    final employeerResult = await showDialog(
+      context: context,
+      builder: (context) => const EmployeerPicker(),
+    );
+    if (employeerResult != null) {
+      return employeerResult;
+    } else {
+      return null;
+    }
+  }
+
   @override
   void dispose() {
-    // serviceTakerEC.dispose();
     descriptionServiceEC.dispose();
-    companyIdEC.dispose();
     companyNamEC.dispose();
-    idCostCenterEC.dispose();
     descCostCenterEC.dispose();
     extraPercentageEC.dispose();
     hourDaysEC.dispose();
@@ -122,64 +132,30 @@ class _TasksSyndicateRegisterPageState extends State<TasksSyndicateRegisterPage>
                   initialValue: controller.descriptionService,
                 ),
               ),
-              Row(
-                children: [
-                  Expanded(
-                    flex: 2,
-                    child: Observer(
-                      builder: (_) => TextFieldWidget(
-                        controller: companyIdEC,
-                        label: 'cod.',
-                        hintText: '',
-                        onChanged: controller.setCompanyId,
-                        initialValue: controller.companyId,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    flex: 5,
-                    child: Observer(
-                      builder: (_) => TextFieldWidget(
-                        controller: companyNamEC,
-                        label: 'Razão Social da Tomadora',
-                        hintText: '',
-                        errorText: controller.companyNameError,
-                        onChanged: controller.setCompanyName,
-                        initialValue: controller.companyName,
-                      ),
-                    ),
-                  ),
-                ],
+              Observer(
+                builder: (_) => TextFieldChangedWidget(
+                  controller: employeerEC,
+                  label: 'Empregadora',
+                  hintText: '',
+                  readOnly: true,
+                  initialValue: controller.employeer?.name,
+                  onTap: () async {
+                    final result = await showDialogEmployeer();
+                    if (result != null) {
+                      employeerEC.text = result.name;
+                      controller.setEmployeer(result);
+                    }
+                  },
+                ),
               ),
-              Row(
-                children: [
-                  Expanded(
-                    flex: 2,
-                    child: Observer(
-                      builder: (_) => TextFieldWidget(
-                        controller: idCostCenterEC,
-                        label: 'cod.',
-                        hintText: '',
-                        onChanged: controller.setIdCostCenter,
-                        initialValue: controller.idCostCenter,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    flex: 5,
-                    child: Observer(
-                      builder: (_) => TextFieldWidget(
-                        controller: descCostCenterEC,
-                        label: 'Descrição do Centro de Custo',
-                        hintText: '',
-                        onChanged: controller.setDescCostCenter,
-                        initialValue: controller.descCostCenter,
-                      ),
-                    ),
-                  ),
-                ],
+              Observer(
+                builder: (_) => TextFieldWidget(
+                  controller: descCostCenterEC,
+                  label: 'Descrição do Centro de Custo',
+                  hintText: '',
+                  onChanged: controller.setDescCostCenter,
+                  initialValue: controller.descCostCenter,
+                ),
               ),
               Row(
                 children: [

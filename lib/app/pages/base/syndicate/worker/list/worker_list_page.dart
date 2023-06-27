@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../../core/ui/helpers/loader.dart';
@@ -7,6 +8,7 @@ import '../../../../../core/ui/helpers/messages.dart';
 import '../../../../../core/ui/styles/colors_app.dart';
 import '../../../../../core/ui/styles/text_styles.dart';
 import '../../../../../models/worker_model.dart';
+import '../../../../auth/auth_controller.dart';
 import '../../../../menu/menu_drawer.dart';
 import '../register/worker_syndicate_register_page.dart';
 import 'widget/worker_list_tile.dart';
@@ -20,6 +22,7 @@ class WorkerListPage extends StatefulWidget {
 }
 
 class _WorkerListPageState extends State<WorkerListPage> with Loader, Messages {
+  final AuthController authController = GetIt.I<AuthController>();
   final WorkerListController controller = WorkerListController();
   late final ReactionDisposer statusDisposer;
 
@@ -41,7 +44,7 @@ class _WorkerListPageState extends State<WorkerListPage> with Loader, Messages {
             break;
           case WorkerListStateStatus.deleted:
             hideLoader();
-            controller.findWorkers();
+            controller.findWorkers(authController.auth!.userId);
             break;
           case WorkerListStateStatus.error:
             hideLoader();
@@ -49,7 +52,7 @@ class _WorkerListPageState extends State<WorkerListPage> with Loader, Messages {
             break;
         }
       });
-      controller.findWorkers();
+      controller.findWorkers(authController.auth!.userId);
     });
     super.initState();
   }
@@ -130,7 +133,7 @@ class _WorkerListPageState extends State<WorkerListPage> with Loader, Messages {
                   builder: (_) => const WorkerSyndicateRegisterPage(),
                 ),
               );
-              controller.findWorkers();
+              controller.findWorkers(authController.auth!.userId);
             },
             icon: const Icon(Icons.add),
           ),

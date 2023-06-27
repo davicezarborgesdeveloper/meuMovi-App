@@ -27,10 +27,10 @@ abstract class TaskListControllerBase with Store {
   @readonly
   var _tasks = <TaskModel>[];
 
-  Future<void> findTask() async {
+  Future<void> findTask(String? userId) async {
     try {
       _status = TaskListStateStatus.loading;
-      _tasks = await TaskService().getAllTasks();
+      _tasks = await TaskService().getAllTasks(userId);
       _status = TaskListStateStatus.loaded;
     } catch (e, s) {
       log('Erro ao buscar listar tarefas', error: e, stackTrace: s);

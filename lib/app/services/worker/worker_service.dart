@@ -4,7 +4,7 @@ import 'worker_service_impl.dart';
 abstract class WorkerService {
   Future<void> saveWorker(WorkerModel user);
   Future<void> workerUpdate(WorkerModel user);
-  Future<List<WorkerModel>> getAllWorkers();
+  Future<List<WorkerModel>> getAllWorkers([String? userId]);
   Future<void> delete(String id);
 
   factory WorkerService() {

@@ -11,12 +11,11 @@ class TaskServiceImpl implements TaskService {
     final taskRef = FirebaseFirestore.instance.collection(taskCollection);
     final QuerySnapshot querySnapshot = await taskRef.get();
     int idRef = 1;
+
     if (querySnapshot.docs.isNotEmpty) {
-      if (!(await checkIfDocExists(model.code!))) {
-        final QuerySnapshot querySnapshot = await taskRef.get();
+      if (model.code == null) {
         idRef = int.parse(
-              querySnapshot.docs[querySnapshot.docs.length - 1]['code'],
-            ) +
+                querySnapshot.docs[querySnapshot.docs.length - 1]['code']) +
             1;
       } else {
         idRef = int.parse(model.code!);
@@ -35,12 +34,23 @@ class TaskServiceImpl implements TaskService {
   }
 
   @override
-  Future<List<TaskModel>> getAllTasks() async {
+  Future<List<TaskModel>> getAllTasks([String? userId]) async {
     final collectionRef = FirebaseFirestore.instance.collection(taskCollection);
     final QuerySnapshot querySnapshot = await collectionRef.get();
-    return querySnapshot.docs
-        .map((doc) => TaskModel.fromMap(doc.data() as Map<String, dynamic>))
-        .toList();
+    var list = <TaskModel>[];
+    if (userId == null) {
+      list = querySnapshot.docs
+          .map((doc) => TaskModel.fromMap(doc.data() as Map<String, dynamic>))
+          .toList();
+    } else {
+      for (var doc in querySnapshot.docs) {
+        final map = doc.data() as Map<String, dynamic>;
+        if (map['employeer']['code'] == userId) {
+          list.add(TaskModel.fromMap(map));
+        }
+      }
+    }
+    return list;
   }
 
   @override

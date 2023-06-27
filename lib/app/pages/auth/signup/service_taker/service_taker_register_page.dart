@@ -121,7 +121,6 @@ class _ServiceTakerRegisterPageState extends State<ServiceTakerRegisterPage>
                   hintText: '',
                   readOnly: true,
                   initialValue: controller.employeer?.name,
-                  // errorText: controller.employeerError,
                   onTap: () async {
                     final result = await showDialogEmployeer();
                     if (result != null) {

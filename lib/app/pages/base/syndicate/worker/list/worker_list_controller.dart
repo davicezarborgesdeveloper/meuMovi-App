@@ -29,10 +29,10 @@ abstract class WorkerListControllerBase with Store {
   @readonly
   var _workers = <WorkerModel>[];
 
-  Future<void> findWorkers() async {
+  Future<void> findWorkers(String? userId) async {
     try {
       _status = WorkerListStateStatus.loading;
-      _workers = await WorkerService().getAllWorkers();
+      _workers = await WorkerService().getAllWorkers(userId);
       _status = WorkerListStateStatus.loaded;
     } catch (e, s) {
       log('Erro ao buscar listar trabalhadores', error: e, stackTrace: s);
