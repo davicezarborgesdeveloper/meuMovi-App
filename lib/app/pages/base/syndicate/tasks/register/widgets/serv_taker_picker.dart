@@ -9,7 +9,7 @@ import '../../../../../../core/ui/helpers/size_extensions.dart';
 import '../../../../../../core/ui/styles/colors_app.dart';
 import '../../../../../../core/ui/styles/text_styles.dart';
 import '../../../../../../models/task_model.dart';
-import '../../../../../auth/auth_controller.dart';
+import '../../../../../auth/user_controller.dart';
 import 'serv_taker_picker_controller.dart';
 
 class ServTakerPicker extends StatefulWidget {
@@ -21,7 +21,7 @@ class ServTakerPicker extends StatefulWidget {
 
 class _ServTakerPickerState extends State<ServTakerPicker>
     with Loader, Messages {
-  final AuthController authController = GetIt.I<AuthController>();
+  final UserController userController = GetIt.I<UserController>();
   final ServTakerPickerController controller = ServTakerPickerController();
   late final ReactionDisposer statusDisposer;
 
@@ -44,7 +44,7 @@ class _ServTakerPickerState extends State<ServTakerPicker>
             break;
         }
       });
-      controller.findServiceTaker(authController.auth!.userId);
+      controller.findServiceTaker(userController.syndicate!.user);
     });
     super.initState();
   }

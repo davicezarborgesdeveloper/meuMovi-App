@@ -40,13 +40,6 @@ class WorkerServiceImpl implements WorkerService {
     );
 
     docRef.set(data.toMap());
-    store.collection('login').doc(data.user).set({
-      'user': data.user,
-      'password': data.password,
-      'profileType': data.profileType,
-      'active': data.active,
-      'displayName': '${data.name} ${data.lastname}',
-    });
   }
 
   @override

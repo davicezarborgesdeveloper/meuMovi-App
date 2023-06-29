@@ -5,7 +5,6 @@ import 'package:mobx/mobx.dart';
 
 import '../../../../../core/extensions/formatter_extensions.dart';
 import '../../../../../models/address_model.dart';
-import '../../../../../models/syndicate_model.dart';
 import '../../../../../repositories/zip/zip_repository.dart';
 import '../../../../../services/syndicate/syndicate_service.dart';
 import '../../../../auth/user_controller.dart';
@@ -120,8 +119,8 @@ abstract class AddressDataSyndicateControllerBase with Store {
 
   @action
   Future<void> getData() async {
-    final data = GetIt.I<UserController>().user as SyndicateModel;
-    zip = data.address.zip.formattedZip;
+    final data = GetIt.I<UserController>().syndicate;
+    zip = data!.address.zip.formattedZip;
     city = data.address.city;
     state = data.address.state;
     street = data.address.street;
@@ -134,10 +133,10 @@ abstract class AddressDataSyndicateControllerBase with Store {
   Future<void> register() async {
     _status = AddressDataStateStatus.loading;
     try {
-      final getData = GetIt.I<UserController>().user as SyndicateModel;
-      final saveData = getData.copyWith(
+      final getData = GetIt.I<UserController>().syndicate;
+      final saveData = getData!.copyWith(
         address: AddressModel(
-          zip: zip!,
+          zip: zip == null ? '' : zip!.replaceAll(RegExp(r'[^0-9]'), ''),
           city: city!,
           state: state!,
           street: street!,

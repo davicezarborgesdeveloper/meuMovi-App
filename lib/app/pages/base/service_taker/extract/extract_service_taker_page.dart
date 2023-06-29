@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 
 import '../../../../core/extensions/formatter_extensions.dart';
 import '../../../../core/ui/styles/colors_app.dart';
 import '../../../../core/ui/styles/text_styles.dart';
-import '../../../auth/auth_controller.dart';
 import '../../../menu/menu_drawer.dart';
 import '../../worker/extract/widget/period_button.dart';
 import 'extract_service_taker_controller.dart';
@@ -18,7 +16,6 @@ class ExtractServiceTakerPage extends StatefulWidget {
 }
 
 class _ExtractServiceTakerPageState extends State<ExtractServiceTakerPage> {
-  AuthController authController = GetIt.I<AuthController>();
   ExtractServiceTakerController controller = ExtractServiceTakerController();
 
   @override

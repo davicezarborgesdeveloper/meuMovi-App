@@ -5,7 +5,6 @@ import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../models/syndicate_model.dart';
-import '../../../../models/worker_model.dart';
 import '../../../../services/user/user_service.dart';
 import '../../../../services/worker/worker_service.dart';
 import '../../../auth/user_controller.dart';
@@ -59,8 +58,8 @@ abstract class ProfileWorkerControllerBase with Store {
       if (file != null) {
         _urlImage = await UserService().uploadImage(file, userId);
       }
-      final getData = GetIt.I<UserController>().user as WorkerModel;
-      final saveData = getData.copyWith(imageUrl: _urlImage);
+      final getData = GetIt.I<UserController>().worker;
+      final saveData = getData!.copyWith(imageUrl: _urlImage);
       await WorkerService().workerUpdate(saveData);
       _status = ProfileWorkerStateStatus.uploadImage;
     } on Exception catch (e, s) {

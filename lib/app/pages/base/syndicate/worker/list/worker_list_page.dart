@@ -8,21 +8,23 @@ import '../../../../../core/ui/helpers/messages.dart';
 import '../../../../../core/ui/styles/colors_app.dart';
 import '../../../../../core/ui/styles/text_styles.dart';
 import '../../../../../models/worker_model.dart';
-import '../../../../auth/auth_controller.dart';
+import '../../../../auth/user_controller.dart';
 import '../../../../menu/menu_drawer.dart';
+import '../edit/syndicate_worker_edit_page.dart';
 import '../register/worker_syndicate_register_page.dart';
 import 'widget/worker_list_tile.dart';
 import 'worker_list_controller.dart';
 
 class WorkerListPage extends StatefulWidget {
-  const WorkerListPage({super.key});
+  final UserController userCtrl;
+  const WorkerListPage(this.userCtrl, {super.key});
 
   @override
   State<WorkerListPage> createState() => _WorkerListPageState();
 }
 
 class _WorkerListPageState extends State<WorkerListPage> with Loader, Messages {
-  final AuthController authController = GetIt.I<AuthController>();
+  final UserController userController = GetIt.I<UserController>();
   final WorkerListController controller = WorkerListController();
   late final ReactionDisposer statusDisposer;
 
@@ -44,7 +46,7 @@ class _WorkerListPageState extends State<WorkerListPage> with Loader, Messages {
             break;
           case WorkerListStateStatus.deleted:
             hideLoader();
-            controller.findWorkers(authController.auth!.userId);
+            controller.findWorkers(userController.syndicate!.user);
             break;
           case WorkerListStateStatus.error:
             hideLoader();
@@ -52,7 +54,7 @@ class _WorkerListPageState extends State<WorkerListPage> with Loader, Messages {
             break;
         }
       });
-      controller.findWorkers(authController.auth!.userId);
+      controller.findWorkers(userController.syndicate!.user);
     });
     super.initState();
   }
@@ -91,22 +93,22 @@ class _WorkerListPageState extends State<WorkerListPage> with Loader, Messages {
                     context.textStyles.textSemiBold.copyWith(color: Colors.red),
               ),
             ),
-            // TextButton(
-            //   onPressed: () async {
-            //     Navigator.of(context).pop();
-            //     await Navigator.of(context).push(
-            //       MaterialPageRoute(
-            //         builder: (_) => WorkerSyndicateRegisterPage(worker: model),
-            //       ),
-            //     );
-            //     controller.findWorkers();
-            //   },
-            //   child: Text(
-            //     'Editar',
-            //     style: context.textStyles.textSemiBold
-            //         .copyWith(color: Colors.blue),
-            //   ),
-            // ),
+            TextButton(
+              onPressed: () async {
+                Navigator.of(context).pop();
+                await Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => SyndicateWorkerEditPage(worker: model),
+                  ),
+                );
+                controller.findWorkers(userController.syndicate!.user);
+              },
+              child: Text(
+                'Editar',
+                style: context.textStyles.textSemiBold
+                    .copyWith(color: Colors.blue),
+              ),
+            ),
           ],
         );
       },
@@ -133,7 +135,7 @@ class _WorkerListPageState extends State<WorkerListPage> with Loader, Messages {
                   builder: (_) => const WorkerSyndicateRegisterPage(),
                 ),
               );
-              controller.findWorkers(authController.auth!.userId);
+              controller.findWorkers(userController.syndicate!.user);
             },
             icon: const Icon(Icons.add),
           ),

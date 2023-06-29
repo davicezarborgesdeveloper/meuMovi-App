@@ -140,6 +140,24 @@ mixin _$LoginController on LoginControllerBase, Store {
     });
   }
 
+  late final _$_loginTypeAtom =
+      Atom(name: 'LoginControllerBase._loginType', context: context);
+
+  int? get loginType {
+    _$_loginTypeAtom.reportRead();
+    return super._loginType;
+  }
+
+  @override
+  int? get _loginType => loginType;
+
+  @override
+  set _loginType(int? value) {
+    _$_loginTypeAtom.reportWrite(value, super._loginType, () {
+      super._loginType = value;
+    });
+  }
+
   late final _$loginAsyncAction =
       AsyncAction('LoginControllerBase.login', context: context);
 

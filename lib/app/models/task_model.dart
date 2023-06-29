@@ -17,46 +17,55 @@ class TaskModel {
   final double valuePayroll;
   final double invoiceAmount;
   final double valueInvoice;
+  final int status;
   TaskModel({
     this.code,
     required this.descriptionService,
-    required this.descCostCenter,
+    this.descCostCenter,
     required this.extraPercentage,
-    required this.productionType,
-    required this.reportType,
-    required this.calculateNightTime,
-    this.syndicate,
-    this.hourDays,
     this.servTaker,
+    this.productionType,
+    this.syndicate,
+    this.reportType,
+    required this.calculateNightTime,
+    this.hourDays,
     required this.valuePayroll,
     required this.invoiceAmount,
     required this.valueInvoice,
+    required this.status,
   });
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'code': code,
       'descriptionService': descriptionService,
-      'servTaker': servTaker?.toMap(),
       'descCostCenter': descCostCenter,
       'extraPercentage': extraPercentage,
+      'servTaker': servTaker?.toMap(),
       'productionType': productionType?.acronym,
+      'syndicate': syndicate,
       'reportType': reportType?.acronym,
       'calculateNightTime': calculateNightTime,
       'hourDays': hourDays,
       'valuePayroll': valuePayroll,
       'invoiceAmount': invoiceAmount,
       'valueInvoice': valueInvoice,
-      'syndicate': syndicate,
+      'status': status,
     };
   }
 
   factory TaskModel.fromMap(Map<String, dynamic> map) {
     return TaskModel(
-      code: (map['code'] ?? '') as String,
+      code: map['code'] != null ? map['code'] as String : null,
       descriptionService: (map['descriptionService'] ?? '') as String,
-      descCostCenter: (map['descCostCenter'] ?? '') as String,
+      descCostCenter: map['descCostCenter'] != null
+          ? map['descCostCenter'] as String
+          : null,
       extraPercentage: (map['extraPercentage'] ?? '') as String,
+      servTaker: map['servTaker'] != null
+          ? ServTakerModel.fromMap(map['servTaker'] as Map<String, dynamic>)
+          : null,
+      syndicate: map['syndicate'] != null ? map['syndicate'] as String : null,
       productionType: map['productionType'] != null
           ? ProductionType.parse(map['productionType'])
           : null,
@@ -65,25 +74,10 @@ class TaskModel {
           : null,
       calculateNightTime: (map['calculateNightTime'] ?? false) as bool,
       hourDays: map['hourDays'] != null ? map['hourDays'] as String : null,
-      valuePayroll: map['valuePayroll'] != null
-          ? map['valuePayroll'] is int
-              ? (map['valuePayroll'] as int).toDouble()
-              : map['valuePayroll'] as double
-          : 0.00,
-      invoiceAmount: map['invoiceAmount'] != null
-          ? map['invoiceAmount'] is int
-              ? (map['invoiceAmount'] as int).toDouble()
-              : map['invoiceAmount'] as double
-          : 0.00,
-      valueInvoice: map['valueInvoice'] != null
-          ? map['valueInvoice'] is int
-              ? (map['valueInvoice'] as int).toDouble()
-              : map['valueInvoice'] as double
-          : 0.00,
-      servTaker: map['servTaker'] != null
-          ? ServTakerModel.fromMap(map['servTaker'] as Map<String, dynamic>)
-          : null,
-      syndicate: map['syndicate'] != null ? map['syndicate'] as String : null,
+      valuePayroll: (map['valuePayroll'] ?? 0.0) as double,
+      invoiceAmount: (map['invoiceAmount'] ?? 0.0) as double,
+      valueInvoice: (map['valueInvoice'] ?? 0.0) as double,
+      status: (map['status'] ?? 0) as int,
     );
   }
 
@@ -106,6 +100,7 @@ class TaskModel {
     double? valuePayroll,
     double? invoiceAmount,
     double? valueInvoice,
+    int? status,
   }) {
     return TaskModel(
       code: code ?? this.code,
@@ -121,12 +116,8 @@ class TaskModel {
       valuePayroll: valuePayroll ?? this.valuePayroll,
       invoiceAmount: invoiceAmount ?? this.invoiceAmount,
       valueInvoice: valueInvoice ?? this.valueInvoice,
+      status: status ?? this.status,
     );
-  }
-
-  @override
-  String toString() {
-    return 'TaskModel(code: $code, descriptionService: $descriptionService, descCostCenter: $descCostCenter, extraPercentage: $extraPercentage, servTaker: $servTaker, productionType: $productionType, syndicate: $syndicate, reportType: $reportType, calculateNightTime: $calculateNightTime, hourDays: $hourDays, valuePayroll: $valuePayroll, invoiceAmount: $invoiceAmount, valueInvoice: $valueInvoice)';
   }
 }
 

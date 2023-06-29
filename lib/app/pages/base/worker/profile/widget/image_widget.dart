@@ -10,10 +10,11 @@ import 'package:file_picker/file_picker.dart';
 import '../../../../../core/ui/styles/colors_app.dart';
 
 class ImageWidget extends StatelessWidget {
-  final void Function(Uint8List value) setImage;
+  final void Function(Uint8List value)? setImage;
   final String? urlImage;
-  // final Uint8List? image;
-  const ImageWidget(this.setImage, this.urlImage, {Key? key}) : super(key: key);
+  final double size;
+  const ImageWidget(this.setImage, this.urlImage, {Key? key, this.size = 100})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,21 +30,23 @@ class ImageWidget extends StatelessWidget {
     void selecionarImagem() async {
       if (kIsWeb) {
         getFromWeb((Uint8List image) {
-          setImage(image);
+          setImage!(image);
         });
       } else if (Platform.isAndroid) {
         showModalBottomSheet(
           context: context,
-          builder: (_) => ImageSourceModal((Uint8List image) {
-            setImage(image);
-            Navigator.of(context).pop();
-          }),
+          builder: (_) {
+            return ImageSourceModal((Uint8List image) {
+              Navigator.of(context).pop();
+              setImage!(image);
+            });
+          },
         );
       } else {
         showCupertinoModalPopup(
           context: context,
           builder: (_) => ImageSourceModal((Uint8List image) {
-            setImage(image);
+            setImage!(image);
             Navigator.of(context).pop();
           }),
         );
@@ -58,13 +61,13 @@ class ImageWidget extends StatelessWidget {
             child: urlImage == null
                 ? Image.asset(
                     'assets/images/perfil.png',
-                    width: 100,
-                    height: 100,
+                    width: size,
+                    height: size,
                     fit: BoxFit.cover,
                   )
                 : CachedNetworkImage(
-                    width: 100,
-                    height: 100,
+                    width: size,
+                    height: size,
                     imageUrl: urlImage!,
                     progressIndicatorBuilder:
                         (context, url, downloadProgress) =>
@@ -76,20 +79,21 @@ class ImageWidget extends StatelessWidget {
                   ),
           ),
         ),
-        Positioned(
-          right: 12,
-          bottom: 0,
-          child: GestureDetector(
-            onTap: selecionarImagem,
-            child: CircleAvatar(
-              backgroundColor: ColorsApp.i.primary,
-              child: const Icon(
-                Icons.camera_alt,
-                color: Colors.white,
+        if (setImage != null)
+          Positioned(
+            right: 12,
+            bottom: 0,
+            child: GestureDetector(
+              onTap: selecionarImagem,
+              child: CircleAvatar(
+                backgroundColor: ColorsApp.i.primary,
+                child: const Icon(
+                  Icons.camera_alt,
+                  color: Colors.white,
+                ),
               ),
             ),
-          ),
-        )
+          )
       ],
     );
   }

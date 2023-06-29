@@ -6,7 +6,9 @@ import 'app/pages/auth/signup/service_taker/service_taker_register_page.dart';
 import 'app/pages/auth/signup/signup_menu_page.dart';
 import 'app/pages/auth/signup/syndicate/syndicate_register_page.dart';
 import 'app/pages/auth/signup/workerRegister/worker_signup_page.dart';
-import 'app/pages/base/base_page.dart';
+import 'app/pages/base/base_service_taker_page.dart';
+import 'app/pages/base/base_syndicate_page.dart';
+import 'app/pages/base/base_worker_page.dart';
 import 'app/pages/base/service_taker/profile/edit_data/service_taker_edit_data_page.dart';
 import 'app/pages/base/service_taker/profile/settings/service_taker_settings_page.dart';
 import 'app/pages/base/syndicate/profile/address_data/address_data_syndicate_page.dart';
@@ -42,8 +44,12 @@ class Rotas {
         return MaterialPageRoute(builder: (_) => const TermsUse());
       case '/auth/remember':
         return MaterialPageRoute(builder: (_) => const RememberMePage());
-      case '/home':
-        return MaterialPageRoute(builder: (_) => const BasePage());
+      case '/home/worker':
+        return MaterialPageRoute(builder: (_) => const BaseWorkerPage());
+      case '/home/serviceTaker':
+        return MaterialPageRoute(builder: (_) => const BaseServiceTakerPage());
+      case '/home/syndicate':
+        return MaterialPageRoute(builder: (_) => const BaseSyndicatePage());
       case '/home/syndicate/legalData':
         return MaterialPageRoute(
           builder: (_) => const LegalDataPage(),
@@ -85,7 +91,6 @@ class Rotas {
           builder: (_) => const ServiceTakerSettingsPage(),
         );
     }
-
     return _erroRota();
   }
 

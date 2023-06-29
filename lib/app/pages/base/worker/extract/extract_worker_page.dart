@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:get_it/get_it.dart';
 
 import '../../../../core/extensions/formatter_extensions.dart';
 import '../../../../core/ui/styles/colors_app.dart';
 import '../../../../core/ui/styles/text_styles.dart';
-import '../../../auth/auth_controller.dart';
 import '../../../menu/menu_drawer.dart';
 import 'extract_worker_controller.dart';
 import 'widget/period_button.dart';
@@ -18,7 +16,6 @@ class ExtractWorkerPage extends StatefulWidget {
 }
 
 class _ExtractWorkerPageState extends State<ExtractWorkerPage> {
-  AuthController authController = GetIt.I<AuthController>();
   ExtractWorkerController controller = ExtractWorkerController();
 
   @override

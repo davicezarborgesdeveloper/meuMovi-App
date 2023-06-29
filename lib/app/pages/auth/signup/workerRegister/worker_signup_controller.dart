@@ -8,9 +8,8 @@ import '../../../../core/extensions/validator_extensions.dart';
 import '../../../../models/address_model.dart';
 import '../../../../models/worker_model.dart';
 import '../../../../repositories/zip/zip_repository.dart';
-import '../../../../services/auth/auth_service.dart';
+import '../../../../services/user/user_service.dart';
 import '../../../../services/worker/worker_service.dart';
-import '../../auth_controller.dart';
 import '../../user_controller.dart';
 part 'worker_signup_controller.g.dart';
 
@@ -195,12 +194,11 @@ abstract class WorkerSignupControllerBase with Store {
   @computed
   bool get employeerValid => employeer != null;
   String? get employeerError {
-    return 'tess';
-    // if (!_showErrors || employeerValid) {
-    //   return null;
-    // } else {
-    //   return 'Empregadora Obrigatória';
-    // }
+    if (!_showErrors || employeerValid) {
+      return null;
+    } else {
+      return 'Empregadora Obrigatória';
+    }
   }
 
   //--Dados Endereço
@@ -344,8 +342,7 @@ abstract class WorkerSignupControllerBase with Store {
         ),
       );
       await WorkerService().saveWorker(user);
-      final auth = await AuthService().login(user.user!, user.password, false);
-      GetIt.I<AuthController>().setAuth(auth);
+      await UserService().login(user.user!, user.password, false);
       GetIt.I<UserController>().getCurrentUser(user.user!);
       _status = WorkerSignupStateStatus.saved;
     } catch (e, s) {

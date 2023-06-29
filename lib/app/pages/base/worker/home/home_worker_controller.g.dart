@@ -61,6 +61,42 @@ mixin _$HomeWorkerController on HomeWorkerControllerBase, Store {
     });
   }
 
+  late final _$_tasksAtom =
+      Atom(name: 'HomeWorkerControllerBase._tasks', context: context);
+
+  List<TaskModel> get tasks {
+    _$_tasksAtom.reportRead();
+    return super._tasks;
+  }
+
+  @override
+  List<TaskModel> get _tasks => tasks;
+
+  @override
+  set _tasks(List<TaskModel> value) {
+    _$_tasksAtom.reportWrite(value, super._tasks, () {
+      super._tasks = value;
+    });
+  }
+
+  late final _$_employeerCodeAtom =
+      Atom(name: 'HomeWorkerControllerBase._employeerCode', context: context);
+
+  String? get employeerCode {
+    _$_employeerCodeAtom.reportRead();
+    return super._employeerCode;
+  }
+
+  @override
+  String? get _employeerCode => employeerCode;
+
+  @override
+  set _employeerCode(String? value) {
+    _$_employeerCodeAtom.reportWrite(value, super._employeerCode, () {
+      super._employeerCode = value;
+    });
+  }
+
   late final _$optionDistanceAtom =
       Atom(name: 'HomeWorkerControllerBase.optionDistance', context: context);
 

@@ -57,7 +57,7 @@ class _WorkerSignupPageState extends State<WorkerSignupPage>
           case WorkerSignupStateStatus.saved:
             hideLoader();
             Navigator.of(context)
-                .pushNamedAndRemoveUntil('/home', (route) => false);
+                .pushNamedAndRemoveUntil('/home/worker', (route) => false);
             break;
           case WorkerSignupStateStatus.error:
             hideLoader();

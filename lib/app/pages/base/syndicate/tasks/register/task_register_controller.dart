@@ -265,6 +265,7 @@ abstract class TaskRegisterControllerBase with Store {
         valuePayroll: double.parse(valuePayroll!.replaceAll(',', '.')),
         invoiceAmount: double.parse(invoiceAmount!.replaceAll(',', '.')),
         valueInvoice: double.parse(valueInvoice!.replaceAll(',', '.')),
+        status: 0,
       );
       await TaskService().save(task);
       _status = TaskRegisterStateStatus.saved;

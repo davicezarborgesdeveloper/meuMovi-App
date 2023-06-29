@@ -1,26 +1,22 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 
 import '../../../../core/ui/helpers/size_extensions.dart';
 import '../../../../core/ui/styles/colors_app.dart';
 import '../../../../core/ui/styles/text_styles.dart';
-import '../../../auth/auth_controller.dart';
 import '../../../auth/user_controller.dart';
 import '../../../menu/menu_drawer.dart';
 import '../../worker/home/widget/task_button.dart';
 
 class HomeServiceTakerPage extends StatefulWidget {
-  const HomeServiceTakerPage({super.key});
+  final UserController userCtrl;
+  const HomeServiceTakerPage(this.userCtrl, {super.key});
 
   @override
   State<HomeServiceTakerPage> createState() => _HomeServiceTakerPageState();
 }
 
 class _HomeServiceTakerPageState extends State<HomeServiceTakerPage> {
-  AuthController authController = GetIt.I<AuthController>();
-  UserController userCtrl = GetIt.I<UserController>();
-
   int buttonSelected = 0;
 
   @override
@@ -128,13 +124,9 @@ class _HomeServiceTakerPageState extends State<HomeServiceTakerPage> {
                   SizedBox(
                     width: context.percentWidth(.8),
                     child: Text(
-                      authController.auth!.displayName,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'roboto',
-                        fontSize: 18,
-                        color: ColorsApp.i.black,
-                      ),
+                      widget.userCtrl.serviceTaker!.fantasyName,
+                      style: context.textStyles.textBold
+                          .copyWith(fontSize: 18, color: ColorsApp.i.black),
                       textAlign: TextAlign.center,
                     ),
                   ),

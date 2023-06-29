@@ -1,16 +1,9 @@
-import 'dart:developer';
-
-import 'package:get_it/get_it.dart';
-import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
 
-import '../../../../../core/ui/helpers/enums.dart';
-import '../../../../../models/worker_model.dart';
-import '../../../../../services/worker/worker_service.dart';
-import '../../../../auth/user_controller.dart';
-part 'profile_worker_personal_data_controller.g.dart';
+import '../../../../../../core/ui/helpers/enums.dart';
+part 'personal_data_controller.g.dart';
 
-enum ProfileWorkerPersonalStateStatus {
+enum PersonalDataStateStatus {
   initial,
   loading,
   loaded,
@@ -18,15 +11,16 @@ enum ProfileWorkerPersonalStateStatus {
   saved,
 }
 
-class ProfileWorkerPersonalDataController = ProfileWorkerPersonalDataControllerBase
-    with _$ProfileWorkerPersonalDataController;
+class PersonalDataController = PersonalDataControllerBase
+    with _$PersonalDataController;
 
-abstract class ProfileWorkerPersonalDataControllerBase with Store {
-  ProfileWorkerPersonalDataControllerBase() {
+abstract class PersonalDataControllerBase with Store {
+  PersonalDataControllerBase() {
     getUserData();
   }
+
   @readonly
-  var _status = ProfileWorkerPersonalStateStatus.initial;
+  var _status = PersonalDataStateStatus.initial;
 
   @readonly
   String? _errorMessage;
@@ -193,43 +187,43 @@ abstract class ProfileWorkerPersonalDataControllerBase with Store {
 
   @action
   Future<void> save() async {
-    try {
-      _status = ProfileWorkerPersonalStateStatus.loading;
-      final dt = DateFormat('dd/MM/yyyy').parse(birthdate!);
+    // try {
+    //   _status = PersonalDataStateStatus.loading;
+    //   final dt = DateFormat('dd/MM/yyyy').parse(birthdate!);
 
-      final getData = GetIt.I<UserController>().worker;
-      final saveData = getData!.copyWith(
-        name: name,
-        lastname: lastname,
-        personal: PersonalModel(
-          surname: surname!,
-          birthdate: DateFormat('yyyy-MM-dd').format(dt),
-          motherName: motherName,
-          maritalStatus: maritalStatus,
-          phone: phone,
-          email: email!,
-        ),
-      );
-      await WorkerService().workerUpdate(saveData);
-      GetIt.I<UserController>().setUser(saveData);
-      _status = ProfileWorkerPersonalStateStatus.saved;
-    } on Exception catch (e, s) {
-      log('Erro ao atualizar usuário', error: e, stackTrace: s);
-      _errorMessage = 'Erro ao atualizar usuário';
-      _status = ProfileWorkerPersonalStateStatus.error;
-    }
+    //   final getData = GetIt.I<UserController>().user as WorkerModel;
+    //   final saveData = getData.copyWith(
+    //     name: name,
+    //     lastname: lastname,
+    //     personal: PersonalModel(
+    //       surname: surname!,
+    //       birthdate: DateFormat('yyyy-MM-dd').format(dt),
+    //       motherName: motherName,
+    //       maritalStatus: maritalStatus,
+    //       phone: phone,
+    //       email: email!,
+    //     ),
+    //   );
+    //   await WorkerService().workerUpdate(saveData);
+    //   GetIt.I<UserController>().setUser(saveData);
+    //   _status = PersonalDataStateStatus.saved;
+    // } on Exception catch (e, s) {
+    //   log('Erro ao atualizar usuário', error: e, stackTrace: s);
+    //   _errorMessage = 'Erro ao atualizar usuário';
+    //   _status = PersonalDataStateStatus.error;
+    // }
   }
 
   @action
   Future<void> getUserData() async {
-    final data = GetIt.I<UserController>().worker;
-    name = data!.name;
-    lastname = data.lastname;
-    surname = data.personal.surname;
-    birthdate = data.personal.birthdate;
-    motherName = data.personal.motherName;
-    maritalStatus = data.personal.maritalStatus;
-    phone = data.personal.phone;
-    email = data.personal.email;
+    // final data = GetIt.I<UserController>().user as WorkerModel;
+    // name = data.name;
+    // lastname = data.lastname;
+    // surname = data.personal.surname;
+    // birthdate = data.personal.birthdate;
+    // motherName = data.personal.motherName;
+    // maritalStatus = data.personal.maritalStatus;
+    // phone = data.personal.phone;
+    // email = data.personal.email;
   }
 }

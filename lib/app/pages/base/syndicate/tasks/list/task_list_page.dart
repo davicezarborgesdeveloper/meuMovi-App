@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../../core/ui/helpers/loader.dart';
@@ -8,21 +7,21 @@ import '../../../../../core/ui/helpers/messages.dart';
 import '../../../../../core/ui/styles/colors_app.dart';
 import '../../../../../core/ui/styles/text_styles.dart';
 import '../../../../../models/task_model.dart';
-import '../../../../auth/auth_controller.dart';
+import '../../../../auth/user_controller.dart';
 import '../../../../menu/menu_drawer.dart';
 import '../register/task_syndicate_register_page.dart';
 import 'task_list_controller.dart';
 import 'widgets/task_list_tile.dart';
 
 class TaskListPage extends StatefulWidget {
-  const TaskListPage({super.key});
+  final UserController userCtrl;
+  const TaskListPage(this.userCtrl, {super.key});
 
   @override
   State<TaskListPage> createState() => _TaskListPageState();
 }
 
 class _TaskListPageState extends State<TaskListPage> with Loader, Messages {
-  final AuthController authController = GetIt.I<AuthController>();
   final TaskListController controller = TaskListController();
   late final ReactionDisposer statusDisposer;
 
@@ -44,7 +43,7 @@ class _TaskListPageState extends State<TaskListPage> with Loader, Messages {
             break;
           case TaskListStateStatus.deleted:
             hideLoader();
-            controller.findTask(authController.auth!.userId);
+            controller.findTask(widget.userCtrl.syndicate!.user);
             break;
           case TaskListStateStatus.error:
             hideLoader();
@@ -52,7 +51,7 @@ class _TaskListPageState extends State<TaskListPage> with Loader, Messages {
             break;
         }
       });
-      controller.findTask(authController.auth!.userId);
+      controller.findTask(widget.userCtrl.syndicate!.user);
     });
     super.initState();
   }
@@ -99,7 +98,7 @@ class _TaskListPageState extends State<TaskListPage> with Loader, Messages {
                     builder: (_) => TasksSyndicateRegisterPage(task: task),
                   ),
                 );
-                controller.findTask(authController.auth!.userId);
+                controller.findTask(widget.userCtrl.syndicate!.user);
               },
               child: Text(
                 'Editar',
@@ -134,7 +133,7 @@ class _TaskListPageState extends State<TaskListPage> with Loader, Messages {
                   builder: (_) => const TasksSyndicateRegisterPage(),
                 ),
               );
-              controller.findTask(authController.auth!.userId);
+              controller.findTask(widget.userCtrl.syndicate!.user);
             },
             icon: const Icon(Icons.add),
           ),

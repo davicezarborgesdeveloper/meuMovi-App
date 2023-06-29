@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
 class AddressModel {
@@ -71,5 +72,22 @@ class AddressModel {
       complement: complement ?? this.complement,
       referencePoint: referencePoint ?? this.referencePoint,
     );
+  }
+
+  @override
+  String toString() {
+    final buffer = StringBuffer();
+
+    buffer.write(street);
+    buffer.write(number.isNotEmpty ? ', $number' : '');
+    buffer.write(complement.isNotEmpty ? ', $complement' : '');
+    buffer.write(', $district');
+    buffer.write(', $city');
+    buffer.write(', $state');
+    buffer.write(' - $zip');
+    buffer.write(referencePoint!.isNotEmpty ? ', $referencePoint' : '');
+
+    return buffer.toString();
+    // return 'AddressModel(zip: $zip, city: $city, state: $state, street: $street, district: $district, number: $number, complement: $complement, referencePoint: $referencePoint)';
   }
 }

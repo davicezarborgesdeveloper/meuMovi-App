@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../../../../core/ui/styles/text_styles.dart';
-import '../../../../auth/auth_controller.dart';
+import '../../../../auth/user_controller.dart';
 import '../../../worker/profile/widget/option_button_profile.dart';
 
 class ServiceTakerSettingsPage extends StatelessWidget {
@@ -24,7 +24,7 @@ class ServiceTakerSettingsPage extends StatelessWidget {
         child: OptionButtonProfile(
           onTap: () async {
             final navigator = Navigator.of(context);
-            await GetIt.I<AuthController>().deleteUser();
+            await GetIt.I<UserController>().deleteUser();
             await navigator.pushReplacementNamed('/auth/login');
           },
           icon: Icons.info_outline,

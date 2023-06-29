@@ -5,8 +5,7 @@ import 'package:mobx/mobx.dart';
 
 import '../../../core/exceptions/unauthorized_exception.dart';
 import '../../../core/extensions/validator_extensions.dart';
-import '../../../services/auth/auth_service.dart';
-import '../auth_controller.dart';
+import '../../../services/user/user_service.dart';
 import '../user_controller.dart';
 part 'login_controller.g.dart';
 
@@ -32,23 +31,20 @@ abstract class LoginControllerBase with Store {
   @observable
   String? userLogin;
 
-  // @observable
-  // String? email;
-
   @observable
   String? password;
 
   @observable
   bool rememberMe = false;
 
+  @readonly
+  int? _loginType;
+
   @action
   void invalidSendPressed() => _showErrors = true;
 
   @action
   void setUserLogin(String value) => userLogin = value;
-
-  // @action
-  // void setEmail(String value) => email = value;
 
   @action
   void setPassword(String value) => password = value;
@@ -103,13 +99,14 @@ abstract class LoginControllerBase with Store {
   Future<void> login() async {
     try {
       _status = LoginStateStatus.loading;
-      final auth = await AuthService().login(
+      final map = await UserService().login(
         userLogin!.replaceAll(RegExp(r'[^0-9]'), ''),
         password!,
         rememberMe,
       );
-      GetIt.I<AuthController>().setAuth(auth);
-      GetIt.I<UserController>().getCurrentUser(auth!.userId);
+      // GetIt.I<AuthController>().setAuth(auth);
+      _loginType = map['profileType'];
+      GetIt.I<UserController>().getCurrentUser(map['user']);
       _status = LoginStateStatus.success;
     } on UnauthorizedException {
       _errorMessage = 'Login ou senha inválidos';

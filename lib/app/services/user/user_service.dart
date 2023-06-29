@@ -6,6 +6,11 @@ import 'user_service_impl.dart';
 abstract class UserService {
   Future<UserModel?> getUserById(String id);
   Future<String> uploadImage(Uint8List image, String userId);
+  Future<Map<String, dynamic>> login(
+    String login,
+    String password,
+    bool rememberMe,
+  );
 
   Future<void> deleteField(String userId, String field);
   Future<void> deleteDocument(String userId);

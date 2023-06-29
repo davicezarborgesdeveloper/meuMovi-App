@@ -5,7 +5,6 @@ import 'package:mobx/mobx.dart';
 
 import '../../../../../core/extensions/formatter_extensions.dart';
 import '../../../../../core/extensions/validator_extensions.dart';
-import '../../../../../models/syndicate_model.dart';
 import '../../../../../services/syndicate/syndicate_service.dart';
 import '../../../../auth/user_controller.dart';
 part 'legal_data_controller.g.dart';
@@ -142,8 +141,8 @@ abstract class LegalDataControllerBase with Store {
 
   @action
   Future<void> getData() async {
-    final data = GetIt.I<UserController>().user as SyndicateModel;
-    corporateName = data.companyData.corporateName;
+    final data = GetIt.I<UserController>().syndicate;
+    corporateName = data!.companyData.corporateName;
     fantasyName = data.companyData.fantasyName;
     cnpj = data.companyData.cnpj.formattedCNPJ;
     password = data.password;
@@ -154,8 +153,8 @@ abstract class LegalDataControllerBase with Store {
   Future<void> register() async {
     _status = LegalDataStateStatus.loading;
     try {
-      final getData = GetIt.I<UserController>().user as SyndicateModel;
-      final saveData = getData.copyWith(
+      final getData = GetIt.I<UserController>().syndicate;
+      final saveData = getData!.copyWith(
         password: password,
         companyData: getData.companyData.copyWith(
           corporateName: corporateName,
@@ -164,7 +163,7 @@ abstract class LegalDataControllerBase with Store {
         ),
       );
       await SyndicateService().syndicateUpdate(saveData);
-      GetIt.I<UserController>().setUser(saveData);
+      GetIt.I<UserController>().setSyndicate(saveData);
       _status = LegalDataStateStatus.saved;
     } on Exception catch (e, s) {
       log('Erro ao atualizar usuário', error: e, stackTrace: s);

@@ -84,7 +84,7 @@ class CardBank extends StatelessWidget {
                   if (controller.bankData!.bankReceiptType ==
                       BankReceiptType.bank)
                     Text(
-                      'Conta ${controller.bankData!.verifyingDigit}',
+                      'Conta ${controller.bankData!.account}-${controller.bankData!.verifyingDigit}',
                       style:
                           context.textStyles.textRegular.copyWith(fontSize: 12),
                     ),

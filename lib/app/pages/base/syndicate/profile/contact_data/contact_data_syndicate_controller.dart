@@ -114,8 +114,8 @@ abstract class ContactDataSyndicateControllerBase with Store {
   Future<void> getData() async {
     try {
       _status = ContactDataSyndicateStateStatus.loading;
-      final data = GetIt.I<UserController>().user as SyndicateModel;
-      name = data.responsibleContact.name;
+      final data = GetIt.I<UserController>().syndicate;
+      name = data!.responsibleContact.name;
       email = data.responsibleContact.email;
       phone = data.responsibleContact.phone.formattedPhone;
       mobilePhone = data.responsibleContact.mobile.formattedPhone;
@@ -132,13 +132,15 @@ abstract class ContactDataSyndicateControllerBase with Store {
   Future<void> register() async {
     _status = ContactDataSyndicateStateStatus.loading;
     try {
-      final getData = GetIt.I<UserController>().user as SyndicateModel;
-      final saveData = getData.copyWith(
+      final getData = GetIt.I<UserController>().syndicate;
+      final saveData = getData!.copyWith(
         responsibleContact: ResponsibleContact(
           name: name!,
           email: email!,
-          phone: phone!,
-          mobile: mobilePhone!,
+          phone: phone == null ? '' : phone!.replaceAll(RegExp(r'[^0-9]'), ''),
+          mobile: mobilePhone == null
+              ? ''
+              : mobilePhone!.replaceAll(RegExp(r'[^0-9]'), ''),
           sector: companySector!.acronym,
         ),
       );

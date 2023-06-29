@@ -3,6 +3,9 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
+import '../../core/exceptions/repository_exception.dart';
+import '../../core/global/constants.dart';
+import '../../core/storage/storage.dart';
 import '../../models/service_taker_model.dart';
 import '../../models/syndicate_model.dart';
 import '../../models/user_model.dart';
@@ -12,6 +15,36 @@ import './user_service.dart';
 const String userCollection = 'users';
 
 class UserServiceImpl implements UserService {
+  @override
+  Future<Map<String, dynamic>> login(
+    String login,
+    String password,
+    bool rememberMe,
+  ) async {
+    final users = FirebaseFirestore.instance.collection('users');
+    late dynamic user;
+    final document = await users.doc(login).get();
+    if (document.data() != null) {
+      final data = document.data();
+      if (data!['profileType'] == 0) {
+        user = WorkerModel.fromMap(data);
+      } else if (data['profileType'] == 1) {
+        user = ServiceTakerModel.fromMap(data);
+      } else {
+        user = SyndicateModel.fromMap(data);
+      }
+
+      await Storage().setData(
+        SharedStoreKeys.authAccess.key,
+        user.toJson(),
+      );
+      await Storage().setData(SharedStoreKeys.keepLogged.key, rememberMe);
+      return data;
+    } else {
+      throw RepositoryException(message: 'Erro ao Logar');
+    }
+  }
+
   @override
   Future<UserModel?> getUserById(String userId) async {
     final users = FirebaseFirestore.instance.collection(userCollection);

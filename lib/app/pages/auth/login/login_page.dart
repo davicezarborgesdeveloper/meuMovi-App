@@ -36,7 +36,13 @@ class _LoginPageState extends State<LoginPage> with Loader, Messages {
             break;
           case LoginStateStatus.success:
             hideLoader();
-            Navigator.of(context).pushReplacementNamed('/home');
+            Navigator.of(context).pushReplacementNamed(
+              controller.loginType == 0
+                  ? '/home/worker'
+                  : controller.loginType == 1
+                      ? '/home/serviceTaker'
+                      : '/home/syndicate',
+            );
             break;
           case LoginStateStatus.error:
             hideLoader();
@@ -72,19 +78,6 @@ class _LoginPageState extends State<LoginPage> with Loader, Messages {
                   const SizedBox(
                     height: 40,
                   ),
-                  // Observer(
-                  //   builder: (_) => TextFieldWidget(
-                  //     label: 'CPF',
-                  //     hintText: 'Digite seu cpf',
-                  //     errorText: controller.cpfError,
-                  //     onChanged: controller.setCpf,
-                  //     keyboardType: TextInputType.number,
-                  //     inputFormatters: [
-                  //       FilteringTextInputFormatter.digitsOnly,
-                  //       CpfInputFormatter(),
-                  //     ],
-                  //   ),
-                  // ),
                   Observer(
                     builder: (_) => TextFieldWidget(
                       label: 'Usuário',

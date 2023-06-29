@@ -8,9 +8,8 @@ import '../../../../core/extensions/validator_extensions.dart';
 import '../../../../models/service_taker_model.dart';
 import '../../../../models/worker_model.dart';
 import '../../../../repositories/zip/zip_repository.dart';
-import '../../../../services/auth/auth_service.dart';
 import '../../../../services/service_taker/service_taker_service.dart';
-import '../../auth_controller.dart';
+import '../../../../services/user/user_service.dart';
 import '../../user_controller.dart';
 part 'service_taker_signup_controller.g.dart';
 
@@ -277,8 +276,7 @@ abstract class ServiceTakerSignupControllerBase with Store {
         number: number,
       );
       await ServiceTakerService().saveServiceTaker(user);
-      final auth = await AuthService().login(user.user, user.password, false);
-      GetIt.I<AuthController>().setAuth(auth);
+      await UserService().login(user.user, user.password, false);
       GetIt.I<UserController>().getCurrentUser(user.user);
       _status = ServiceTakerSignupStateStatus.saved;
     } catch (e, s) {

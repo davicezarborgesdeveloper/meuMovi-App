@@ -5,7 +5,6 @@ import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../core/ui/helpers/size_extensions.dart';
-import '../auth/auth_controller.dart';
 import '../auth/user_controller.dart';
 
 class SplashPage extends StatefulWidget {
@@ -16,21 +15,34 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
-  AuthController authCtrl = GetIt.I<AuthController>();
-  ReactionDisposer? statusDisposed;
+  UserController userCtrl = GetIt.I<UserController>();
+  late ReactionDisposer statusDisposed;
 
   bool _logged = false;
+  String url = '/home';
 
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      statusDisposed = when((_) => authCtrl.isLoggedInKeep, () async {
+      statusDisposed = when((_) => userCtrl.isLoggedInKeep, () async {
+        if (userCtrl.worker != null) {
+          url = '/home/worker';
+        } else if (userCtrl.serviceTaker != null) {
+          url = '/home/serviceTaker';
+        } else if (userCtrl.syndicate != null) {
+          url = '/home/syndicate';
+        }
         _logged = true;
-        await GetIt.I<UserController>().getCurrentUser(authCtrl.auth!.userId);
       });
+      startSplashScreenTimer();
     });
     super.initState();
-    startSplashScreenTimer();
+  }
+
+  @override
+  void dispose() {
+    statusDisposed();
+    super.dispose();
   }
 
   Timer startSplashScreenTimer() {
@@ -39,11 +51,7 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   void navigationToNextPage() {
-    Navigator.of(context)
-        .pushReplacementNamed(_logged ? '/home' : '/auth/login');
-
-    // Navigator.of(context)
-    //     .pushReplacementNamed(_logged ? '/home' : '/auth/signup');
+    Navigator.of(context).pushReplacementNamed(_logged ? url : '/auth/login');
   }
 
   @override

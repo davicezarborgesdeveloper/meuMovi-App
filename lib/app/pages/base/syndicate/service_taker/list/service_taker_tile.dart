@@ -55,14 +55,19 @@ class ServiceTakerTile extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'Telefone',
+                      'E-mail',
                       style: context.textStyles.textSemiBold,
                     ),
                     const SizedBox(height: 4),
-                    Text(
-                      serviceTaker.phone!.formattedPhone,
-                      style:
-                          context.textStyles.textRegular.copyWith(fontSize: 12),
+                    SizedBox(
+                      width: context.percentWidth(.4),
+                      child: Text(
+                        serviceTaker.email,
+                        style: context.textStyles.textRegular
+                            .copyWith(fontSize: 12),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                      ),
                     ),
                   ],
                 ),
@@ -81,19 +86,14 @@ class ServiceTakerTile extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'E-mail',
+                      'Telefone',
                       style: context.textStyles.textSemiBold,
                     ),
                     const SizedBox(height: 4),
-                    SizedBox(
-                      width: context.percentWidth(.4),
-                      child: Text(
-                        serviceTaker.email,
-                        style: context.textStyles.textRegular
-                            .copyWith(fontSize: 12),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 2,
-                      ),
+                    Text(
+                      serviceTaker.phone!.formattedPhone,
+                      style:
+                          context.textStyles.textRegular.copyWith(fontSize: 12),
                     ),
                   ],
                 ),

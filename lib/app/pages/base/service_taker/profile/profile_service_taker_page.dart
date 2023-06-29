@@ -7,8 +7,6 @@ import '../../../../core/ui/helpers/loader.dart';
 import '../../../../core/ui/helpers/messages.dart';
 import '../../../../core/ui/helpers/size_extensions.dart';
 import '../../../../core/ui/styles/text_styles.dart';
-import '../../../../models/service_taker_model.dart';
-import '../../../auth/auth_controller.dart';
 import '../../../auth/user_controller.dart';
 import '../../../menu/menu_drawer.dart';
 import '../../worker/profile/widget/image_widget.dart';
@@ -16,7 +14,8 @@ import '../../worker/profile/widget/option_button_profile.dart';
 import 'profile_service_taker_controller.dart';
 
 class ProfileServiceTakerPage extends StatefulWidget {
-  const ProfileServiceTakerPage({super.key});
+  final UserController userCtrl;
+  const ProfileServiceTakerPage(this.userCtrl, {super.key});
 
   @override
   State<ProfileServiceTakerPage> createState() =>
@@ -25,7 +24,6 @@ class ProfileServiceTakerPage extends StatefulWidget {
 
 class _ProfileServiceTakerPageState extends State<ProfileServiceTakerPage>
     with Loader, Messages {
-  final UserController userCtrl = GetIt.I<UserController>();
   final ProfileServiceTakerController controller =
       ProfileServiceTakerController();
   late final ReactionDisposer statusDisposer;
@@ -79,7 +77,7 @@ class _ProfileServiceTakerPageState extends State<ProfileServiceTakerPage>
                   color: Colors.black,
                   width: screenWidth,
                   height: context.screenHeight * .3,
-                  child: userCtrl.user != null
+                  child: widget.userCtrl.serviceTaker != null
                       ? Column(
                           children: [
                             const SizedBox(height: 8),
@@ -87,17 +85,17 @@ class _ProfileServiceTakerPageState extends State<ProfileServiceTakerPage>
                               (image) async {
                                 controller.uploadImage(
                                   image,
-                                  (userCtrl.user as ServiceTakerModel).user,
+                                  widget.userCtrl.serviceTaker!.user,
                                 );
                               },
                               controller.urlImage ??
-                                  (userCtrl.user as ServiceTakerModel).imageUrl,
+                                  widget.userCtrl.serviceTaker!.imageUrl,
                             ),
                             const SizedBox(height: 8),
                             Column(
                               children: [
                                 Text(
-                                  (userCtrl.user as ServiceTakerModel).cnpj,
+                                  widget.userCtrl.serviceTaker!.cnpj,
                                   style:
                                       context.textStyles.textRegular.copyWith(
                                     color: Colors.white,
@@ -105,8 +103,7 @@ class _ProfileServiceTakerPageState extends State<ProfileServiceTakerPage>
                                   ),
                                 ),
                                 Text(
-                                  (userCtrl.user as ServiceTakerModel)
-                                      .companyName,
+                                  widget.userCtrl.serviceTaker!.companyName,
                                   style:
                                       context.textStyles.textSemiBold.copyWith(
                                     fontSize: 14,
@@ -153,7 +150,7 @@ class _ProfileServiceTakerPageState extends State<ProfileServiceTakerPage>
                       OptionButtonProfile(
                         onTap: () async {
                           final navigator = Navigator.of(context);
-                          await GetIt.I<AuthController>().logout();
+                          await GetIt.I<UserController>().logout();
                           await navigator.pushReplacementNamed('/auth/login');
                         },
                         icon: Icons.logout,

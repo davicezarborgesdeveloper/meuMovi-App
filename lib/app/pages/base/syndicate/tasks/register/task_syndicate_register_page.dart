@@ -14,7 +14,7 @@ import '../../../../../core/widget/register_success.dart';
 import '../../../../../core/widget/text_field_changed_widget.dart';
 import '../../../../../core/widget/text_field_widget.dart';
 import '../../../../../models/task_model.dart';
-import '../../../../auth/auth_controller.dart';
+import '../../../../auth/user_controller.dart';
 import 'task_register_controller.dart';
 import 'widgets/serv_taker_picker.dart';
 
@@ -29,7 +29,7 @@ class TasksSyndicateRegisterPage extends StatefulWidget {
 
 class _TasksSyndicateRegisterPageState extends State<TasksSyndicateRegisterPage>
     with Loader, Messages {
-  final AuthController authCtrl = GetIt.I<AuthController>();
+  final UserController userCtrl = GetIt.I<UserController>();
   late final TaskRegisterController controller = TaskRegisterController();
   late final ReactionDisposer statusDisposer;
   final descriptionServiceEC = TextEditingController();
@@ -76,9 +76,7 @@ class _TasksSyndicateRegisterPageState extends State<TasksSyndicateRegisterPage>
             break;
         }
       });
-      if (authCtrl.auth != null) {
-        controller.setSyndicate(authCtrl.auth!.userId);
-      }
+      controller.setSyndicate(userCtrl.syndicate!.user);
     });
     super.initState();
   }

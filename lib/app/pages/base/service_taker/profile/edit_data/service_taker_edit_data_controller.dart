@@ -7,9 +7,8 @@ import '../../../../../core/extensions/formatter_extensions.dart';
 import '../../../../../core/extensions/validator_extensions.dart';
 import '../../../../../models/service_taker_model.dart';
 import '../../../../../repositories/zip/zip_repository.dart';
-import '../../../../../services/auth/auth_service.dart';
 import '../../../../../services/service_taker/service_taker_service.dart';
-import '../../../../auth/auth_controller.dart';
+import '../../../../../services/user/user_service.dart';
 import '../../../../auth/user_controller.dart';
 part 'service_taker_edit_data_controller.g.dart';
 
@@ -230,8 +229,7 @@ abstract class ServiceTakerEditDataControllerBase with Store {
         number: number!,
       );
       await ServiceTakerService().saveServiceTaker(user);
-      final auth = await AuthService().login(user.user, user.password, false);
-      GetIt.I<AuthController>().setAuth(auth);
+      await UserService().login(user.user, user.password, false);
       GetIt.I<UserController>().getCurrentUser(user.user);
       _status = ServiceTakerEditDataStateStatus.saved;
     } catch (e, s) {
@@ -257,8 +255,8 @@ abstract class ServiceTakerEditDataControllerBase with Store {
   @action
   Future<void> getData() async {
     _status = ServiceTakerEditDataStateStatus.loading;
-    final data = GetIt.I<UserController>().user as ServiceTakerModel;
-    companyName = data.companyName;
+    final data = GetIt.I<UserController>().serviceTaker;
+    companyName = data!.companyName;
     fantasyName = data.fantasyName;
     cnpj = data.cnpj.formattedCNPJ;
     name = data.name;

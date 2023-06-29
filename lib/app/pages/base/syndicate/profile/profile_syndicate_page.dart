@@ -8,8 +8,6 @@ import '../../../../core/ui/helpers/loader.dart';
 import '../../../../core/ui/helpers/messages.dart';
 import '../../../../core/ui/helpers/size_extensions.dart';
 import '../../../../core/ui/styles/text_styles.dart';
-import '../../../../models/syndicate_model.dart';
-import '../../../auth/auth_controller.dart';
 import '../../../auth/user_controller.dart';
 import '../../../menu/menu_drawer.dart';
 import '../../worker/profile/widget/image_widget.dart';
@@ -17,7 +15,8 @@ import '../../worker/profile/widget/option_button_profile.dart';
 import 'profile_syndicate_controller.dart';
 
 class ProfileSyndicatePage extends StatefulWidget {
-  const ProfileSyndicatePage({super.key});
+  final UserController userCtrl;
+  const ProfileSyndicatePage(this.userCtrl, {super.key});
 
   @override
   State<ProfileSyndicatePage> createState() => _ProfileSyndicatePageState();
@@ -25,7 +24,6 @@ class ProfileSyndicatePage extends StatefulWidget {
 
 class _ProfileSyndicatePageState extends State<ProfileSyndicatePage>
     with Loader, Messages {
-  final UserController userCtrl = GetIt.I<UserController>();
   final ProfileSyndicateController controller = ProfileSyndicateController();
   late final ReactionDisposer statusDisposer;
 
@@ -78,7 +76,7 @@ class _ProfileSyndicatePageState extends State<ProfileSyndicatePage>
                   color: Colors.black,
                   width: screenWidth,
                   height: context.screenHeight * .3,
-                  child: userCtrl.user != null
+                  child: widget.userCtrl.syndicate != null
                       ? Column(
                           children: [
                             const SizedBox(height: 8),
@@ -86,19 +84,17 @@ class _ProfileSyndicatePageState extends State<ProfileSyndicatePage>
                               (image) async {
                                 controller.uploadImage(
                                   image,
-                                  (userCtrl.user as SyndicateModel).user,
+                                  widget.userCtrl.syndicate!.user,
                                 );
                               },
                               controller.urlImage ??
-                                  (userCtrl.user as SyndicateModel).imageUrl,
+                                  widget.userCtrl.syndicate!.imageUrl,
                             ),
                             const SizedBox(height: 8),
                             Column(
                               children: [
                                 Text(
-                                  (userCtrl.user as SyndicateModel)
-                                      .user
-                                      .formattedCNPJ,
+                                  widget.userCtrl.syndicate!.user.formattedCNPJ,
                                   style:
                                       context.textStyles.textRegular.copyWith(
                                     color: Colors.white,
@@ -106,8 +102,7 @@ class _ProfileSyndicatePageState extends State<ProfileSyndicatePage>
                                   ),
                                 ),
                                 Text(
-                                  (userCtrl.user as SyndicateModel)
-                                      .companyData
+                                  widget.userCtrl.syndicate!.companyData
                                       .fantasyName,
                                   style:
                                       context.textStyles.textSemiBold.copyWith(
@@ -161,7 +156,7 @@ class _ProfileSyndicatePageState extends State<ProfileSyndicatePage>
                       OptionButtonProfile(
                         onTap: () async {
                           final navigator = Navigator.of(context);
-                          await GetIt.I<AuthController>().logout();
+                          await GetIt.I<UserController>().logout();
                           await navigator.pushReplacementNamed('/auth/login');
                         },
                         icon: Icons.logout,

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../../core/ui/helpers/loader.dart';
@@ -8,14 +7,15 @@ import '../../../../../core/ui/helpers/messages.dart';
 import '../../../../../core/ui/styles/colors_app.dart';
 import '../../../../../core/ui/styles/text_styles.dart';
 import '../../../../../models/service_taker_model.dart';
-import '../../../../auth/auth_controller.dart';
+import '../../../../auth/user_controller.dart';
 import '../../../../menu/menu_drawer.dart';
 import '../register/service_taker_syndicate_register_page.dart';
 import 'service_Taker_tile.dart';
 import 'service_taker_list_controller.dart';
 
 class ServiceTakerListPage extends StatefulWidget {
-  const ServiceTakerListPage({super.key});
+  final UserController userCtrl;
+  const ServiceTakerListPage(this.userCtrl, {super.key});
 
   @override
   State<ServiceTakerListPage> createState() => _ServiceTakerListPageState();
@@ -23,7 +23,6 @@ class ServiceTakerListPage extends StatefulWidget {
 
 class _ServiceTakerListPageState extends State<ServiceTakerListPage>
     with Loader, Messages {
-  final AuthController authController = GetIt.I<AuthController>();
   final ServiceTakerListController controller = ServiceTakerListController();
   late final ReactionDisposer statusDisposer;
 
@@ -45,7 +44,7 @@ class _ServiceTakerListPageState extends State<ServiceTakerListPage>
             break;
           case ServiceTakerListStateStatus.deleted:
             hideLoader();
-            controller.findServiceTaker(authController.auth!.userId);
+            controller.findServiceTaker(widget.userCtrl.syndicate!.user);
             break;
           case ServiceTakerListStateStatus.error:
             hideLoader();
@@ -53,7 +52,7 @@ class _ServiceTakerListPageState extends State<ServiceTakerListPage>
             break;
         }
       });
-      controller.findServiceTaker(authController.auth!.userId);
+      controller.findServiceTaker(widget.userCtrl.syndicate!.user);
     });
     super.initState();
   }
@@ -101,7 +100,7 @@ class _ServiceTakerListPageState extends State<ServiceTakerListPage>
                         ServiceTakerSyndicateRegisterPage(serviceTaker: model),
                   ),
                 );
-                controller.findServiceTaker(authController.auth!.userId);
+                controller.findServiceTaker(widget.userCtrl.syndicate!.user);
               },
               child: Text(
                 'Editar',
@@ -134,7 +133,7 @@ class _ServiceTakerListPageState extends State<ServiceTakerListPage>
                   builder: (_) => const ServiceTakerSyndicateRegisterPage(),
                 ),
               );
-              controller.findServiceTaker(authController.auth!.userId);
+              controller.findServiceTaker(widget.userCtrl.syndicate!.user);
             },
             icon: const Icon(Icons.add),
           ),

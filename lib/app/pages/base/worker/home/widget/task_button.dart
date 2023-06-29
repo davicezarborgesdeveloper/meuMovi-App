@@ -5,6 +5,7 @@ import '../../../../../core/ui/styles/text_styles.dart';
 
 class TaskButton extends StatelessWidget {
   final String label;
+  final String? numberLabel;
   final int option;
   final int? selected;
   final GestureTapCallback? onPressed;
@@ -12,6 +13,7 @@ class TaskButton extends StatelessWidget {
     Key? key,
     required this.label,
     required this.option,
+    this.numberLabel = '0',
     this.selected,
     this.onPressed,
   }) : super(key: key);
@@ -31,15 +33,15 @@ class TaskButton extends StatelessWidget {
       child: InkWell(
         onTap: onPressed,
         child: SizedBox(
-          height: 100,
-          width: 180,
+          // height: 100,
+          // width: 180,
           child: Stack(
             children: [
               Positioned(
                 right: 16,
                 top: 16,
                 child: Text(
-                  '0',
+                  numberLabel!,
                   style: context.textStyles.textBold.copyWith(
                     fontSize: 24,
                     color: isSelected ? Colors.white : ColorsApp.i.primary,

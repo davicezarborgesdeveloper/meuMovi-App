@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../core/ui/styles/colors_app.dart';
-import '../auth/auth_controller.dart';
+import '../auth/user_controller.dart';
 import 'menu_button.dart';
 import 'menu_drawer_controller.dart';
 import 'menu_enum.dart';
@@ -17,13 +17,13 @@ class MenuDrawer extends StatefulWidget {
 class _MenuDrawerState extends State<MenuDrawer> {
   final MenuDrawerController drawerController = GetIt.I<MenuDrawerController>();
 
-  final AuthController authController = GetIt.I<AuthController>();
+  final UserController userCtrl = GetIt.I<UserController>();
 
   @override
   Widget build(BuildContext context) {
-    final length = authController.auth!.profileType == 0
+    final length = userCtrl.worker != null
         ? MenuWorker.values.length
-        : authController.auth!.profileType == 1
+        : userCtrl.serviceTaker != null
             ? MenuServiceTaker.values.length
             : MenuSyndicate.values.length;
     return ClipRRect(
@@ -37,9 +37,9 @@ class _MenuDrawerState extends State<MenuDrawer> {
             shrinkWrap: true,
             itemCount: length,
             itemBuilder: ((context, index) {
-              final menu = authController.auth!.profileType == 0
+              final menu = userCtrl.worker != null
                   ? MenuWorker.values[index]
-                  : authController.auth!.profileType == 1
+                  : userCtrl.serviceTaker != null
                       ? MenuServiceTaker.values[index]
                       : MenuSyndicate.values[index];
               return MenuButton(
@@ -48,7 +48,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
                 onPressed: () async {
                   if ((length - 1) == index) {
                     final navigator = Navigator.of(context);
-                    await GetIt.I<AuthController>().logout();
+                    await GetIt.I<UserController>().logout();
                     await navigator.pushReplacementNamed('/auth/login');
                   } else {
                     drawerController.setPage(index);

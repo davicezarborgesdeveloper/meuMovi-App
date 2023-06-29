@@ -8,9 +8,8 @@ import '../../../../core/ui/helpers/enums.dart';
 import '../../../../models/address_model.dart';
 import '../../../../models/syndicate_model.dart';
 import '../../../../repositories/zip/zip_repository.dart';
-import '../../../../services/auth/auth_service.dart';
 import '../../../../services/syndicate/syndicate_service.dart';
-import '../../auth_controller.dart';
+import '../../../../services/user/user_service.dart';
 import '../../user_controller.dart';
 part 'syndicate_register_controller.g.dart';
 
@@ -326,8 +325,7 @@ abstract class SyndicateRegisterControllerBase with Store {
       );
       // final
       await SyndicateService().saveSyndicate(user);
-      final auth = await AuthService().login(user.user, user.password, false);
-      GetIt.I<AuthController>().setAuth(auth);
+      await UserService().login(user.user, user.password, false);
       GetIt.I<UserController>().getCurrentUser(user.user);
       _status = SyndicateRegisterStateStatus.saved;
     } catch (e, s) {

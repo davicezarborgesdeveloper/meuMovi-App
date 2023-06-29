@@ -7,8 +7,6 @@ import '../../../../core/ui/helpers/loader.dart';
 import '../../../../core/ui/helpers/messages.dart';
 import '../../../../core/ui/helpers/size_extensions.dart';
 import '../../../../core/ui/styles/text_styles.dart';
-import '../../../../models/worker_model.dart';
-import '../../../auth/auth_controller.dart';
 import '../../../auth/user_controller.dart';
 import '../../../menu/menu_drawer.dart';
 import 'profile_worker_controller.dart';
@@ -16,7 +14,8 @@ import 'widget/image_widget.dart';
 import 'widget/option_button_profile.dart';
 
 class ProfileWorkerPage extends StatefulWidget {
-  const ProfileWorkerPage({super.key});
+  final UserController userCtrl;
+  const ProfileWorkerPage(this.userCtrl, {super.key});
 
   @override
   State<ProfileWorkerPage> createState() => _ProfileWorkerPageState();
@@ -24,7 +23,7 @@ class ProfileWorkerPage extends StatefulWidget {
 
 class _ProfileWorkerPageState extends State<ProfileWorkerPage>
     with Loader, Messages {
-  final UserController userCtrl = GetIt.I<UserController>();
+  // final UserController userCtrl = GetIt.I<UserController>();
   final ProfileWorkerController controller = ProfileWorkerController();
   late final ReactionDisposer statusDisposer;
 
@@ -77,7 +76,7 @@ class _ProfileWorkerPageState extends State<ProfileWorkerPage>
                   color: Colors.black,
                   width: screenWidth,
                   height: context.screenHeight * .3,
-                  child: userCtrl.user != null
+                  child: widget.userCtrl.worker != null
                       ? Column(
                           children: [
                             const SizedBox(height: 8),
@@ -85,17 +84,20 @@ class _ProfileWorkerPageState extends State<ProfileWorkerPage>
                               (image) async {
                                 controller.uploadImage(
                                   image,
-                                  (userCtrl.user as WorkerModel).user!,
+                                  widget.userCtrl.worker!.user!,
                                 );
                               },
                               controller.urlImage ??
-                                  (userCtrl.user as WorkerModel).imageUrl,
+                                  widget.userCtrl.worker!.imageUrl,
+                              // controller.urlImage ??
+                              //       (widget.userCtrl.user as WorkerModel)
+                              //           .imageUrl,
                             ),
                             const SizedBox(height: 8),
                             Column(
                               children: [
                                 Text(
-                                  (userCtrl.user as WorkerModel).fullname,
+                                  widget.userCtrl.worker!.fullname,
                                   style:
                                       context.textStyles.textRegular.copyWith(
                                     color: Colors.white,
@@ -103,7 +105,7 @@ class _ProfileWorkerPageState extends State<ProfileWorkerPage>
                                   ),
                                 ),
                                 Text(
-                                  (userCtrl.user as WorkerModel).personal.email,
+                                  widget.userCtrl.worker!.personal.email,
                                   style:
                                       context.textStyles.textSemiBold.copyWith(
                                     fontSize: 14,
@@ -168,7 +170,7 @@ class _ProfileWorkerPageState extends State<ProfileWorkerPage>
                       OptionButtonProfile(
                         onTap: () async {
                           final navigator = Navigator.of(context);
-                          await GetIt.I<AuthController>().logout();
+                          await GetIt.I<UserController>().logout();
                           await navigator.pushReplacementNamed('/auth/login');
                         },
                         icon: Icons.logout,
