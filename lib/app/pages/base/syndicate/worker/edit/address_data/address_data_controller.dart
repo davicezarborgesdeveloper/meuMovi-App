@@ -1,16 +1,14 @@
 import 'dart:developer';
 
-import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
-import '../../../../../core/extensions/formatter_extensions.dart';
-import '../../../../../models/worker_model.dart';
-import '../../../../../repositories/zip/zip_repository.dart';
-import '../../../../../services/worker/worker_service.dart';
-import '../../../../auth/user_controller.dart';
-part 'profile_worker_address_data_controller.g.dart';
+import '../../../../../../core/extensions/formatter_extensions.dart';
+import '../../../../../../models/worker_model.dart';
+import '../../../../../../repositories/zip/zip_repository.dart';
+import '../../../../../../services/worker/worker_service.dart';
+part 'address_data_controller.g.dart';
 
-enum ProfileWorkerAddressDataStateStatus {
+enum AddressDataStateStatus {
   initial,
   loading,
   loaded,
@@ -18,22 +16,21 @@ enum ProfileWorkerAddressDataStateStatus {
   saved,
 }
 
-class ProfileWorkerAddressDataController = ProfileWorkerAddressDataControllerBase
-    with _$ProfileWorkerAddressDataController;
+class AddressDataController = AddressDataControllerBase
+    with _$AddressDataController;
 
-abstract class ProfileWorkerAddressDataControllerBase with Store {
-  ProfileWorkerAddressDataControllerBase() {
-    getData();
-  }
-
+abstract class AddressDataControllerBase with Store {
   @readonly
-  var _status = ProfileWorkerAddressDataStateStatus.initial;
+  var _status = AddressDataStateStatus.initial;
 
   @readonly
   String? _errorMessage;
 
   @readonly
   bool _showErrors = false;
+
+  @readonly
+  WorkerModel? _workerModel;
 
   @observable
   String? zip;
@@ -97,17 +94,17 @@ abstract class ProfileWorkerAddressDataControllerBase with Store {
 
   @action
   Future<void> searchZip(String zipFilter) async {
-    _status = ProfileWorkerAddressDataStateStatus.loading;
+    _status = AddressDataStateStatus.loading;
     try {
       final address = await ZipRepository().getAddressFromZip(zipFilter);
       city = address!.cidade.nome;
       state = address.estado.sigla;
       street = address.logradouro;
       district = address.bairro;
-      _status = ProfileWorkerAddressDataStateStatus.loaded;
+      _status = AddressDataStateStatus.loaded;
     } catch (e, s) {
       log('Erro ao buscar cep', error: e, stackTrace: s);
-      _status = ProfileWorkerAddressDataStateStatus.error;
+      _status = AddressDataStateStatus.error;
     }
   }
 
@@ -123,9 +120,9 @@ abstract class ProfileWorkerAddressDataControllerBase with Store {
   @action
   Future<void> save() async {
     try {
-      _status = ProfileWorkerAddressDataStateStatus.loading;
-      final getData = GetIt.I<UserController>().user as WorkerModel;
-      final saveData = getData.copyWith(
+      _status = AddressDataStateStatus.loading;
+      final getData = _workerModel;
+      final saveData = getData!.copyWith(
         address: getData.address.copyWith(
           zip: zip!.replaceAll(RegExp(r'[^0-9]'), ''),
           city: city,
@@ -138,26 +135,26 @@ abstract class ProfileWorkerAddressDataControllerBase with Store {
         ),
       );
       await WorkerService().workerUpdate(saveData);
-      GetIt.I<UserController>().setUser(saveData);
-      _status = ProfileWorkerAddressDataStateStatus.saved;
+      _workerModel = saveData;
+      _status = AddressDataStateStatus.saved;
     } on Exception catch (e, s) {
       log('Erro ao atualizar usuário', error: e, stackTrace: s);
       _errorMessage = 'Erro ao atualizar usuário';
-      _status = ProfileWorkerAddressDataStateStatus.error;
+      _status = AddressDataStateStatus.error;
     }
   }
 
   @action
-  Future<void> getData() async {
-    _status = ProfileWorkerAddressDataStateStatus.loading;
-    final data = GetIt.I<UserController>().user as WorkerModel;
-    zip = data.address.zip.formattedZip;
-    city = data.address.city;
-    state = data.address.state;
-    street = data.address.street;
-    district = data.address.district;
-    number = data.address.number;
-    complement = data.address.complement;
-    referencePoint = data.address.referencePoint;
+  Future<void> getData(WorkerModel worker) async {
+    _status = AddressDataStateStatus.loading;
+    _workerModel = worker;
+    zip = worker.address.zip.formattedZip;
+    city = worker.address.city;
+    state = worker.address.state;
+    street = worker.address.street;
+    district = worker.address.district;
+    number = worker.address.number;
+    complement = worker.address.complement;
+    referencePoint = worker.address.referencePoint;
   }
 }

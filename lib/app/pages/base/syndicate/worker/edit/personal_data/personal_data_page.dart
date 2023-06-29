@@ -12,10 +12,12 @@ import '../../../../../../core/ui/styles/text_styles.dart';
 import '../../../../../../core/widget/dropdown_widget.dart';
 import '../../../../../../core/widget/text_field_changed_widget.dart';
 import '../../../../../../core/widget/text_field_widget.dart';
+import '../../../../../../models/worker_model.dart';
 import 'personal_data_controller.dart';
 
 class PersonalDataPage extends StatefulWidget {
-  const PersonalDataPage({super.key});
+  final WorkerModel worker;
+  const PersonalDataPage(this.worker, {super.key});
 
   @override
   State<PersonalDataPage> createState() => _PersonalDataPageState();
@@ -36,6 +38,7 @@ class _PersonalDataPageState extends State<PersonalDataPage>
 
   @override
   void initState() {
+    controller.getUserData(widget.worker);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       statusDisposer = reaction((_) => controller.status, (status) {
         switch (status) {
@@ -49,7 +52,7 @@ class _PersonalDataPageState extends State<PersonalDataPage>
             break;
           case PersonalDataStateStatus.saved:
             hideLoader();
-            Navigator.pop(context);
+            Navigator.pop(context, controller.workerModel);
             break;
           case PersonalDataStateStatus.error:
             hideLoader();

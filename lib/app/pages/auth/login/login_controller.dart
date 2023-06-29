@@ -106,7 +106,7 @@ abstract class LoginControllerBase with Store {
       );
       // GetIt.I<AuthController>().setAuth(auth);
       _loginType = map['profileType'];
-      GetIt.I<UserController>().getCurrentUser(map['user']);
+      await GetIt.I<UserController>().getCurrentUser(map['user']);
       _status = LoginStateStatus.success;
     } on UnauthorizedException {
       _errorMessage = 'Login ou senha inválidos';

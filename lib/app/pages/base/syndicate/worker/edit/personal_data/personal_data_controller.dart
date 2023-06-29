@@ -1,6 +1,11 @@
+import 'dart:developer';
+
+import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../../../core/ui/helpers/enums.dart';
+import '../../../../../../models/worker_model.dart';
+import '../../../../../../services/worker/worker_service.dart';
 part 'personal_data_controller.g.dart';
 
 enum PersonalDataStateStatus {
@@ -15,10 +20,6 @@ class PersonalDataController = PersonalDataControllerBase
     with _$PersonalDataController;
 
 abstract class PersonalDataControllerBase with Store {
-  PersonalDataControllerBase() {
-    getUserData();
-  }
-
   @readonly
   var _status = PersonalDataStateStatus.initial;
 
@@ -27,6 +28,9 @@ abstract class PersonalDataControllerBase with Store {
 
   @readonly
   bool _showErrors = false;
+
+  @readonly
+  WorkerModel? _workerModel;
 
   @observable
   String? name;
@@ -187,43 +191,44 @@ abstract class PersonalDataControllerBase with Store {
 
   @action
   Future<void> save() async {
-    // try {
-    //   _status = PersonalDataStateStatus.loading;
-    //   final dt = DateFormat('dd/MM/yyyy').parse(birthdate!);
-
-    //   final getData = GetIt.I<UserController>().user as WorkerModel;
-    //   final saveData = getData.copyWith(
-    //     name: name,
-    //     lastname: lastname,
-    //     personal: PersonalModel(
-    //       surname: surname!,
-    //       birthdate: DateFormat('yyyy-MM-dd').format(dt),
-    //       motherName: motherName,
-    //       maritalStatus: maritalStatus,
-    //       phone: phone,
-    //       email: email!,
-    //     ),
-    //   );
-    //   await WorkerService().workerUpdate(saveData);
-    //   GetIt.I<UserController>().setUser(saveData);
-    //   _status = PersonalDataStateStatus.saved;
-    // } on Exception catch (e, s) {
-    //   log('Erro ao atualizar usuário', error: e, stackTrace: s);
-    //   _errorMessage = 'Erro ao atualizar usuário';
-    //   _status = PersonalDataStateStatus.error;
-    // }
+    try {
+      _status = PersonalDataStateStatus.loading;
+      final dt = DateFormat('dd/MM/yyyy').parse(birthdate!);
+      final getData = _workerModel;
+      final saveData = getData!.copyWith(
+        name: name,
+        lastname: lastname,
+        personal: PersonalModel(
+          surname: surname!,
+          birthdate: DateFormat('yyyy-MM-dd').format(dt),
+          motherName: motherName,
+          maritalStatus: maritalStatus,
+          phone: phone,
+          email: email!,
+        ),
+      );
+      await WorkerService().workerUpdate(saveData);
+      _workerModel = saveData;
+      _status = PersonalDataStateStatus.saved;
+    } on Exception catch (e, s) {
+      log('Erro ao atualizar usuário', error: e, stackTrace: s);
+      _errorMessage = 'Erro ao atualizar usuário';
+      _status = PersonalDataStateStatus.error;
+    }
   }
 
   @action
-  Future<void> getUserData() async {
-    // final data = GetIt.I<UserController>().user as WorkerModel;
-    // name = data.name;
-    // lastname = data.lastname;
-    // surname = data.personal.surname;
-    // birthdate = data.personal.birthdate;
-    // motherName = data.personal.motherName;
-    // maritalStatus = data.personal.maritalStatus;
-    // phone = data.personal.phone;
-    // email = data.personal.email;
+  Future<void> getUserData(WorkerModel worker) async {
+    _status = PersonalDataStateStatus.loading;
+    _workerModel = worker;
+    name = worker.name;
+    lastname = worker.lastname;
+    surname = worker.personal.surname;
+    birthdate = worker.personal.birthdate;
+    motherName = worker.personal.motherName;
+    maritalStatus = worker.personal.maritalStatus;
+    phone = worker.personal.phone;
+    email = worker.personal.email;
+    _status = PersonalDataStateStatus.loaded;
   }
 }

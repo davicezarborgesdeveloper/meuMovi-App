@@ -134,6 +134,24 @@ mixin _$PersonalDataController on PersonalDataControllerBase, Store {
     });
   }
 
+  late final _$_workerModelAtom =
+      Atom(name: 'PersonalDataControllerBase._workerModel', context: context);
+
+  WorkerModel? get workerModel {
+    _$_workerModelAtom.reportRead();
+    return super._workerModel;
+  }
+
+  @override
+  WorkerModel? get _workerModel => workerModel;
+
+  @override
+  set _workerModel(WorkerModel? value) {
+    _$_workerModelAtom.reportWrite(value, super._workerModel, () {
+      super._workerModel = value;
+    });
+  }
+
   late final _$nameAtom =
       Atom(name: 'PersonalDataControllerBase.name', context: context);
 
@@ -274,8 +292,8 @@ mixin _$PersonalDataController on PersonalDataControllerBase, Store {
       AsyncAction('PersonalDataControllerBase.getUserData', context: context);
 
   @override
-  Future<void> getUserData() {
-    return _$getUserDataAsyncAction.run(() => super.getUserData());
+  Future<void> getUserData(WorkerModel worker) {
+    return _$getUserDataAsyncAction.run(() => super.getUserData(worker));
   }
 
   late final _$PersonalDataControllerBaseActionController =

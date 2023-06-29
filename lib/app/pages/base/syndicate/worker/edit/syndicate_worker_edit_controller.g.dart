@@ -83,6 +83,22 @@ mixin _$SyndicateWorkerEditController
     });
   }
 
+  late final _$workerModelAtom = Atom(
+      name: 'SyndicateWorkerEditControllerBase.workerModel', context: context);
+
+  @override
+  WorkerModel? get workerModel {
+    _$workerModelAtom.reportRead();
+    return super.workerModel;
+  }
+
+  @override
+  set workerModel(WorkerModel? value) {
+    _$workerModelAtom.reportWrite(value, super.workerModel, () {
+      super.workerModel = value;
+    });
+  }
+
   late final _$imageAtom =
       Atom(name: 'SyndicateWorkerEditControllerBase.image', context: context);
 
@@ -134,8 +150,21 @@ mixin _$SyndicateWorkerEditController
   }
 
   @override
+  void setWorkerModel(WorkerModel value) {
+    final _$actionInfo = _$SyndicateWorkerEditControllerBaseActionController
+        .startAction(name: 'SyndicateWorkerEditControllerBase.setWorkerModel');
+    try {
+      return super.setWorkerModel(value);
+    } finally {
+      _$SyndicateWorkerEditControllerBaseActionController
+          .endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
+workerModel: ${workerModel},
 image: ${image}
     ''';
   }

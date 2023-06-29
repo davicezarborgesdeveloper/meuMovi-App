@@ -2,6 +2,8 @@ import 'dart:typed_data';
 
 import 'package:mobx/mobx.dart';
 
+import '../../../../../models/worker_model.dart';
+
 part 'syndicate_worker_edit_controller.g.dart';
 
 enum ProfileWorkerStateStatus {
@@ -9,7 +11,7 @@ enum ProfileWorkerStateStatus {
   loading,
   loaded,
   error,
-  uploadImage,
+  // uploadImage,
 }
 
 class SyndicateWorkerEditController = SyndicateWorkerEditControllerBase
@@ -29,6 +31,9 @@ abstract class SyndicateWorkerEditControllerBase with Store {
   String? _cnpj;
 
   @observable
+  WorkerModel? workerModel;
+
+  @observable
   Uint8List? image;
 
   @readonly
@@ -36,6 +41,15 @@ abstract class SyndicateWorkerEditControllerBase with Store {
 
   @action
   void setImage(Uint8List value) => image = value;
+
+  @action
+  void setWorkerModel(WorkerModel value) => workerModel = value;
+
+  Future<void> getData(WorkerModel worker) async {
+    _status = ProfileWorkerStateStatus.loading;
+    workerModel = worker;
+    _status = ProfileWorkerStateStatus.loaded;
+  }
 
   // @action
   // Future<void> uploadImage(Uint8List? imageUint, String userId) async {

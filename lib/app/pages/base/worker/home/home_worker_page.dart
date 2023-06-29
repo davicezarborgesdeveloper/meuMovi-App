@@ -61,12 +61,9 @@ class _HomeWorkerPageState extends State<HomeWorkerPage> with Loader, Messages {
         title: Observer(
           builder: (_) => Text(
             'Olá, ${widget.userController.worker != null ? widget.userController.worker!.fullname : ''}',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontFamily: 'roboto',
-              fontSize: 18,
-              color: ColorsApp.i.black,
-            ),
+            style: context.textStyles.textBold
+                .copyWith(fontSize: 18, color: ColorsApp.i.black),
+            // ),
           ),
         ),
         iconTheme: IconThemeData(color: ColorsApp.i.primary),

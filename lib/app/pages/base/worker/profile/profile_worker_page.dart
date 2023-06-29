@@ -89,9 +89,6 @@ class _ProfileWorkerPageState extends State<ProfileWorkerPage>
                               },
                               controller.urlImage ??
                                   widget.userCtrl.worker!.imageUrl,
-                              // controller.urlImage ??
-                              //       (widget.userCtrl.user as WorkerModel)
-                              //           .imageUrl,
                             ),
                             const SizedBox(height: 8),
                             Column(
