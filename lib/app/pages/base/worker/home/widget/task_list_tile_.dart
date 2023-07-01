@@ -8,11 +8,13 @@ import '../../../../../models/task_model.dart';
 
 class TaskListTile extends StatelessWidget {
   final TaskModel task;
-  const TaskListTile({required this.task, super.key});
+  final GestureLongPressCallback? onPressed;
+  const TaskListTile({required this.task, required this.onPressed, super.key});
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return GestureDetector(
+      onTap: onPressed,
       child: Container(
         padding: const EdgeInsets.all(12),
         margin: const EdgeInsets.all(8),

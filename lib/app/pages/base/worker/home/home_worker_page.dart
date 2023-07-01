@@ -172,6 +172,7 @@ class _HomeWorkerPageState extends State<HomeWorkerPage> with Loader, Messages {
                           .map(
                             (task) => TaskListTile(
                               task: task,
+                              onPressed: () {},
                             ),
                           )
                           .toList(),

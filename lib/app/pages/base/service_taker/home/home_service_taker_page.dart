@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:meu_movi/app/pages/base/service_taker/home/register/task_service_taker_register_page.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../core/ui/helpers/loader.dart';
@@ -13,7 +14,6 @@ import '../../../auth/user_controller.dart';
 import '../../../menu/menu_drawer.dart';
 import '../../worker/home/widget/task_button.dart';
 import '../../worker/home/widget/task_list_tile_.dart';
-import '../task/register/task_service_taker_register_page.dart';
 import 'home_service_taker_controller.dart';
 
 class HomeServiceTakerPage extends StatefulWidget {
@@ -61,7 +61,7 @@ class _HomeServiceTakerPageState extends State<HomeServiceTakerPage>
     super.initState();
   }
 
-  Future<void> optionOpenDialog(TaskModel task) async {
+  Future<void> _optionOpenDialog(TaskModel task) async {
     return showDialog(
       context: context,
       builder: (context) {
@@ -95,15 +95,20 @@ class _HomeServiceTakerPageState extends State<HomeServiceTakerPage>
                 Row(
                   children: [
                     TextButton(
-                      onPressed: () async {
-                        final navigator = Navigator.of(context);
-                        await controller.deleteTask(task.code.toString());
-                        navigator.pop();
-                      },
+                      onPressed: task.access == 0
+                          ? () async {
+                              final navigator = Navigator.of(context);
+                              await controller.deleteTask(task.code.toString());
+                              navigator.pop();
+                            }
+                          : null,
                       child: Text(
                         'Excluir',
-                        style: context.textStyles.textSemiBold
-                            .copyWith(color: Colors.red),
+                        style: context.textStyles.textSemiBold.copyWith(
+                          color: task.access == 0
+                              ? Colors.red
+                              : Colors.grey.shade400,
+                        ),
                       ),
                     ),
                     TextButton(
@@ -287,7 +292,12 @@ class _HomeServiceTakerPageState extends State<HomeServiceTakerPage>
                       return list.isNotEmpty
                           ? Column(
                               children: list
-                                  .map((tsk) => TaskListTile(task: tsk))
+                                  .map(
+                                    (tsk) => TaskListTile(
+                                      task: tsk,
+                                      onPressed: () => _optionOpenDialog(tsk),
+                                    ),
+                                  )
                                   .toList(),
                             )
                           : Padding(

@@ -65,8 +65,20 @@ abstract class TaskServiceTakerRegisterControllerBase with Store {
   // @observable
   // String? valueInvoice;
 
-  @observable
-  String? syndicate;
+  // @observable
+  // String? syndicate;
+
+  @readonly
+  int? _access;
+
+  @readonly
+  int? _statusTask;
+
+  @readonly
+  double? _valueInvoice;
+
+  @readonly
+  String? _syndicate;
 
   @action
   void setDescriptionService(String value) => descriptionService = value;
@@ -103,8 +115,8 @@ abstract class TaskServiceTakerRegisterControllerBase with Store {
   // @action
   // void setValueInvoice(String value) => valueInvoice = value;
 
-  @action
-  void setSyndicate(String value) => syndicate = value;
+  // @action
+  // void setSyndicate(String value) => syndicate = value;
 
   @computed
   bool get descriptionServiceValid =>
@@ -235,8 +247,10 @@ abstract class TaskServiceTakerRegisterControllerBase with Store {
         hourDays: hourDays,
         valuePayroll: double.parse(valuePayroll!.replaceAll(',', '.')),
         invoiceAmount: double.parse(invoiceAmount!.replaceAll(',', '.')),
-        status: 0,
-        access: 0,
+        valueInvoice: _valueInvoice,
+        syndicate: _syndicate,
+        status: _statusTask ?? 0,
+        access: _access ?? 0,
       );
       await TaskService().save(task);
       _status = TaskServiceTakerRegisterStateStatus.saved;
@@ -258,6 +272,7 @@ abstract class TaskServiceTakerRegisterControllerBase with Store {
     invoiceAmount = model.invoiceAmount.toString();
     productionType = ProductionType.parse(model.productionType!.acronym);
     reportType = ReportType.parse(model.reportType!.acronym);
+    calculateNightTime = model.calculateNightTime;
     // syndicate = model.syndicate;
     servTaker = model.servTaker != null
         ? ServTakerModel(
@@ -265,6 +280,10 @@ abstract class TaskServiceTakerRegisterControllerBase with Store {
             name: model.servTaker!.name,
           )
         : ServTakerModel(code: '', name: '');
+    _access = model.access;
+    _statusTask = model.status;
+    _syndicate = model.syndicate;
+    _valueInvoice = model.valueInvoice;
     _status = TaskServiceTakerRegisterStateStatus.loaded;
   }
 }

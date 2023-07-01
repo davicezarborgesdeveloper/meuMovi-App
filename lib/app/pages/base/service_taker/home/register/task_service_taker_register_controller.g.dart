@@ -329,20 +329,78 @@ mixin _$TaskServiceTakerRegisterController
     });
   }
 
-  late final _$syndicateAtom = Atom(
-      name: 'TaskServiceTakerRegisterControllerBase.syndicate',
-      context: context);
+  late final _$_accessAtom = Atom(
+      name: 'TaskServiceTakerRegisterControllerBase._access', context: context);
 
-  @override
-  String? get syndicate {
-    _$syndicateAtom.reportRead();
-    return super.syndicate;
+  int? get access {
+    _$_accessAtom.reportRead();
+    return super._access;
   }
 
   @override
-  set syndicate(String? value) {
-    _$syndicateAtom.reportWrite(value, super.syndicate, () {
-      super.syndicate = value;
+  int? get _access => access;
+
+  @override
+  set _access(int? value) {
+    _$_accessAtom.reportWrite(value, super._access, () {
+      super._access = value;
+    });
+  }
+
+  late final _$_statusTaskAtom = Atom(
+      name: 'TaskServiceTakerRegisterControllerBase._statusTask',
+      context: context);
+
+  int? get statusTask {
+    _$_statusTaskAtom.reportRead();
+    return super._statusTask;
+  }
+
+  @override
+  int? get _statusTask => statusTask;
+
+  @override
+  set _statusTask(int? value) {
+    _$_statusTaskAtom.reportWrite(value, super._statusTask, () {
+      super._statusTask = value;
+    });
+  }
+
+  late final _$_valueInvoiceAtom = Atom(
+      name: 'TaskServiceTakerRegisterControllerBase._valueInvoice',
+      context: context);
+
+  double? get valueInvoice {
+    _$_valueInvoiceAtom.reportRead();
+    return super._valueInvoice;
+  }
+
+  @override
+  double? get _valueInvoice => valueInvoice;
+
+  @override
+  set _valueInvoice(double? value) {
+    _$_valueInvoiceAtom.reportWrite(value, super._valueInvoice, () {
+      super._valueInvoice = value;
+    });
+  }
+
+  late final _$_syndicateAtom = Atom(
+      name: 'TaskServiceTakerRegisterControllerBase._syndicate',
+      context: context);
+
+  String? get syndicate {
+    _$_syndicateAtom.reportRead();
+    return super._syndicate;
+  }
+
+  @override
+  String? get _syndicate => syndicate;
+
+  @override
+  set _syndicate(String? value) {
+    _$_syndicateAtom.reportWrite(value, super._syndicate, () {
+      super._syndicate = value;
     });
   }
 
@@ -492,19 +550,6 @@ mixin _$TaskServiceTakerRegisterController
   }
 
   @override
-  void setSyndicate(String value) {
-    final _$actionInfo =
-        _$TaskServiceTakerRegisterControllerBaseActionController.startAction(
-            name: 'TaskServiceTakerRegisterControllerBase.setSyndicate');
-    try {
-      return super.setSyndicate(value);
-    } finally {
-      _$TaskServiceTakerRegisterControllerBaseActionController
-          .endAction(_$actionInfo);
-    }
-  }
-
-  @override
   void invalidSendPressed() {
     final _$actionInfo =
         _$TaskServiceTakerRegisterControllerBaseActionController.startAction(
@@ -530,7 +575,6 @@ calculateNightTime: ${calculateNightTime},
 hourDays: ${hourDays},
 valuePayroll: ${valuePayroll},
 invoiceAmount: ${invoiceAmount},
-syndicate: ${syndicate},
 descriptionServiceValid: ${descriptionServiceValid},
 descCostCenterValid: ${descCostCenterValid},
 productionTypeValid: ${productionTypeValid},

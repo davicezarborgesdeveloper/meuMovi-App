@@ -17,7 +17,7 @@ class RegisterSuccess extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'Cadastrado com Sucesso',
+              'Sucesso',
               style: context.textStyles.textBold.copyWith(fontSize: 18),
             ),
             const SizedBox(height: 32),
