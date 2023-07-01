@@ -6,9 +6,13 @@ abstract class TaskService {
   Future<void> save(TaskModel model);
   Future<List<TaskModel>> getAllTasks([String? userId, int? status]);
   Future<List<TaskModel>> getTasksbyServiceTaker(String? userId);
-  Future<DashboardTaskModel> getTasksDashboard(String? userId);
+  Future<DashboardTaskModel> getTasksDashboardServiceTaker(String? userId);
+  Future<DashboardTaskModel> getTasksDashboardSyndicate(String? userId);
+  Future<DashboardTaskModel> getTasksDashboardWorker(String? userId);
   Future<void> delete(String id);
   Future<void> sentToSyndicate(String taskCode, String syndicateCode);
+  Future<void> returnServiceTaker(String taskCode);
+  Future<void> sendWorker(String taskCode);
 
   factory TaskService() {
     return TaskServiceImpl();

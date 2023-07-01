@@ -6,7 +6,7 @@ import '../auth/user_controller.dart';
 import '../menu/menu_drawer_controller.dart';
 import 'syndicate/profile/profile_syndicate_page.dart';
 import 'syndicate/service_taker/list/service_taker_list_page.dart';
-import 'syndicate/tasks/list/task_list_page.dart';
+import 'syndicate/tasks/dashboard/task_dashboard_page.dart';
 import 'syndicate/worker/list/worker_list_page.dart';
 
 class BaseSyndicatePage extends StatefulWidget {
@@ -39,7 +39,8 @@ class _BaseSyndicatePageState extends State<BaseSyndicatePage> {
         physics: const NeverScrollableScrollPhysics(),
         children: [
           ProfileSyndicatePage(userController),
-          TaskListPage(userController),
+          TaskDashboardPage(userController),
+          // TaskListPage(userController),
           WorkerListPage(userController),
           ServiceTakerListPage(userController),
         ],

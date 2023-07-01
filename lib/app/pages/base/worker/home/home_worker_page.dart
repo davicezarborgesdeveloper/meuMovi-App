@@ -47,7 +47,6 @@ class _HomeWorkerPageState extends State<HomeWorkerPage> with Loader, Messages {
       });
       controller.getTasks(
         widget.userController.worker!.documents.employeer!.code,
-        status: 0,
       );
     });
     super.initState();
@@ -92,13 +91,14 @@ class _HomeWorkerPageState extends State<HomeWorkerPage> with Loader, Messages {
                       child: GridView.count(
                         physics: const NeverScrollableScrollPhysics(),
                         primary: false,
-                        crossAxisSpacing: 12,
-                        mainAxisSpacing: 12,
+                        crossAxisSpacing: 4,
+                        mainAxisSpacing: 4,
                         crossAxisCount: 2,
                         children: [
                           TaskButton(
                             label: 'disponíveis',
-                            numberLabel: controller.tasks.length.toString(),
+                            numberLabel:
+                                controller.tasks!.available!.length.toString(),
                             option: 0,
                             selected: controller.buttonSelected,
                             onPressed: () {
@@ -106,12 +106,13 @@ class _HomeWorkerPageState extends State<HomeWorkerPage> with Loader, Messages {
                               controller.getTasks(
                                 widget.userController.worker!.documents
                                     .employeer!.code,
-                                status: 0,
                               );
                             },
                           ),
                           TaskButton(
                             label: 'confirmadas',
+                            numberLabel:
+                                controller.tasks!.confirmed!.length.toString(),
                             option: 1,
                             selected: controller.buttonSelected,
                             onPressed: () {
@@ -119,25 +120,27 @@ class _HomeWorkerPageState extends State<HomeWorkerPage> with Loader, Messages {
                               controller.getTasks(
                                 widget.userController.worker!.documents
                                     .employeer!.code,
-                                status: 1,
                               );
                             },
                           ),
                           TaskButton(
                             label: 'em andamento',
                             option: 2,
+                            numberLabel:
+                                controller.tasks!.inProgress!.length.toString(),
                             selected: controller.buttonSelected,
                             onPressed: () {
                               controller.setButtonSelected(2);
                               controller.getTasks(
                                 widget.userController.worker!.documents
                                     .employeer!.code,
-                                status: 2,
                               );
                             },
                           ),
                           TaskButton(
                             label: 'finalizadas',
+                            numberLabel:
+                                controller.tasks!.finished!.length.toString(),
                             option: 3,
                             selected: controller.buttonSelected,
                             onPressed: () {
@@ -145,7 +148,6 @@ class _HomeWorkerPageState extends State<HomeWorkerPage> with Loader, Messages {
                               controller.getTasks(
                                 widget.userController.worker!.documents
                                     .employeer!.code,
-                                status: 3,
                               );
                             },
                           )
@@ -167,16 +169,23 @@ class _HomeWorkerPageState extends State<HomeWorkerPage> with Loader, Messages {
                   ),
                   const SizedBox(height: 16),
                   Observer(
-                    builder: (_) => Column(
-                      children: controller.tasks
-                          .map(
-                            (task) => TaskListTile(
-                              task: task,
-                              onPressed: () {},
-                            ),
-                          )
-                          .toList(),
-                    ),
+                    builder: (_) {
+                      final list = controller.buttonSelected == 0
+                          ? controller.tasks!.available
+                          : controller.buttonSelected == 1
+                              ? controller.tasks!.confirmed
+                              : controller.buttonSelected == 2
+                                  ? controller.tasks!.inProgress
+                                  : controller.tasks!.finished;
+                      return list!.isNotEmpty
+                          ? Column(
+                              children: list
+                                  .map((tsk) =>
+                                      TaskListTile(task: tsk, onPressed: () {}))
+                                  .toList(),
+                            )
+                          : Container();
+                    },
                   ),
                 ],
               ),

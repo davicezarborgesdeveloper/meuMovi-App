@@ -68,8 +68,14 @@ abstract class TaskRegisterControllerBase with Store {
   @observable
   String? valueInvoice;
 
-  @observable
-  String? syndicate;
+  @readonly
+  String? _syndicate;
+
+  @readonly
+  int? _access;
+
+  @readonly
+  int? _statusTask;
 
   @action
   void setDescriptionService(String value) => descriptionService = value;
@@ -106,9 +112,6 @@ abstract class TaskRegisterControllerBase with Store {
 
   @action
   void setValueInvoice(String value) => valueInvoice = value;
-
-  @action
-  void setSyndicate(String value) => syndicate = value;
 
   @computed
   bool get descriptionServiceValid =>
@@ -258,15 +261,15 @@ abstract class TaskRegisterControllerBase with Store {
           code: servTaker!.code,
           name: servTaker!.name,
         ),
-        syndicate: syndicate,
         reportType: reportType!,
         calculateNightTime: calculateNightTime,
         hourDays: hourDays,
         valuePayroll: double.parse(valuePayroll!.replaceAll(',', '.')),
         invoiceAmount: double.parse(invoiceAmount!.replaceAll(',', '.')),
         valueInvoice: double.parse(valueInvoice!.replaceAll(',', '.')),
-        status: 0,
-        access: 0,
+        syndicate: _syndicate,
+        status: _statusTask ?? 0,
+        access: _access ?? 0,
       );
       await TaskService().save(task);
       _status = TaskRegisterStateStatus.saved;
@@ -281,7 +284,7 @@ abstract class TaskRegisterControllerBase with Store {
     _status = TaskRegisterStateStatus.loading;
     _code = model!.code;
     descriptionService = model.descriptionService;
-    descCostCenter = model.descCostCenter!;
+    descCostCenter = model.descCostCenter;
     extraPercentage = model.extraPercentage;
     hourDays = model.hourDays ?? '0,00';
     valuePayroll = model.valuePayroll.toString();
@@ -289,13 +292,16 @@ abstract class TaskRegisterControllerBase with Store {
     valueInvoice = model.valueInvoice.toString();
     productionType = ProductionType.parse(model.productionType!.acronym);
     reportType = ReportType.parse(model.reportType!.acronym);
-    syndicate = model.syndicate;
     servTaker = model.servTaker != null
         ? ServTakerModel(
             code: model.servTaker!.code,
             name: model.servTaker!.name,
           )
         : ServTakerModel(code: '', name: '');
+    _access = model.access;
+    _statusTask = model.status;
+    _syndicate = model.syndicate;
+    valueInvoice = model.valueInvoice.toString();
     _status = TaskRegisterStateStatus.loaded;
   }
 }

@@ -76,7 +76,6 @@ class _TasksSyndicateRegisterPageState extends State<TasksSyndicateRegisterPage>
             break;
         }
       });
-      controller.setSyndicate(userCtrl.syndicate!.user);
     });
     super.initState();
   }

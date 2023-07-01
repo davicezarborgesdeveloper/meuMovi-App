@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'home_worker_controller.dart';
+part of 'task_dashboard_controller.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -8,27 +8,27 @@ part of 'home_worker_controller.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
-mixin _$HomeWorkerController on HomeWorkerControllerBase, Store {
+mixin _$TaskDashboardController on TaskDashboardControllerBase, Store {
   late final _$_statusAtom =
-      Atom(name: 'HomeWorkerControllerBase._status', context: context);
+      Atom(name: 'TaskDashboardControllerBase._status', context: context);
 
-  HomeWorkerStateStatus get status {
+  TaskDashboardStateStatus get status {
     _$_statusAtom.reportRead();
     return super._status;
   }
 
   @override
-  HomeWorkerStateStatus get _status => status;
+  TaskDashboardStateStatus get _status => status;
 
   @override
-  set _status(HomeWorkerStateStatus value) {
+  set _status(TaskDashboardStateStatus value) {
     _$_statusAtom.reportWrite(value, super._status, () {
       super._status = value;
     });
   }
 
   late final _$_errorMessageAtom =
-      Atom(name: 'HomeWorkerControllerBase._errorMessage', context: context);
+      Atom(name: 'TaskDashboardControllerBase._errorMessage', context: context);
 
   String? get errorMessage {
     _$_errorMessageAtom.reportRead();
@@ -45,8 +45,8 @@ mixin _$HomeWorkerController on HomeWorkerControllerBase, Store {
     });
   }
 
-  late final _$buttonSelectedAtom =
-      Atom(name: 'HomeWorkerControllerBase.buttonSelected', context: context);
+  late final _$buttonSelectedAtom = Atom(
+      name: 'TaskDashboardControllerBase.buttonSelected', context: context);
 
   @override
   int get buttonSelected {
@@ -62,7 +62,7 @@ mixin _$HomeWorkerController on HomeWorkerControllerBase, Store {
   }
 
   late final _$_tasksAtom =
-      Atom(name: 'HomeWorkerControllerBase._tasks', context: context);
+      Atom(name: 'TaskDashboardControllerBase._tasks', context: context);
 
   DashboardTaskModel? get tasks {
     _$_tasksAtom.reportRead();
@@ -79,35 +79,17 @@ mixin _$HomeWorkerController on HomeWorkerControllerBase, Store {
     });
   }
 
-  late final _$_employeerCodeAtom =
-      Atom(name: 'HomeWorkerControllerBase._employeerCode', context: context);
-
-  String? get employeerCode {
-    _$_employeerCodeAtom.reportRead();
-    return super._employeerCode;
-  }
-
-  @override
-  String? get _employeerCode => employeerCode;
-
-  @override
-  set _employeerCode(String? value) {
-    _$_employeerCodeAtom.reportWrite(value, super._employeerCode, () {
-      super._employeerCode = value;
-    });
-  }
-
-  late final _$HomeWorkerControllerBaseActionController =
-      ActionController(name: 'HomeWorkerControllerBase', context: context);
+  late final _$TaskDashboardControllerBaseActionController =
+      ActionController(name: 'TaskDashboardControllerBase', context: context);
 
   @override
   void setButtonSelected(int value) {
-    final _$actionInfo = _$HomeWorkerControllerBaseActionController.startAction(
-        name: 'HomeWorkerControllerBase.setButtonSelected');
+    final _$actionInfo = _$TaskDashboardControllerBaseActionController
+        .startAction(name: 'TaskDashboardControllerBase.setButtonSelected');
     try {
       return super.setButtonSelected(value);
     } finally {
-      _$HomeWorkerControllerBaseActionController.endAction(_$actionInfo);
+      _$TaskDashboardControllerBaseActionController.endAction(_$actionInfo);
     }
   }
 

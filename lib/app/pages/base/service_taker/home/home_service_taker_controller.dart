@@ -45,7 +45,7 @@ abstract class HomeServiceTakerControllerBase with Store {
   Future<void> getTasks(String? id) async {
     try {
       _status = HomeServiceTakerStateStatus.loading;
-      _tasks = await TaskService().getTasksDashboard(id);
+      _tasks = await TaskService().getTasksDashboardServiceTaker(id);
       _status = HomeServiceTakerStateStatus.loaded;
     } catch (e, s) {
       log('Erro ao buscar listar tarefas', error: e, stackTrace: s);
@@ -72,9 +72,9 @@ abstract class HomeServiceTakerControllerBase with Store {
       await TaskService().sentToSyndicate(taskCode, syndicateCode);
       _status = HomeServiceTakerStateStatus.loaded;
     } catch (e, s) {
-      log('Erro ao buscar listar tarefas', error: e, stackTrace: s);
+      log('Erro ao enviar tarefa ao sindicato', error: e, stackTrace: s);
       _status = HomeServiceTakerStateStatus.error;
-      _errorMessage = 'Erro ao buscar listar tarefas';
+      _errorMessage = 'Erro ao enviar tarefa ao sindicato';
     }
   }
 }

@@ -61,11 +61,15 @@ class TaskButton extends StatelessWidget {
                         fontSize: 18,
                       ),
                     ),
-                    Text(
-                      label,
-                      style: context.textStyles.textBold.copyWith(
-                        color: isSelected ? Colors.white : Colors.grey.shade700,
-                        fontSize: 18,
+                    SizedBox(
+                      width: 96,
+                      child: Text(
+                        label,
+                        style: context.textStyles.textBold.copyWith(
+                          color:
+                              isSelected ? Colors.white : Colors.grey.shade700,
+                          fontSize: 16,
+                        ),
                       ),
                     ),
                   ],

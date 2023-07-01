@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:mobx/mobx.dart';
 
 import '../../../../core/ui/helpers/enums.dart';
+import '../../../../models/dashboard/dashboard_task_model.dart';
 import '../../../../models/task_model.dart';
 import '../../../../services/task/task_service.dart';
 part 'home_worker_controller.g.dart';
@@ -28,7 +29,12 @@ abstract class HomeWorkerControllerBase with Store {
   int buttonSelected = 0;
 
   @readonly
-  var _tasks = <TaskModel>[];
+  DashboardTaskModel? _tasks = DashboardTaskModel(
+    available: <TaskModel>[],
+    confirmed: <TaskModel>[],
+    inProgress: <TaskModel>[],
+    finished: <TaskModel>[],
+  );
 
   @readonly
   String? _employeerCode;
@@ -36,16 +42,16 @@ abstract class HomeWorkerControllerBase with Store {
   @action
   void setButtonSelected(int value) => buttonSelected = value;
 
-  @observable
-  OptionDistance optionDistance = OptionDistance.km25;
+  // @observable
+  // OptionDistance optionDistance = OptionDistance.km25;
 
-  @action
-  void setOptionDistance(OptionDistance value) => optionDistance = value;
+  // @action
+  // void setOptionDistance(OptionDistance value) => optionDistance = value;
 
-  Future<void> getTasks(String? id, {required int status}) async {
+  Future<void> getTasks(String? id) async {
     try {
       _status = HomeWorkerStateStatus.loading;
-      _tasks = await TaskService().getAllTasks(id, status);
+      _tasks = await TaskService().getTasksDashboardWorker(id);
       _status = HomeWorkerStateStatus.loaded;
     } catch (e, s) {
       log('Erro ao buscar listar tarefas', error: e, stackTrace: s);

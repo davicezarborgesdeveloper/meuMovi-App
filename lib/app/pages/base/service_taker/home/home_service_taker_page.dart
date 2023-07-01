@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:meu_movi/app/pages/base/service_taker/home/register/task_service_taker_register_page.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../core/ui/helpers/loader.dart';
@@ -15,6 +14,7 @@ import '../../../menu/menu_drawer.dart';
 import '../../worker/home/widget/task_button.dart';
 import '../../worker/home/widget/task_list_tile_.dart';
 import 'home_service_taker_controller.dart';
+import 'register/task_service_taker_register_page.dart';
 
 class HomeServiceTakerPage extends StatefulWidget {
   final UserController userController;
@@ -67,7 +67,7 @@ class _HomeServiceTakerPageState extends State<HomeServiceTakerPage>
       builder: (context) {
         return Dialog(
           child: Padding(
-            padding: const EdgeInsets.all(24.0),
+            padding: const EdgeInsets.fromLTRB(24, 0, 24, 16),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -211,7 +211,7 @@ class _HomeServiceTakerPageState extends State<HomeServiceTakerPage>
                           TaskButton(
                             label: 'em aberto',
                             numberLabel:
-                                controller.tasks!.opened.length.toString(),
+                                controller.tasks!.opened!.length.toString(),
                             option: 0,
                             selected: controller.buttonSelected,
                             onPressed: () async {
@@ -224,12 +224,12 @@ class _HomeServiceTakerPageState extends State<HomeServiceTakerPage>
                           TaskButton(
                             label: 'confirmadas',
                             numberLabel:
-                                controller.tasks!.confirmed.length.toString(),
+                                controller.tasks!.confirmed!.length.toString(),
                             option: 1,
                             selected: controller.buttonSelected,
-                            onPressed: () {
+                            onPressed: () async {
                               controller.setButtonSelected(1);
-                              controller.getTasks(
+                              await controller.getTasks(
                                 widget.userController.serviceTaker!.user,
                               );
                             },
@@ -240,9 +240,9 @@ class _HomeServiceTakerPageState extends State<HomeServiceTakerPage>
                                 controller.tasks!.inProgress.length.toString(),
                             option: 2,
                             selected: controller.buttonSelected,
-                            onPressed: () {
+                            onPressed: () async {
                               controller.setButtonSelected(2);
-                              controller.getTasks(
+                              await controller.getTasks(
                                 widget.userController.serviceTaker!.user,
                               );
                             },
@@ -253,9 +253,9 @@ class _HomeServiceTakerPageState extends State<HomeServiceTakerPage>
                                 controller.tasks!.finished.length.toString(),
                             option: 3,
                             selected: controller.buttonSelected,
-                            onPressed: () {
+                            onPressed: () async {
                               controller.setButtonSelected(3);
-                              controller.getTasks(
+                              await controller.getTasks(
                                 widget.userController.serviceTaker!.user,
                               );
                             },
@@ -289,7 +289,7 @@ class _HomeServiceTakerPageState extends State<HomeServiceTakerPage>
                                   ? controller.tasks!.inProgress
                                   : controller.tasks!.finished;
 
-                      return list.isNotEmpty
+                      return list!.isNotEmpty
                           ? Column(
                               children: list
                                   .map(

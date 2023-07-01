@@ -365,19 +365,57 @@ mixin _$TaskRegisterController on TaskRegisterControllerBase, Store {
     });
   }
 
-  late final _$syndicateAtom =
-      Atom(name: 'TaskRegisterControllerBase.syndicate', context: context);
+  late final _$_syndicateAtom =
+      Atom(name: 'TaskRegisterControllerBase._syndicate', context: context);
 
-  @override
   String? get syndicate {
-    _$syndicateAtom.reportRead();
-    return super.syndicate;
+    _$_syndicateAtom.reportRead();
+    return super._syndicate;
   }
 
   @override
-  set syndicate(String? value) {
-    _$syndicateAtom.reportWrite(value, super.syndicate, () {
-      super.syndicate = value;
+  String? get _syndicate => syndicate;
+
+  @override
+  set _syndicate(String? value) {
+    _$_syndicateAtom.reportWrite(value, super._syndicate, () {
+      super._syndicate = value;
+    });
+  }
+
+  late final _$_accessAtom =
+      Atom(name: 'TaskRegisterControllerBase._access', context: context);
+
+  int? get access {
+    _$_accessAtom.reportRead();
+    return super._access;
+  }
+
+  @override
+  int? get _access => access;
+
+  @override
+  set _access(int? value) {
+    _$_accessAtom.reportWrite(value, super._access, () {
+      super._access = value;
+    });
+  }
+
+  late final _$_statusTaskAtom =
+      Atom(name: 'TaskRegisterControllerBase._statusTask', context: context);
+
+  int? get statusTask {
+    _$_statusTaskAtom.reportRead();
+    return super._statusTask;
+  }
+
+  @override
+  int? get _statusTask => statusTask;
+
+  @override
+  set _statusTask(int? value) {
+    _$_statusTaskAtom.reportWrite(value, super._statusTask, () {
+      super._statusTask = value;
     });
   }
 
@@ -525,17 +563,6 @@ mixin _$TaskRegisterController on TaskRegisterControllerBase, Store {
   }
 
   @override
-  void setSyndicate(String value) {
-    final _$actionInfo = _$TaskRegisterControllerBaseActionController
-        .startAction(name: 'TaskRegisterControllerBase.setSyndicate');
-    try {
-      return super.setSyndicate(value);
-    } finally {
-      _$TaskRegisterControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   void invalidSendPressed() {
     final _$actionInfo = _$TaskRegisterControllerBaseActionController
         .startAction(name: 'TaskRegisterControllerBase.invalidSendPressed');
@@ -561,7 +588,6 @@ hourDays: ${hourDays},
 valuePayroll: ${valuePayroll},
 invoiceAmount: ${invoiceAmount},
 valueInvoice: ${valueInvoice},
-syndicate: ${syndicate},
 descriptionServiceValid: ${descriptionServiceValid},
 serviceTakerValid: ${serviceTakerValid},
 descCostCenterValid: ${descCostCenterValid},

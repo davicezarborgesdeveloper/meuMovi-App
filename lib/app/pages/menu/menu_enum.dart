@@ -65,10 +65,10 @@ enum MenuServiceTaker {
     Icons.credit_card,
     'Extrato',
   ),
-  tarefas(
-    Icons.filter_alt_sharp,
-    'Tarefas',
-  ),
+  // tarefas(
+  //   Icons.filter_alt_sharp,
+  //   'Tarefas',
+  // ),
   perfil(
     Icons.person,
     'Perfil',

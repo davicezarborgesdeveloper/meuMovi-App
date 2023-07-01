@@ -269,9 +269,11 @@ class _TaskServiceTakerRegisterPageState
                     onTap: controller.invalidSendPressed,
                     child: ElevatedButton(
                       onPressed: controller.sendPressed,
-                      child: Text(widget.task != null
-                          ? 'Alterar Cadastro'
-                          : 'Confirmar cadastro'),
+                      child: Text(
+                        widget.task != null
+                            ? 'Alterar Cadastro'
+                            : 'Confirmar cadastro',
+                      ),
                     ),
                   ),
                 ),

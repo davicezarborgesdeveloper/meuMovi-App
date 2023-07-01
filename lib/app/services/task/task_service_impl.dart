@@ -83,7 +83,9 @@ class TaskServiceImpl implements TaskService {
   }
 
   @override
-  Future<DashboardTaskModel> getTasksDashboard(String? userId) async {
+  Future<DashboardTaskModel> getTasksDashboardServiceTaker(
+    String? userId,
+  ) async {
     final collectionRef = FirebaseFirestore.instance.collection(taskCollection);
     final QuerySnapshot querySnapshot = await collectionRef.get();
     final DashboardTaskModel dash = DashboardTaskModel(
@@ -98,10 +100,75 @@ class TaskServiceImpl implements TaskService {
         switch (map['status']) {
           case 0:
           case 1:
-            dash.opened.add(TaskModel.fromMap(map));
+            dash.opened!.add(TaskModel.fromMap(map));
             break;
           case 2:
-            dash.confirmed.add(TaskModel.fromMap(map));
+            dash.confirmed!.add(TaskModel.fromMap(map));
+            break;
+          case 3:
+            dash.inProgress.add(TaskModel.fromMap(map));
+            break;
+          case 4:
+            dash.finished.add(TaskModel.fromMap(map));
+        }
+      }
+    }
+    return dash;
+  }
+
+  @override
+  Future<DashboardTaskModel> getTasksDashboardSyndicate(String? userId) async {
+    final collectionRef = FirebaseFirestore.instance.collection(taskCollection);
+    final QuerySnapshot querySnapshot = await collectionRef.get();
+    final DashboardTaskModel dash = DashboardTaskModel(
+      inAnalysis: <TaskModel>[],
+      opened: <TaskModel>[],
+      waitStart: <TaskModel>[],
+      inProgress: <TaskModel>[],
+      finished: <TaskModel>[],
+    );
+    for (var doc in querySnapshot.docs) {
+      final map = doc.data() as Map<String, dynamic>;
+      if (map['syndicate'] == userId && map['access'] >= 1) {
+        switch (map['status']) {
+          case 0:
+            dash.inAnalysis!.add(TaskModel.fromMap(map));
+          case 1:
+            dash.opened!.add(TaskModel.fromMap(map));
+            break;
+          case 2:
+            dash.waitStart!.add(TaskModel.fromMap(map));
+            break;
+          case 3:
+            dash.inProgress.add(TaskModel.fromMap(map));
+            break;
+          case 4:
+            dash.finished.add(TaskModel.fromMap(map));
+        }
+      }
+    }
+    return dash;
+  }
+
+  @override
+  Future<DashboardTaskModel> getTasksDashboardWorker(String? userId) async {
+    final collectionRef = FirebaseFirestore.instance.collection(taskCollection);
+    final QuerySnapshot querySnapshot = await collectionRef.get();
+    final DashboardTaskModel dash = DashboardTaskModel(
+      available: <TaskModel>[],
+      confirmed: <TaskModel>[],
+      inProgress: <TaskModel>[],
+      finished: <TaskModel>[],
+    );
+    for (var doc in querySnapshot.docs) {
+      final map = doc.data() as Map<String, dynamic>;
+      if (map['syndicate'] == userId && map['access'] == 2) {
+        switch (map['status']) {
+          case 1:
+            dash.available!.add(TaskModel.fromMap(map));
+            break;
+          case 2:
+            dash.confirmed!.add(TaskModel.fromMap(map));
             break;
           case 3:
             dash.inProgress.add(TaskModel.fromMap(map));
@@ -118,5 +185,17 @@ class TaskServiceImpl implements TaskService {
   Future<void> sentToSyndicate(String taskCode, String syndicateCode) async {
     final taskRef = FirebaseFirestore.instance.collection(taskCollection);
     taskRef.doc(taskCode).update({'access': 1, 'syndicate': syndicateCode});
+  }
+
+  @override
+  Future<void> returnServiceTaker(String taskCode) async {
+    final taskRef = FirebaseFirestore.instance.collection(taskCollection);
+    taskRef.doc(taskCode).update({'access': 0, 'syndicate': null});
+  }
+
+  @override
+  Future<void> sendWorker(String taskCode) async {
+    final taskRef = FirebaseFirestore.instance.collection(taskCollection);
+    taskRef.doc(taskCode).update({'access': 2, 'status': 1});
   }
 }
