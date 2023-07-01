@@ -12,7 +12,7 @@ import '../../../auth/user_controller.dart';
 import '../../../menu/menu_drawer.dart';
 import 'home_worker_controller.dart';
 import 'widget/task_button.dart';
-import 'widget/task_worker_list_tile_.dart';
+import 'widget/task_list_tile_.dart';
 
 class HomeWorkerPage extends StatefulWidget {
   final UserController userController;
@@ -51,6 +51,12 @@ class _HomeWorkerPageState extends State<HomeWorkerPage> with Loader, Messages {
       );
     });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    statusDisposer();
+    super.dispose();
   }
 
   @override
@@ -105,48 +111,57 @@ class _HomeWorkerPageState extends State<HomeWorkerPage> with Loader, Messages {
                             },
                           ),
                           TaskButton(
-                              label: 'confirmadas',
-                              option: 1,
-                              selected: controller.buttonSelected,
-                              onPressed: () {
-                                controller.setButtonSelected(1);
-                                controller.getTasks(
-                                  widget.userController.worker!.documents
-                                      .employeer!.code,
-                                  status: 1,
-                                );
-                              }),
+                            label: 'confirmadas',
+                            option: 1,
+                            selected: controller.buttonSelected,
+                            onPressed: () {
+                              controller.setButtonSelected(1);
+                              controller.getTasks(
+                                widget.userController.worker!.documents
+                                    .employeer!.code,
+                                status: 1,
+                              );
+                            },
+                          ),
                           TaskButton(
-                              label: 'em andamento',
-                              option: 2,
-                              selected: controller.buttonSelected,
-                              onPressed: () {
-                                controller.setButtonSelected(2);
-                                controller.getTasks(
-                                  widget.userController.worker!.documents
-                                      .employeer!.code,
-                                  status: 2,
-                                );
-                              }),
+                            label: 'em andamento',
+                            option: 2,
+                            selected: controller.buttonSelected,
+                            onPressed: () {
+                              controller.setButtonSelected(2);
+                              controller.getTasks(
+                                widget.userController.worker!.documents
+                                    .employeer!.code,
+                                status: 2,
+                              );
+                            },
+                          ),
                           TaskButton(
-                              label: 'finalizadas',
-                              option: 3,
-                              selected: controller.buttonSelected,
-                              onPressed: () {
-                                controller.setButtonSelected(3);
-                                controller.getTasks(
-                                  widget.userController.worker!.documents
-                                      .employeer!.code,
-                                  status: 3,
-                                );
-                              })
+                            label: 'finalizadas',
+                            option: 3,
+                            selected: controller.buttonSelected,
+                            onPressed: () {
+                              controller.setButtonSelected(3);
+                              controller.getTasks(
+                                widget.userController.worker!.documents
+                                    .employeer!.code,
+                                status: 3,
+                              );
+                            },
+                          )
                         ],
                       ),
                     ),
                   ),
                   const SizedBox(height: 32),
                   Text(
-                    'Disponíveis',
+                    controller.buttonSelected == 0
+                        ? 'Disponíveis'
+                        : controller.buttonSelected == 1
+                            ? 'Confirmadas'
+                            : controller.buttonSelected == 2
+                                ? 'Em Andamento'
+                                : 'Finalizadas',
                     style: context.textStyles.textExtraBold
                         .copyWith(color: ColorsApp.i.black, fontSize: 18),
                   ),
@@ -155,7 +170,7 @@ class _HomeWorkerPageState extends State<HomeWorkerPage> with Loader, Messages {
                     builder: (_) => Column(
                       children: controller.tasks
                           .map(
-                            (task) => TaskWorkerListTile(
+                            (task) => TaskListTile(
                               task: task,
                             ),
                           )

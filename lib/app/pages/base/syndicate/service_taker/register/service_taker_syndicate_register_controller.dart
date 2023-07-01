@@ -254,7 +254,7 @@ abstract class ServiceTakerSyndicateRegisterControllerBase with Store {
       final user = ServiceTakerModel(
         user: cnpj!.replaceAll(RegExp(r'[^0-9]'), ''),
         password: password!,
-        profileType: 1,
+        profileType: 0,
         active: true,
         fantasyName: fantasyName!,
         companyName: companyName!,

@@ -27,11 +27,11 @@ class UserServiceImpl implements UserService {
     if (document.data() != null) {
       final data = document.data();
       if (data!['profileType'] == 0) {
-        user = WorkerModel.fromMap(data);
-      } else if (data['profileType'] == 1) {
         user = ServiceTakerModel.fromMap(data);
-      } else {
+      } else if (data['profileType'] == 1) {
         user = SyndicateModel.fromMap(data);
+      } else {
+        user = WorkerModel.fromMap(data);
       }
 
       await Storage().setData(
@@ -51,11 +51,11 @@ class UserServiceImpl implements UserService {
     final document = await users.doc(userId).get();
     switch (document.data()!['profileType']) {
       case 0:
-        return WorkerModel.fromMap(document.data()!);
-      case 1:
         return ServiceTakerModel.fromMap(document.data()!);
-      case 2:
+      case 1:
         return SyndicateModel.fromMap(document.data()!);
+      case 2:
+        return WorkerModel.fromMap(document.data()!);
       default:
         return null;
     }

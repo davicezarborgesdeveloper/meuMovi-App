@@ -43,7 +43,7 @@ class _TaskListPageState extends State<TaskListPage> with Loader, Messages {
             break;
           case TaskListStateStatus.deleted:
             hideLoader();
-            controller.findTask(widget.userCtrl.syndicate!.user);
+            await controller.findTask(widget.userCtrl.syndicate!.user);
             break;
           case TaskListStateStatus.error:
             hideLoader();

@@ -31,15 +31,15 @@ enum MenuSyndicate {
 }
 
 enum MenuWorker {
-  perfil(
+  inicio(
     Icons.home,
     'Inicio',
   ),
-  tarefas(
+  extrato(
     Icons.credit_card,
     'Extrato',
   ),
-  trabalhador(
+  perfil(
     Icons.person,
     'Perfil',
   ),
@@ -57,15 +57,19 @@ enum MenuWorker {
 }
 
 enum MenuServiceTaker {
-  perfil(
+  inicio(
     Icons.home,
     'Inicio',
   ),
-  tarefas(
+  extrato(
     Icons.credit_card,
     'Extrato',
   ),
-  trabalhador(
+  tarefas(
+    Icons.filter_alt_sharp,
+    'Tarefas',
+  ),
+  perfil(
     Icons.person,
     'Perfil',
   ),

@@ -14,7 +14,8 @@ class TaskListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onLongPress: onLongPress,
+      // onLongPress: onLongPress,
+      onTap: onLongPress,
       child: Container(
         padding: const EdgeInsets.all(12),
         margin: const EdgeInsets.all(8),
@@ -140,7 +141,7 @@ class TaskListTile extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      task.valueInvoice.currencyPTBR,
+                      task.valueInvoice!.currencyPTBR,
                       style:
                           context.textStyles.textRegular.copyWith(fontSize: 12),
                     ),

@@ -7,6 +7,7 @@ import '../menu/menu_drawer_controller.dart';
 import 'service_taker/extract/extract_service_taker_page.dart';
 import 'service_taker/home/home_service_taker_page.dart';
 import 'service_taker/profile/profile_service_taker_page.dart';
+import 'service_taker/task/list/task_list_service_taker_page.dart';
 
 class BaseServiceTakerPage extends StatefulWidget {
   const BaseServiceTakerPage({super.key});
@@ -39,6 +40,7 @@ class _BaseServiceTakerPageState extends State<BaseServiceTakerPage> {
         children: [
           HomeServiceTakerPage(userController),
           const ExtractServiceTakerPage(),
+          TaskListServiceTakerPage(userController),
           ProfileServiceTakerPage(userController),
         ],
       ),

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../../models/dashboard/dashboard_task_model.dart';
 import '../../models/task_model.dart';
 import 'task_service.dart';
 
@@ -65,5 +66,57 @@ class TaskServiceImpl implements TaskService {
   Future<void> delete(String id) async {
     final taskRef = FirebaseFirestore.instance.collection(taskCollection);
     await taskRef.doc(id).delete();
+  }
+
+  @override
+  Future<List<TaskModel>> getTasksbyServiceTaker(String? userId) async {
+    final collectionRef = FirebaseFirestore.instance.collection(taskCollection);
+    final QuerySnapshot querySnapshot = await collectionRef.get();
+    final list = <TaskModel>[];
+    for (var doc in querySnapshot.docs) {
+      final map = doc.data() as Map<String, dynamic>;
+      if (map['servTaker']['code'] == userId) {
+        list.add(TaskModel.fromMap(map));
+      }
+    }
+    return list;
+  }
+
+  @override
+  Future<DashboardTaskModel> getTasksDashboard(String? userId) async {
+    final collectionRef = FirebaseFirestore.instance.collection(taskCollection);
+    final QuerySnapshot querySnapshot = await collectionRef.get();
+    final DashboardTaskModel dash = DashboardTaskModel(
+      opened: <TaskModel>[],
+      confirmed: <TaskModel>[],
+      inProgress: <TaskModel>[],
+      finished: <TaskModel>[],
+    );
+    for (var doc in querySnapshot.docs) {
+      final map = doc.data() as Map<String, dynamic>;
+      if (map['servTaker']['code'] == userId) {
+        switch (map['status']) {
+          case 0:
+          case 1:
+            dash.opened.add(TaskModel.fromMap(map));
+            break;
+          case 2:
+            dash.confirmed.add(TaskModel.fromMap(map));
+            break;
+          case 3:
+            dash.inProgress.add(TaskModel.fromMap(map));
+            break;
+          case 4:
+            dash.finished.add(TaskModel.fromMap(map));
+        }
+      }
+    }
+    return dash;
+  }
+
+  @override
+  Future<void> sentToSyndicate(String taskCode, String syndicateCode) async {
+    final taskRef = FirebaseFirestore.instance.collection(taskCollection);
+    taskRef.doc(taskCode).update({'access': 1, 'syndicate': syndicateCode});
   }
 }

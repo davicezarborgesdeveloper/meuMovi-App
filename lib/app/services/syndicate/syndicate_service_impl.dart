@@ -33,7 +33,7 @@ class SyndicateServiceImpl implements SyndicateService {
     final list = <SyndicateModel>[];
     for (var doc in querySnapshot.docs) {
       final map = doc.data() as Map<String, dynamic>;
-      if (map['profileType'] == 2) {
+      if (map['profileType'] == 1) {
         list.add(SyndicateModel.fromMap(map));
       }
     }

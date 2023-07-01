@@ -33,8 +33,8 @@ class TaskButton extends StatelessWidget {
       child: InkWell(
         onTap: onPressed,
         child: SizedBox(
-          // height: 100,
-          // width: 180,
+          height: 100,
+          width: 180,
           child: Stack(
             children: [
               Positioned(

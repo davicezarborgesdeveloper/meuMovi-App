@@ -86,7 +86,7 @@ class WorkerServiceImpl implements WorkerService {
     final workerList = <WorkerModel>[];
     for (var doc in querySnapshot.docs) {
       final map = doc.data() as Map<String, dynamic>;
-      if (map['profileType'] == 0) {
+      if (map['profileType'] == 2) {
         if (userId != null) {
           if (map['documents']['employeer']['code'] == userId) {
             workerList.add(WorkerModel.fromMap(map));

@@ -6,9 +6,9 @@ import '../../../../../core/ui/helpers/enums.dart';
 import '../../../../../models/service_taker_model.dart';
 import '../../../../../models/task_model.dart';
 import '../../../../../services/task/task_service.dart';
-part 'task_register_controller.g.dart';
+part 'task_service_taker_register_controller.g.dart';
 
-enum TaskRegisterStateStatus {
+enum TaskServiceTakerRegisterStateStatus {
   initial,
   loading,
   loaded,
@@ -16,12 +16,12 @@ enum TaskRegisterStateStatus {
   saved,
 }
 
-class TaskRegisterController = TaskRegisterControllerBase
-    with _$TaskRegisterController;
+class TaskServiceTakerRegisterController = TaskServiceTakerRegisterControllerBase
+    with _$TaskServiceTakerRegisterController;
 
-abstract class TaskRegisterControllerBase with Store {
+abstract class TaskServiceTakerRegisterControllerBase with Store {
   @readonly
-  var _status = TaskRegisterStateStatus.initial;
+  var _status = TaskServiceTakerRegisterStateStatus.initial;
 
   @readonly
   String? _errorMessage;
@@ -34,9 +34,6 @@ abstract class TaskRegisterControllerBase with Store {
 
   @observable
   String? descriptionService;
-
-  @observable
-  ServiceTakerModel? serviceTaker;
 
   @observable
   ServTakerModel? servTaker;
@@ -65,8 +62,8 @@ abstract class TaskRegisterControllerBase with Store {
   @observable
   String? invoiceAmount;
 
-  @observable
-  String? valueInvoice;
+  // @observable
+  // String? valueInvoice;
 
   @observable
   String? syndicate;
@@ -75,10 +72,9 @@ abstract class TaskRegisterControllerBase with Store {
   void setDescriptionService(String value) => descriptionService = value;
 
   @action
-  void setServiceTaker(ServiceTakerModel? value) => serviceTaker = value;
-
-  @action
-  void setServTaker(ServTakerModel? value) => servTaker = value;
+  void setServTaker(ServiceTakerModel? value) {
+    servTaker = ServTakerModel(code: value!.user, name: value.companyName);
+  }
 
   @action
   void setDescCostCenter(String value) => descCostCenter = value;
@@ -104,8 +100,8 @@ abstract class TaskRegisterControllerBase with Store {
   @action
   void setInvoiceAmount(String value) => invoiceAmount = value;
 
-  @action
-  void setValueInvoice(String value) => valueInvoice = value;
+  // @action
+  // void setValueInvoice(String value) => valueInvoice = value;
 
   @action
   void setSyndicate(String value) => syndicate = value;
@@ -118,16 +114,6 @@ abstract class TaskRegisterControllerBase with Store {
       return null;
     } else {
       return 'Descrição do Serviço obrigatório';
-    }
-  }
-
-  @computed
-  bool get serviceTakerValid => serviceTaker != null && serviceTaker != null;
-  String? get serviceTakerError {
-    if (!_showErrors || serviceTakerValid) {
-      return null;
-    } else {
-      return 'Tomadora de Serviço Obrigatório';
     }
   }
 
@@ -175,16 +161,6 @@ abstract class TaskRegisterControllerBase with Store {
   }
 
   @computed
-  bool get servTakerValid => servTaker != null;
-  String? get servTakerError {
-    if (!_showErrors || servTakerValid) {
-      return null;
-    } else {
-      return 'Tomadora Obrigatória';
-    }
-  }
-
-  @computed
   bool get hourDaysValid =>
       calculateNightTime ? hourDays != null && hourDays!.isNotEmpty : true;
   String? get hourDaysError {
@@ -217,16 +193,16 @@ abstract class TaskRegisterControllerBase with Store {
     }
   }
 
-  @computed
-  bool get valueInvoiceValid =>
-      valueInvoice != null && valueInvoice!.isNotEmpty;
-  String? get valueInvoiceError {
-    if (!_showErrors || valueInvoiceValid) {
-      return null;
-    } else {
-      return 'Valor para nota fiscal Obrigatória';
-    }
-  }
+  // @computed
+  // bool get valueInvoiceValid =>
+  //     valueInvoice != null && valueInvoice!.isNotEmpty;
+  // String? get valueInvoiceError {
+  //   if (!_showErrors || valueInvoiceValid) {
+  //     return null;
+  //   } else {
+  //     return 'Valor para nota fiscal Obrigatória';
+  //   }
+  // }
 
   @action
   void invalidSendPressed() => _showErrors = true;
@@ -238,8 +214,7 @@ abstract class TaskRegisterControllerBase with Store {
       reportTypeValid &&
       hourDaysValid &&
       valuePayrollValid &&
-      invoiceAmountValid &&
-      valueInvoiceValid;
+      invoiceAmountValid;
 
   @computed
   dynamic get sendPressed => isFormValid ? register : null;
@@ -247,55 +222,49 @@ abstract class TaskRegisterControllerBase with Store {
   @action
   Future<void> register() async {
     try {
-      _status = TaskRegisterStateStatus.loading;
+      _status = TaskServiceTakerRegisterStateStatus.loading;
       final task = TaskModel(
         code: _code,
         descriptionService: descriptionService!,
         descCostCenter: descCostCenter,
         extraPercentage: extraPercentage ?? '0.00',
         productionType: productionType!,
-        servTaker: ServTakerModel(
-          code: servTaker!.code,
-          name: servTaker!.name,
-        ),
-        syndicate: syndicate,
+        servTaker: servTaker,
         reportType: reportType!,
         calculateNightTime: calculateNightTime,
         hourDays: hourDays,
         valuePayroll: double.parse(valuePayroll!.replaceAll(',', '.')),
         invoiceAmount: double.parse(invoiceAmount!.replaceAll(',', '.')),
-        valueInvoice: double.parse(valueInvoice!.replaceAll(',', '.')),
         status: 0,
         access: 0,
       );
       await TaskService().save(task);
-      _status = TaskRegisterStateStatus.saved;
+      _status = TaskServiceTakerRegisterStateStatus.saved;
     } on Exception catch (e, s) {
       log('Erro ao registrar tarefa', error: e, stackTrace: s);
       _errorMessage = 'Erro ao registrar usuário';
-      _status = TaskRegisterStateStatus.error;
+      _status = TaskServiceTakerRegisterStateStatus.error;
     }
   }
 
   Future<void> loadData(TaskModel? model) async {
-    _status = TaskRegisterStateStatus.loading;
+    _status = TaskServiceTakerRegisterStateStatus.loading;
     _code = model!.code;
     descriptionService = model.descriptionService;
-    descCostCenter = model.descCostCenter!;
+    descCostCenter = model.descCostCenter ?? '';
     extraPercentage = model.extraPercentage;
     hourDays = model.hourDays ?? '0,00';
     valuePayroll = model.valuePayroll.toString();
     invoiceAmount = model.invoiceAmount.toString();
-    valueInvoice = model.valueInvoice.toString();
     productionType = ProductionType.parse(model.productionType!.acronym);
     reportType = ReportType.parse(model.reportType!.acronym);
-    syndicate = model.syndicate;
+    // syndicate = model.syndicate;
     servTaker = model.servTaker != null
         ? ServTakerModel(
             code: model.servTaker!.code,
             name: model.servTaker!.name,
           )
         : ServTakerModel(code: '', name: '');
-    _status = TaskRegisterStateStatus.loaded;
+    _status = TaskServiceTakerRegisterStateStatus.loaded;
   }
 }

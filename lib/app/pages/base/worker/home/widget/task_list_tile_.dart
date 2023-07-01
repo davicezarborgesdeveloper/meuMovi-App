@@ -6,13 +6,12 @@ import '../../../../../core/ui/styles/colors_app.dart';
 import '../../../../../core/ui/styles/text_styles.dart';
 import '../../../../../models/task_model.dart';
 
-class TaskWorkerListTile extends StatelessWidget {
+class TaskListTile extends StatelessWidget {
   final TaskModel task;
-  const TaskWorkerListTile({required this.task, super.key});
+  const TaskListTile({required this.task, super.key});
 
   @override
   Widget build(BuildContext context) {
-    print(task.status);
     return InkWell(
       child: Container(
         padding: const EdgeInsets.all(12),
@@ -139,7 +138,7 @@ class TaskWorkerListTile extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      task.valueInvoice.currencyPTBR,
+                      task.valueInvoice!.currencyPTBR,
                       style:
                           context.textStyles.textRegular.copyWith(fontSize: 12),
                     ),

@@ -35,7 +35,7 @@ class ServiceTakerServiceImpl implements ServiceTakerService {
     final serviceTakerList = <ServiceTakerModel>[];
     for (var doc in querySnapshot.docs) {
       final map = doc.data() as Map<String, dynamic>;
-      if (map['profileType'] == 1) {
+      if (map['profileType'] == 0) {
         if (userId != null) {
           if (map['employeer']['code'] == userId) {
             serviceTakerList.add(ServiceTakerModel.fromMap(map));

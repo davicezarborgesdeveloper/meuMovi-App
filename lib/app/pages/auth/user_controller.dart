@@ -73,11 +73,11 @@ abstract class UserControllerBase with Store {
           final user =
               await UserService().getUserById(jsonDecode(userShared)['user']);
           if (jsonDecode(userShared)['profileType'] == 0) {
-            setWorker(user as WorkerModel);
-          } else if (jsonDecode(userShared)['profileType'] == 1) {
             setServiceTaker(user as ServiceTakerModel);
-          } else {
+          } else if (jsonDecode(userShared)['profileType'] == 1) {
             setSyndicate(user as SyndicateModel);
+          } else {
+            setWorker(user as WorkerModel);
           }
         } catch (e, s) {
           log(

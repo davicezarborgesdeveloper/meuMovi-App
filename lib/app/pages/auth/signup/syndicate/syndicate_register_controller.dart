@@ -297,7 +297,7 @@ abstract class SyndicateRegisterControllerBase with Store {
       final user = SyndicateModel(
         user: cnpj!.replaceAll(RegExp(r'[^0-9]'), ''),
         password: password!,
-        profileType: 2,
+        profileType: 1,
         active: true,
         companyData: CompanyDataModel(
           corporateName: corporateName!,

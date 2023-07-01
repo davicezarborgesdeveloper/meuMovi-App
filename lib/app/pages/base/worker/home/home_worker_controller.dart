@@ -18,9 +18,6 @@ class HomeWorkerController = HomeWorkerControllerBase
     with _$HomeWorkerController;
 
 abstract class HomeWorkerControllerBase with Store {
-  // HomeWorkerControllerBase() {
-  //   getData();
-  // }
   @readonly
   var _status = HomeWorkerStateStatus.initial;
 

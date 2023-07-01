@@ -16,8 +16,9 @@ class TaskModel {
   final String? hourDays;
   final double valuePayroll;
   final double invoiceAmount;
-  final double valueInvoice;
+  final double? valueInvoice;
   final int status;
+  final int access;
   TaskModel({
     this.code,
     required this.descriptionService,
@@ -31,8 +32,9 @@ class TaskModel {
     this.hourDays,
     required this.valuePayroll,
     required this.invoiceAmount,
-    required this.valueInvoice,
+    this.valueInvoice,
     required this.status,
+    required this.access,
   });
 
   Map<String, dynamic> toMap() {
@@ -51,6 +53,7 @@ class TaskModel {
       'invoiceAmount': invoiceAmount,
       'valueInvoice': valueInvoice,
       'status': status,
+      'access': access,
     };
   }
 
@@ -78,6 +81,7 @@ class TaskModel {
       invoiceAmount: (map['invoiceAmount'] ?? 0.0) as double,
       valueInvoice: (map['valueInvoice'] ?? 0.0) as double,
       status: (map['status'] ?? 0) as int,
+      access: (map['access'] ?? 0) as int,
     );
   }
 
@@ -101,6 +105,7 @@ class TaskModel {
     double? invoiceAmount,
     double? valueInvoice,
     int? status,
+    int? access,
   }) {
     return TaskModel(
       code: code ?? this.code,
@@ -117,6 +122,7 @@ class TaskModel {
       invoiceAmount: invoiceAmount ?? this.invoiceAmount,
       valueInvoice: valueInvoice ?? this.valueInvoice,
       status: status ?? this.status,
+      access: access ?? this.access,
     );
   }
 }

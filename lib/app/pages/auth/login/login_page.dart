@@ -36,12 +36,13 @@ class _LoginPageState extends State<LoginPage> with Loader, Messages {
             break;
           case LoginStateStatus.success:
             hideLoader();
+
             Navigator.of(context).pushReplacementNamed(
               controller.loginType == 0
-                  ? '/home/worker'
+                  ? '/home/serviceTaker'
                   : controller.loginType == 1
-                      ? '/home/serviceTaker'
-                      : '/home/syndicate',
+                      ? '/home/syndicate'
+                      : '/home/worker',
             );
             break;
           case LoginStateStatus.error:

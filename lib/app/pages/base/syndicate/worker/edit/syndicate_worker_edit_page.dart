@@ -107,9 +107,11 @@ class _SyndicateWorkerEditPageState extends State<SyndicateWorkerEditPage>
                                 ),
                                 Text(
                                   'Trabalhador Avulso',
-                                  style: context.textStyles.textSemiBold
-                                      .copyWith(
-                                          color: Colors.grey, fontSize: 12),
+                                  style:
+                                      context.textStyles.textSemiBold.copyWith(
+                                    color: Colors.grey,
+                                    fontSize: 12,
+                                  ),
                                 ),
                               ],
                             ),
@@ -195,7 +197,6 @@ class _SyndicateWorkerEditPageState extends State<SyndicateWorkerEditPage>
                           icon: Icons.file_copy,
                           text: controller
                               .workerModel!.documents.cpf.formattedCPF,
-                          // text: widget.worker.documents.cpf.formattedCPF,
                         ),
                         PersonalTile(
                           icon: Icons.crop_landscape,

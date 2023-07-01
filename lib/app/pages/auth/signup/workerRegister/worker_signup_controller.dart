@@ -317,7 +317,7 @@ abstract class WorkerSignupControllerBase with Store {
       final user = WorkerModel(
         user: cpf!.replaceAll(RegExp(r'[^0-9]'), ''),
         password: password!,
-        profileType: 0,
+        profileType: 2,
         active: true,
         name: name!,
         lastname: lastname!,
