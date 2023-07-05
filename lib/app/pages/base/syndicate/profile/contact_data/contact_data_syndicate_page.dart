@@ -149,6 +149,9 @@ class _ContactDataSyndicatePageState extends State<ContactDataSyndicatePage>
                   child: GestureDetector(
                     onTap: controller.invalidSendPressed,
                     child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: ColorsApp.i.primary,
+                      ),
                       onPressed: controller.sendPressed,
                       child: const Text('Confirmar cadastro'),
                     ),

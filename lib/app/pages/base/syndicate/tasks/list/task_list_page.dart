@@ -148,6 +148,7 @@ class _TaskListPageState extends State<TaskListPage> with Loader, Messages {
             itemBuilder: (context, index) => TaskListTile(
               controller.tasks[index],
               () => _optionOpenDialog(controller.tasks[index]),
+              themeColor: ColorsApp.i.primary,
             ),
           ),
         ),

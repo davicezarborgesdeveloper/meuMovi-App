@@ -6,6 +6,7 @@ import 'package:mobx/mobx.dart';
 import '../../../../core/ui/helpers/loader.dart';
 import '../../../../core/ui/helpers/messages.dart';
 import '../../../../core/ui/helpers/size_extensions.dart';
+import '../../../../core/ui/styles/colors_app.dart';
 import '../../../../core/ui/styles/text_styles.dart';
 import '../../../auth/user_controller.dart';
 import '../../../menu/menu_drawer.dart';
@@ -90,6 +91,7 @@ class _ProfileServiceTakerPageState extends State<ProfileServiceTakerPage>
                               },
                               controller.urlImage ??
                                   widget.userCtrl.serviceTaker!.imageUrl,
+                              themeColor: ColorsApp.i.secondary,
                             ),
                             const SizedBox(height: 8),
                             Column(
@@ -140,12 +142,14 @@ class _ProfileServiceTakerPageState extends State<ProfileServiceTakerPage>
                             .pushNamed('/home/serviceTaker/data'),
                         icon: Icons.person_outline_rounded,
                         label: 'Editar Dados',
+                        colorIcon: ColorsApp.i.secondary,
                       ),
                       OptionButtonProfile(
                         onTap: () => Navigator.of(context)
                             .pushNamed('/home/serviceTaker/settings'),
                         icon: Icons.settings_outlined,
                         label: 'Configurações',
+                        colorIcon: ColorsApp.i.secondary,
                       ),
                       OptionButtonProfile(
                         onTap: () async {

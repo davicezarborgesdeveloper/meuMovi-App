@@ -14,9 +14,11 @@ class TaskModel {
   final ReportType? reportType;
   final bool calculateNightTime;
   final String? hourDays;
-  final double valuePayroll;
+  final double? valuePayroll;
   final double invoiceAmount;
   final double? valueInvoice;
+  final int? quantity;
+  final double? unitaryValue;
   final int status;
   final int access;
   TaskModel({
@@ -30,9 +32,11 @@ class TaskModel {
     this.reportType,
     required this.calculateNightTime,
     this.hourDays,
-    required this.valuePayroll,
+    this.valuePayroll,
     required this.invoiceAmount,
     this.valueInvoice,
+    this.quantity,
+    this.unitaryValue,
     required this.status,
     required this.access,
   });
@@ -52,6 +56,8 @@ class TaskModel {
       'valuePayroll': valuePayroll,
       'invoiceAmount': invoiceAmount,
       'valueInvoice': valueInvoice,
+      'quantity': quantity,
+      'unitaryValue': unitaryValue,
       'status': status,
       'access': access,
     };
@@ -80,6 +86,8 @@ class TaskModel {
       valuePayroll: (map['valuePayroll'] ?? 0.0) as double,
       invoiceAmount: (map['invoiceAmount'] ?? 0.0) as double,
       valueInvoice: (map['valueInvoice'] ?? 0.0) as double,
+      quantity: (map['quantity'] ?? 0) as int,
+      unitaryValue: (map['unitaryValue'] ?? 0.0) as double,
       status: (map['status'] ?? 0) as int,
       access: (map['access'] ?? 0) as int,
     );
@@ -104,6 +112,8 @@ class TaskModel {
     double? valuePayroll,
     double? invoiceAmount,
     double? valueInvoice,
+    int? quantity,
+    double? unitaryValue,
     int? status,
     int? access,
   }) {
@@ -121,6 +131,8 @@ class TaskModel {
       valuePayroll: valuePayroll ?? this.valuePayroll,
       invoiceAmount: invoiceAmount ?? this.invoiceAmount,
       valueInvoice: valueInvoice ?? this.valueInvoice,
+      quantity: quantity ?? this.quantity,
+      unitaryValue: unitaryValue ?? this.unitaryValue,
       status: status ?? this.status,
       access: access ?? this.access,
     );

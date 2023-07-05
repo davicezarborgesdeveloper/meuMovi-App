@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../core/ui/styles/colors_app.dart';
 import '../../../../../core/ui/styles/text_styles.dart';
 
 class PeriodButton extends StatelessWidget {
@@ -8,10 +7,12 @@ class PeriodButton extends StatelessWidget {
   final int option;
   final int? selected;
   final GestureTapCallback? onPressed;
+  final Color themeColor;
   const PeriodButton({
     Key? key,
     required this.label,
     required this.option,
+    required this.themeColor,
     this.selected,
     this.onPressed,
   }) : super(key: key);
@@ -23,7 +24,7 @@ class PeriodButton extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        color: isSelected ? ColorsApp.i.primary : Colors.transparent,
+        color: isSelected ? themeColor : Colors.transparent,
       ),
       child: TextButton(
         onPressed: onPressed,

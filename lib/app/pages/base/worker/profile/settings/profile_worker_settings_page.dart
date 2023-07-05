@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
+import '../../../../../core/ui/styles/colors_app.dart';
 import '../../../../../core/ui/styles/text_styles.dart';
 import '../../../../auth/user_controller.dart';
 import '../widget/option_button_profile.dart';
@@ -29,6 +30,7 @@ class ProfileWorkerSettingsPage extends StatelessWidget {
           },
           icon: Icons.info_outline,
           label: 'Encerrar conta na MeuMovi',
+          colorIcon: ColorsApp.i.ternary,
         ),
       ),
     );

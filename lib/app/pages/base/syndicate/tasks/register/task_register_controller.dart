@@ -77,6 +77,15 @@ abstract class TaskRegisterControllerBase with Store {
   @readonly
   int? _statusTask;
 
+  @observable
+  String? quantity;
+
+  @readonly
+  double? _unitaryValue;
+
+  @readonly
+  double? _totalValue;
+
   @action
   void setDescriptionService(String value) => descriptionService = value;
 
@@ -112,6 +121,14 @@ abstract class TaskRegisterControllerBase with Store {
 
   @action
   void setValueInvoice(String value) => valueInvoice = value;
+
+  @action
+  void setQuantity(String? value) {
+    quantity = value;
+    if (quantity != null) {
+      _totalValue = _unitaryValue! * int.tryParse(quantity!)!;
+    }
+  }
 
   @computed
   bool get descriptionServiceValid =>
@@ -231,6 +248,19 @@ abstract class TaskRegisterControllerBase with Store {
     }
   }
 
+  @computed
+  bool get quantityValid =>
+      quantity != null && quantity!.isNotEmpty && quantity != '0';
+  String? get quantityError {
+    if (!_showErrors || quantityValid) {
+      return null;
+    } else if (quantity == '0') {
+      return 'inválida';
+    } else {
+      return 'Obrigatorio';
+    }
+  }
+
   @action
   void invalidSendPressed() => _showErrors = true;
 
@@ -303,5 +333,8 @@ abstract class TaskRegisterControllerBase with Store {
     _syndicate = model.syndicate;
     valueInvoice = model.valueInvoice.toString();
     _status = TaskRegisterStateStatus.loaded;
+    quantity = model.quantity.toString();
+    _unitaryValue = model.unitaryValue;
+    _totalValue = model.unitaryValue! * model.quantity!;
   }
 }

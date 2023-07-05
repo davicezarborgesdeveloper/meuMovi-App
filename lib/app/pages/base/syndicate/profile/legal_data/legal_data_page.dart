@@ -147,6 +147,9 @@ class _LegalDataPageState extends State<LegalDataPage> with Loader, Messages {
                   child: GestureDetector(
                     onTap: controller.invalidSendPressed,
                     child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: ColorsApp.i.primary,
+                      ),
                       onPressed: controller.sendPressed,
                       child: const Text('Confirmar cadastro'),
                     ),

@@ -45,6 +45,11 @@ class _MenuDrawerState extends State<MenuDrawer> {
               return MenuButton(
                 menu: menu,
                 menuSelected: drawerController.page == index,
+                activeColor: userCtrl.worker != null
+                    ? ColorsApp.i.ternary
+                    : userCtrl.serviceTaker != null
+                        ? ColorsApp.i.secondary
+                        : ColorsApp.i.primary,
                 onPressed: () async {
                   if ((length - 1) == index) {
                     final navigator = Navigator.of(context);

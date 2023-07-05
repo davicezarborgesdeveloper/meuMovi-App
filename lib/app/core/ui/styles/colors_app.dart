@@ -17,11 +17,14 @@ class ColorsApp {
   Color get secondary => const Color(0XFFE81820);
   Color get secondaryDark => const Color(0XFFA60004);
 
-  Color get ternaryLight => const Color(0XFFe48b55);
-  Color get ternary => const Color(0XFFc76b34);
-  Color get ternaryDark => const Color(0XFF8b4216);
+  Color get ternaryLight => const Color(0XFFc76b34);
+  Color get ternary => const Color(0XFF8b4216);
+  Color get ternaryDark => const Color(0XFF592a0e);
 
-  Color get black => const Color(0XFF1C1F22);
+  Color get neutralLight => const Color(0XFF8bfebc);
+  Color get neutral => const Color(0XFF00fa9a);
+  Color get neutralDark => const Color(0XFF229f64);
+
   Color get bg => Colors.grey.shade100;
 }
 

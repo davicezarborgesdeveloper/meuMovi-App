@@ -6,6 +6,7 @@ import 'package:mobx/mobx.dart';
 import '../../../../core/ui/helpers/loader.dart';
 import '../../../../core/ui/helpers/messages.dart';
 import '../../../../core/ui/helpers/size_extensions.dart';
+import '../../../../core/ui/styles/colors_app.dart';
 import '../../../../core/ui/styles/text_styles.dart';
 import '../../../auth/user_controller.dart';
 import '../../../menu/menu_drawer.dart';
@@ -89,6 +90,7 @@ class _ProfileWorkerPageState extends State<ProfileWorkerPage>
                               },
                               controller.urlImage ??
                                   widget.userCtrl.worker!.imageUrl,
+                              themeColor: ColorsApp.i.ternary,
                             ),
                             const SizedBox(height: 8),
                             Column(
@@ -139,30 +141,35 @@ class _ProfileWorkerPageState extends State<ProfileWorkerPage>
                             .pushNamed('/home/worker/personalData'),
                         icon: Icons.person_outline_rounded,
                         label: 'Dados pessoais',
+                        colorIcon: ColorsApp.i.ternary,
                       ),
                       OptionButtonProfile(
                         onTap: () => Navigator.of(context)
                             .pushNamed('/home/profile/documents'),
                         icon: Icons.description_outlined,
                         label: 'Documentos',
+                        colorIcon: ColorsApp.i.ternary,
                       ),
                       OptionButtonProfile(
                         onTap: () => Navigator.of(context)
                             .pushNamed('/home/worker/address'),
                         icon: Icons.location_on_outlined,
                         label: 'Endereço',
+                        colorIcon: ColorsApp.i.ternary,
                       ),
                       OptionButtonProfile(
                         onTap: () => Navigator.of(context)
                             .pushNamed('/home/worker/bankData'),
                         icon: Icons.credit_card_outlined,
                         label: 'Conta bancária',
+                        colorIcon: ColorsApp.i.ternary,
                       ),
                       OptionButtonProfile(
                         onTap: () => Navigator.of(context)
                             .pushNamed('/home/worker/settings'),
                         icon: Icons.settings_outlined,
                         label: 'Configurações',
+                        colorIcon: ColorsApp.i.ternary,
                       ),
                       OptionButtonProfile(
                         onTap: () async {

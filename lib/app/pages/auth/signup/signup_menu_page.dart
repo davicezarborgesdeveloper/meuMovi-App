@@ -13,16 +13,13 @@ class SignupMenuPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        iconTheme: const IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: ColorsApp.i.primary),
       ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
           child: Column(
             children: [
-              const SizedBox(
-                height: 42,
-              ),
               LogoWidget(
                 width: context.percentWidth(.32),
               ),
@@ -58,7 +55,7 @@ class SignupMenuPage extends StatelessWidget {
                               .pushNamed('/auth/signup/serviceTaker'),
                           height: height,
                           width: width,
-                          color: ColorsApp.i.black,
+                          color: ColorsApp.i.secondary,
                         ),
                         SignupMenuButton(
                           icon: Icons.engineering,
@@ -69,7 +66,7 @@ class SignupMenuPage extends StatelessWidget {
                               .pushNamed('/auth/signup/worker'),
                           height: height,
                           width: width,
-                          color: ColorsApp.i.secondary,
+                          color: ColorsApp.i.ternary,
                         ),
                       ],
                     );

@@ -55,13 +55,6 @@ mixin _$TaskServiceTakerRegisterController
       (_$hourDaysValidComputed ??= Computed<bool>(() => super.hourDaysValid,
               name: 'TaskServiceTakerRegisterControllerBase.hourDaysValid'))
           .value;
-  Computed<bool>? _$valuePayrollValidComputed;
-
-  @override
-  bool get valuePayrollValid => (_$valuePayrollValidComputed ??= Computed<bool>(
-          () => super.valuePayrollValid,
-          name: 'TaskServiceTakerRegisterControllerBase.valuePayrollValid'))
-      .value;
   Computed<bool>? _$invoiceAmountValidComputed;
 
   @override
@@ -69,6 +62,27 @@ mixin _$TaskServiceTakerRegisterController
           Computed<bool>(() => super.invoiceAmountValid,
               name:
                   'TaskServiceTakerRegisterControllerBase.invoiceAmountValid'))
+      .value;
+  Computed<bool>? _$valueInvoiceValidComputed;
+
+  @override
+  bool get valueInvoiceValid => (_$valueInvoiceValidComputed ??= Computed<bool>(
+          () => super.valueInvoiceValid,
+          name: 'TaskServiceTakerRegisterControllerBase.valueInvoiceValid'))
+      .value;
+  Computed<bool>? _$quantityValidComputed;
+
+  @override
+  bool get quantityValid =>
+      (_$quantityValidComputed ??= Computed<bool>(() => super.quantityValid,
+              name: 'TaskServiceTakerRegisterControllerBase.quantityValid'))
+          .value;
+  Computed<bool>? _$unitaryValueValidComputed;
+
+  @override
+  bool get unitaryValueValid => (_$unitaryValueValidComputed ??= Computed<bool>(
+          () => super.unitaryValueValid,
+          name: 'TaskServiceTakerRegisterControllerBase.unitaryValueValid'))
       .value;
   Computed<bool>? _$isFormValidComputed;
 
@@ -295,23 +309,6 @@ mixin _$TaskServiceTakerRegisterController
     });
   }
 
-  late final _$valuePayrollAtom = Atom(
-      name: 'TaskServiceTakerRegisterControllerBase.valuePayroll',
-      context: context);
-
-  @override
-  String? get valuePayroll {
-    _$valuePayrollAtom.reportRead();
-    return super.valuePayroll;
-  }
-
-  @override
-  set valuePayroll(String? value) {
-    _$valuePayrollAtom.reportWrite(value, super.valuePayroll, () {
-      super.valuePayroll = value;
-    });
-  }
-
   late final _$invoiceAmountAtom = Atom(
       name: 'TaskServiceTakerRegisterControllerBase.invoiceAmount',
       context: context);
@@ -326,6 +323,23 @@ mixin _$TaskServiceTakerRegisterController
   set invoiceAmount(String? value) {
     _$invoiceAmountAtom.reportWrite(value, super.invoiceAmount, () {
       super.invoiceAmount = value;
+    });
+  }
+
+  late final _$valueInvoiceAtom = Atom(
+      name: 'TaskServiceTakerRegisterControllerBase.valueInvoice',
+      context: context);
+
+  @override
+  String? get valueInvoice {
+    _$valueInvoiceAtom.reportRead();
+    return super.valueInvoice;
+  }
+
+  @override
+  set valueInvoice(String? value) {
+    _$valueInvoiceAtom.reportWrite(value, super.valueInvoice, () {
+      super.valueInvoice = value;
     });
   }
 
@@ -366,22 +380,22 @@ mixin _$TaskServiceTakerRegisterController
     });
   }
 
-  late final _$_valueInvoiceAtom = Atom(
-      name: 'TaskServiceTakerRegisterControllerBase._valueInvoice',
+  late final _$_valuePayrollAtom = Atom(
+      name: 'TaskServiceTakerRegisterControllerBase._valuePayroll',
       context: context);
 
-  double? get valueInvoice {
-    _$_valueInvoiceAtom.reportRead();
-    return super._valueInvoice;
+  double? get valuePayroll {
+    _$_valuePayrollAtom.reportRead();
+    return super._valuePayroll;
   }
 
   @override
-  double? get _valueInvoice => valueInvoice;
+  double? get _valuePayroll => valuePayroll;
 
   @override
-  set _valueInvoice(double? value) {
-    _$_valueInvoiceAtom.reportWrite(value, super._valueInvoice, () {
-      super._valueInvoice = value;
+  set _valuePayroll(double? value) {
+    _$_valuePayrollAtom.reportWrite(value, super._valuePayroll, () {
+      super._valuePayroll = value;
     });
   }
 
@@ -401,6 +415,57 @@ mixin _$TaskServiceTakerRegisterController
   set _syndicate(String? value) {
     _$_syndicateAtom.reportWrite(value, super._syndicate, () {
       super._syndicate = value;
+    });
+  }
+
+  late final _$quantityAtom = Atom(
+      name: 'TaskServiceTakerRegisterControllerBase.quantity',
+      context: context);
+
+  @override
+  String? get quantity {
+    _$quantityAtom.reportRead();
+    return super.quantity;
+  }
+
+  @override
+  set quantity(String? value) {
+    _$quantityAtom.reportWrite(value, super.quantity, () {
+      super.quantity = value;
+    });
+  }
+
+  late final _$unitaryValueAtom = Atom(
+      name: 'TaskServiceTakerRegisterControllerBase.unitaryValue',
+      context: context);
+
+  @override
+  String? get unitaryValue {
+    _$unitaryValueAtom.reportRead();
+    return super.unitaryValue;
+  }
+
+  @override
+  set unitaryValue(String? value) {
+    _$unitaryValueAtom.reportWrite(value, super.unitaryValue, () {
+      super.unitaryValue = value;
+    });
+  }
+
+  late final _$totalValueAtom = Atom(
+      name: 'TaskServiceTakerRegisterControllerBase.totalValue',
+      context: context);
+
+  @override
+  double? get totalValue {
+    _$totalValueAtom.reportRead();
+    return super.totalValue;
+  }
+
+  @override
+  set totalValue(double? value) {
+    _$totalValueAtom.reportWrite(value, super.totalValue, () {
+      super.totalValue = value;
     });
   }
 
@@ -524,12 +589,12 @@ mixin _$TaskServiceTakerRegisterController
   }
 
   @override
-  void setValuePayroll(String value) {
+  void setInvoiceAmount(String value) {
     final _$actionInfo =
         _$TaskServiceTakerRegisterControllerBaseActionController.startAction(
-            name: 'TaskServiceTakerRegisterControllerBase.setValuePayroll');
+            name: 'TaskServiceTakerRegisterControllerBase.setInvoiceAmount');
     try {
-      return super.setValuePayroll(value);
+      return super.setInvoiceAmount(value);
     } finally {
       _$TaskServiceTakerRegisterControllerBaseActionController
           .endAction(_$actionInfo);
@@ -537,12 +602,38 @@ mixin _$TaskServiceTakerRegisterController
   }
 
   @override
-  void setInvoiceAmount(String value) {
+  void setValueInvoice(String value) {
     final _$actionInfo =
         _$TaskServiceTakerRegisterControllerBaseActionController.startAction(
-            name: 'TaskServiceTakerRegisterControllerBase.setInvoiceAmount');
+            name: 'TaskServiceTakerRegisterControllerBase.setValueInvoice');
     try {
-      return super.setInvoiceAmount(value);
+      return super.setValueInvoice(value);
+    } finally {
+      _$TaskServiceTakerRegisterControllerBaseActionController
+          .endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setQuantity(String? value) {
+    final _$actionInfo =
+        _$TaskServiceTakerRegisterControllerBaseActionController.startAction(
+            name: 'TaskServiceTakerRegisterControllerBase.setQuantity');
+    try {
+      return super.setQuantity(value);
+    } finally {
+      _$TaskServiceTakerRegisterControllerBaseActionController
+          .endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setUnitaryValue(String value) {
+    final _$actionInfo =
+        _$TaskServiceTakerRegisterControllerBaseActionController.startAction(
+            name: 'TaskServiceTakerRegisterControllerBase.setUnitaryValue');
+    try {
+      return super.setUnitaryValue(value);
     } finally {
       _$TaskServiceTakerRegisterControllerBaseActionController
           .endAction(_$actionInfo);
@@ -573,16 +664,21 @@ productionType: ${productionType},
 reportType: ${reportType},
 calculateNightTime: ${calculateNightTime},
 hourDays: ${hourDays},
-valuePayroll: ${valuePayroll},
 invoiceAmount: ${invoiceAmount},
+valueInvoice: ${valueInvoice},
+quantity: ${quantity},
+unitaryValue: ${unitaryValue},
+totalValue: ${totalValue},
 descriptionServiceValid: ${descriptionServiceValid},
 descCostCenterValid: ${descCostCenterValid},
 productionTypeValid: ${productionTypeValid},
 extraPercentageValid: ${extraPercentageValid},
 reportTypeValid: ${reportTypeValid},
 hourDaysValid: ${hourDaysValid},
-valuePayrollValid: ${valuePayrollValid},
 invoiceAmountValid: ${invoiceAmountValid},
+valueInvoiceValid: ${valueInvoiceValid},
+quantityValid: ${quantityValid},
+unitaryValueValid: ${unitaryValueValid},
 isFormValid: ${isFormValid},
 sendPressed: ${sendPressed}
     ''';

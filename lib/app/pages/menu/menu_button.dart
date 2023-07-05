@@ -8,11 +8,14 @@ class MenuButton extends StatelessWidget {
   final dynamic menu;
   final bool menuSelected;
   final VoidCallback onPressed;
+  final Color activeColor;
+
   const MenuButton({
     Key? key,
     required this.menu,
     required this.menuSelected,
     required this.onPressed,
+    required this.activeColor,
   }) : super(key: key);
 
   @override
@@ -26,12 +29,12 @@ class MenuButton extends StatelessWidget {
         title: Text(
           menu.label,
           style: context.textStyles.textBold.copyWith(
-            color: menuSelected ? ColorsApp.i.primary : Colors.black54,
+            color: menuSelected ? activeColor : Colors.black54,
           ),
         ),
         leading: Icon(
           menu.assetIcon,
-          color: menuSelected ? ColorsApp.i.primary : Colors.black54,
+          color: menuSelected ? activeColor : Colors.black54,
         ),
       ),
     );

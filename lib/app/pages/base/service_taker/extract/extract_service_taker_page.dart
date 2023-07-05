@@ -23,7 +23,7 @@ class _ExtractServiceTakerPageState extends State<ExtractServiceTakerPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: ColorsApp.i.bg,
-        iconTheme: IconThemeData(color: ColorsApp.i.primary),
+        iconTheme: IconThemeData(color: ColorsApp.i.secondary),
       ),
       drawer: const MenuDrawer(),
       body: Column(
@@ -37,7 +37,7 @@ class _ExtractServiceTakerPageState extends State<ExtractServiceTakerPage> {
                 Text(
                   0.00.currencyPTBR,
                   style: context.textStyles.textSemiBold
-                      .copyWith(fontSize: 28, color: ColorsApp.i.primary),
+                      .copyWith(fontSize: 28, color: ColorsApp.i.secondary),
                 ),
                 const SizedBox(height: 8),
                 Text(
@@ -58,24 +58,28 @@ class _ExtractServiceTakerPageState extends State<ExtractServiceTakerPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 PeriodButton(
+                  themeColor: ColorsApp.i.secondary,
                   label: '7 dias',
                   option: 7,
                   selected: controller.buttonSelected,
                   onPressed: () => controller.setButtonSelected(7),
                 ),
                 PeriodButton(
+                  themeColor: ColorsApp.i.secondary,
                   label: '15 dias',
                   option: 15,
                   selected: controller.buttonSelected,
                   onPressed: () => controller.setButtonSelected(15),
                 ),
                 PeriodButton(
+                  themeColor: ColorsApp.i.secondary,
                   label: '30 dias',
                   option: 30,
                   selected: controller.buttonSelected,
                   onPressed: () => controller.setButtonSelected(30),
                 ),
                 PeriodButton(
+                  themeColor: ColorsApp.i.secondary,
                   label: '60 dias',
                   option: 60,
                   selected: controller.buttonSelected,

@@ -90,6 +90,7 @@ class _SyndicateWorkerEditPageState extends State<SyndicateWorkerEditPage>
                               null,
                               widget.worker.imageUrl,
                               size: 100,
+                              themeColor: ColorsApp.i.primary,
                             ),
                             const SizedBox(width: 12),
                             Column(

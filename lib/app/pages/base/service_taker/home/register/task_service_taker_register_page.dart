@@ -1,4 +1,6 @@
+import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
@@ -6,7 +8,6 @@ import 'package:mobx/mobx.dart';
 import '../../../../../core/ui/helpers/enums.dart';
 import '../../../../../core/ui/helpers/loader.dart';
 import '../../../../../core/ui/helpers/messages.dart';
-import '../../../../../core/ui/helpers/size_extensions.dart';
 import '../../../../../core/ui/styles/colors_app.dart';
 import '../../../../../core/ui/styles/text_styles.dart';
 import '../../../../../core/widget/dropdown_widget.dart';
@@ -36,11 +37,12 @@ class _TaskServiceTakerRegisterPageState
   final companyNamEC = TextEditingController();
   final descCostCenterEC = TextEditingController();
   final extraPercentageEC = TextEditingController();
-  final hourDaysEC = TextEditingController();
-  final valuePayrollEC = TextEditingController();
+  // final hourDaysEC = TextEditingController();
+  // final valuePayrollEC = TextEditingController();
   final invoiceAmountEC = TextEditingController();
   final valueInvoiceEC = TextEditingController();
-  final employeerEC = TextEditingController();
+  final quantityEC = TextEditingController();
+  final unitaryValueEC = TextEditingController();
 
   @override
   void initState() {
@@ -99,8 +101,8 @@ class _TaskServiceTakerRegisterPageState
     companyNamEC.dispose();
     descCostCenterEC.dispose();
     extraPercentageEC.dispose();
-    hourDaysEC.dispose();
-    valuePayrollEC.dispose();
+    // hourDaysEC.dispose();
+    // valuePayrollEC.dispose();
     invoiceAmountEC.dispose();
     valueInvoiceEC.dispose();
     statusDisposer();
@@ -114,10 +116,10 @@ class _TaskServiceTakerRegisterPageState
         backgroundColor: ColorsApp.i.bg,
         title: Text(
           'Tarefas',
-          style:
-              context.textStyles.textBold.copyWith(color: ColorsApp.i.primary),
+          style: context.textStyles.textBold
+              .copyWith(color: ColorsApp.i.secondary),
         ),
-        iconTheme: IconThemeData(color: ColorsApp.i.primary),
+        iconTheme: IconThemeData(color: ColorsApp.i.secondary),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -135,25 +137,27 @@ class _TaskServiceTakerRegisterPageState
                   initialValue: controller.descriptionService,
                 ),
               ),
-              Observer(
-                builder: (_) => TextFieldWidget(
-                  controller: descCostCenterEC,
-                  label: 'Descrição do Centro de Custo',
-                  hintText: '',
-                  onChanged: controller.setDescCostCenter,
-                  initialValue: controller.descCostCenter,
-                ),
-              ),
+              // // Observer(
+              // //   builder: (_) => TextFieldWidget(
+              // //     controller: descCostCenterEC,
+              // //     label: 'Descrição do Centro de Custo',
+              // //     hintText: '',
+              // //     onChanged: controller.setDescCostCenter,
+              // //     initialValue: controller.descCostCenter,
+              // //   ),
+              // // ),
               Row(
                 children: [
-                  Expanded(
-                    flex: 4,
-                    child: DropdownWidget(
-                      label: 'Tipo de Produção',
-                      statusSelected: controller.productionType,
-                      onSave: controller.setProductionType,
-                      errorText: controller.productionTypeError,
-                      listOptions: ProductionType.values,
+                  Observer(
+                    builder: (_) => Expanded(
+                      flex: 4,
+                      child: DropdownWidget(
+                        label: 'Tipo de Produção',
+                        statusSelected: controller.productionType,
+                        onSave: controller.setProductionType,
+                        errorText: controller.productionTypeError,
+                        listOptions: ProductionType.values,
+                      ),
                     ),
                   ),
                   const SizedBox(width: 8),
@@ -166,76 +170,142 @@ class _TaskServiceTakerRegisterPageState
                         hintText: '0,00',
                         onChanged: controller.setExtraPercentage,
                         initialValue: controller.extraPercentage,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              DropdownWidget(
-                label: 'Informe',
-                statusSelected: controller.reportType,
-                onSave: controller.setReportType,
-                errorText: controller.reportTypeError,
-                listOptions: ReportType.values,
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Observer(
-                        builder: (_) => Checkbox(
-                          value: controller.calculateNightTime,
-                          onChanged: (value) =>
-                              controller.setCalculateNightTime(value!),
+                        keyboardType: const TextInputType.numberWithOptions(
+                          decimal: true,
                         ),
-                      ),
-                      SizedBox(
-                        width: context.percentWidth(.4),
-                        child: const Text(
-                          'Calcular Horas Adicional Noturno na Produção',
-                        ),
-                      )
-                    ],
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 8),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Horas Dias',
-                            style: context.textStyles.textBold,
-                          ),
-                          const SizedBox(height: 8),
-                          TextFormField(
-                            controller: hourDaysEC,
-                            onChanged: controller.setHourDays,
-                            decoration: InputDecoration(
-                              errorText: controller.hourDaysError,
-                            ),
-                            keyboardType: TextInputType.number,
-                          ),
-                        ],
                       ),
                     ),
                   ),
                 ],
               ),
               Observer(
-                builder: (_) => TextFieldWidget(
-                  controller: valuePayrollEC,
-                  label: 'Valor p/ Folha',
-                  hintText: '',
-                  errorText: controller.valuePayrollError,
-                  onChanged: controller.setValuePayroll,
-                  initialValue: controller.valuePayroll,
-                  keyboardType: TextInputType.number,
+                builder: (_) => DropdownWidget(
+                  label: 'Informe',
+                  statusSelected: controller.reportType,
+                  onSave: controller.setReportType,
+                  errorText: controller.reportTypeError,
+                  listOptions: ReportType.values,
                 ),
               ),
+              Row(
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: Observer(
+                      builder: (_) => TextFieldWidget(
+                        controller: quantityEC,
+                        label: 'Qtde.',
+                        hintText: '0',
+                        keyboardType: TextInputType.number,
+                        errorText: controller.quantityError,
+                        onChanged: controller.setQuantity,
+                        initialValue: controller.quantity,
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(3),
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    flex: 4,
+                    child: Observer(
+                      builder: (_) => TextFieldWidget(
+                        controller: unitaryValueEC,
+                        label: 'Valor unitário',
+                        hintText: '0,00',
+                        errorText: controller.unitaryValueError,
+                        onChanged: controller.setUnitaryValue,
+                        initialValue: controller.unitaryValue,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                          CentavosInputFormatter(),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                ],
+              ),
+              Observer(
+                builder: (_) => Row(
+                  children: [
+                    Text(
+                      'Total: ',
+                      style: context.textStyles.textBold,
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      '${controller.totalValue}',
+                      style: context.textStyles.textBold.copyWith(fontSize: 16),
+                    ),
+                  ],
+                ),
+              ),
+              const Divider(),
+              const SizedBox(
+                height: 4,
+              ),
+              // // Row(
+              // //   crossAxisAlignment: CrossAxisAlignment.center,
+              // //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              // //   children: [
+              // //     Row(
+              // //       crossAxisAlignment: CrossAxisAlignment.center,
+              // //       children: [
+              // //         Observer(
+              // //           builder: (_) => Checkbox(
+              // //             value: controller.calculateNightTime,
+              // //             onChanged: (value) =>
+              // //                 controller.setCalculateNightTime(value!),
+              // //           ),
+              // //         ),
+              // //         SizedBox(
+              // //           width: context.percentWidth(.4),
+              // //           child: const Text(
+              // //             'Calcular Horas Adicional Noturno na Produção',
+              // //           ),
+              // //         )
+              // //       ],
+              // //     ),
+              // //     Expanded(
+              // //       child: Padding(
+              // //         padding: const EdgeInsets.only(left: 8),
+              // //         child: Column(
+              // //           crossAxisAlignment: CrossAxisAlignment.start,
+              // //           children: [
+              // //             Text(
+              // //               'Horas Dias',
+              // //               style: context.textStyles.textBold,
+              // //             ),
+              // //             const SizedBox(height: 8),
+              // //             TextFormField(
+              // //               controller: hourDaysEC,
+              // //               onChanged: controller.setHourDays,
+              // //               decoration: InputDecoration(
+              // //                 errorText: controller.hourDaysError,
+              // //               ),
+              // //               keyboardType: TextInputType.number,
+              // //             ),
+              // //           ],
+              // //         ),
+              // //       ),
+              // //     ),
+              // //   ],
+              // // ),
+              // // Observer(
+              // //   builder: (_) => TextFieldWidget(
+              // //     controller: valuePayrollEC,
+              // //     label: 'Valor p/ Folha',
+              // //     hintText: '',
+              // //     errorText: controller.valuePayrollError,
+              // //     onChanged: controller.setValuePayroll,
+              // //     initialValue: controller.valuePayroll,
+              // //     keyboardType: TextInputType.number,
+              // //   ),
+              // // ),
               Observer(
                 builder: (_) => TextFieldWidget(
                   label: 'Valor p/Fatura',
@@ -247,17 +317,17 @@ class _TaskServiceTakerRegisterPageState
                   keyboardType: TextInputType.number,
                 ),
               ),
-              // Observer(
-              //   builder: (_) => TextFieldWidget(
-              //     label: 'Valor p/ Nota Fiscal',
-              //     hintText: '',
-              //     controller: valueInvoiceEC,
-              //     errorText: controller.valueInvoiceError,
-              //     onChanged: controller.setValueInvoice,
-              //     initialValue: controller.valueInvoice,
-              //     keyboardType: TextInputType.number,
-              //   ),
-              // ),
+              Observer(
+                builder: (_) => TextFieldWidget(
+                  label: 'Valor p/ Nota Fiscal',
+                  hintText: '',
+                  controller: valueInvoiceEC,
+                  errorText: controller.valueInvoiceError,
+                  onChanged: controller.setValueInvoice,
+                  initialValue: controller.valueInvoice,
+                  keyboardType: TextInputType.number,
+                ),
+              ),
               const SizedBox(
                 height: 16,
               ),

@@ -188,6 +188,7 @@ class _TaskDashboardPageState extends State<TaskDashboardPage>
                         numberLabel:
                             controller.tasks!.inAnalysis!.length.toString(),
                         option: 0,
+                        themeColor: ColorsApp.i.primary,
                         selected: controller.buttonSelected,
                         onPressed: () async {
                           controller.setButtonSelected(0);
@@ -201,6 +202,7 @@ class _TaskDashboardPageState extends State<TaskDashboardPage>
                         numberLabel:
                             controller.tasks!.opened!.length.toString(),
                         option: 1,
+                        themeColor: ColorsApp.i.primary,
                         selected: controller.buttonSelected,
                         onPressed: () async {
                           controller.setButtonSelected(1);
@@ -214,6 +216,7 @@ class _TaskDashboardPageState extends State<TaskDashboardPage>
                         numberLabel:
                             controller.tasks!.waitStart!.length.toString(),
                         option: 2,
+                        themeColor: ColorsApp.i.primary,
                         selected: controller.buttonSelected,
                         onPressed: () async {
                           controller.setButtonSelected(2);
@@ -227,6 +230,7 @@ class _TaskDashboardPageState extends State<TaskDashboardPage>
                         numberLabel:
                             controller.tasks!.inProgress.length.toString(),
                         option: 3,
+                        themeColor: ColorsApp.i.primary,
                         selected: controller.buttonSelected,
                         onPressed: () async {
                           controller.setButtonSelected(3);
@@ -240,6 +244,7 @@ class _TaskDashboardPageState extends State<TaskDashboardPage>
                         numberLabel:
                             controller.tasks!.finished.length.toString(),
                         option: 4,
+                        themeColor: ColorsApp.i.primary,
                         selected: controller.buttonSelected,
                         onPressed: () async {
                           controller.setButtonSelected(4);
@@ -265,7 +270,7 @@ class _TaskDashboardPageState extends State<TaskDashboardPage>
                                   ? 'Em andamento'
                                   : 'Finalizadas',
                   style: context.textStyles.textExtraBold
-                      .copyWith(color: ColorsApp.i.black, fontSize: 18),
+                      .copyWith(color: Colors.black, fontSize: 18),
                 ),
               ),
               const SizedBox(height: 16),
@@ -283,10 +288,13 @@ class _TaskDashboardPageState extends State<TaskDashboardPage>
                   return list!.isNotEmpty
                       ? Column(
                           children: list
-                              .map((tsk) => TaskListTile(
-                                    tsk,
-                                    () => _optionOpenDialog(tsk),
-                                  ))
+                              .map(
+                                (tsk) => TaskListTile(
+                                  tsk,
+                                  () => _optionOpenDialog(tsk),
+                                  themeColor: ColorsApp.i.primary,
+                                ),
+                              )
                               .toList(),
                         )
                       : Padding(

@@ -169,7 +169,7 @@ class _HomeServiceTakerPageState extends State<HomeServiceTakerPage>
     return Scaffold(
       appBar: AppBar(
         backgroundColor: ColorsApp.i.bg,
-        iconTheme: IconThemeData(color: ColorsApp.i.primary),
+        iconTheme: IconThemeData(color: ColorsApp.i.secondary),
         actions: [
           IconButton(
             onPressed: () async {
@@ -203,8 +203,8 @@ class _HomeServiceTakerPageState extends State<HomeServiceTakerPage>
                       height: context.percentHeight(kIsWeb ? 0.56 : 0.45),
                       child: GridView.count(
                         physics: const NeverScrollableScrollPhysics(),
-                        crossAxisSpacing: 4,
-                        mainAxisSpacing: 4,
+                        crossAxisSpacing: 8,
+                        mainAxisSpacing: 8,
                         crossAxisCount: 2,
                         shrinkWrap: true,
                         children: [
@@ -214,6 +214,7 @@ class _HomeServiceTakerPageState extends State<HomeServiceTakerPage>
                                 controller.tasks!.opened!.length.toString(),
                             option: 0,
                             selected: controller.buttonSelected,
+                            themeColor: ColorsApp.i.secondary,
                             onPressed: () async {
                               controller.setButtonSelected(0);
                               await controller.getTasks(
@@ -227,6 +228,7 @@ class _HomeServiceTakerPageState extends State<HomeServiceTakerPage>
                                 controller.tasks!.confirmed!.length.toString(),
                             option: 1,
                             selected: controller.buttonSelected,
+                            themeColor: ColorsApp.i.secondary,
                             onPressed: () async {
                               controller.setButtonSelected(1);
                               await controller.getTasks(
@@ -240,6 +242,7 @@ class _HomeServiceTakerPageState extends State<HomeServiceTakerPage>
                                 controller.tasks!.inProgress.length.toString(),
                             option: 2,
                             selected: controller.buttonSelected,
+                            themeColor: ColorsApp.i.secondary,
                             onPressed: () async {
                               controller.setButtonSelected(2);
                               await controller.getTasks(
@@ -253,6 +256,7 @@ class _HomeServiceTakerPageState extends State<HomeServiceTakerPage>
                                 controller.tasks!.finished.length.toString(),
                             option: 3,
                             selected: controller.buttonSelected,
+                            themeColor: ColorsApp.i.secondary,
                             onPressed: () async {
                               controller.setButtonSelected(3);
                               await controller.getTasks(
@@ -275,7 +279,7 @@ class _HomeServiceTakerPageState extends State<HomeServiceTakerPage>
                                   ? 'Em Andamento'
                                   : 'Finalizadas',
                       style: context.textStyles.textExtraBold
-                          .copyWith(color: ColorsApp.i.black, fontSize: 18),
+                          .copyWith(color: Colors.black, fontSize: 18),
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -294,6 +298,7 @@ class _HomeServiceTakerPageState extends State<HomeServiceTakerPage>
                               children: list
                                   .map(
                                     (tsk) => TaskListTile(
+                                      themeColor: ColorsApp.i.secondary,
                                       task: tsk,
                                       onPressed: () => _optionOpenDialog(tsk),
                                     ),
@@ -330,8 +335,10 @@ class _HomeServiceTakerPageState extends State<HomeServiceTakerPage>
                     width: context.percentWidth(.8),
                     child: Text(
                       widget.userController.serviceTaker!.fantasyName,
-                      style: context.textStyles.textBold
-                          .copyWith(fontSize: 18, color: ColorsApp.i.black),
+                      style: context.textStyles.textBold.copyWith(
+                        fontSize: 18,
+                        color: Colors.grey.shade900,
+                      ),
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -342,8 +349,10 @@ class _HomeServiceTakerPageState extends State<HomeServiceTakerPage>
                     alignment: Alignment.centerLeft,
                     child: Text(
                       'Tarefas',
-                      style: context.textStyles.textExtraBold
-                          .copyWith(color: ColorsApp.i.black, fontSize: 18),
+                      style: context.textStyles.textExtraBold.copyWith(
+                        color: Colors.grey.shade900,
+                        fontSize: 18,
+                      ),
                     ),
                   ),
                 ],

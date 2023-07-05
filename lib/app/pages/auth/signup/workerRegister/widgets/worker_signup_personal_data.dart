@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../../core/ui/styles/colors_app.dart';
 import '../../../../../core/ui/styles/text_styles.dart';
 import '../../../../../core/widget/text_field_changed_widget.dart';
 import '../../../../../core/widget/text_field_widget.dart';
@@ -22,6 +23,8 @@ class WorkerSignupPersonalData extends StatefulWidget {
 }
 
 class _WorkerSignupPersonalDataState extends State<WorkerSignupPersonalData> {
+  final focusPassword = FocusNode();
+  final focusRetypepass = FocusNode();
   @override
   void dispose() {
     super.dispose();
@@ -119,6 +122,8 @@ class _WorkerSignupPersonalDataState extends State<WorkerSignupPersonalData> {
         Observer(
           builder: (_) => TextFieldWidget(
             controller: widget.textControllers[4],
+            focusNode: focusPassword,
+            themeColor: ColorsApp.i.ternary,
             label: 'Senha',
             hintText: 'Crie uma senha',
             errorText: widget.controller.passwordError,
@@ -130,6 +135,8 @@ class _WorkerSignupPersonalDataState extends State<WorkerSignupPersonalData> {
         Observer(
           builder: (_) => TextFieldWidget(
             controller: widget.textControllers[5],
+            focusNode: focusRetypepass,
+            themeColor: ColorsApp.i.ternary,
             label: 'Confirmar a senha',
             hintText: 'Confirme sua senha',
             errorText: widget.controller.retypePassError,

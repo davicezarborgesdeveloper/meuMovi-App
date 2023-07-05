@@ -7,14 +7,18 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
 
-import '../../../../../core/ui/styles/colors_app.dart';
-
 class ImageWidget extends StatelessWidget {
   final void Function(Uint8List value)? setImage;
   final String? urlImage;
   final double size;
-  const ImageWidget(this.setImage, this.urlImage, {Key? key, this.size = 100})
-      : super(key: key);
+  final Color themeColor;
+  const ImageWidget(
+    this.setImage,
+    this.urlImage, {
+    Key? key,
+    this.size = 100,
+    required this.themeColor,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +90,7 @@ class ImageWidget extends StatelessWidget {
             child: GestureDetector(
               onTap: selecionarImagem,
               child: CircleAvatar(
-                backgroundColor: ColorsApp.i.primary,
+                backgroundColor: themeColor,
                 child: const Icon(
                   Icons.camera_alt,
                   color: Colors.white,

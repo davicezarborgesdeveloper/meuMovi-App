@@ -7,6 +7,7 @@ import '../../../../core/extensions/formatter_extensions.dart';
 import '../../../../core/ui/helpers/loader.dart';
 import '../../../../core/ui/helpers/messages.dart';
 import '../../../../core/ui/helpers/size_extensions.dart';
+import '../../../../core/ui/styles/colors_app.dart';
 import '../../../../core/ui/styles/text_styles.dart';
 import '../../../auth/user_controller.dart';
 import '../../../menu/menu_drawer.dart';
@@ -89,6 +90,7 @@ class _ProfileSyndicatePageState extends State<ProfileSyndicatePage>
                               },
                               controller.urlImage ??
                                   widget.userCtrl.syndicate!.imageUrl,
+                              themeColor: ColorsApp.i.primary,
                             ),
                             const SizedBox(height: 8),
                             Column(
@@ -140,18 +142,21 @@ class _ProfileSyndicatePageState extends State<ProfileSyndicatePage>
                             .pushNamed('/home/syndicate/legalData'),
                         icon: Icons.person_outline_rounded,
                         label: 'Dados Juridicos',
+                        colorIcon: ColorsApp.i.primary,
                       ),
                       OptionButtonProfile(
                         onTap: () => Navigator.of(context)
                             .pushNamed('/home/syndicate/contactData'),
                         icon: Icons.description_outlined,
                         label: 'Contato',
+                        colorIcon: ColorsApp.i.primary,
                       ),
                       OptionButtonProfile(
                         onTap: () => Navigator.of(context)
                             .pushNamed('/home/syndicate/addressData'),
                         icon: Icons.location_on_outlined,
                         label: 'Endereço',
+                        colorIcon: ColorsApp.i.primary,
                       ),
                       OptionButtonProfile(
                         onTap: () async {

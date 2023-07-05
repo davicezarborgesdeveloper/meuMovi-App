@@ -31,10 +31,11 @@ class SignupMenuButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onTap,
         style: ElevatedButton.styleFrom(
-          backgroundColor: color?.withOpacity(.7) ?? ColorsApp.i.primary,
+          backgroundColor: color?.withOpacity(.9) ?? ColorsApp.i.primary,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12.0),
           ),
+          elevation: 5,
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 24),

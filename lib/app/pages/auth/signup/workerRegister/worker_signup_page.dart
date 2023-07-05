@@ -4,6 +4,7 @@ import 'package:mobx/mobx.dart';
 
 import '../../../../core/ui/helpers/loader.dart';
 import '../../../../core/ui/helpers/messages.dart';
+import '../../../../core/ui/styles/colors_app.dart';
 import '../../../../core/ui/styles/text_styles.dart';
 import '../../../../core/widget/movi_stepper.dart';
 import 'widgets/worker_signup_address_data.dart';
@@ -133,10 +134,10 @@ class _WorkerSignupPageState extends State<WorkerSignupPage>
         title: Text(
           'Trabalhador',
           style: context.textStyles.textBold
-              .copyWith(fontSize: 18, color: Colors.black),
+              .copyWith(fontSize: 18, color: ColorsApp.i.ternary),
         ),
         centerTitle: true,
-        iconTheme: const IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: ColorsApp.i.ternary),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -171,6 +172,9 @@ class _WorkerSignupPageState extends State<WorkerSignupPage>
                       onTap: controller.invalidSendPressed,
                       child: ElevatedButton(
                         onPressed: nextForm,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: ColorsApp.i.ternary,
+                        ),
                         child: Text(
                           _index == 2 ? 'Confirmar cadastro' : 'Proximo passo',
                         ),

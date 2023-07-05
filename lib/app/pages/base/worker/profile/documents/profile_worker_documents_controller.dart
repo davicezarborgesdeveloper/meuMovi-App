@@ -165,9 +165,9 @@ abstract class ProfileWorkerDocumentsControllerBase with Store {
   @action
   Future<void> getData() async {
     _status = ProfileWorkerDocumentsStateStatus.loading;
-    final data = GetIt.I<UserController>().user as WorkerModel;
+    final data = GetIt.I<UserController>().worker;
     late final DateTime dt;
-    if (data.documents.dataEmissao != null &&
+    if (data!.documents.dataEmissao != null &&
         data.documents.dataEmissao!.isNotEmpty) {
       dt = DateFormat('yyyy-MM-dd').parse(data.documents.dataEmissao!);
       dataEmissao = DateFormat('dd/MM/yyyy').format(dt);

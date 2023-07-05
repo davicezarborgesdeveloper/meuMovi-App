@@ -2,14 +2,19 @@ import 'package:flutter/material.dart';
 
 import '../../../../../../core/extensions/formatter_extensions.dart';
 import '../../../../../../core/ui/helpers/size_extensions.dart';
-import '../../../../../../core/ui/styles/colors_app.dart';
 import '../../../../../../core/ui/styles/text_styles.dart';
 import '../../../../../../models/task_model.dart';
 
 class TaskListTile extends StatelessWidget {
   final TaskModel task;
   final GestureLongPressCallback? onPressed;
-  const TaskListTile(this.task, this.onPressed, {super.key});
+  final Color themeColor;
+  const TaskListTile(
+    this.task,
+    this.onPressed, {
+    required this.themeColor,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +24,7 @@ class TaskListTile extends StatelessWidget {
         padding: const EdgeInsets.all(12),
         margin: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: ColorsApp.i.primary.withAlpha(75),
+          color: themeColor.withAlpha(75),
           borderRadius: const BorderRadius.all(Radius.circular(12)),
         ),
         child: Column(
@@ -110,7 +115,7 @@ class TaskListTile extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      task.valuePayroll.currencyPTBR,
+                      task.valuePayroll!.currencyPTBR,
                       style:
                           context.textStyles.textRegular.copyWith(fontSize: 12),
                     ),

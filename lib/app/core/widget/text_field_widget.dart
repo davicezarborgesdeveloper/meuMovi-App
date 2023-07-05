@@ -14,6 +14,8 @@ class TextFieldWidget extends StatefulWidget {
   final bool obscure;
   final String? initialValue;
   final TextEditingController? controller;
+  final FocusNode? focusNode;
+  final Color? themeColor;
   const TextFieldWidget({
     Key? key,
     this.label,
@@ -26,6 +28,8 @@ class TextFieldWidget extends StatefulWidget {
     this.obscure = false,
     this.initialValue,
     this.controller,
+    this.focusNode,
+    this.themeColor,
   }) : super(key: key);
 
   @override
@@ -34,11 +38,17 @@ class TextFieldWidget extends StatefulWidget {
 
 class _TextFieldWidgetState extends State<TextFieldWidget> {
   bool isVisible = false;
+  bool hasFocus = false;
 
   @override
   void initState() {
     if (widget.controller != null) {
       widget.controller!.text = widget.initialValue ?? '';
+    }
+    if (widget.focusNode != null) {
+      widget.focusNode!.addListener(() {
+        setState(() {});
+      });
     }
     super.initState();
   }
@@ -57,6 +67,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
             ),
           if (widget.label != null) const SizedBox(height: 8),
           TextFormField(
+            focusNode: widget.focusNode,
             controller: widget.controller,
             decoration: InputDecoration(
               errorText: widget.errorText,
@@ -65,6 +76,12 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
                   ? IconButton(
                       icon: Icon(
                         isVisible ? Icons.visibility : Icons.visibility_off,
+                        color: widget.focusNode != null &&
+                                widget.themeColor != null
+                            ? (widget.focusNode!.hasFocus
+                                ? widget.themeColor
+                                : Colors.grey)
+                            : null,
                       ),
                       onPressed: () {
                         setState(() {

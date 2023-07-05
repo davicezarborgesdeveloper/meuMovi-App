@@ -19,7 +19,7 @@ class CardBank extends StatelessWidget {
               width: double.infinity,
               height: 50,
               decoration: BoxDecoration(
-                color: ColorsApp.i.primary,
+                color: ColorsApp.i.ternary,
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(12),
                   topRight: Radius.circular(12),

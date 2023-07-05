@@ -90,8 +90,8 @@ abstract class PixControllerBase with Store {
   Future<void> save() async {
     try {
       _status = PixStateStatus.loading;
-      final getData = GetIt.I<UserController>().user as WorkerModel;
-      final saveData = getData.copyWith(
+      final getData = GetIt.I<UserController>().worker;
+      final saveData = getData!.copyWith(
         bankData: BankDataModel(
           pixKey: pixKey!.replaceAll(RegExp(r'[^0-9]'), ''),
           pixKeyType: pixKeyType,

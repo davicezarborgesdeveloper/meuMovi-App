@@ -8,6 +8,7 @@ import 'package:mobx/mobx.dart';
 import '../../../../../core/ui/helpers/enums.dart';
 import '../../../../../core/ui/helpers/loader.dart';
 import '../../../../../core/ui/helpers/messages.dart';
+import '../../../../../core/ui/styles/colors_app.dart';
 import '../../../../../core/ui/styles/text_styles.dart';
 import '../../../../../core/widget/dropdown_widget.dart';
 import '../../../../../core/widget/text_field_changed_widget.dart';
@@ -212,6 +213,9 @@ class _ProfileWorkerPersonalDataPageState
                   child: GestureDetector(
                     onTap: controller.invalidSendPressed,
                     child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: ColorsApp.i.ternary,
+                      ),
                       onPressed: controller.sendPressed,
                       child: const Text(
                         'Salvar Informações',

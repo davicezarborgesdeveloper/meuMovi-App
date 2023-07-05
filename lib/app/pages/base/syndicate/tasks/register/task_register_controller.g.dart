@@ -86,6 +86,13 @@ mixin _$TaskRegisterController on TaskRegisterControllerBase, Store {
           () => super.valueInvoiceValid,
           name: 'TaskRegisterControllerBase.valueInvoiceValid'))
       .value;
+  Computed<bool>? _$quantityValidComputed;
+
+  @override
+  bool get quantityValid =>
+      (_$quantityValidComputed ??= Computed<bool>(() => super.quantityValid,
+              name: 'TaskRegisterControllerBase.quantityValid'))
+          .value;
   Computed<bool>? _$isFormValidComputed;
 
   @override
@@ -419,6 +426,58 @@ mixin _$TaskRegisterController on TaskRegisterControllerBase, Store {
     });
   }
 
+  late final _$quantityAtom =
+      Atom(name: 'TaskRegisterControllerBase.quantity', context: context);
+
+  @override
+  String? get quantity {
+    _$quantityAtom.reportRead();
+    return super.quantity;
+  }
+
+  @override
+  set quantity(String? value) {
+    _$quantityAtom.reportWrite(value, super.quantity, () {
+      super.quantity = value;
+    });
+  }
+
+  late final _$_unitaryValueAtom =
+      Atom(name: 'TaskRegisterControllerBase._unitaryValue', context: context);
+
+  double? get unitaryValue {
+    _$_unitaryValueAtom.reportRead();
+    return super._unitaryValue;
+  }
+
+  @override
+  double? get _unitaryValue => unitaryValue;
+
+  @override
+  set _unitaryValue(double? value) {
+    _$_unitaryValueAtom.reportWrite(value, super._unitaryValue, () {
+      super._unitaryValue = value;
+    });
+  }
+
+  late final _$_totalValueAtom =
+      Atom(name: 'TaskRegisterControllerBase._totalValue', context: context);
+
+  double? get totalValue {
+    _$_totalValueAtom.reportRead();
+    return super._totalValue;
+  }
+
+  @override
+  double? get _totalValue => totalValue;
+
+  @override
+  set _totalValue(double? value) {
+    _$_totalValueAtom.reportWrite(value, super._totalValue, () {
+      super._totalValue = value;
+    });
+  }
+
   late final _$registerAsyncAction =
       AsyncAction('TaskRegisterControllerBase.register', context: context);
 
@@ -563,6 +622,17 @@ mixin _$TaskRegisterController on TaskRegisterControllerBase, Store {
   }
 
   @override
+  void setQuantity(String? value) {
+    final _$actionInfo = _$TaskRegisterControllerBaseActionController
+        .startAction(name: 'TaskRegisterControllerBase.setQuantity');
+    try {
+      return super.setQuantity(value);
+    } finally {
+      _$TaskRegisterControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void invalidSendPressed() {
     final _$actionInfo = _$TaskRegisterControllerBaseActionController
         .startAction(name: 'TaskRegisterControllerBase.invalidSendPressed');
@@ -588,6 +658,7 @@ hourDays: ${hourDays},
 valuePayroll: ${valuePayroll},
 invoiceAmount: ${invoiceAmount},
 valueInvoice: ${valueInvoice},
+quantity: ${quantity},
 descriptionServiceValid: ${descriptionServiceValid},
 serviceTakerValid: ${serviceTakerValid},
 descCostCenterValid: ${descCostCenterValid},
@@ -599,6 +670,7 @@ hourDaysValid: ${hourDaysValid},
 valuePayrollValid: ${valuePayrollValid},
 invoiceAmountValid: ${invoiceAmountValid},
 valueInvoiceValid: ${valueInvoiceValid},
+quantityValid: ${quantityValid},
 isFormValid: ${isFormValid},
 sendPressed: ${sendPressed}
     ''';

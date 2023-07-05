@@ -150,8 +150,8 @@ abstract class ProfileWorkerAddressDataControllerBase with Store {
   @action
   Future<void> getData() async {
     _status = ProfileWorkerAddressDataStateStatus.loading;
-    final data = GetIt.I<UserController>().user as WorkerModel;
-    zip = data.address.zip.formattedZip;
+    final data = GetIt.I<UserController>().worker;
+    zip = data!.address.zip.formattedZip;
     city = data.address.city;
     state = data.address.state;
     street = data.address.street;

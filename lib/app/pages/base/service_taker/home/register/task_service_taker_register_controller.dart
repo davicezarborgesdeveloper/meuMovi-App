@@ -57,16 +57,10 @@ abstract class TaskServiceTakerRegisterControllerBase with Store {
   String? hourDays;
 
   @observable
-  String? valuePayroll;
-
-  @observable
   String? invoiceAmount;
 
-  // @observable
-  // String? valueInvoice;
-
-  // @observable
-  // String? syndicate;
+  @observable
+  String? valueInvoice;
 
   @readonly
   int? _access;
@@ -75,10 +69,19 @@ abstract class TaskServiceTakerRegisterControllerBase with Store {
   int? _statusTask;
 
   @readonly
-  double? _valueInvoice;
+  double? _valuePayroll;
 
   @readonly
   String? _syndicate;
+
+  @observable
+  String? quantity;
+
+  @observable
+  String? unitaryValue;
+
+  @observable
+  double? totalValue = 0.00;
 
   @action
   void setDescriptionService(String value) => descriptionService = value;
@@ -107,16 +110,28 @@ abstract class TaskServiceTakerRegisterControllerBase with Store {
   void setHourDays(String value) => hourDays = value;
 
   @action
-  void setValuePayroll(String value) => valuePayroll = value;
-
-  @action
   void setInvoiceAmount(String value) => invoiceAmount = value;
 
-  // @action
-  // void setValueInvoice(String value) => valueInvoice = value;
+  @action
+  void setValueInvoice(String value) => valueInvoice = value;
 
-  // @action
-  // void setSyndicate(String value) => syndicate = value;
+  @action
+  void setQuantity(String? value) {
+    quantity = value;
+    if (quantity != null && unitaryValue != null) {
+      totalValue = double.tryParse(unitaryValue!.replaceAll(',', '.'))! *
+          int.tryParse(quantity!)!;
+    }
+  }
+
+  @action
+  void setUnitaryValue(String value) {
+    unitaryValue = value;
+    if (quantity != null && unitaryValue != null) {
+      totalValue = double.tryParse(unitaryValue!.replaceAll(',', '.'))! *
+          int.tryParse(quantity!)!;
+    }
+  }
 
   @computed
   bool get descriptionServiceValid =>
@@ -141,8 +156,7 @@ abstract class TaskServiceTakerRegisterControllerBase with Store {
   }
 
   @computed
-  bool get productionTypeValid =>
-      productionType != null && productionType != null;
+  bool get productionTypeValid => productionType != null;
   String? get productionTypeError {
     if (!_showErrors || productionTypeValid) {
       return null;
@@ -183,16 +197,16 @@ abstract class TaskServiceTakerRegisterControllerBase with Store {
     }
   }
 
-  @computed
-  bool get valuePayrollValid =>
-      valuePayroll != null && valuePayroll!.isNotEmpty;
-  String? get valuePayrollError {
-    if (!_showErrors || valuePayrollValid) {
-      return null;
-    } else {
-      return 'Valor para Folha Obrigatória';
-    }
-  }
+  // @computed
+  // bool get valuePayrollValid =>
+  //     valuePayroll != null && valuePayroll!.isNotEmpty;
+  // String? get valuePayrollError {
+  //   if (!_showErrors || valuePayrollValid) {
+  //     return null;
+  //   } else {
+  //     return 'Valor para Folha Obrigatória';
+  //   }
+  // }
 
   @computed
   bool get invoiceAmountValid =>
@@ -205,16 +219,40 @@ abstract class TaskServiceTakerRegisterControllerBase with Store {
     }
   }
 
-  // @computed
-  // bool get valueInvoiceValid =>
-  //     valueInvoice != null && valueInvoice!.isNotEmpty;
-  // String? get valueInvoiceError {
-  //   if (!_showErrors || valueInvoiceValid) {
-  //     return null;
-  //   } else {
-  //     return 'Valor para nota fiscal Obrigatória';
-  //   }
-  // }
+  @computed
+  bool get valueInvoiceValid =>
+      valueInvoice != null && valueInvoice!.isNotEmpty;
+  String? get valueInvoiceError {
+    if (!_showErrors || valueInvoiceValid) {
+      return null;
+    } else {
+      return 'Valor para nota fiscal Obrigatória';
+    }
+  }
+
+  @computed
+  bool get quantityValid =>
+      quantity != null && quantity!.isNotEmpty && quantity != '0';
+  String? get quantityError {
+    if (!_showErrors || quantityValid) {
+      return null;
+    } else if (quantity == '0') {
+      return 'inválida';
+    } else {
+      return 'Obrigatorio';
+    }
+  }
+
+  @computed
+  bool get unitaryValueValid =>
+      unitaryValue != null && unitaryValue!.isNotEmpty;
+  String? get unitaryValueError {
+    if (!_showErrors || unitaryValueValid) {
+      return null;
+    } else {
+      return 'Valor unitário Obrigatório';
+    }
+  }
 
   @action
   void invalidSendPressed() => _showErrors = true;
@@ -224,8 +262,9 @@ abstract class TaskServiceTakerRegisterControllerBase with Store {
       descriptionServiceValid &&
       productionTypeValid &&
       reportTypeValid &&
-      hourDaysValid &&
-      valuePayrollValid &&
+      quantityValid &&
+      unitaryValueValid &&
+      valueInvoiceValid &&
       invoiceAmountValid;
 
   @computed
@@ -245,9 +284,11 @@ abstract class TaskServiceTakerRegisterControllerBase with Store {
         reportType: reportType!,
         calculateNightTime: calculateNightTime,
         hourDays: hourDays,
-        valuePayroll: double.parse(valuePayroll!.replaceAll(',', '.')),
+        valuePayroll: _valuePayroll,
         invoiceAmount: double.parse(invoiceAmount!.replaceAll(',', '.')),
-        valueInvoice: _valueInvoice,
+        valueInvoice: double.parse(valueInvoice!.replaceAll(',', '.')),
+        quantity: int.tryParse(quantity!),
+        unitaryValue: double.tryParse(unitaryValue!.replaceAll(',', '.')),
         syndicate: _syndicate,
         status: _statusTask ?? 0,
         access: _access ?? 0,
@@ -268,11 +309,14 @@ abstract class TaskServiceTakerRegisterControllerBase with Store {
     descCostCenter = model.descCostCenter ?? '';
     extraPercentage = model.extraPercentage;
     hourDays = model.hourDays ?? '0,00';
-    valuePayroll = model.valuePayroll.toString();
     invoiceAmount = model.invoiceAmount.toString();
+    valueInvoice = model.valueInvoice.toString();
     productionType = ProductionType.parse(model.productionType!.acronym);
     reportType = ReportType.parse(model.reportType!.acronym);
     calculateNightTime = model.calculateNightTime;
+    quantity = model.quantity.toString();
+    unitaryValue = model.unitaryValue.toString();
+    totalValue = model.unitaryValue! * model.quantity!;
     // syndicate = model.syndicate;
     servTaker = model.servTaker != null
         ? ServTakerModel(
@@ -283,7 +327,7 @@ abstract class TaskServiceTakerRegisterControllerBase with Store {
     _access = model.access;
     _statusTask = model.status;
     _syndicate = model.syndicate;
-    _valueInvoice = model.valueInvoice;
+    _valuePayroll = model.valuePayroll;
     _status = TaskServiceTakerRegisterStateStatus.loaded;
   }
 }

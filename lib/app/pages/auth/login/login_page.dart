@@ -113,6 +113,7 @@ class _LoginPageState extends State<LoginPage> with Loader, Messages {
                           Observer(
                             builder: (_) => Checkbox(
                               value: controller.rememberMe,
+                              activeColor: ColorsApp.i.neutralDark,
                               onChanged: (value) =>
                                   controller.setRememberMe(value!),
                             ),
@@ -140,6 +141,9 @@ class _LoginPageState extends State<LoginPage> with Loader, Messages {
                       child: GestureDetector(
                         onTap: controller.invalidSendPressed,
                         child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: ColorsApp.i.neutralDark,
+                          ),
                           onPressed: controller.sendPressed,
                           child: const Text('Login'),
                         ),
@@ -158,7 +162,7 @@ class _LoginPageState extends State<LoginPage> with Loader, Messages {
                           TextSpan(
                             text: ' Cadastre-se',
                             style: context.textStyles.textMedium
-                                .copyWith(color: ColorsApp.i.secondary),
+                                .copyWith(color: ColorsApp.i.neutralDark),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () => Navigator.of(context)
                                   .pushNamed('/auth/signup/menu'),

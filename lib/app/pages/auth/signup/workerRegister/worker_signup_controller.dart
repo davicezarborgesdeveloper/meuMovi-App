@@ -344,7 +344,7 @@ abstract class WorkerSignupControllerBase with Store {
       await WorkerService().saveWorker(user);
       await UserService().login(user.user!, user.password, false);
       GetIt.I<UserController>().getCurrentUser(user.user!);
-      _status = WorkerSignupStateStatus.saved;
+      _status = WorkerSignupStateStatus.loaded;
     } catch (e, s) {
       log('Erro ao registrar usuário', error: e, stackTrace: s);
       _errorMessage = 'Erro ao registrar usuário';

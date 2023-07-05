@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../core/ui/styles/colors_app.dart';
 import '../../../../../core/ui/styles/text_styles.dart';
 
 class TaskButton extends StatelessWidget {
@@ -9,6 +8,7 @@ class TaskButton extends StatelessWidget {
   final int option;
   final int? selected;
   final GestureTapCallback? onPressed;
+  final Color? themeColor;
   const TaskButton({
     Key? key,
     required this.label,
@@ -16,19 +16,18 @@ class TaskButton extends StatelessWidget {
     this.numberLabel = '0',
     this.selected,
     this.onPressed,
+    this.themeColor,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final isSelected = selected == option;
     return Material(
-      elevation: 2,
-      color: isSelected ? ColorsApp.i.primary : ColorsApp.i.bg,
+      elevation: 4,
+      color: isSelected ? themeColor : Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
-        side: isSelected
-            ? BorderSide.none
-            : BorderSide(width: 3, color: Colors.grey.shade400),
+        side: BorderSide.none,
       ),
       child: InkWell(
         onTap: onPressed,
@@ -44,7 +43,7 @@ class TaskButton extends StatelessWidget {
                   numberLabel!,
                   style: context.textStyles.textBold.copyWith(
                     fontSize: 24,
-                    color: isSelected ? Colors.white : ColorsApp.i.primary,
+                    color: isSelected ? Colors.white : themeColor,
                   ),
                 ),
               ),

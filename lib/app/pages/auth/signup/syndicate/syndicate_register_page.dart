@@ -4,6 +4,7 @@ import 'package:mobx/mobx.dart';
 
 import '../../../../core/ui/helpers/loader.dart';
 import '../../../../core/ui/helpers/messages.dart';
+import '../../../../core/ui/styles/colors_app.dart';
 import '../../../../core/ui/styles/text_styles.dart';
 import '../../../../core/widget/movi_stepper.dart';
 import 'syndicate_register_controller.dart';
@@ -99,7 +100,7 @@ class _SyndicateRegisterPageState extends State<SyndicateRegisterPage>
         title: Text(
           'Entidade Sindical',
           style: context.textStyles.textBold
-              .copyWith(fontSize: 18, color: Colors.black),
+              .copyWith(fontSize: 18, color: ColorsApp.i.primary),
         ),
         centerTitle: true,
         iconTheme: const IconThemeData(color: Colors.black),
@@ -136,6 +137,9 @@ class _SyndicateRegisterPageState extends State<SyndicateRegisterPage>
                     buttonContinue: GestureDetector(
                       onTap: controller.invalidSendPressed,
                       child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: ColorsApp.i.primary,
+                        ),
                         onPressed: nextForm,
                         child: Text(
                           _index == 2 ? 'Confirmar cadastro' : 'Proximo passo',

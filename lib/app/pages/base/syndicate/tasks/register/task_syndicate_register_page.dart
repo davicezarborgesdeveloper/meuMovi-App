@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
-import '../../../../../core/ui/helpers/enums.dart';
+import '../../../../../core/extensions/formatter_extensions.dart';
 import '../../../../../core/ui/helpers/loader.dart';
 import '../../../../../core/ui/helpers/messages.dart';
-import '../../../../../core/ui/helpers/size_extensions.dart';
 import '../../../../../core/ui/styles/colors_app.dart';
 import '../../../../../core/ui/styles/text_styles.dart';
-import '../../../../../core/widget/dropdown_widget.dart';
 import '../../../../../core/widget/register_success.dart';
-import '../../../../../core/widget/text_field_changed_widget.dart';
 import '../../../../../core/widget/text_field_widget.dart';
 import '../../../../../models/task_model.dart';
 import '../../../../auth/user_controller.dart';
@@ -40,6 +38,7 @@ class _TasksSyndicateRegisterPageState extends State<TasksSyndicateRegisterPage>
   final valuePayrollEC = TextEditingController();
   final invoiceAmountEC = TextEditingController();
   final valueInvoiceEC = TextEditingController();
+  final quantityEC = TextEditingController();
   final employeerEC = TextEditingController();
 
   @override
@@ -102,6 +101,7 @@ class _TasksSyndicateRegisterPageState extends State<TasksSyndicateRegisterPage>
     valuePayrollEC.dispose();
     invoiceAmountEC.dispose();
     valueInvoiceEC.dispose();
+    quantityEC.dispose();
     statusDisposer();
     super.dispose();
   }
@@ -124,123 +124,188 @@ class _TasksSyndicateRegisterPageState extends State<TasksSyndicateRegisterPage>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Observer(
-                builder: (_) => TextFieldWidget(
-                  controller: descriptionServiceEC,
-                  label: 'Descrição do Serviço',
-                  hintText: '',
-                  errorText: controller.descriptionServiceError,
-                  onChanged: controller.setDescriptionService,
-                  initialValue: controller.descriptionService,
-                ),
+              Text(
+                'Descrição do Serviço',
+                style: context.textStyles.textBold,
               ),
-              Observer(
-                builder: (_) => TextFieldChangedWidget(
-                  controller: employeerEC,
-                  label: 'Tomadora',
-                  hintText: '',
-                  readOnly: true,
-                  initialValue: controller.servTaker?.name,
-                  errorText: controller.servTakerError,
-                  onTap: () async {
-                    final result = await showDialogServTaker();
-                    if (result != null) {
-                      employeerEC.text = result.name;
-                      controller.setServTaker(result);
-                    }
-                  },
-                ),
+              const SizedBox(height: 4),
+              Text(
+                controller.descriptionService!,
+                style: context.textStyles.textRegular.copyWith(fontSize: 16),
               ),
-              Observer(
-                builder: (_) => TextFieldWidget(
-                  controller: descCostCenterEC,
-                  label: 'Descrição do Centro de Custo',
-                  hintText: '',
-                  onChanged: controller.setDescCostCenter,
-                  initialValue: controller.descCostCenter,
-                ),
+              const SizedBox(height: 12),
+              Text(
+                'Tomadora',
+                style: context.textStyles.textBold,
               ),
+              const SizedBox(height: 4),
+              Text(
+                controller.servTaker!.name,
+                style: context.textStyles.textRegular.copyWith(fontSize: 16),
+              ),
+              const SizedBox(height: 12),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(
-                    flex: 4,
-                    child: DropdownWidget(
-                      label: 'Tipo de Produção',
-                      statusSelected: controller.productionType,
-                      onSave: controller.setProductionType,
-                      errorText: controller.productionTypeError,
-                      listOptions: ProductionType.values,
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    flex: 2,
-                    child: Observer(
-                      builder: (_) => TextFieldWidget(
-                        controller: extraPercentageEC,
-                        label: 'Percentual Extras',
-                        hintText: '0,00',
-                        onChanged: controller.setExtraPercentage,
-                        initialValue: controller.extraPercentage,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Tipo de Produção',
+                        style: context.textStyles.textBold,
                       ),
-                    ),
+                      const SizedBox(height: 4),
+                      Text(
+                        controller.productionType!.name,
+                        style: context.textStyles.textRegular
+                            .copyWith(fontSize: 16),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Percentual Extras',
+                        style: context.textStyles.textBold,
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        controller.extraPercentage ?? '0.00',
+                        style: context.textStyles.textRegular
+                            .copyWith(fontSize: 16),
+                      ),
+                    ],
                   ),
                 ],
               ),
-              DropdownWidget(
-                label: 'Informe',
-                statusSelected: controller.reportType,
-                onSave: controller.setReportType,
-                errorText: controller.reportTypeError,
-                listOptions: ReportType.values,
+              const SizedBox(height: 12),
+              Text(
+                'Informe',
+                style: context.textStyles.textBold,
+              ),
+              const SizedBox(height: 4),
+              Text(
+                controller.reportType!.name,
+                style: context.textStyles.textRegular.copyWith(fontSize: 16),
               ),
               Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Observer(
-                        builder: (_) => Checkbox(
-                          value: controller.calculateNightTime,
-                          onChanged: (value) =>
-                              controller.setCalculateNightTime(value!),
-                        ),
-                      ),
-                      SizedBox(
-                        width: context.percentWidth(.4),
-                        child: const Text(
-                          'Calcular Horas Adicional Noturno na Produção',
-                        ),
-                      )
-                    ],
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 8),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Horas Dias',
-                            style: context.textStyles.textBold,
-                          ),
-                          const SizedBox(height: 8),
-                          TextFormField(
-                            controller: hourDaysEC,
-                            onChanged: controller.setHourDays,
-                            decoration: InputDecoration(
-                              errorText: controller.hourDaysError,
-                            ),
-                            keyboardType: TextInputType.number,
-                          ),
+                  SizedBox(
+                    width: 70,
+                    child: Observer(
+                      builder: (_) => TextFieldWidget(
+                        controller: quantityEC,
+                        label: 'Qtde.',
+                        hintText: '0',
+                        keyboardType: TextInputType.number,
+                        errorText: controller.quantityError,
+                        onChanged: controller.setQuantity,
+                        initialValue: controller.quantity,
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(3),
+                          FilteringTextInputFormatter.digitsOnly,
                         ],
                       ),
                     ),
                   ),
+                  // Column(
+                  //   crossAxisAlignment: CrossAxisAlignment.start,
+                  //   children: [
+                  //     Text(
+                  //       'Qtde.',
+                  //       style: context.textStyles.textBold,
+                  //     ),
+                  //     const SizedBox(height: 4),
+                  //     Text(
+                  //       '${controller.quantity}',
+                  //       style: context.textStyles.textRegular
+                  //           .copyWith(fontSize: 16),
+                  //     ),
+                  //   ],
+                  // ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Valor unitário',
+                        style: context.textStyles.textBold,
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        controller.unitaryValue!.currencyPTBR,
+                        style: context.textStyles.textRegular
+                            .copyWith(fontSize: 16),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Valor total',
+                        style: context.textStyles.textBold,
+                      ),
+                      const SizedBox(height: 4),
+                      Observer(
+                        builder: (_) => Text(
+                          controller.totalValue!.currencyPTBR,
+                          style: context.textStyles.textRegular
+                              .copyWith(fontSize: 16),
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
+              // Row(
+              //   crossAxisAlignment: CrossAxisAlignment.center,
+              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //   children: [
+              //     Row(
+              //       crossAxisAlignment: CrossAxisAlignment.center,
+              //       children: [
+              //         Observer(
+              //           builder: (_) => Checkbox(
+              //             value: controller.calculateNightTime,
+              //             onChanged: (value) =>
+              //                 controller.setCalculateNightTime(value!),
+              //           ),
+              //         ),
+              //         SizedBox(
+              //           width: context.percentWidth(.4),
+              //           child: const Text(
+              //             'Calcular Horas Adicional Noturno na Produção',
+              //           ),
+              //         )
+              //       ],
+              //     ),
+              //     Expanded(
+              //       child: Padding(
+              //         padding: const EdgeInsets.only(left: 8),
+              //         child: Column(
+              //           crossAxisAlignment: CrossAxisAlignment.start,
+              //           children: [
+              //             Text(
+              //               'Horas Dias',
+              //               style: context.textStyles.textBold,
+              //             ),
+              //             const SizedBox(height: 8),
+              //             TextFormField(
+              //               controller: hourDaysEC,
+              //               onChanged: controller.setHourDays,
+              //               decoration: InputDecoration(
+              //                 errorText: controller.hourDaysError,
+              //               ),
+              //               keyboardType: TextInputType.number,
+              //             ),
+              //           ],
+              //         ),
+              //       ),
+              //     ),
+              //   ],
+              // ),
               Observer(
                 builder: (_) => TextFieldWidget(
                   controller: valuePayrollEC,
@@ -284,6 +349,9 @@ class _TasksSyndicateRegisterPageState extends State<TasksSyndicateRegisterPage>
                   child: GestureDetector(
                     onTap: controller.invalidSendPressed,
                     child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: ColorsApp.i.primary,
+                      ),
                       onPressed: controller.sendPressed,
                       child: const Text('Confirmar cadastro'),
                     ),

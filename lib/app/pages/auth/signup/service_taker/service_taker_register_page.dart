@@ -30,6 +30,8 @@ class _ServiceTakerRegisterPageState extends State<ServiceTakerRegisterPage>
       ServiceTakerSignupController();
   late final ReactionDisposer statusDisposer;
   final employeerEC = TextEditingController();
+  final focusPassword = FocusNode();
+  final focusRetypePass = FocusNode();
 
   @override
   void initState() {
@@ -85,7 +87,7 @@ class _ServiceTakerRegisterPageState extends State<ServiceTakerRegisterPage>
         title: Text(
           'Tomadora de Serviços',
           style: context.textStyles.textBold
-              .copyWith(fontSize: 18, color: Colors.black),
+              .copyWith(fontSize: 18, color: ColorsApp.i.secondary),
         ),
         centerTitle: true,
         iconTheme: const IconThemeData(color: Colors.black),
@@ -247,22 +249,26 @@ class _ServiceTakerRegisterPageState extends State<ServiceTakerRegisterPage>
               ),
               Observer(
                 builder: (_) => TextFieldWidget(
+                  focusNode: focusPassword,
                   label: 'Senha',
                   hintText: 'Crie uma senha',
                   errorText: controller.passwordError,
                   onChanged: controller.setPassword,
                   initialValue: controller.password,
                   obscure: true,
+                  themeColor: ColorsApp.i.secondary,
                 ),
               ),
               Observer(
                 builder: (_) => TextFieldWidget(
+                  focusNode: focusRetypePass,
                   label: 'Confirmar a senha',
                   hintText: 'Confirme sua senha',
                   errorText: controller.retypePassError,
                   onChanged: controller.setRetypePass,
                   initialValue: controller.retypePass,
                   obscure: true,
+                  themeColor: ColorsApp.i.secondary,
                 ),
               ),
               Padding(
@@ -311,6 +317,9 @@ class _ServiceTakerRegisterPageState extends State<ServiceTakerRegisterPage>
                   child: GestureDetector(
                     onTap: controller.invalidSendPressed,
                     child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: ColorsApp.i.secondary,
+                      ),
                       onPressed: controller.sendPressedSignup,
                       child: const Text('Confirmar cadastro'),
                     ),

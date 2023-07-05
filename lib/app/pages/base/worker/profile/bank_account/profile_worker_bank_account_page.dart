@@ -65,9 +65,10 @@ class _ProfileWorkerBankAccountPageState
         backgroundColor: Colors.grey[300],
         title: Text(
           'Dados bancários',
-          style: context.textStyles.textBold.copyWith(color: Colors.black),
+          style: context.textStyles.textBold
+              .copyWith(color: ColorsApp.i.ternaryDark),
         ),
-        iconTheme: const IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: ColorsApp.i.ternaryDark),
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(24, 32, 24, 16),
@@ -111,7 +112,7 @@ class _ProfileWorkerBankAccountPageState
                                 children: [
                                   Icon(
                                     Icons.pix,
-                                    color: ColorsApp.i.secondary,
+                                    color: ColorsApp.i.ternary,
                                   ),
                                   const SizedBox(width: 16),
                                   Text(
@@ -150,7 +151,7 @@ class _ProfileWorkerBankAccountPageState
                                 children: [
                                   Icon(
                                     Icons.credit_card,
-                                    color: ColorsApp.i.secondary,
+                                    color: ColorsApp.i.ternary,
                                   ),
                                   const SizedBox(width: 16),
                                   Text(
