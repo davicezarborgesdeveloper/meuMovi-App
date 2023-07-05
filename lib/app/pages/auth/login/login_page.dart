@@ -30,7 +30,6 @@ class _LoginPageState extends State<LoginPage> with Loader, Messages {
       statusDisposer = reaction((_) => controller.status, (status) {
         switch (status) {
           case LoginStateStatus.initial:
-            hideLoader();
             break;
           case LoginStateStatus.loading:
             showLoader();
@@ -172,26 +171,6 @@ class _LoginPageState extends State<LoginPage> with Loader, Messages {
                       ),
                     ),
                   )
-                  // Padding(
-                  //   padding: const EdgeInsets.all(8.0),
-                  //   child: RichText(
-                  //     text: TextSpan(
-                  //       text: 'Não tem uma conta?',
-                  //       style: context.textStyles.textRegular
-                  //           .copyWith(color: Colors.grey[900]),
-                  //       children: [
-                  //         TextSpan(
-                  //           text: ' Cadastre-se',
-                  //           style: context.textStyles.textMedium
-                  //               .copyWith(color: ColorsApp.i.secondary),
-                  //           recognizer: TapGestureRecognizer()
-                  //             ..onTap = () => Navigator.of(context)
-                  //                 .pushNamed('/auth/signup/menu'),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //   ),
-                  // )
                 ],
               ),
             ),

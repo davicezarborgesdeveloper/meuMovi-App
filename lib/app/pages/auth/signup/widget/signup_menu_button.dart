@@ -43,7 +43,7 @@ class SignupMenuButton extends StatelessWidget {
             children: [
               Icon(
                 icon,
-                size: height * .75,
+                size: width * .18,
                 color: Colors.white,
               ),
               const SizedBox(
@@ -54,7 +54,7 @@ class SignupMenuButton extends StatelessWidget {
                 // crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(
-                    width: width * .57,
+                    width: width * .65,
                     child: Text(
                       title,
                       style: context.textStyles.textBold
@@ -62,7 +62,7 @@ class SignupMenuButton extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    width: width * .57,
+                    width: width * .65,
                     child: Text(
                       description,
                       style: context.textStyles.textLight
