@@ -258,9 +258,11 @@ class _HomeWorkerPageState extends State<HomeWorkerPage> with Loader, Messages {
                                   .map(
                                     (tsk) => TaskListTile(
                                       task: tsk,
-                                      onPressed: () {
-                                        _optionOpenDialog(tsk);
-                                      },
+                                      onPressed: controller.buttonSelected == 0
+                                          ? () {
+                                              _optionOpenDialog(tsk);
+                                            }
+                                          : null,
                                       themeColor: ColorsApp.i.ternary,
                                     ),
                                   )
