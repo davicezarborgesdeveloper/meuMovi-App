@@ -1,4 +1,4 @@
-import '../../models/old/bank_model.dart';
+import '../../models/bank_model.dart';
 import 'banks_repository_impl.dart';
 
 abstract class BanksRepository {

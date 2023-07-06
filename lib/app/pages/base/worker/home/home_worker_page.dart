@@ -46,8 +46,9 @@ class _HomeWorkerPageState extends State<HomeWorkerPage> with Loader, Messages {
             break;
         }
       });
-      controller.getTasks(
+      await controller.getTasks(
         widget.userController.worker!.documents.employeer!.code,
+        widget.userController.worker!.user!,
       );
     });
     super.initState();
@@ -94,7 +95,18 @@ class _HomeWorkerPageState extends State<HomeWorkerPage> with Loader, Messages {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     TextButton(
-                      onPressed: task.access == 1 ? () async {} : null,
+                      onPressed: () async {
+                        Navigator.of(context).pop();
+                        await controller.acceptTask(
+                          task,
+                          widget.userController.worker!.user!,
+                        );
+                        await controller.getTasks(
+                          widget
+                              .userController.worker!.documents.employeer!.code,
+                          widget.userController.worker!.user!,
+                        );
+                      },
                       child: Text(
                         'Aceitar tarefa',
                         style: context.textStyles.textSemiBold
@@ -155,11 +167,12 @@ class _HomeWorkerPageState extends State<HomeWorkerPage> with Loader, Messages {
                             option: 0,
                             themeColor: ColorsApp.i.ternary,
                             selected: controller.buttonSelected,
-                            onPressed: () {
+                            onPressed: () async {
                               controller.setButtonSelected(0);
-                              controller.getTasks(
+                              await controller.getTasks(
                                 widget.userController.worker!.documents
                                     .employeer!.code,
+                                widget.userController.worker!.user!,
                               );
                             },
                           ),
@@ -170,11 +183,12 @@ class _HomeWorkerPageState extends State<HomeWorkerPage> with Loader, Messages {
                             option: 1,
                             themeColor: ColorsApp.i.ternary,
                             selected: controller.buttonSelected,
-                            onPressed: () {
+                            onPressed: () async {
                               controller.setButtonSelected(1);
-                              controller.getTasks(
+                              await controller.getTasks(
                                 widget.userController.worker!.documents
                                     .employeer!.code,
+                                widget.userController.worker!.user!,
                               );
                             },
                           ),
@@ -185,11 +199,12 @@ class _HomeWorkerPageState extends State<HomeWorkerPage> with Loader, Messages {
                             numberLabel:
                                 controller.tasks!.inProgress.length.toString(),
                             selected: controller.buttonSelected,
-                            onPressed: () {
+                            onPressed: () async {
                               controller.setButtonSelected(2);
-                              controller.getTasks(
+                              await controller.getTasks(
                                 widget.userController.worker!.documents
                                     .employeer!.code,
+                                widget.userController.worker!.user!,
                               );
                             },
                           ),
@@ -200,11 +215,12 @@ class _HomeWorkerPageState extends State<HomeWorkerPage> with Loader, Messages {
                             option: 3,
                             themeColor: ColorsApp.i.ternary,
                             selected: controller.buttonSelected,
-                            onPressed: () {
+                            onPressed: () async {
                               controller.setButtonSelected(3);
-                              controller.getTasks(
+                              await controller.getTasks(
                                 widget.userController.worker!.documents
                                     .employeer!.code,
+                                widget.userController.worker!.user!,
                               );
                             },
                           )

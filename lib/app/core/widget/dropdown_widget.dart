@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../models/old/bank_model.dart';
+import '../../models/bank_model.dart';
 import '../ui/helpers/size_extensions.dart';
 import '../ui/styles/text_styles.dart';
 

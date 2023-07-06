@@ -41,7 +41,7 @@ class _BaseWorkerPageState extends State<BaseWorkerPage> {
           Observer(
             builder: (_) => HomeWorkerPage(userController),
           ),
-          const ExtractWorkerPage(),
+          ExtractWorkerPage(userController),
           Observer(builder: (_) => ProfileWorkerPage(userController))
         ],
       ),

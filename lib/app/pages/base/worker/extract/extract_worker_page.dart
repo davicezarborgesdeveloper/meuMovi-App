@@ -1,22 +1,62 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mobx/mobx.dart';
 
 import '../../../../core/extensions/formatter_extensions.dart';
+import '../../../../core/ui/helpers/loader.dart';
+import '../../../../core/ui/helpers/messages.dart';
 import '../../../../core/ui/styles/colors_app.dart';
 import '../../../../core/ui/styles/text_styles.dart';
+import '../../../auth/user_controller.dart';
 import '../../../menu/menu_drawer.dart';
 import 'extract_worker_controller.dart';
 import 'widget/period_button.dart';
+import 'widget/period_worker_tile.dart';
 
 class ExtractWorkerPage extends StatefulWidget {
-  const ExtractWorkerPage({Key? key}) : super(key: key);
+  final UserController userController;
+  const ExtractWorkerPage(this.userController, {super.key});
 
   @override
   State<ExtractWorkerPage> createState() => _ExtractWorkerPageState();
 }
 
-class _ExtractWorkerPageState extends State<ExtractWorkerPage> {
+class _ExtractWorkerPageState extends State<ExtractWorkerPage>
+    with Loader, Messages {
   ExtractWorkerController controller = ExtractWorkerController();
+  late final ReactionDisposer statusDisposer;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      statusDisposer = reaction((_) => controller.status, (status) async {
+        switch (status) {
+          case ExtractWorkerStateStatus.initial:
+            break;
+          case ExtractWorkerStateStatus.loading:
+            showLoader();
+            break;
+          case ExtractWorkerStateStatus.loaded:
+            hideLoader();
+            break;
+          case ExtractWorkerStateStatus.error:
+            hideLoader();
+            showError(controller.errorMessage ?? 'Erro');
+            break;
+        }
+      });
+      await controller.getPayments(
+        widget.userController.worker!.user!,
+      );
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    statusDisposer();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,19 +129,23 @@ class _ExtractWorkerPageState extends State<ExtractWorkerPage> {
                 ],
               ),
             ),
-            // child: const Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //   children: [
-            //     PeriodButton(label: '7 dias', selected: false),
-            //     PeriodButton(label: '15 dias', selected: false),
-            //     PeriodButton(label: '30 dias', selected: true),
-            //     PeriodButton(label: '60 dias', selected: false),
-            //   ],
-            // ),
           ),
-          // ListView(
-          //   children: [],
-          // ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Observer(
+                builder: (_) => ListView.builder(
+                  itemCount: controller.orders.length,
+                  itemBuilder: (context, index) {
+                    return PeriodWorkerTile(
+                      controller.orders[index],
+                      index.isEven,
+                    );
+                  },
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );

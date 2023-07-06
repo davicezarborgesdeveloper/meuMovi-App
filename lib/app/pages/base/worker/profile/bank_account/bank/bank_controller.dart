@@ -5,7 +5,7 @@ import 'package:mobx/mobx.dart';
 
 import '../../../../../../core/extensions/validator_extensions.dart';
 import '../../../../../../core/ui/helpers/enums.dart';
-import '../../../../../../models/old/bank_model.dart';
+import '../../../../../../models/bank_model.dart';
 import '../../../../../../models/worker_model.dart';
 import '../../../../../../repositories/banks/banks_repository.dart';
 import '../../../../../../services/worker/worker_service.dart';

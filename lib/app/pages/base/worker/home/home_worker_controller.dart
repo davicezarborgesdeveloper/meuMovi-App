@@ -41,21 +41,27 @@ abstract class HomeWorkerControllerBase with Store {
   @action
   void setButtonSelected(int value) => buttonSelected = value;
 
-  // @observable
-  // OptionDistance optionDistance = OptionDistance.km25;
-
-  // @action
-  // void setOptionDistance(OptionDistance value) => optionDistance = value;
-
-  Future<void> getTasks(String? id) async {
+  Future<void> getTasks(String? synId, String orderId) async {
     try {
       _status = HomeWorkerStateStatus.loading;
-      _tasks = await TaskService().getTasksDashboardWorker(id);
+      _tasks = await TaskService().getTasksDashboardWorker(synId, orderId);
       _status = HomeWorkerStateStatus.loaded;
     } catch (e, s) {
       log('Erro ao buscar listar tarefas', error: e, stackTrace: s);
       _status = HomeWorkerStateStatus.error;
       _errorMessage = 'Erro ao buscar listar tarefas';
+    }
+  }
+
+  Future<void> acceptTask(TaskModel task, String idUser) async {
+    try {
+      _status = HomeWorkerStateStatus.loading;
+      await TaskService().acceptTask(task, idUser);
+      _status = HomeWorkerStateStatus.loaded;
+    } catch (e, s) {
+      log('Erro ao aceitar a tarefa', error: e, stackTrace: s);
+      _status = HomeWorkerStateStatus.error;
+      _errorMessage = 'Erro ao aceitar a tarefa';
     }
   }
 }

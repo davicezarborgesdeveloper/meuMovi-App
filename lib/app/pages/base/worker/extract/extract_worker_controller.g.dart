@@ -61,6 +61,24 @@ mixin _$ExtractWorkerController on ExtractWorkerControllerBase, Store {
     });
   }
 
+  late final _$_ordersAtom =
+      Atom(name: 'ExtractWorkerControllerBase._orders', context: context);
+
+  List<OrderModel> get orders {
+    _$_ordersAtom.reportRead();
+    return super._orders;
+  }
+
+  @override
+  List<OrderModel> get _orders => orders;
+
+  @override
+  set _orders(List<OrderModel> value) {
+    _$_ordersAtom.reportWrite(value, super._orders, () {
+      super._orders = value;
+    });
+  }
+
   late final _$ExtractWorkerControllerBaseActionController =
       ActionController(name: 'ExtractWorkerControllerBase', context: context);
 

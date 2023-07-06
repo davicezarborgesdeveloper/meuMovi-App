@@ -1,4 +1,9 @@
+import 'dart:developer';
+
 import 'package:mobx/mobx.dart';
+
+import '../../../../models/order_model.dart';
+import '../../../../services/order/order_service.dart';
 part 'extract_worker_controller.g.dart';
 
 enum ExtractWorkerStateStatus {
@@ -21,6 +26,21 @@ abstract class ExtractWorkerControllerBase with Store {
   @observable
   int buttonSelected = 7;
 
+  @readonly
+  List<OrderModel> _orders = <OrderModel>[];
+
   @action
   void setButtonSelected(int value) => buttonSelected = value;
+
+  Future<void> getPayments(String orderId) async {
+    try {
+      _status = ExtractWorkerStateStatus.loading;
+      _orders = await OrderService().getOrderByWorker(orderId);
+      _status = ExtractWorkerStateStatus.loaded;
+    } catch (e, s) {
+      log('Erro ao buscar listar tarefas', error: e, stackTrace: s);
+      _status = ExtractWorkerStateStatus.error;
+      _errorMessage = 'Erro ao buscar listar tarefas';
+    }
+  }
 }

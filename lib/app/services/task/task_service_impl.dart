@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 import '../../models/dashboard/dashboard_task_model.dart';
 import '../../models/task_model.dart';
@@ -151,9 +152,17 @@ class TaskServiceImpl implements TaskService {
   }
 
   @override
-  Future<DashboardTaskModel> getTasksDashboardWorker(String? userId) async {
-    final collectionRef = FirebaseFirestore.instance.collection(taskCollection);
-    final QuerySnapshot querySnapshot = await collectionRef.get();
+  Future<DashboardTaskModel> getTasksDashboardWorker(
+    String? synId,
+    String orderId,
+  ) async {
+    final taskRef = FirebaseFirestore.instance.collection(taskCollection);
+    final QuerySnapshot querySnapshot = await taskRef.get();
+    final docOrder = FirebaseFirestore.instance
+        .collection('order')
+        .doc(orderId)
+        .collection('task');
+
     final DashboardTaskModel dash = DashboardTaskModel(
       available: <TaskModel>[],
       confirmed: <TaskModel>[],
@@ -162,10 +171,15 @@ class TaskServiceImpl implements TaskService {
     );
     for (var doc in querySnapshot.docs) {
       final map = doc.data() as Map<String, dynamic>;
-      if (map['syndicate'] == userId && map['access'] == 2) {
+      if (map['syndicate'] == synId && map['access'] == 2) {
         switch (map['status']) {
           case 1:
-            dash.available!.add(TaskModel.fromMap(map));
+            final taskMap = await docOrder.doc(map['code']).get();
+            if (taskMap.exists && taskMap['statusTask'] == 2) {
+              dash.confirmed!.add(TaskModel.fromMap(map));
+            } else {
+              dash.available!.add(TaskModel.fromMap(map));
+            }
             break;
           case 2:
             dash.confirmed!.add(TaskModel.fromMap(map));
@@ -197,5 +211,26 @@ class TaskServiceImpl implements TaskService {
   Future<void> sendWorker(String taskCode) async {
     final taskRef = FirebaseFirestore.instance.collection(taskCollection);
     taskRef.doc(taskCode).update({'access': 2, 'status': 1});
+  }
+
+  @override
+  Future<void> acceptTask(TaskModel task, String idUser) async {
+    final now = DateFormat('dd/MM/yyyy HH:mm').format(DateTime.now());
+    final orderRef = FirebaseFirestore.instance.collection('order');
+    final QuerySnapshot querySnapshot = await orderRef.get();
+    int idRef = 1;
+
+    if (querySnapshot.docs.isNotEmpty) {
+      idRef = querySnapshot.docs[querySnapshot.docs.length - 1]['id'] + 1;
+    }
+
+    orderRef.doc(idUser).collection('task').doc(task.code).set({
+      'id': idRef,
+      'task': task.descriptionService,
+      'statusTask': 2,
+      'statusPayment': 0,
+      'amountReceivable': task.unitaryValue,
+      'date': now,
+    });
   }
 }
