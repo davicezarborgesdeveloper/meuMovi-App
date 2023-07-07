@@ -1,3 +1,4 @@
+import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/extensions/formatter_extensions.dart';
@@ -24,133 +25,160 @@ class TaskListTile extends StatelessWidget {
         padding: const EdgeInsets.all(12),
         margin: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: themeColor!.withAlpha(75),
+          color: themeColor!.withAlpha(25),
           borderRadius: const BorderRadius.all(Radius.circular(12)),
         ),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Tomadora',
+                  style: context.textStyles.textSemiBold,
+                ),
+                const SizedBox(
+                  height: 4,
+                ),
+                Text(
+                  task.servTaker!.name,
+                  style: context.textStyles.textRegular.copyWith(fontSize: 12),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                ),
+              ],
+            ),
+            Divider(color: Colors.grey.shade700, thickness: 2),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Descrição',
+                      style: context.textStyles.textSemiBold,
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      task.descriptionService.toUpperCase(),
+                      style: context.textStyles.textBold,
+                    ),
+                    const SizedBox(height: 6),
+                    if (task.hourDays != null)
+                      Text(
+                        'HORAS EXTRAS',
+                        style: context.textStyles.textBold,
+                      ),
+                  ],
+                ),
+                SizedBox(
+                  width: context.percentWidth(.45),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Qtde.',
+                            style: context.textStyles.textSemiBold,
+                          ),
+                          const SizedBox(height: 6),
+                          Text(
+                            '${task.quantity}',
+                            style: context.textStyles.textRegular,
+                          ),
+                          const SizedBox(height: 6),
+                          if (task.hourDays != null)
+                            Text(
+                              '${task.hourDays}',
+                              style: context.textStyles.textRegular,
+                            ),
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            'Unitário',
+                            style: context.textStyles.textSemiBold,
+                          ),
+                          const SizedBox(height: 6),
+                          Text(
+                            UtilBrasilFields.obterReal(
+                              task.unitaryValue!,
+                              moeda: false,
+                            ),
+                            style: context.textStyles.textRegular,
+                          ),
+                          const SizedBox(height: 6),
+                          if (task.hourUnitary != null)
+                            Text(
+                              UtilBrasilFields.obterReal(
+                                task.hourUnitary!,
+                                moeda: false,
+                              ),
+                              style: context.textStyles.textRegular,
+                            ),
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            'Total',
+                            style: context.textStyles.textSemiBold,
+                          ),
+                          const SizedBox(height: 6),
+                          Text(
+                            UtilBrasilFields.obterReal(
+                              task.unitaryValue! * task.quantity!,
+                              moeda: false,
+                            ),
+                            style: context.textStyles.textRegular,
+                          ),
+                          const SizedBox(height: 6),
+                          if (task.hourDays != null && task.hourUnitary != null)
+                            Text(
+                              UtilBrasilFields.obterReal(
+                                task.hourUnitary! *
+                                    double.tryParse(
+                                      task.hourDays!.replaceAll(',', '.'),
+                                    )!,
+                                moeda: false,
+                              ),
+                              style: context.textStyles.textRegular,
+                            ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const Divider(color: Colors.grey, thickness: .5),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'cod. ${task.code}',
+                  'Total',
                   style: context.textStyles.textSemiBold,
                 ),
-                Text(task.descriptionService),
-              ],
-            ),
-            const Divider(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Tomadora',
-                      style: context.textStyles.textSemiBold,
-                    ),
-                    const SizedBox(height: 4),
-                    SizedBox(
-                      width: context.percentWidth(.4),
-                      child: Text(
-                        task.servTaker!.name,
-                        style: context.textStyles.textRegular
-                            .copyWith(fontSize: 12),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 2,
+                (task.hourDays != null && task.hourUnitary != null)
+                    ? Text(
+                        ((task.hourUnitary! *
+                                    double.tryParse(
+                                      task.hourDays!.replaceAll(',', '.'),
+                                    )!) +
+                                (task.unitaryValue! * task.quantity!))
+                            .currencyPTBR,
+                      )
+                    : Text(
+                        (task.unitaryValue! * task.quantity!).currencyPTBR,
+                        style: context.textStyles.textRegular,
                       ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'Informe',
-                      style: context.textStyles.textSemiBold,
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      task.reportType!.name,
-                      style:
-                          context.textStyles.textRegular.copyWith(fontSize: 12),
-                    ),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Tipo de Produção',
-                      style: context.textStyles.textSemiBold,
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      task.productionType!.name,
-                      style:
-                          context.textStyles.textRegular.copyWith(fontSize: 12),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'Horas Adicional Noturno',
-                      style: context.textStyles.textSemiBold,
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      task.hourDays ?? '0',
-                      style:
-                          context.textStyles.textRegular.copyWith(fontSize: 12),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            const Divider(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Folha',
-                      style: context.textStyles.textSemiBold,
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      task.valuePayroll!.currencyPTBR,
-                      style:
-                          context.textStyles.textRegular.copyWith(fontSize: 12),
-                    ),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Fatura',
-                      style: context.textStyles.textSemiBold,
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      task.invoiceAmount.currencyPTBR,
-                      style:
-                          context.textStyles.textRegular.copyWith(fontSize: 12),
-                    ),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Nota Fiscal',
-                      style: context.textStyles.textSemiBold,
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      task.valueInvoice!.currencyPTBR,
-                      style:
-                          context.textStyles.textRegular.copyWith(fontSize: 12),
-                    ),
-                  ],
-                ),
               ],
             ),
           ],

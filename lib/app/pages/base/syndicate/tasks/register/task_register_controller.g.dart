@@ -51,6 +51,13 @@ mixin _$TaskRegisterController on TaskRegisterControllerBase, Store {
       (_$quantityValidComputed ??= Computed<bool>(() => super.quantityValid,
               name: 'TaskRegisterControllerBase.quantityValid'))
           .value;
+  Computed<bool>? _$hourDaysValidComputed;
+
+  @override
+  bool get hourDaysValid =>
+      (_$hourDaysValidComputed ??= Computed<bool>(() => super.hourDaysValid,
+              name: 'TaskRegisterControllerBase.hourDaysValid'))
+          .value;
   Computed<bool>? _$unitaryValueValidComputed;
 
   @override
@@ -78,6 +85,13 @@ mixin _$TaskRegisterController on TaskRegisterControllerBase, Store {
   bool get valuePayrollValid => (_$valuePayrollValidComputed ??= Computed<bool>(
           () => super.valuePayrollValid,
           name: 'TaskRegisterControllerBase.valuePayrollValid'))
+      .value;
+  Computed<bool>? _$hourUnitaryValidComputed;
+
+  @override
+  bool get hourUnitaryValid => (_$hourUnitaryValidComputed ??= Computed<bool>(
+          () => super.hourUnitaryValid,
+          name: 'TaskRegisterControllerBase.hourUnitaryValid'))
       .value;
   Computed<bool>? _$isFormValidComputed;
 
@@ -344,6 +358,54 @@ mixin _$TaskRegisterController on TaskRegisterControllerBase, Store {
     });
   }
 
+  late final _$calculateNightTimeAtom = Atom(
+      name: 'TaskRegisterControllerBase.calculateNightTime', context: context);
+
+  @override
+  bool get calculateNightTime {
+    _$calculateNightTimeAtom.reportRead();
+    return super.calculateNightTime;
+  }
+
+  @override
+  set calculateNightTime(bool value) {
+    _$calculateNightTimeAtom.reportWrite(value, super.calculateNightTime, () {
+      super.calculateNightTime = value;
+    });
+  }
+
+  late final _$hourDaysAtom =
+      Atom(name: 'TaskRegisterControllerBase.hourDays', context: context);
+
+  @override
+  String? get hourDays {
+    _$hourDaysAtom.reportRead();
+    return super.hourDays;
+  }
+
+  @override
+  set hourDays(String? value) {
+    _$hourDaysAtom.reportWrite(value, super.hourDays, () {
+      super.hourDays = value;
+    });
+  }
+
+  late final _$hourUnitaryAtom =
+      Atom(name: 'TaskRegisterControllerBase.hourUnitary', context: context);
+
+  @override
+  String? get hourUnitary {
+    _$hourUnitaryAtom.reportRead();
+    return super.hourUnitary;
+  }
+
+  @override
+  set hourUnitary(String? value) {
+    _$hourUnitaryAtom.reportWrite(value, super.hourUnitary, () {
+      super.hourUnitary = value;
+    });
+  }
+
   late final _$syndicateAtom =
       Atom(name: 'TaskRegisterControllerBase.syndicate', context: context);
 
@@ -511,6 +573,39 @@ mixin _$TaskRegisterController on TaskRegisterControllerBase, Store {
   }
 
   @override
+  void setCalculateNightTime(bool value) {
+    final _$actionInfo = _$TaskRegisterControllerBaseActionController
+        .startAction(name: 'TaskRegisterControllerBase.setCalculateNightTime');
+    try {
+      return super.setCalculateNightTime(value);
+    } finally {
+      _$TaskRegisterControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setHourDays(String value) {
+    final _$actionInfo = _$TaskRegisterControllerBaseActionController
+        .startAction(name: 'TaskRegisterControllerBase.setHourDays');
+    try {
+      return super.setHourDays(value);
+    } finally {
+      _$TaskRegisterControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setHourUnitary(String value) {
+    final _$actionInfo = _$TaskRegisterControllerBaseActionController
+        .startAction(name: 'TaskRegisterControllerBase.setHourUnitary');
+    try {
+      return super.setHourUnitary(value);
+    } finally {
+      _$TaskRegisterControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void invalidSendPressed() {
     final _$actionInfo = _$TaskRegisterControllerBaseActionController
         .startAction(name: 'TaskRegisterControllerBase.invalidSendPressed');
@@ -534,6 +629,9 @@ invoiceAmount: ${invoiceAmount},
 valueInvoice: ${valueInvoice},
 valuePayroll: ${valuePayroll},
 servTaker: ${servTaker},
+calculateNightTime: ${calculateNightTime},
+hourDays: ${hourDays},
+hourUnitary: ${hourUnitary},
 syndicate: ${syndicate},
 servTakerValid: ${servTakerValid},
 descriptionServiceValid: ${descriptionServiceValid},
@@ -541,10 +639,12 @@ productionTypeValid: ${productionTypeValid},
 extraPercentageValid: ${extraPercentageValid},
 reportTypeValid: ${reportTypeValid},
 quantityValid: ${quantityValid},
+hourDaysValid: ${hourDaysValid},
 unitaryValueValid: ${unitaryValueValid},
 invoiceAmountValid: ${invoiceAmountValid},
 valueInvoiceValid: ${valueInvoiceValid},
 valuePayrollValid: ${valuePayrollValid},
+hourUnitaryValid: ${hourUnitaryValid},
 isFormValid: ${isFormValid},
 sendPressed: ${sendPressed}
     ''';

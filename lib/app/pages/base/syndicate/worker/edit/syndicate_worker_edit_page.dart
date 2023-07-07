@@ -96,11 +96,14 @@ class _SyndicateWorkerEditPageState extends State<SyndicateWorkerEditPage>
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  controller.workerModel!.fullname,
-                                  style: context.textStyles.textBold.copyWith(
-                                    fontSize: 28,
-                                    color: ColorsApp.i.primaryDark,
+                                SizedBox(
+                                  width: context.percentWidth(.55),
+                                  child: Text(
+                                    controller.workerModel!.fullname,
+                                    style: context.textStyles.textBold.copyWith(
+                                      fontSize: 24,
+                                      color: ColorsApp.i.primaryDark,
+                                    ),
                                   ),
                                 ),
                                 const SizedBox(

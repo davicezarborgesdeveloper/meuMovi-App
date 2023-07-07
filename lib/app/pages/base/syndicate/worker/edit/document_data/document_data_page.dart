@@ -57,7 +57,7 @@ class _DocumentDataPageState extends State<DocumentDataPage>
             break;
         }
       });
-      dataEmissaoEC.text = controller.dataEmissao!;
+      dataEmissaoEC.text = controller.dataEmissao ?? '';
     });
     super.initState();
   }
@@ -188,7 +188,7 @@ class _DocumentDataPageState extends State<DocumentDataPage>
                       TextFormField(
                         controller: dataEmissaoEC,
                         // initialValue: controller.dataEmissao,
-                        // onChanged: widget.onChanged,
+                        onChanged: controller.setDataEmissao,
                         decoration: InputDecoration(
                           fillColor: Colors.white,
                           errorText: controller.dataEmissaoError,

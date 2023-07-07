@@ -13,6 +13,7 @@ import '../../../../../core/ui/styles/text_styles.dart';
 import '../../../../../core/widget/dropdown_widget.dart';
 import '../../../../../core/widget/register_success.dart';
 import '../../../../../core/widget/text_field_widget.dart';
+import '../../../../../core/widget/title_bar_form.dart';
 import '../../../../../models/task_model.dart';
 import '../../../../auth/user_controller.dart';
 import '../../../syndicate/tasks/register/widgets/serv_taker_picker.dart';
@@ -34,10 +35,10 @@ class _TaskServiceTakerRegisterPageState
       TaskServiceTakerRegisterController();
   late final ReactionDisposer statusDisposer;
   final descriptionServiceEC = TextEditingController();
-  final companyNamEC = TextEditingController();
   final descCostCenterEC = TextEditingController();
   final extraPercentageEC = TextEditingController();
-  // final hourDaysEC = TextEditingController();
+  final hourDaysEC = TextEditingController();
+  final hourUnitaryEC = TextEditingController();
   // final valuePayrollEC = TextEditingController();
   final invoiceAmountEC = TextEditingController();
   final valueInvoiceEC = TextEditingController();
@@ -95,16 +96,59 @@ class _TaskServiceTakerRegisterPageState
     }
   }
 
+  Future<void> calculatetime() async {
+    if (controller.quantity != null &&
+        controller.unitaryValue != null &&
+        controller.quantity!.isNotEmpty &&
+        controller.unitaryValue!.isNotEmpty) {
+      final quantity = int.tryParse(controller.quantity!)!;
+      final unitaryValue = double.tryParse(
+        controller.unitaryValue!.replaceAll('.', '').replaceAll(',', '.'),
+      );
+
+      double valueAmount = 0.0;
+      valueAmount = unitaryValue! * quantity;
+      if (controller.hourDays != null &&
+          controller.hourUnitary != null &&
+          controller.hourDays!.isNotEmpty &&
+          controller.hourUnitary!.isNotEmpty) {
+        final hourQuantity =
+            double.tryParse(controller.hourDays!.replaceAll(',', '.'))!;
+        final unitaryValue = double.tryParse(
+          controller.hourUnitary!.replaceAll('.', '').replaceAll(',', '.'),
+        );
+        valueAmount += unitaryValue! * hourQuantity;
+      }
+      final String valueText = UtilBrasilFields.obterReal(
+        valueAmount,
+        moeda: false,
+      );
+      valueInvoiceEC.text = valueText;
+      controller.setInvoiceAmount(valueText);
+      controller.setValueInvoice(valueText);
+      controller.setValuePayroll(valueText);
+      invoiceAmountEC.text = valueText;
+    } else {
+      valueInvoiceEC.clear();
+      invoiceAmountEC.clear();
+      controller.setInvoiceAmount(null);
+      controller.setValueInvoice(null);
+      controller.setValuePayroll(null);
+    }
+  }
+
   @override
   void dispose() {
     descriptionServiceEC.dispose();
-    companyNamEC.dispose();
     descCostCenterEC.dispose();
     extraPercentageEC.dispose();
-    // hourDaysEC.dispose();
+    hourDaysEC.dispose();
+    hourUnitaryEC.dispose();
     // valuePayrollEC.dispose();
     invoiceAmountEC.dispose();
     valueInvoiceEC.dispose();
+    quantityEC.dispose();
+    unitaryValueEC.dispose();
     statusDisposer();
     super.dispose();
   }
@@ -127,6 +171,10 @@ class _TaskServiceTakerRegisterPageState
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              TitleBarForm(
+                title: 'Informações Gerais',
+                titleColor: ColorsApp.i.secondaryDark,
+              ),
               Observer(
                 builder: (_) => TextFieldWidget(
                   controller: descriptionServiceEC,
@@ -170,9 +218,11 @@ class _TaskServiceTakerRegisterPageState
                         hintText: '0,00',
                         onChanged: controller.setExtraPercentage,
                         initialValue: controller.extraPercentage,
-                        keyboardType: const TextInputType.numberWithOptions(
-                          decimal: true,
-                        ),
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                          CentavosInputFormatter(),
+                        ],
                       ),
                     ),
                   ),
@@ -187,6 +237,65 @@ class _TaskServiceTakerRegisterPageState
                   listOptions: ReportType.values,
                 ),
               ),
+              const SizedBox(
+                height: 4,
+              ),
+              TitleBarForm(
+                title: 'Hora Extra',
+                titleColor: ColorsApp.i.secondaryDark,
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: Observer(
+                      builder: (_) => TextFieldWidget(
+                        controller: hourDaysEC,
+                        label: 'Qtde. Horas',
+                        hintText: '0',
+                        onChanged: (value) async {
+                          controller.setHourDays(value);
+                          calculatetime();
+                        },
+                        initialValue: controller.hourDays,
+                        keyboardType: TextInputType.number,
+                        // inputFormatters: [
+                        //   FilteringTextInputFormatter.digitsOnly,
+                        //   CentavosInputFormatter(),
+                        // ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    flex: 4,
+                    child: Observer(
+                      builder: (_) => TextFieldWidget(
+                        controller: hourUnitaryEC,
+                        label: 'Valor unitário',
+                        hintText: '0,00',
+                        errorText: controller.hourUnitaryError,
+                        onChanged: (value) async {
+                          controller.setHourUnitary(value);
+                          calculatetime();
+                        },
+                        initialValue: controller.hourUnitary,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                          CentavosInputFormatter(),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                ],
+              ),
+              const SizedBox(height: 16),
+              TitleBarForm(
+                title: 'Valores da Tarefa',
+                titleColor: ColorsApp.i.secondaryDark,
+              ),
               Row(
                 children: [
                   Expanded(
@@ -198,7 +307,10 @@ class _TaskServiceTakerRegisterPageState
                         hintText: '0',
                         keyboardType: TextInputType.number,
                         errorText: controller.quantityError,
-                        onChanged: controller.setQuantity,
+                        onChanged: (value) async {
+                          controller.setQuantity(value);
+                          calculatetime();
+                        },
                         initialValue: controller.quantity,
                         inputFormatters: [
                           LengthLimitingTextInputFormatter(3),
@@ -216,7 +328,10 @@ class _TaskServiceTakerRegisterPageState
                         label: 'Valor unitário',
                         hintText: '0,00',
                         errorText: controller.unitaryValueError,
-                        onChanged: controller.setUnitaryValue,
+                        onChanged: (value) async {
+                          controller.setUnitaryValue(value);
+                          calculatetime();
+                        },
                         initialValue: controller.unitaryValue,
                         keyboardType: TextInputType.number,
                         inputFormatters: [
@@ -229,83 +344,17 @@ class _TaskServiceTakerRegisterPageState
                   const SizedBox(width: 8),
                 ],
               ),
-              Observer(
-                builder: (_) => Row(
-                  children: [
-                    Text(
-                      'Total: ',
-                      style: context.textStyles.textBold,
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      '${controller.totalValue}',
-                      style: context.textStyles.textBold.copyWith(fontSize: 16),
-                    ),
-                  ],
-                ),
-              ),
-              const Divider(),
-              const SizedBox(
-                height: 4,
-              ),
-              // // Row(
-              // //   crossAxisAlignment: CrossAxisAlignment.center,
-              // //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              // //   children: [
-              // //     Row(
-              // //       crossAxisAlignment: CrossAxisAlignment.center,
-              // //       children: [
-              // //         Observer(
-              // //           builder: (_) => Checkbox(
-              // //             value: controller.calculateNightTime,
-              // //             onChanged: (value) =>
-              // //                 controller.setCalculateNightTime(value!),
-              // //           ),
-              // //         ),
-              // //         SizedBox(
-              // //           width: context.percentWidth(.4),
-              // //           child: const Text(
-              // //             'Calcular Horas Adicional Noturno na Produção',
-              // //           ),
-              // //         )
-              // //       ],
-              // //     ),
-              // //     Expanded(
-              // //       child: Padding(
-              // //         padding: const EdgeInsets.only(left: 8),
-              // //         child: Column(
-              // //           crossAxisAlignment: CrossAxisAlignment.start,
-              // //           children: [
-              // //             Text(
-              // //               'Horas Dias',
-              // //               style: context.textStyles.textBold,
-              // //             ),
-              // //             const SizedBox(height: 8),
-              // //             TextFormField(
-              // //               controller: hourDaysEC,
-              // //               onChanged: controller.setHourDays,
-              // //               decoration: InputDecoration(
-              // //                 errorText: controller.hourDaysError,
-              // //               ),
-              // //               keyboardType: TextInputType.number,
-              // //             ),
-              // //           ],
-              // //         ),
-              // //       ),
-              // //     ),
-              // //   ],
-              // // ),
-              // // Observer(
-              // //   builder: (_) => TextFieldWidget(
-              // //     controller: valuePayrollEC,
-              // //     label: 'Valor p/ Folha',
-              // //     hintText: '',
-              // //     errorText: controller.valuePayrollError,
-              // //     onChanged: controller.setValuePayroll,
-              // //     initialValue: controller.valuePayroll,
-              // //     keyboardType: TextInputType.number,
-              // //   ),
-              // // ),
+              // Observer(
+              //   builder: (_) => TextFieldWidget(
+              //     controller: valuePayrollEC,
+              //     label: 'Valor p/ Folha',
+              //     hintText: '',
+              //     errorText: controller.valuePayrollError,
+              //     onChanged: controller.setValuePayroll,
+              //     initialValue: controller.valuePayroll,
+              //     keyboardType: TextInputType.number,
+              //   ),
+              // ),
               Observer(
                 builder: (_) => TextFieldWidget(
                   label: 'Valor p/Fatura',
@@ -314,7 +363,7 @@ class _TaskServiceTakerRegisterPageState
                   errorText: controller.invoiceAmountError,
                   onChanged: controller.setInvoiceAmount,
                   initialValue: controller.invoiceAmount,
-                  keyboardType: TextInputType.number,
+                  // keyboardType: TextInputType.number,
                 ),
               ),
               Observer(
@@ -325,7 +374,7 @@ class _TaskServiceTakerRegisterPageState
                   errorText: controller.valueInvoiceError,
                   onChanged: controller.setValueInvoice,
                   initialValue: controller.valueInvoice,
-                  keyboardType: TextInputType.number,
+                  // keyboardType: TextInputType.number,
                 ),
               ),
               const SizedBox(

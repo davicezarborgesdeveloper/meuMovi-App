@@ -14,6 +14,7 @@ import '../../../../../core/widget/dropdown_widget.dart';
 import '../../../../../core/widget/register_success.dart';
 import '../../../../../core/widget/text_field_changed_widget.dart';
 import '../../../../../core/widget/text_field_widget.dart';
+import '../../../../../core/widget/title_bar_form.dart';
 import '../../../../../models/task_model.dart';
 import '../../../../auth/user_controller.dart';
 import 'task_register_controller.dart';
@@ -38,6 +39,8 @@ class _TasksSyndicateRegisterPageState extends State<TasksSyndicateRegisterPage>
   final descCostCenterEC = TextEditingController();
   final extraPercentageEC = TextEditingController();
   final invoiceAmountEC = TextEditingController();
+  final hourDaysEC = TextEditingController();
+  final hourUnitaryEC = TextEditingController();
   final valueInvoiceEC = TextEditingController();
   final valuePayrollEC = TextEditingController();
   final quantityEC = TextEditingController();
@@ -92,6 +95,7 @@ class _TasksSyndicateRegisterPageState extends State<TasksSyndicateRegisterPage>
     valueInvoiceEC.dispose();
     valuePayrollEC.dispose();
     quantityEC.dispose();
+    hourUnitaryEC.dispose();
     unitaryValueEC.dispose();
     servTakerEC.dispose();
     statusDisposer();
@@ -107,6 +111,49 @@ class _TasksSyndicateRegisterPageState extends State<TasksSyndicateRegisterPage>
       return employeerResult;
     } else {
       return null;
+    }
+  }
+
+  Future<void> calculatetime() async {
+    if (controller.quantity != null &&
+        controller.unitaryValue != null &&
+        controller.quantity!.isNotEmpty &&
+        controller.unitaryValue!.isNotEmpty) {
+      final quantity = int.tryParse(controller.quantity!)!;
+      final unitaryValue = double.tryParse(
+        controller.unitaryValue!.replaceAll('.', '').replaceAll(',', '.'),
+      );
+
+      double valueAmount = 0.0;
+      valueAmount = unitaryValue! * quantity;
+      if (controller.hourDays != null &&
+          controller.hourUnitary != null &&
+          controller.hourDays!.isNotEmpty &&
+          controller.hourUnitary!.isNotEmpty) {
+        final hourQuantity =
+            double.tryParse(controller.hourDays!.replaceAll(',', '.'))!;
+        final unitaryValue = double.tryParse(
+          controller.hourUnitary!.replaceAll('.', '').replaceAll(',', '.'),
+        );
+        valueAmount += unitaryValue! * hourQuantity;
+      }
+      final String valueText = UtilBrasilFields.obterReal(
+        valueAmount,
+        moeda: false,
+      );
+      controller.setInvoiceAmount(valueText);
+      controller.setValueInvoice(valueText);
+      controller.setValuePayroll(valueText);
+      valuePayrollEC.text = valueText;
+      valueInvoiceEC.text = valueText;
+
+      invoiceAmountEC.text = valueText;
+    } else {
+      valueInvoiceEC.clear();
+      invoiceAmountEC.clear();
+      controller.setInvoiceAmount(null);
+      controller.setValueInvoice(null);
+      controller.setValuePayroll(null);
     }
   }
 
@@ -129,6 +176,10 @@ class _TasksSyndicateRegisterPageState extends State<TasksSyndicateRegisterPage>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              TitleBarForm(
+                title: 'Informações Gerais',
+                titleColor: ColorsApp.i.primaryDark,
+              ),
               Observer(
                 builder: (_) => TextFieldWidget(
                   controller: descriptionServiceEC,
@@ -146,7 +197,7 @@ class _TasksSyndicateRegisterPageState extends State<TasksSyndicateRegisterPage>
                   hintText: '',
                   readOnly: true,
                   errorText: controller.servTakerError,
-                  initialValue: controller.servTaker!.name,
+                  initialValue: controller.servTaker?.name,
                   onTap: () async {
                     final result = await showDialogServTaker();
                     if (result != null) {
@@ -180,9 +231,11 @@ class _TasksSyndicateRegisterPageState extends State<TasksSyndicateRegisterPage>
                         hintText: '0,00',
                         onChanged: controller.setExtraPercentage,
                         initialValue: controller.extraPercentage,
-                        keyboardType: const TextInputType.numberWithOptions(
-                          decimal: true,
-                        ),
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                          CentavosInputFormatter(),
+                        ],
                       ),
                     ),
                   ),
@@ -197,6 +250,62 @@ class _TasksSyndicateRegisterPageState extends State<TasksSyndicateRegisterPage>
                   listOptions: ReportType.values,
                 ),
               ),
+              TitleBarForm(
+                title: 'Hora Extra',
+                titleColor: ColorsApp.i.primaryDark,
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: Observer(
+                      builder: (_) => TextFieldWidget(
+                        controller: hourDaysEC,
+                        label: 'Qtde. Horas',
+                        hintText: '0',
+                        onChanged: (value) async {
+                          controller.setHourDays(value);
+                          calculatetime();
+                        },
+                        initialValue: controller.hourDays,
+                        keyboardType: TextInputType.number,
+                        // inputFormatters: [
+                        //   FilteringTextInputFormatter.digitsOnly,
+                        //   CentavosInputFormatter(),
+                        // ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    flex: 4,
+                    child: Observer(
+                      builder: (_) => TextFieldWidget(
+                        controller: hourUnitaryEC,
+                        label: 'Valor unitário',
+                        hintText: '0,00',
+                        errorText: controller.hourUnitaryError,
+                        onChanged: (value) async {
+                          controller.setHourUnitary(value);
+                          calculatetime();
+                        },
+                        initialValue: controller.hourUnitary,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                          CentavosInputFormatter(),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                ],
+              ),
+              const SizedBox(height: 16),
+              TitleBarForm(
+                title: 'Valores da Tarefa',
+                titleColor: ColorsApp.i.primaryDark,
+              ),
               Row(
                 children: [
                   Expanded(
@@ -210,32 +319,7 @@ class _TasksSyndicateRegisterPageState extends State<TasksSyndicateRegisterPage>
                         errorText: controller.quantityError,
                         onChanged: (value) async {
                           controller.setQuantity(value);
-                          if (controller.quantity != null &&
-                              controller.unitaryValue != null &&
-                              controller.quantity!.isNotEmpty &&
-                              controller.unitaryValue!.isNotEmpty) {
-                            valuePayrollEC.text = UtilBrasilFields.obterReal(
-                              double.tryParse(
-                                    controller.unitaryValue!
-                                        .replaceAll('.', '')
-                                        .replaceAll(',', '.'),
-                                  )! *
-                                  int.tryParse(controller.quantity!)!,
-                              moeda: false,
-                            );
-                            controller.setInvoiceAmount(valuePayrollEC.text);
-                            controller.setValueInvoice(valuePayrollEC.text);
-                            controller.setValuePayroll(valuePayrollEC.text);
-                            invoiceAmountEC.text = valuePayrollEC.text;
-                            valueInvoiceEC.text = valuePayrollEC.text;
-                          } else {
-                            valuePayrollEC.clear();
-                            invoiceAmountEC.clear();
-                            valueInvoiceEC.clear();
-                            controller.setInvoiceAmount(null);
-                            controller.setValueInvoice(null);
-                            controller.setValuePayroll(null);
-                          }
+                          calculatetime();
                         },
                         initialValue: controller.quantity,
                         inputFormatters: [
@@ -256,34 +340,8 @@ class _TasksSyndicateRegisterPageState extends State<TasksSyndicateRegisterPage>
                         errorText: controller.unitaryValueError,
                         onChanged: (value) async {
                           controller.setUnitaryValue(value);
-                          if (controller.quantity != null &&
-                              controller.unitaryValue != null &&
-                              controller.quantity!.isNotEmpty &&
-                              controller.unitaryValue!.isNotEmpty) {
-                            valuePayrollEC.text = UtilBrasilFields.obterReal(
-                              double.tryParse(
-                                    controller.unitaryValue!
-                                        .replaceAll('.', '')
-                                        .replaceAll(',', '.'),
-                                  )! *
-                                  int.tryParse(controller.quantity!)!,
-                              moeda: false,
-                            );
-                            controller.setInvoiceAmount(valuePayrollEC.text);
-                            controller.setValueInvoice(valuePayrollEC.text);
-                            controller.setValuePayroll(valuePayrollEC.text);
-                            invoiceAmountEC.text = valuePayrollEC.text;
-                            valueInvoiceEC.text = valuePayrollEC.text;
-                          } else {
-                            valuePayrollEC.clear();
-                            invoiceAmountEC.clear();
-                            valueInvoiceEC.clear();
-                            controller.setInvoiceAmount(null);
-                            controller.setValueInvoice(null);
-                            controller.setValuePayroll(null);
-                          }
+                          calculatetime();
                         },
-                        // onChanged: controller.setUnitaryValue,
                         initialValue: controller.unitaryValue,
                         keyboardType: TextInputType.number,
                         inputFormatters: [

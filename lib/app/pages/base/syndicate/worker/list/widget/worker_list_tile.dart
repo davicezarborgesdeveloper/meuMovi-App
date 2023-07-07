@@ -31,7 +31,8 @@ class WorkerListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onLongPress: onLongPress,
+      // onLongPress: onLongPress,
+      onTap: onLongPress,
       child: Container(
         padding: const EdgeInsets.all(12),
         margin: const EdgeInsets.all(8),

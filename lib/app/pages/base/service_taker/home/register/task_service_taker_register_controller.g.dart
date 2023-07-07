@@ -48,13 +48,6 @@ mixin _$TaskServiceTakerRegisterController
       (_$reportTypeValidComputed ??= Computed<bool>(() => super.reportTypeValid,
               name: 'TaskServiceTakerRegisterControllerBase.reportTypeValid'))
           .value;
-  Computed<bool>? _$hourDaysValidComputed;
-
-  @override
-  bool get hourDaysValid =>
-      (_$hourDaysValidComputed ??= Computed<bool>(() => super.hourDaysValid,
-              name: 'TaskServiceTakerRegisterControllerBase.hourDaysValid'))
-          .value;
   Computed<bool>? _$invoiceAmountValidComputed;
 
   @override
@@ -83,6 +76,13 @@ mixin _$TaskServiceTakerRegisterController
   bool get unitaryValueValid => (_$unitaryValueValidComputed ??= Computed<bool>(
           () => super.unitaryValueValid,
           name: 'TaskServiceTakerRegisterControllerBase.unitaryValueValid'))
+      .value;
+  Computed<bool>? _$hourUnitaryValidComputed;
+
+  @override
+  bool get hourUnitaryValid => (_$hourUnitaryValidComputed ??= Computed<bool>(
+          () => super.hourUnitaryValid,
+          name: 'TaskServiceTakerRegisterControllerBase.hourUnitaryValid'))
       .value;
   Computed<bool>? _$isFormValidComputed;
 
@@ -275,23 +275,6 @@ mixin _$TaskServiceTakerRegisterController
     });
   }
 
-  late final _$calculateNightTimeAtom = Atom(
-      name: 'TaskServiceTakerRegisterControllerBase.calculateNightTime',
-      context: context);
-
-  @override
-  bool get calculateNightTime {
-    _$calculateNightTimeAtom.reportRead();
-    return super.calculateNightTime;
-  }
-
-  @override
-  set calculateNightTime(bool value) {
-    _$calculateNightTimeAtom.reportWrite(value, super.calculateNightTime, () {
-      super.calculateNightTime = value;
-    });
-  }
-
   late final _$hourDaysAtom = Atom(
       name: 'TaskServiceTakerRegisterControllerBase.hourDays',
       context: context);
@@ -306,6 +289,23 @@ mixin _$TaskServiceTakerRegisterController
   set hourDays(String? value) {
     _$hourDaysAtom.reportWrite(value, super.hourDays, () {
       super.hourDays = value;
+    });
+  }
+
+  late final _$hourUnitaryAtom = Atom(
+      name: 'TaskServiceTakerRegisterControllerBase.hourUnitary',
+      context: context);
+
+  @override
+  String? get hourUnitary {
+    _$hourUnitaryAtom.reportRead();
+    return super.hourUnitary;
+  }
+
+  @override
+  set hourUnitary(String? value) {
+    _$hourUnitaryAtom.reportWrite(value, super.hourUnitary, () {
+      super.hourUnitary = value;
     });
   }
 
@@ -380,22 +380,20 @@ mixin _$TaskServiceTakerRegisterController
     });
   }
 
-  late final _$_valuePayrollAtom = Atom(
-      name: 'TaskServiceTakerRegisterControllerBase._valuePayroll',
+  late final _$valuePayrollAtom = Atom(
+      name: 'TaskServiceTakerRegisterControllerBase.valuePayroll',
       context: context);
 
-  double? get valuePayroll {
-    _$_valuePayrollAtom.reportRead();
-    return super._valuePayroll;
+  @override
+  String? get valuePayroll {
+    _$valuePayrollAtom.reportRead();
+    return super.valuePayroll;
   }
 
   @override
-  double? get _valuePayroll => valuePayroll;
-
-  @override
-  set _valuePayroll(double? value) {
-    _$_valuePayrollAtom.reportWrite(value, super._valuePayroll, () {
-      super._valuePayroll = value;
+  set valuePayroll(String? value) {
+    _$valuePayrollAtom.reportWrite(value, super.valuePayroll, () {
+      super.valuePayroll = value;
     });
   }
 
@@ -449,23 +447,6 @@ mixin _$TaskServiceTakerRegisterController
   set unitaryValue(String? value) {
     _$unitaryValueAtom.reportWrite(value, super.unitaryValue, () {
       super.unitaryValue = value;
-    });
-  }
-
-  late final _$totalValueAtom = Atom(
-      name: 'TaskServiceTakerRegisterControllerBase.totalValue',
-      context: context);
-
-  @override
-  double? get totalValue {
-    _$totalValueAtom.reportRead();
-    return super.totalValue;
-  }
-
-  @override
-  set totalValue(double? value) {
-    _$totalValueAtom.reportWrite(value, super.totalValue, () {
-      super.totalValue = value;
     });
   }
 
@@ -562,20 +543,6 @@ mixin _$TaskServiceTakerRegisterController
   }
 
   @override
-  void setCalculateNightTime(bool value) {
-    final _$actionInfo =
-        _$TaskServiceTakerRegisterControllerBaseActionController.startAction(
-            name:
-                'TaskServiceTakerRegisterControllerBase.setCalculateNightTime');
-    try {
-      return super.setCalculateNightTime(value);
-    } finally {
-      _$TaskServiceTakerRegisterControllerBaseActionController
-          .endAction(_$actionInfo);
-    }
-  }
-
-  @override
   void setHourDays(String value) {
     final _$actionInfo =
         _$TaskServiceTakerRegisterControllerBaseActionController.startAction(
@@ -589,7 +556,20 @@ mixin _$TaskServiceTakerRegisterController
   }
 
   @override
-  void setInvoiceAmount(String value) {
+  void setHourUnitary(String value) {
+    final _$actionInfo =
+        _$TaskServiceTakerRegisterControllerBaseActionController.startAction(
+            name: 'TaskServiceTakerRegisterControllerBase.setHourUnitary');
+    try {
+      return super.setHourUnitary(value);
+    } finally {
+      _$TaskServiceTakerRegisterControllerBaseActionController
+          .endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setInvoiceAmount(String? value) {
     final _$actionInfo =
         _$TaskServiceTakerRegisterControllerBaseActionController.startAction(
             name: 'TaskServiceTakerRegisterControllerBase.setInvoiceAmount');
@@ -602,12 +582,25 @@ mixin _$TaskServiceTakerRegisterController
   }
 
   @override
-  void setValueInvoice(String value) {
+  void setValueInvoice(String? value) {
     final _$actionInfo =
         _$TaskServiceTakerRegisterControllerBaseActionController.startAction(
             name: 'TaskServiceTakerRegisterControllerBase.setValueInvoice');
     try {
       return super.setValueInvoice(value);
+    } finally {
+      _$TaskServiceTakerRegisterControllerBaseActionController
+          .endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setValuePayroll(String? value) {
+    final _$actionInfo =
+        _$TaskServiceTakerRegisterControllerBaseActionController.startAction(
+            name: 'TaskServiceTakerRegisterControllerBase.setValuePayroll');
+    try {
+      return super.setValuePayroll(value);
     } finally {
       _$TaskServiceTakerRegisterControllerBaseActionController
           .endAction(_$actionInfo);
@@ -662,23 +655,23 @@ descCostCenter: ${descCostCenter},
 extraPercentage: ${extraPercentage},
 productionType: ${productionType},
 reportType: ${reportType},
-calculateNightTime: ${calculateNightTime},
 hourDays: ${hourDays},
+hourUnitary: ${hourUnitary},
 invoiceAmount: ${invoiceAmount},
 valueInvoice: ${valueInvoice},
+valuePayroll: ${valuePayroll},
 quantity: ${quantity},
 unitaryValue: ${unitaryValue},
-totalValue: ${totalValue},
 descriptionServiceValid: ${descriptionServiceValid},
 descCostCenterValid: ${descCostCenterValid},
 productionTypeValid: ${productionTypeValid},
 extraPercentageValid: ${extraPercentageValid},
 reportTypeValid: ${reportTypeValid},
-hourDaysValid: ${hourDaysValid},
 invoiceAmountValid: ${invoiceAmountValid},
 valueInvoiceValid: ${valueInvoiceValid},
 quantityValid: ${quantityValid},
 unitaryValueValid: ${unitaryValueValid},
+hourUnitaryValid: ${hourUnitaryValid},
 isFormValid: ${isFormValid},
 sendPressed: ${sendPressed}
     ''';

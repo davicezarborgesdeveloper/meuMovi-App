@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:mobx/mobx.dart';
 
 import '../../../../../core/ui/helpers/enums.dart';
-import '../../../../../models/service_taker_model.dart';
 import '../../../../../models/task_model.dart';
 import '../../../../../services/task/task_service.dart';
 part 'task_register_controller.g.dart';
@@ -66,6 +65,15 @@ abstract class TaskRegisterControllerBase with Store {
   ServTakerModel? servTaker;
 
   @observable
+  bool calculateNightTime = false;
+
+  @observable
+  String? hourDays;
+
+  @observable
+  String? hourUnitary;
+
+  @observable
   String? syndicate;
 
   @readonly
@@ -103,6 +111,15 @@ abstract class TaskRegisterControllerBase with Store {
 
   @action
   void setServTaker(ServTakerModel? value) => servTaker = value;
+
+  @action
+  void setCalculateNightTime(bool value) => calculateNightTime = value;
+
+  @action
+  void setHourDays(String value) => hourDays = value;
+
+  @action
+  void setHourUnitary(String value) => hourUnitary = value;
 
   @computed
   bool get servTakerValid => servTaker != null;
@@ -170,6 +187,17 @@ abstract class TaskRegisterControllerBase with Store {
   }
 
   @computed
+  bool get hourDaysValid =>
+      calculateNightTime ? hourDays != null && hourDays!.isNotEmpty : true;
+  String? get hourDaysError {
+    if (!_showErrors || hourDaysValid) {
+      return null;
+    } else {
+      return 'Hora extra Obrigatória';
+    }
+  }
+
+  @computed
   bool get unitaryValueValid =>
       unitaryValue != null && unitaryValue!.isNotEmpty;
   String? get unitaryValueError {
@@ -213,6 +241,18 @@ abstract class TaskRegisterControllerBase with Store {
     }
   }
 
+  @computed
+  bool get hourUnitaryValid => hourDays != null || hourDays!.isNotEmpty
+      ? (hourUnitary != null && hourUnitary!.isNotEmpty)
+      : true;
+  String? get hourUnitaryError {
+    if (!_showErrors || hourUnitaryValid) {
+      return null;
+    } else {
+      return 'Valor unitário Obrigatório';
+    }
+  }
+
   @action
   void invalidSendPressed() => _showErrors = true;
 
@@ -224,6 +264,7 @@ abstract class TaskRegisterControllerBase with Store {
       quantityValid &&
       unitaryValueValid &&
       valueInvoiceValid &&
+      hourUnitaryValid &&
       invoiceAmountValid;
 
   @computed
@@ -243,15 +284,20 @@ abstract class TaskRegisterControllerBase with Store {
           name: servTaker!.name,
         ),
         reportType: reportType!,
+        hourDays: hourDays,
         valuePayroll: double.parse(
-            valuePayroll!.replaceAll('.', '').replaceAll(',', '.')),
+          valuePayroll!.replaceAll('.', '').replaceAll(',', '.'),
+        ),
         invoiceAmount: double.parse(
-            invoiceAmount!.replaceAll('.', '').replaceAll(',', '.')),
+          invoiceAmount!.replaceAll('.', '').replaceAll(',', '.'),
+        ),
         valueInvoice: double.parse(
-            valueInvoice!.replaceAll('.', '').replaceAll(',', '.')),
+          valueInvoice!.replaceAll('.', '').replaceAll(',', '.'),
+        ),
         syndicate: syndicate,
         quantity: int.tryParse(quantity!),
-        unitaryValue: double.tryParse(unitaryValue!),
+        unitaryValue: double.tryParse(unitaryValue!.replaceAll(',', '.')),
+        hourUnitary: double.tryParse(hourUnitary!.replaceAll(',', '.')),
         status: _statusTask ?? 0,
         access: _access ?? 1,
       );
@@ -272,6 +318,10 @@ abstract class TaskRegisterControllerBase with Store {
     valuePayroll = model.valuePayroll.toString();
     invoiceAmount = model.invoiceAmount.toString();
     valueInvoice = model.valueInvoice.toString();
+    hourDays = model.hourDays ?? '0,00';
+    quantity = model.quantity.toString();
+    unitaryValue = model.unitaryValue.toString().replaceAll('.', ',');
+    hourUnitary = model.hourUnitary.toString().replaceAll('.', ',');
     productionType = ProductionType.parse(model.productionType!.acronym);
     reportType = ReportType.parse(model.reportType!.acronym);
     servTaker = model.servTaker != null
@@ -284,7 +334,7 @@ abstract class TaskRegisterControllerBase with Store {
     _statusTask = model.status;
     syndicate = model.syndicate;
     quantity = model.quantity.toString();
-    unitaryValue = model.unitaryValue.toString();
+    unitaryValue = model.unitaryValue.toString().replaceAll('.', ',');
     _status = TaskRegisterStateStatus.loaded;
   }
 }

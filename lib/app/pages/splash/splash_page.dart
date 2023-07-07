@@ -23,7 +23,8 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await userCtrl.loadCurrentUser();
       statusDisposed = when((_) => userCtrl.isLoggedInKeep, () async {
         if (userCtrl.worker != null) {
           url = '/home/worker';

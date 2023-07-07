@@ -208,7 +208,11 @@ abstract class PersonalDataControllerBase with Store {
         ),
       );
       await WorkerService().workerUpdate(saveData);
-      _workerModel = saveData;
+      _workerModel = saveData.copyWith(
+        personal: saveData.personal
+            .copyWith(birthdate: DateFormat('dd/MM/yyyy').format(dt)),
+      );
+
       _status = PersonalDataStateStatus.saved;
     } on Exception catch (e, s) {
       log('Erro ao atualizar usuário', error: e, stackTrace: s);

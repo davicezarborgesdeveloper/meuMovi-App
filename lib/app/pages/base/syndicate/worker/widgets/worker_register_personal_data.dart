@@ -5,7 +5,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../../core/ui/styles/text_styles.dart';
-import '../../../../../core/widget/text_field_changed_widget.dart';
 import '../../../../../core/widget/text_field_widget.dart';
 import '../register/worker_syndicate_register_controller.dart';
 
@@ -125,7 +124,7 @@ class _WorkerRegisterPersonalDataState
                 TextFormField(
                   controller: widget.textControllers[2],
                   // initialValue: widget.controller.birthdate,
-                  // onChanged: widget.onChanged,
+                  onChanged: widget.controller.setBirthdate,
                   decoration: InputDecoration(
                     fillColor: Colors.white,
                     errorText: widget.controller.birthdateError,

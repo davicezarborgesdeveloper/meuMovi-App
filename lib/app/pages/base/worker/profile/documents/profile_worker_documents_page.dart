@@ -58,7 +58,7 @@ class _ProfileWorkerDocumentsPageState extends State<ProfileWorkerDocumentsPage>
             break;
         }
       });
-      dataEmissaoEC.text = controller.dataEmissao!;
+      dataEmissaoEC.text = controller.dataEmissao ?? '';
       // employeerEC.text = controller.employeer!.companyData.fantasyName ?? '';
     });
     super.initState();
@@ -190,7 +190,7 @@ class _ProfileWorkerDocumentsPageState extends State<ProfileWorkerDocumentsPage>
                       TextFormField(
                         controller: dataEmissaoEC,
                         // initialValue: controller.dataEmissao,
-                        // onChanged: widget.onChanged,
+                        onChanged: controller.setDataEmissao,
                         decoration: InputDecoration(
                           fillColor: Colors.white,
                           errorText: controller.dataEmissaoError,

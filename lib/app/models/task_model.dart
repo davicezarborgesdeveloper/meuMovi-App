@@ -12,8 +12,8 @@ class TaskModel {
   final ProductionType? productionType;
   final String? syndicate;
   final ReportType? reportType;
-  final bool? calculateNightTime;
   final String? hourDays;
+  final double? hourUnitary;
   final double? valuePayroll;
   final double invoiceAmount;
   final double? valueInvoice;
@@ -30,8 +30,8 @@ class TaskModel {
     this.productionType,
     this.syndicate,
     this.reportType,
-    this.calculateNightTime,
     this.hourDays,
+    this.hourUnitary,
     this.valuePayroll,
     required this.invoiceAmount,
     this.valueInvoice,
@@ -51,8 +51,8 @@ class TaskModel {
       'productionType': productionType?.acronym,
       'syndicate': syndicate,
       'reportType': reportType?.acronym,
-      'calculateNightTime': calculateNightTime,
       'hourDays': hourDays,
+      'hourUnitary': hourUnitary,
       'valuePayroll': valuePayroll,
       'invoiceAmount': invoiceAmount,
       'valueInvoice': valueInvoice,
@@ -81,13 +81,13 @@ class TaskModel {
       reportType: map['reportType'] != null
           ? ReportType.parse(map['reportType'])
           : null,
-      calculateNightTime: (map['calculateNightTime'] ?? false) as bool,
       hourDays: map['hourDays'] != null ? map['hourDays'] as String : null,
       valuePayroll: (map['valuePayroll'] ?? 0.0) as double,
       invoiceAmount: (map['invoiceAmount'] ?? 0.0) as double,
       valueInvoice: (map['valueInvoice'] ?? 0.0) as double,
       quantity: (map['quantity'] ?? 0) as int,
       unitaryValue: (map['unitaryValue'] ?? 0.0) as double,
+      hourUnitary: (map['hourUnitary'] ?? 0.0) as double,
       status: (map['status'] ?? 0) as int,
       access: (map['access'] ?? 0) as int,
     );
@@ -114,6 +114,7 @@ class TaskModel {
     double? valueInvoice,
     int? quantity,
     double? unitaryValue,
+    double? hourUnitary,
     int? status,
     int? access,
   }) {
@@ -126,13 +127,13 @@ class TaskModel {
       productionType: productionType ?? this.productionType,
       syndicate: syndicate ?? this.syndicate,
       reportType: reportType ?? this.reportType,
-      calculateNightTime: calculateNightTime ?? this.calculateNightTime,
       hourDays: hourDays ?? this.hourDays,
       valuePayroll: valuePayroll ?? this.valuePayroll,
       invoiceAmount: invoiceAmount ?? this.invoiceAmount,
       valueInvoice: valueInvoice ?? this.valueInvoice,
       quantity: quantity ?? this.quantity,
       unitaryValue: unitaryValue ?? this.unitaryValue,
+      hourUnitary: hourUnitary ?? this.hourUnitary,
       status: status ?? this.status,
       access: access ?? this.access,
     );

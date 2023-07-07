@@ -10,7 +10,6 @@ import '../../../../../../core/ui/helpers/loader.dart';
 import '../../../../../../core/ui/helpers/messages.dart';
 import '../../../../../../core/ui/styles/text_styles.dart';
 import '../../../../../../core/widget/dropdown_widget.dart';
-import '../../../../../../core/widget/text_field_changed_widget.dart';
 import '../../../../../../core/widget/text_field_widget.dart';
 import '../../../../../../models/worker_model.dart';
 import 'personal_data_controller.dart';
@@ -175,7 +174,7 @@ class _PersonalDataPageState extends State<PersonalDataPage>
                       TextFormField(
                         controller: birthdateEC,
                         // initialValue: controller.birthdate,
-                        // onChanged: onChanged,
+                        onChanged: controller.setBirthdate,
                         decoration: InputDecoration(
                           fillColor: Colors.white,
                           errorText: controller.birthdateError,

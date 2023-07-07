@@ -51,6 +51,11 @@ abstract class UserControllerBase with Store {
   void setSyndicate(SyndicateModel? value) => syndicate = value;
 
   @action
+  Future<void> loadCurrentUser() async {
+    getCurrentUser();
+  }
+
+  @action
   Future<void> getCurrentUser([String? userId]) async {
     if (userId != null) {
       final user = await UserService().getUserById(userId);
