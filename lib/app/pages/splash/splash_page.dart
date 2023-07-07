@@ -19,7 +19,7 @@ class _SplashPageState extends State<SplashPage> {
   late ReactionDisposer statusDisposed;
 
   bool _logged = false;
-  String url = '/home';
+  String url = '/auth/login';
 
   @override
   void initState() {

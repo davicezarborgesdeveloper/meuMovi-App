@@ -60,6 +60,7 @@ class _PersonalDataPageState extends State<PersonalDataPage>
             break;
         }
       });
+      birthdateEC.text = controller.birthdate!;
     });
     super.initState();
   }
@@ -143,21 +144,63 @@ class _PersonalDataPageState extends State<PersonalDataPage>
                   initialValue: controller.surname,
                 ),
               ),
+              // Observer(
+              //   builder: (_) => TextFieldChangedWidget(
+              //     controller: birthdateEC,
+              //     label: 'Data de Nascimento',
+              //     hintText: 'Data de Nascimento',
+              //     readOnly: true,
+              //     initialValue: controller.birthdate,
+              //     errorText: controller.birthdateError,
+              //     onTap: () async {
+              //       final result = await showDateDialog(controller.birthdate);
+              //       if (result != null) {
+              //         birthdateEC.text = result;
+              //         controller.setBirthdate(result);
+              //       }
+              //     },
+              //   ),
+              // ),
               Observer(
-                builder: (_) => TextFieldChangedWidget(
-                  controller: birthdateEC,
-                  label: 'Data de Nascimento',
-                  hintText: 'Data de Nascimento',
-                  readOnly: true,
-                  initialValue: controller.birthdate,
-                  errorText: controller.birthdateError,
-                  onTap: () async {
-                    final result = await showDateDialog(controller.birthdate);
-                    if (result != null) {
-                      birthdateEC.text = result;
-                      controller.setBirthdate(result);
-                    }
-                  },
+                builder: (_) => Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Data de Nascimento',
+                        style: context.textStyles.textBold,
+                      ),
+                      const SizedBox(height: 8),
+                      TextFormField(
+                        controller: birthdateEC,
+                        // initialValue: controller.birthdate,
+                        // onChanged: onChanged,
+                        decoration: InputDecoration(
+                          fillColor: Colors.white,
+                          errorText: controller.birthdateError,
+                          hintText: 'Data de Nascimento',
+                          suffixIcon: IconButton(
+                            icon: const Icon(Icons.date_range),
+                            onPressed: () async {
+                              final result =
+                                  await showDateDialog(controller.birthdate);
+                              if (result != null) {
+                                birthdateEC.text = result;
+                                controller.setBirthdate(result);
+                              }
+                            },
+                          ),
+                        ),
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                          DataInputFormatter(),
+                        ],
+
+                        // onTap: () {},
+                      )
+                    ],
+                  ),
                 ),
               ),
               Observer(

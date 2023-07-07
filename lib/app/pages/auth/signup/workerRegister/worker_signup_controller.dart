@@ -61,7 +61,7 @@ abstract class WorkerSignupControllerBase with Store {
   void setLastname(String value) => lastname = value;
 
   @action
-  void setBirthdate(String value) => birthdate = value;
+  void setBirthdate(String? value) => birthdate = value;
 
   @action
   void setEmail(String value) => email = value;

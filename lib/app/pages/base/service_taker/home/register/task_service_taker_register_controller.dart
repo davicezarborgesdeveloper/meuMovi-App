@@ -313,7 +313,7 @@ abstract class TaskServiceTakerRegisterControllerBase with Store {
     valueInvoice = model.valueInvoice.toString();
     productionType = ProductionType.parse(model.productionType!.acronym);
     reportType = ReportType.parse(model.reportType!.acronym);
-    calculateNightTime = model.calculateNightTime;
+    // calculateNightTime = model.calculateNightTime;
     quantity = model.quantity.toString();
     unitaryValue = model.unitaryValue.toString();
     totalValue = model.unitaryValue! * model.quantity!;

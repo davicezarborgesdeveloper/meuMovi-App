@@ -277,7 +277,7 @@ abstract class ServiceTakerSignupControllerBase with Store {
       );
       await ServiceTakerService().saveServiceTaker(user);
       await UserService().login(user.user, user.password, false);
-      GetIt.I<UserController>().getCurrentUser(user.user);
+      await GetIt.I<UserController>().getCurrentUser(user.user);
       _status = ServiceTakerSignupStateStatus.saved;
     } catch (e, s) {
       log('Erro ao registrar Tomadora', error: e, stackTrace: s);

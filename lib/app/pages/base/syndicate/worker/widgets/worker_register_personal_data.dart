@@ -1,4 +1,6 @@
+import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:intl/intl.dart';
 
@@ -92,21 +94,63 @@ class _WorkerRegisterPersonalDataState
             initialValue: widget.controller.lastname,
           ),
         ),
+        // Observer(
+        //   builder: (_) => TextFieldChangedWidget(
+        //     controller: widget.textControllers[2],
+        //     label: 'Data de Nascimento',
+        //     hintText: 'Data de Nascimento',
+        //     readOnly: true,
+        //     initialValue: widget.controller.birthdate,
+        //     errorText: widget.controller.birthdateError,
+        //     onTap: () async {
+        //       final result = await showDateDialog(widget.controller.birthdate);
+        //       if (result != null) {
+        //         widget.textControllers[2].text = result;
+        //         widget.controller.setBirthdate(result);
+        //       }
+        //     },
+        //   ),
+        // ),
         Observer(
-          builder: (_) => TextFieldChangedWidget(
-            controller: widget.textControllers[2],
-            label: 'Data de Nascimento',
-            hintText: 'Data de Nascimento',
-            readOnly: true,
-            initialValue: widget.controller.birthdate,
-            errorText: widget.controller.birthdateError,
-            onTap: () async {
-              final result = await showDateDialog(widget.controller.birthdate);
-              if (result != null) {
-                widget.textControllers[2].text = result;
-                widget.controller.setBirthdate(result);
-              }
-            },
+          builder: (_) => Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Data de Nascimento',
+                  style: context.textStyles.textBold,
+                ),
+                const SizedBox(height: 8),
+                TextFormField(
+                  controller: widget.textControllers[2],
+                  // initialValue: widget.controller.birthdate,
+                  // onChanged: widget.onChanged,
+                  decoration: InputDecoration(
+                    fillColor: Colors.white,
+                    errorText: widget.controller.birthdateError,
+                    hintText: 'Data de Nascimento',
+                    suffixIcon: IconButton(
+                      icon: const Icon(Icons.date_range),
+                      onPressed: () async {
+                        final result =
+                            await showDateDialog(widget.controller.birthdate);
+                        if (result != null) {
+                          widget.textControllers[2].text = result;
+                          widget.controller.setBirthdate(result);
+                        }
+                      },
+                    ),
+                  ),
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                    DataInputFormatter(),
+                  ],
+
+                  // onTap: () {},
+                )
+              ],
+            ),
           ),
         ),
         Observer(

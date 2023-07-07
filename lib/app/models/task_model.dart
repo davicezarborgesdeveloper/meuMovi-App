@@ -12,7 +12,7 @@ class TaskModel {
   final ProductionType? productionType;
   final String? syndicate;
   final ReportType? reportType;
-  final bool calculateNightTime;
+  final bool? calculateNightTime;
   final String? hourDays;
   final double? valuePayroll;
   final double invoiceAmount;
@@ -30,7 +30,7 @@ class TaskModel {
     this.productionType,
     this.syndicate,
     this.reportType,
-    required this.calculateNightTime,
+    this.calculateNightTime,
     this.hourDays,
     this.valuePayroll,
     required this.invoiceAmount,

@@ -29,38 +29,23 @@ abstract class TaskRegisterControllerBase with Store {
   @readonly
   bool _showErrors = false;
 
-  @readonly
-  String? _code;
-
   @observable
   String? descriptionService;
-
-  @observable
-  ServiceTakerModel? serviceTaker;
-
-  @observable
-  ServTakerModel? servTaker;
-
-  @observable
-  String? descCostCenter;
-
-  @observable
-  String? extraPercentage;
 
   @observable
   ProductionType? productionType;
 
   @observable
+  String? extraPercentage;
+
+  @observable
   ReportType? reportType;
 
   @observable
-  bool calculateNightTime = false;
+  String? quantity;
 
   @observable
-  String? hourDays;
-
-  @observable
-  String? valuePayroll;
+  String? unitaryValue;
 
   @observable
   String? invoiceAmount;
@@ -68,8 +53,8 @@ abstract class TaskRegisterControllerBase with Store {
   @observable
   String? valueInvoice;
 
-  @readonly
-  String? _syndicate;
+  @observable
+  String? valuePayroll;
 
   @readonly
   int? _access;
@@ -78,25 +63,16 @@ abstract class TaskRegisterControllerBase with Store {
   int? _statusTask;
 
   @observable
-  String? quantity;
+  ServTakerModel? servTaker;
+
+  @observable
+  String? syndicate;
 
   @readonly
-  double? _unitaryValue;
-
-  @readonly
-  double? _totalValue;
+  String? _code;
 
   @action
   void setDescriptionService(String value) => descriptionService = value;
-
-  @action
-  void setServiceTaker(ServiceTakerModel? value) => serviceTaker = value;
-
-  @action
-  void setServTaker(ServTakerModel? value) => servTaker = value;
-
-  @action
-  void setDescCostCenter(String value) => descCostCenter = value;
 
   @action
   void setProductionType(ProductionType? value) => productionType = value;
@@ -108,25 +84,33 @@ abstract class TaskRegisterControllerBase with Store {
   void setReportType(ReportType? value) => reportType = value;
 
   @action
-  void setCalculateNightTime(bool value) => calculateNightTime = value;
+  void setSyndicate(String value) => syndicate = value;
 
   @action
-  void setHourDays(String value) => hourDays = value;
+  void setQuantity(String? value) => quantity = value;
 
   @action
-  void setValuePayroll(String value) => valuePayroll = value;
+  void setUnitaryValue(String value) => unitaryValue = value;
 
   @action
-  void setInvoiceAmount(String value) => invoiceAmount = value;
+  void setInvoiceAmount(String? value) => invoiceAmount = value;
 
   @action
-  void setValueInvoice(String value) => valueInvoice = value;
+  void setValueInvoice(String? value) => valueInvoice = value;
 
   @action
-  void setQuantity(String? value) {
-    quantity = value;
-    if (quantity != null) {
-      _totalValue = _unitaryValue! * int.tryParse(quantity!)!;
+  void setValuePayroll(String? value) => valuePayroll = value;
+
+  @action
+  void setServTaker(ServTakerModel? value) => servTaker = value;
+
+  @computed
+  bool get servTakerValid => servTaker != null;
+  String? get servTakerError {
+    if (!_showErrors || servTakerValid) {
+      return null;
+    } else {
+      return 'Tomadora Obrigatória';
     }
   }
 
@@ -142,29 +126,7 @@ abstract class TaskRegisterControllerBase with Store {
   }
 
   @computed
-  bool get serviceTakerValid => serviceTaker != null && serviceTaker != null;
-  String? get serviceTakerError {
-    if (!_showErrors || serviceTakerValid) {
-      return null;
-    } else {
-      return 'Tomadora de Serviço Obrigatório';
-    }
-  }
-
-  @computed
-  bool get descCostCenterValid =>
-      descCostCenter != null && descCostCenter != null;
-  String? get descCostCenterError {
-    if (!_showErrors || descCostCenterValid) {
-      return null;
-    } else {
-      return 'Descrição Centro de Custo Obrigatória';
-    }
-  }
-
-  @computed
-  bool get productionTypeValid =>
-      productionType != null && productionType != null;
+  bool get productionTypeValid => productionType != null;
   String? get productionTypeError {
     if (!_showErrors || productionTypeValid) {
       return null;
@@ -195,34 +157,26 @@ abstract class TaskRegisterControllerBase with Store {
   }
 
   @computed
-  bool get servTakerValid => servTaker != null;
-  String? get servTakerError {
-    if (!_showErrors || servTakerValid) {
+  bool get quantityValid =>
+      quantity != null && quantity!.isNotEmpty && quantity != '0';
+  String? get quantityError {
+    if (!_showErrors || quantityValid) {
       return null;
+    } else if (quantity == '0') {
+      return 'inválida';
     } else {
-      return 'Tomadora Obrigatória';
+      return 'Obrigatorio';
     }
   }
 
   @computed
-  bool get hourDaysValid =>
-      calculateNightTime ? hourDays != null && hourDays!.isNotEmpty : true;
-  String? get hourDaysError {
-    if (!_showErrors || hourDaysValid) {
+  bool get unitaryValueValid =>
+      unitaryValue != null && unitaryValue!.isNotEmpty;
+  String? get unitaryValueError {
+    if (!_showErrors || unitaryValueValid) {
       return null;
     } else {
-      return 'Hora extra Obrigatória';
-    }
-  }
-
-  @computed
-  bool get valuePayrollValid =>
-      valuePayroll != null && valuePayroll!.isNotEmpty;
-  String? get valuePayrollError {
-    if (!_showErrors || valuePayrollValid) {
-      return null;
-    } else {
-      return 'Valor para Folha Obrigatória';
+      return 'Valor unitário Obrigatório';
     }
   }
 
@@ -249,15 +203,13 @@ abstract class TaskRegisterControllerBase with Store {
   }
 
   @computed
-  bool get quantityValid =>
-      quantity != null && quantity!.isNotEmpty && quantity != '0';
-  String? get quantityError {
-    if (!_showErrors || quantityValid) {
+  bool get valuePayrollValid =>
+      valuePayroll != null && valuePayroll!.isNotEmpty;
+  String? get valuePayrollError {
+    if (!_showErrors || valuePayrollValid) {
       return null;
-    } else if (quantity == '0') {
-      return 'inválida';
     } else {
-      return 'Obrigatorio';
+      return 'Valor para folha Obrigatória';
     }
   }
 
@@ -269,10 +221,10 @@ abstract class TaskRegisterControllerBase with Store {
       descriptionServiceValid &&
       productionTypeValid &&
       reportTypeValid &&
-      hourDaysValid &&
-      valuePayrollValid &&
-      invoiceAmountValid &&
-      valueInvoiceValid;
+      quantityValid &&
+      unitaryValueValid &&
+      valueInvoiceValid &&
+      invoiceAmountValid;
 
   @computed
   dynamic get sendPressed => isFormValid ? register : null;
@@ -284,22 +236,24 @@ abstract class TaskRegisterControllerBase with Store {
       final task = TaskModel(
         code: _code,
         descriptionService: descriptionService!,
-        descCostCenter: descCostCenter,
-        extraPercentage: extraPercentage ?? '0.00',
         productionType: productionType!,
+        extraPercentage: extraPercentage ?? '0.00',
         servTaker: ServTakerModel(
           code: servTaker!.code,
           name: servTaker!.name,
         ),
         reportType: reportType!,
-        calculateNightTime: calculateNightTime,
-        hourDays: hourDays,
-        valuePayroll: double.parse(valuePayroll!.replaceAll(',', '.')),
-        invoiceAmount: double.parse(invoiceAmount!.replaceAll(',', '.')),
-        valueInvoice: double.parse(valueInvoice!.replaceAll(',', '.')),
-        syndicate: _syndicate,
+        valuePayroll: double.parse(
+            valuePayroll!.replaceAll('.', '').replaceAll(',', '.')),
+        invoiceAmount: double.parse(
+            invoiceAmount!.replaceAll('.', '').replaceAll(',', '.')),
+        valueInvoice: double.parse(
+            valueInvoice!.replaceAll('.', '').replaceAll(',', '.')),
+        syndicate: syndicate,
+        quantity: int.tryParse(quantity!),
+        unitaryValue: double.tryParse(unitaryValue!),
         status: _statusTask ?? 0,
-        access: _access ?? 0,
+        access: _access ?? 1,
       );
       await TaskService().save(task);
       _status = TaskRegisterStateStatus.saved;
@@ -314,9 +268,7 @@ abstract class TaskRegisterControllerBase with Store {
     _status = TaskRegisterStateStatus.loading;
     _code = model!.code;
     descriptionService = model.descriptionService;
-    descCostCenter = model.descCostCenter;
     extraPercentage = model.extraPercentage;
-    hourDays = model.hourDays ?? '0,00';
     valuePayroll = model.valuePayroll.toString();
     invoiceAmount = model.invoiceAmount.toString();
     valueInvoice = model.valueInvoice.toString();
@@ -330,11 +282,9 @@ abstract class TaskRegisterControllerBase with Store {
         : ServTakerModel(code: '', name: '');
     _access = model.access;
     _statusTask = model.status;
-    _syndicate = model.syndicate;
-    valueInvoice = model.valueInvoice.toString();
-    _status = TaskRegisterStateStatus.loaded;
+    syndicate = model.syndicate;
     quantity = model.quantity.toString();
-    _unitaryValue = model.unitaryValue;
-    _totalValue = model.unitaryValue! * model.quantity!;
+    unitaryValue = model.unitaryValue.toString();
+    _status = TaskRegisterStateStatus.loaded;
   }
 }

@@ -165,6 +165,21 @@ class _TaskDashboardPageState extends State<TaskDashboardPage>
           ),
         ),
         iconTheme: IconThemeData(color: ColorsApp.i.primary),
+        actions: [
+          IconButton(
+            onPressed: () async {
+              await Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => const TasksSyndicateRegisterPage(),
+                ),
+              );
+              await controller.getTasks(
+                widget.userController.syndicate!.user,
+              );
+            },
+            icon: const Icon(Icons.add),
+          ),
+        ],
       ),
       drawer: const MenuDrawer(),
       body: SingleChildScrollView(

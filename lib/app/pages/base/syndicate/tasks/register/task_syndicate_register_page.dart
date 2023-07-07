@@ -1,15 +1,18 @@
+import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
-import '../../../../../core/extensions/formatter_extensions.dart';
+import '../../../../../core/ui/helpers/enums.dart';
 import '../../../../../core/ui/helpers/loader.dart';
 import '../../../../../core/ui/helpers/messages.dart';
 import '../../../../../core/ui/styles/colors_app.dart';
 import '../../../../../core/ui/styles/text_styles.dart';
+import '../../../../../core/widget/dropdown_widget.dart';
 import '../../../../../core/widget/register_success.dart';
+import '../../../../../core/widget/text_field_changed_widget.dart';
 import '../../../../../core/widget/text_field_widget.dart';
 import '../../../../../models/task_model.dart';
 import '../../../../auth/user_controller.dart';
@@ -28,26 +31,25 @@ class TasksSyndicateRegisterPage extends StatefulWidget {
 class _TasksSyndicateRegisterPageState extends State<TasksSyndicateRegisterPage>
     with Loader, Messages {
   final UserController userCtrl = GetIt.I<UserController>();
-  late final TaskRegisterController controller = TaskRegisterController();
+  final TaskRegisterController controller = TaskRegisterController();
   late final ReactionDisposer statusDisposer;
   final descriptionServiceEC = TextEditingController();
   final companyNamEC = TextEditingController();
   final descCostCenterEC = TextEditingController();
   final extraPercentageEC = TextEditingController();
-  final hourDaysEC = TextEditingController();
-  final valuePayrollEC = TextEditingController();
   final invoiceAmountEC = TextEditingController();
   final valueInvoiceEC = TextEditingController();
+  final valuePayrollEC = TextEditingController();
   final quantityEC = TextEditingController();
-  final employeerEC = TextEditingController();
+  final unitaryValueEC = TextEditingController();
+  final servTakerEC = TextEditingController();
 
   @override
   void initState() {
     if (widget.task != null) {
       controller.loadData(widget.task);
     }
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       statusDisposer = reaction((_) => controller.status, (status) async {
         switch (status) {
           case TaskRegisterStateStatus.initial:
@@ -75,8 +77,25 @@ class _TasksSyndicateRegisterPageState extends State<TasksSyndicateRegisterPage>
             break;
         }
       });
+      controller.setSyndicate(userCtrl.syndicate!.user);
     });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    descriptionServiceEC.dispose();
+    companyNamEC.dispose();
+    descCostCenterEC.dispose();
+    extraPercentageEC.dispose();
+    invoiceAmountEC.dispose();
+    valueInvoiceEC.dispose();
+    valuePayrollEC.dispose();
+    quantityEC.dispose();
+    unitaryValueEC.dispose();
+    servTakerEC.dispose();
+    statusDisposer();
+    super.dispose();
   }
 
   Future<ServTakerModel?> showDialogServTaker() async {
@@ -92,29 +111,15 @@ class _TasksSyndicateRegisterPageState extends State<TasksSyndicateRegisterPage>
   }
 
   @override
-  void dispose() {
-    descriptionServiceEC.dispose();
-    companyNamEC.dispose();
-    descCostCenterEC.dispose();
-    extraPercentageEC.dispose();
-    hourDaysEC.dispose();
-    valuePayrollEC.dispose();
-    invoiceAmountEC.dispose();
-    valueInvoiceEC.dispose();
-    quantityEC.dispose();
-    statusDisposer();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: ColorsApp.i.bg,
         title: Text(
           'Tarefas',
-          style:
-              context.textStyles.textBold.copyWith(color: ColorsApp.i.primary),
+          style: context.textStyles.textBold.copyWith(
+            color: ColorsApp.i.primary,
+          ),
         ),
         iconTheme: IconThemeData(color: ColorsApp.i.primary),
       ),
@@ -124,76 +129,78 @@ class _TasksSyndicateRegisterPageState extends State<TasksSyndicateRegisterPage>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Descrição do Serviço',
-                style: context.textStyles.textBold,
+              Observer(
+                builder: (_) => TextFieldWidget(
+                  controller: descriptionServiceEC,
+                  label: 'Descrição do Serviço',
+                  hintText: '',
+                  errorText: controller.descriptionServiceError,
+                  onChanged: controller.setDescriptionService,
+                  initialValue: controller.descriptionService,
+                ),
               ),
-              const SizedBox(height: 4),
-              Text(
-                controller.descriptionService!,
-                style: context.textStyles.textRegular.copyWith(fontSize: 16),
+              Observer(
+                builder: (_) => TextFieldChangedWidget(
+                  controller: servTakerEC,
+                  label: 'Tomadora',
+                  hintText: '',
+                  readOnly: true,
+                  errorText: controller.servTakerError,
+                  initialValue: controller.servTaker!.name,
+                  onTap: () async {
+                    final result = await showDialogServTaker();
+                    if (result != null) {
+                      servTakerEC.text = result.name;
+                      controller.setServTaker(result);
+                    }
+                  },
+                ),
               ),
-              const SizedBox(height: 12),
-              Text(
-                'Tomadora',
-                style: context.textStyles.textBold,
-              ),
-              const SizedBox(height: 4),
-              Text(
-                controller.servTaker!.name,
-                style: context.textStyles.textRegular.copyWith(fontSize: 16),
-              ),
-              const SizedBox(height: 12),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Tipo de Produção',
-                        style: context.textStyles.textBold,
+                  Observer(
+                    builder: (_) => Expanded(
+                      flex: 4,
+                      child: DropdownWidget(
+                        label: 'Tipo de Produção',
+                        statusSelected: controller.productionType,
+                        onSave: controller.setProductionType,
+                        errorText: controller.productionTypeError,
+                        listOptions: ProductionType.values,
                       ),
-                      const SizedBox(height: 4),
-                      Text(
-                        controller.productionType!.name,
-                        style: context.textStyles.textRegular
-                            .copyWith(fontSize: 16),
-                      ),
-                    ],
+                    ),
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Percentual Extras',
-                        style: context.textStyles.textBold,
+                  const SizedBox(width: 8),
+                  Expanded(
+                    flex: 2,
+                    child: Observer(
+                      builder: (_) => TextFieldWidget(
+                        controller: extraPercentageEC,
+                        label: 'Percentual Extras',
+                        hintText: '0,00',
+                        onChanged: controller.setExtraPercentage,
+                        initialValue: controller.extraPercentage,
+                        keyboardType: const TextInputType.numberWithOptions(
+                          decimal: true,
+                        ),
                       ),
-                      const SizedBox(height: 4),
-                      Text(
-                        controller.extraPercentage ?? '0.00',
-                        style: context.textStyles.textRegular
-                            .copyWith(fontSize: 16),
-                      ),
-                    ],
+                    ),
                   ),
                 ],
               ),
-              const SizedBox(height: 12),
-              Text(
-                'Informe',
-                style: context.textStyles.textBold,
-              ),
-              const SizedBox(height: 4),
-              Text(
-                controller.reportType!.name,
-                style: context.textStyles.textRegular.copyWith(fontSize: 16),
+              Observer(
+                builder: (_) => DropdownWidget(
+                  label: 'Informe',
+                  statusSelected: controller.reportType,
+                  onSave: controller.setReportType,
+                  errorText: controller.reportTypeError,
+                  listOptions: ReportType.values,
+                ),
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SizedBox(
-                    width: 70,
+                  Expanded(
+                    flex: 2,
                     child: Observer(
                       builder: (_) => TextFieldWidget(
                         controller: quantityEC,
@@ -201,7 +208,35 @@ class _TasksSyndicateRegisterPageState extends State<TasksSyndicateRegisterPage>
                         hintText: '0',
                         keyboardType: TextInputType.number,
                         errorText: controller.quantityError,
-                        onChanged: controller.setQuantity,
+                        onChanged: (value) async {
+                          controller.setQuantity(value);
+                          if (controller.quantity != null &&
+                              controller.unitaryValue != null &&
+                              controller.quantity!.isNotEmpty &&
+                              controller.unitaryValue!.isNotEmpty) {
+                            valuePayrollEC.text = UtilBrasilFields.obterReal(
+                              double.tryParse(
+                                    controller.unitaryValue!
+                                        .replaceAll('.', '')
+                                        .replaceAll(',', '.'),
+                                  )! *
+                                  int.tryParse(controller.quantity!)!,
+                              moeda: false,
+                            );
+                            controller.setInvoiceAmount(valuePayrollEC.text);
+                            controller.setValueInvoice(valuePayrollEC.text);
+                            controller.setValuePayroll(valuePayrollEC.text);
+                            invoiceAmountEC.text = valuePayrollEC.text;
+                            valueInvoiceEC.text = valuePayrollEC.text;
+                          } else {
+                            valuePayrollEC.clear();
+                            invoiceAmountEC.clear();
+                            valueInvoiceEC.clear();
+                            controller.setInvoiceAmount(null);
+                            controller.setValueInvoice(null);
+                            controller.setValuePayroll(null);
+                          }
+                        },
                         initialValue: controller.quantity,
                         inputFormatters: [
                           LengthLimitingTextInputFormatter(3),
@@ -210,107 +245,62 @@ class _TasksSyndicateRegisterPageState extends State<TasksSyndicateRegisterPage>
                       ),
                     ),
                   ),
-                  // Column(
-                  //   crossAxisAlignment: CrossAxisAlignment.start,
-                  //   children: [
-                  //     Text(
-                  //       'Qtde.',
-                  //       style: context.textStyles.textBold,
-                  //     ),
-                  //     const SizedBox(height: 4),
-                  //     Text(
-                  //       '${controller.quantity}',
-                  //       style: context.textStyles.textRegular
-                  //           .copyWith(fontSize: 16),
-                  //     ),
-                  //   ],
-                  // ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Valor unitário',
-                        style: context.textStyles.textBold,
+                  const SizedBox(width: 8),
+                  Expanded(
+                    flex: 4,
+                    child: Observer(
+                      builder: (_) => TextFieldWidget(
+                        controller: unitaryValueEC,
+                        label: 'Valor unitário',
+                        hintText: '0,00',
+                        errorText: controller.unitaryValueError,
+                        onChanged: (value) async {
+                          controller.setUnitaryValue(value);
+                          if (controller.quantity != null &&
+                              controller.unitaryValue != null &&
+                              controller.quantity!.isNotEmpty &&
+                              controller.unitaryValue!.isNotEmpty) {
+                            valuePayrollEC.text = UtilBrasilFields.obterReal(
+                              double.tryParse(
+                                    controller.unitaryValue!
+                                        .replaceAll('.', '')
+                                        .replaceAll(',', '.'),
+                                  )! *
+                                  int.tryParse(controller.quantity!)!,
+                              moeda: false,
+                            );
+                            controller.setInvoiceAmount(valuePayrollEC.text);
+                            controller.setValueInvoice(valuePayrollEC.text);
+                            controller.setValuePayroll(valuePayrollEC.text);
+                            invoiceAmountEC.text = valuePayrollEC.text;
+                            valueInvoiceEC.text = valuePayrollEC.text;
+                          } else {
+                            valuePayrollEC.clear();
+                            invoiceAmountEC.clear();
+                            valueInvoiceEC.clear();
+                            controller.setInvoiceAmount(null);
+                            controller.setValueInvoice(null);
+                            controller.setValuePayroll(null);
+                          }
+                        },
+                        // onChanged: controller.setUnitaryValue,
+                        initialValue: controller.unitaryValue,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                          CentavosInputFormatter(),
+                        ],
                       ),
-                      const SizedBox(height: 4),
-                      Text(
-                        controller.unitaryValue!.currencyPTBR,
-                        style: context.textStyles.textRegular
-                            .copyWith(fontSize: 16),
-                      ),
-                    ],
+                    ),
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Valor total',
-                        style: context.textStyles.textBold,
-                      ),
-                      const SizedBox(height: 4),
-                      Observer(
-                        builder: (_) => Text(
-                          controller.totalValue!.currencyPTBR,
-                          style: context.textStyles.textRegular
-                              .copyWith(fontSize: 16),
-                        ),
-                      ),
-                    ],
-                  ),
+                  const SizedBox(width: 8),
                 ],
               ),
-              // Row(
-              //   crossAxisAlignment: CrossAxisAlignment.center,
-              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //   children: [
-              //     Row(
-              //       crossAxisAlignment: CrossAxisAlignment.center,
-              //       children: [
-              //         Observer(
-              //           builder: (_) => Checkbox(
-              //             value: controller.calculateNightTime,
-              //             onChanged: (value) =>
-              //                 controller.setCalculateNightTime(value!),
-              //           ),
-              //         ),
-              //         SizedBox(
-              //           width: context.percentWidth(.4),
-              //           child: const Text(
-              //             'Calcular Horas Adicional Noturno na Produção',
-              //           ),
-              //         )
-              //       ],
-              //     ),
-              //     Expanded(
-              //       child: Padding(
-              //         padding: const EdgeInsets.only(left: 8),
-              //         child: Column(
-              //           crossAxisAlignment: CrossAxisAlignment.start,
-              //           children: [
-              //             Text(
-              //               'Horas Dias',
-              //               style: context.textStyles.textBold,
-              //             ),
-              //             const SizedBox(height: 8),
-              //             TextFormField(
-              //               controller: hourDaysEC,
-              //               onChanged: controller.setHourDays,
-              //               decoration: InputDecoration(
-              //                 errorText: controller.hourDaysError,
-              //               ),
-              //               keyboardType: TextInputType.number,
-              //             ),
-              //           ],
-              //         ),
-              //       ),
-              //     ),
-              //   ],
-              // ),
               Observer(
                 builder: (_) => TextFieldWidget(
-                  controller: valuePayrollEC,
-                  label: 'Valor p/ Folha',
+                  label: 'Valor p/Folha',
                   hintText: '',
+                  controller: valuePayrollEC,
                   errorText: controller.valuePayrollError,
                   onChanged: controller.setValuePayroll,
                   initialValue: controller.valuePayroll,
@@ -349,11 +339,12 @@ class _TasksSyndicateRegisterPageState extends State<TasksSyndicateRegisterPage>
                   child: GestureDetector(
                     onTap: controller.invalidSendPressed,
                     child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: ColorsApp.i.primary,
-                      ),
                       onPressed: controller.sendPressed,
-                      child: const Text('Confirmar cadastro'),
+                      child: Text(
+                        widget.task != null
+                            ? 'Alterar Cadastro'
+                            : 'Confirmar cadastro',
+                      ),
                     ),
                   ),
                 ),

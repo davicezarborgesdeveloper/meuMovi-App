@@ -41,7 +41,7 @@ class _SyndicateRegisterPageState extends State<SyndicateRegisterPage>
           case SyndicateRegisterStateStatus.saved:
             hideLoader();
             Navigator.of(context)
-                .pushNamedAndRemoveUntil('/home', (route) => false);
+                .pushNamedAndRemoveUntil('/home/syndicate', (route) => false);
             break;
           case SyndicateRegisterStateStatus.error:
             hideLoader();

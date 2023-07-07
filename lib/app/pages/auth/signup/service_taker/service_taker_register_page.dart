@@ -48,8 +48,10 @@ class _ServiceTakerRegisterPageState extends State<ServiceTakerRegisterPage>
             break;
           case ServiceTakerSignupStateStatus.saved:
             hideLoader();
-            Navigator.of(context)
-                .pushNamedAndRemoveUntil('/home', (route) => false);
+            Navigator.of(context).pushNamedAndRemoveUntil(
+              '/home/serviceTaker',
+              (route) => false,
+            );
             break;
           case ServiceTakerSignupStateStatus.error:
             hideLoader();

@@ -58,6 +58,7 @@ class _ProfileWorkerDocumentsPageState extends State<ProfileWorkerDocumentsPage>
             break;
         }
       });
+      dataEmissaoEC.text = controller.dataEmissao!;
       // employeerEC.text = controller.employeer!.companyData.fantasyName ?? '';
     });
     super.initState();
@@ -158,21 +159,63 @@ class _ProfileWorkerDocumentsPageState extends State<ProfileWorkerDocumentsPage>
                   initialValue: controller.orgaoEmissor,
                 ),
               ),
+              // Observer(
+              //   builder: (_) => TextFieldChangedWidget(
+              //     controller: dataEmissaoEC,
+              //     label: 'Data de Emissão',
+              //     hintText: 'dd/mm/aaaa',
+              //     readOnly: true,
+              //     initialValue: controller.dataEmissao,
+              //     errorText: controller.dataEmissaoError,
+              //     onTap: () async {
+              //       final result = await showDateDialog(controller.dataEmissao);
+              //       if (result != null) {
+              //         dataEmissaoEC.text = result;
+              //         controller.setDataEmissao(result);
+              //       }
+              //     },
+              //   ),
+              // ),
               Observer(
-                builder: (_) => TextFieldChangedWidget(
-                  controller: dataEmissaoEC,
-                  label: 'Data de Emissão',
-                  hintText: 'dd/mm/aaaa',
-                  readOnly: true,
-                  initialValue: controller.dataEmissao,
-                  errorText: controller.dataEmissaoError,
-                  onTap: () async {
-                    final result = await showDateDialog(controller.dataEmissao);
-                    if (result != null) {
-                      dataEmissaoEC.text = result;
-                      controller.setDataEmissao(result);
-                    }
-                  },
+                builder: (_) => Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Data de Emissão',
+                        style: context.textStyles.textBold,
+                      ),
+                      const SizedBox(height: 8),
+                      TextFormField(
+                        controller: dataEmissaoEC,
+                        // initialValue: controller.dataEmissao,
+                        // onChanged: widget.onChanged,
+                        decoration: InputDecoration(
+                          fillColor: Colors.white,
+                          errorText: controller.dataEmissaoError,
+                          hintText: 'dd/mm/aaaa',
+                          suffixIcon: IconButton(
+                            icon: const Icon(Icons.date_range),
+                            onPressed: () async {
+                              final result =
+                                  await showDateDialog(controller.dataEmissao);
+                              if (result != null) {
+                                dataEmissaoEC.text = result;
+                                controller.setDataEmissao(result);
+                              }
+                            },
+                          ),
+                        ),
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                          DataInputFormatter(),
+                        ],
+
+                        // onTap: () {},
+                      )
+                    ],
+                  ),
                 ),
               ),
               Observer(

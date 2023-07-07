@@ -501,7 +501,7 @@ mixin _$WorkerSignupController on WorkerSignupControllerBase, Store {
   }
 
   @override
-  void setBirthdate(String value) {
+  void setBirthdate(String? value) {
     final _$actionInfo = _$WorkerSignupControllerBaseActionController
         .startAction(name: 'WorkerSignupControllerBase.setBirthdate');
     try {

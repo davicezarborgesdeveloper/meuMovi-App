@@ -9,26 +9,19 @@ part of 'task_register_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$TaskRegisterController on TaskRegisterControllerBase, Store {
+  Computed<bool>? _$servTakerValidComputed;
+
+  @override
+  bool get servTakerValid =>
+      (_$servTakerValidComputed ??= Computed<bool>(() => super.servTakerValid,
+              name: 'TaskRegisterControllerBase.servTakerValid'))
+          .value;
   Computed<bool>? _$descriptionServiceValidComputed;
 
   @override
   bool get descriptionServiceValid => (_$descriptionServiceValidComputed ??=
           Computed<bool>(() => super.descriptionServiceValid,
               name: 'TaskRegisterControllerBase.descriptionServiceValid'))
-      .value;
-  Computed<bool>? _$serviceTakerValidComputed;
-
-  @override
-  bool get serviceTakerValid => (_$serviceTakerValidComputed ??= Computed<bool>(
-          () => super.serviceTakerValid,
-          name: 'TaskRegisterControllerBase.serviceTakerValid'))
-      .value;
-  Computed<bool>? _$descCostCenterValidComputed;
-
-  @override
-  bool get descCostCenterValid => (_$descCostCenterValidComputed ??=
-          Computed<bool>(() => super.descCostCenterValid,
-              name: 'TaskRegisterControllerBase.descCostCenterValid'))
       .value;
   Computed<bool>? _$productionTypeValidComputed;
 
@@ -51,26 +44,19 @@ mixin _$TaskRegisterController on TaskRegisterControllerBase, Store {
       (_$reportTypeValidComputed ??= Computed<bool>(() => super.reportTypeValid,
               name: 'TaskRegisterControllerBase.reportTypeValid'))
           .value;
-  Computed<bool>? _$servTakerValidComputed;
+  Computed<bool>? _$quantityValidComputed;
 
   @override
-  bool get servTakerValid =>
-      (_$servTakerValidComputed ??= Computed<bool>(() => super.servTakerValid,
-              name: 'TaskRegisterControllerBase.servTakerValid'))
+  bool get quantityValid =>
+      (_$quantityValidComputed ??= Computed<bool>(() => super.quantityValid,
+              name: 'TaskRegisterControllerBase.quantityValid'))
           .value;
-  Computed<bool>? _$hourDaysValidComputed;
+  Computed<bool>? _$unitaryValueValidComputed;
 
   @override
-  bool get hourDaysValid =>
-      (_$hourDaysValidComputed ??= Computed<bool>(() => super.hourDaysValid,
-              name: 'TaskRegisterControllerBase.hourDaysValid'))
-          .value;
-  Computed<bool>? _$valuePayrollValidComputed;
-
-  @override
-  bool get valuePayrollValid => (_$valuePayrollValidComputed ??= Computed<bool>(
-          () => super.valuePayrollValid,
-          name: 'TaskRegisterControllerBase.valuePayrollValid'))
+  bool get unitaryValueValid => (_$unitaryValueValidComputed ??= Computed<bool>(
+          () => super.unitaryValueValid,
+          name: 'TaskRegisterControllerBase.unitaryValueValid'))
       .value;
   Computed<bool>? _$invoiceAmountValidComputed;
 
@@ -86,13 +72,13 @@ mixin _$TaskRegisterController on TaskRegisterControllerBase, Store {
           () => super.valueInvoiceValid,
           name: 'TaskRegisterControllerBase.valueInvoiceValid'))
       .value;
-  Computed<bool>? _$quantityValidComputed;
+  Computed<bool>? _$valuePayrollValidComputed;
 
   @override
-  bool get quantityValid =>
-      (_$quantityValidComputed ??= Computed<bool>(() => super.quantityValid,
-              name: 'TaskRegisterControllerBase.quantityValid'))
-          .value;
+  bool get valuePayrollValid => (_$valuePayrollValidComputed ??= Computed<bool>(
+          () => super.valuePayrollValid,
+          name: 'TaskRegisterControllerBase.valuePayrollValid'))
+      .value;
   Computed<bool>? _$isFormValidComputed;
 
   @override
@@ -162,24 +148,6 @@ mixin _$TaskRegisterController on TaskRegisterControllerBase, Store {
     });
   }
 
-  late final _$_codeAtom =
-      Atom(name: 'TaskRegisterControllerBase._code', context: context);
-
-  String? get code {
-    _$_codeAtom.reportRead();
-    return super._code;
-  }
-
-  @override
-  String? get _code => code;
-
-  @override
-  set _code(String? value) {
-    _$_codeAtom.reportWrite(value, super._code, () {
-      super._code = value;
-    });
-  }
-
   late final _$descriptionServiceAtom = Atom(
       name: 'TaskRegisterControllerBase.descriptionService', context: context);
 
@@ -193,70 +161,6 @@ mixin _$TaskRegisterController on TaskRegisterControllerBase, Store {
   set descriptionService(String? value) {
     _$descriptionServiceAtom.reportWrite(value, super.descriptionService, () {
       super.descriptionService = value;
-    });
-  }
-
-  late final _$serviceTakerAtom =
-      Atom(name: 'TaskRegisterControllerBase.serviceTaker', context: context);
-
-  @override
-  ServiceTakerModel? get serviceTaker {
-    _$serviceTakerAtom.reportRead();
-    return super.serviceTaker;
-  }
-
-  @override
-  set serviceTaker(ServiceTakerModel? value) {
-    _$serviceTakerAtom.reportWrite(value, super.serviceTaker, () {
-      super.serviceTaker = value;
-    });
-  }
-
-  late final _$servTakerAtom =
-      Atom(name: 'TaskRegisterControllerBase.servTaker', context: context);
-
-  @override
-  ServTakerModel? get servTaker {
-    _$servTakerAtom.reportRead();
-    return super.servTaker;
-  }
-
-  @override
-  set servTaker(ServTakerModel? value) {
-    _$servTakerAtom.reportWrite(value, super.servTaker, () {
-      super.servTaker = value;
-    });
-  }
-
-  late final _$descCostCenterAtom =
-      Atom(name: 'TaskRegisterControllerBase.descCostCenter', context: context);
-
-  @override
-  String? get descCostCenter {
-    _$descCostCenterAtom.reportRead();
-    return super.descCostCenter;
-  }
-
-  @override
-  set descCostCenter(String? value) {
-    _$descCostCenterAtom.reportWrite(value, super.descCostCenter, () {
-      super.descCostCenter = value;
-    });
-  }
-
-  late final _$extraPercentageAtom = Atom(
-      name: 'TaskRegisterControllerBase.extraPercentage', context: context);
-
-  @override
-  String? get extraPercentage {
-    _$extraPercentageAtom.reportRead();
-    return super.extraPercentage;
-  }
-
-  @override
-  set extraPercentage(String? value) {
-    _$extraPercentageAtom.reportWrite(value, super.extraPercentage, () {
-      super.extraPercentage = value;
     });
   }
 
@@ -276,6 +180,22 @@ mixin _$TaskRegisterController on TaskRegisterControllerBase, Store {
     });
   }
 
+  late final _$extraPercentageAtom = Atom(
+      name: 'TaskRegisterControllerBase.extraPercentage', context: context);
+
+  @override
+  String? get extraPercentage {
+    _$extraPercentageAtom.reportRead();
+    return super.extraPercentage;
+  }
+
+  @override
+  set extraPercentage(String? value) {
+    _$extraPercentageAtom.reportWrite(value, super.extraPercentage, () {
+      super.extraPercentage = value;
+    });
+  }
+
   late final _$reportTypeAtom =
       Atom(name: 'TaskRegisterControllerBase.reportType', context: context);
 
@@ -292,51 +212,35 @@ mixin _$TaskRegisterController on TaskRegisterControllerBase, Store {
     });
   }
 
-  late final _$calculateNightTimeAtom = Atom(
-      name: 'TaskRegisterControllerBase.calculateNightTime', context: context);
+  late final _$quantityAtom =
+      Atom(name: 'TaskRegisterControllerBase.quantity', context: context);
 
   @override
-  bool get calculateNightTime {
-    _$calculateNightTimeAtom.reportRead();
-    return super.calculateNightTime;
+  String? get quantity {
+    _$quantityAtom.reportRead();
+    return super.quantity;
   }
 
   @override
-  set calculateNightTime(bool value) {
-    _$calculateNightTimeAtom.reportWrite(value, super.calculateNightTime, () {
-      super.calculateNightTime = value;
+  set quantity(String? value) {
+    _$quantityAtom.reportWrite(value, super.quantity, () {
+      super.quantity = value;
     });
   }
 
-  late final _$hourDaysAtom =
-      Atom(name: 'TaskRegisterControllerBase.hourDays', context: context);
+  late final _$unitaryValueAtom =
+      Atom(name: 'TaskRegisterControllerBase.unitaryValue', context: context);
 
   @override
-  String? get hourDays {
-    _$hourDaysAtom.reportRead();
-    return super.hourDays;
+  String? get unitaryValue {
+    _$unitaryValueAtom.reportRead();
+    return super.unitaryValue;
   }
 
   @override
-  set hourDays(String? value) {
-    _$hourDaysAtom.reportWrite(value, super.hourDays, () {
-      super.hourDays = value;
-    });
-  }
-
-  late final _$valuePayrollAtom =
-      Atom(name: 'TaskRegisterControllerBase.valuePayroll', context: context);
-
-  @override
-  String? get valuePayroll {
-    _$valuePayrollAtom.reportRead();
-    return super.valuePayroll;
-  }
-
-  @override
-  set valuePayroll(String? value) {
-    _$valuePayrollAtom.reportWrite(value, super.valuePayroll, () {
-      super.valuePayroll = value;
+  set unitaryValue(String? value) {
+    _$unitaryValueAtom.reportWrite(value, super.unitaryValue, () {
+      super.unitaryValue = value;
     });
   }
 
@@ -372,21 +276,19 @@ mixin _$TaskRegisterController on TaskRegisterControllerBase, Store {
     });
   }
 
-  late final _$_syndicateAtom =
-      Atom(name: 'TaskRegisterControllerBase._syndicate', context: context);
+  late final _$valuePayrollAtom =
+      Atom(name: 'TaskRegisterControllerBase.valuePayroll', context: context);
 
-  String? get syndicate {
-    _$_syndicateAtom.reportRead();
-    return super._syndicate;
+  @override
+  String? get valuePayroll {
+    _$valuePayrollAtom.reportRead();
+    return super.valuePayroll;
   }
 
   @override
-  String? get _syndicate => syndicate;
-
-  @override
-  set _syndicate(String? value) {
-    _$_syndicateAtom.reportWrite(value, super._syndicate, () {
-      super._syndicate = value;
+  set valuePayroll(String? value) {
+    _$valuePayrollAtom.reportWrite(value, super.valuePayroll, () {
+      super.valuePayroll = value;
     });
   }
 
@@ -426,55 +328,53 @@ mixin _$TaskRegisterController on TaskRegisterControllerBase, Store {
     });
   }
 
-  late final _$quantityAtom =
-      Atom(name: 'TaskRegisterControllerBase.quantity', context: context);
+  late final _$servTakerAtom =
+      Atom(name: 'TaskRegisterControllerBase.servTaker', context: context);
 
   @override
-  String? get quantity {
-    _$quantityAtom.reportRead();
-    return super.quantity;
+  ServTakerModel? get servTaker {
+    _$servTakerAtom.reportRead();
+    return super.servTaker;
   }
 
   @override
-  set quantity(String? value) {
-    _$quantityAtom.reportWrite(value, super.quantity, () {
-      super.quantity = value;
+  set servTaker(ServTakerModel? value) {
+    _$servTakerAtom.reportWrite(value, super.servTaker, () {
+      super.servTaker = value;
     });
   }
 
-  late final _$_unitaryValueAtom =
-      Atom(name: 'TaskRegisterControllerBase._unitaryValue', context: context);
+  late final _$syndicateAtom =
+      Atom(name: 'TaskRegisterControllerBase.syndicate', context: context);
 
-  double? get unitaryValue {
-    _$_unitaryValueAtom.reportRead();
-    return super._unitaryValue;
+  @override
+  String? get syndicate {
+    _$syndicateAtom.reportRead();
+    return super.syndicate;
   }
 
   @override
-  double? get _unitaryValue => unitaryValue;
-
-  @override
-  set _unitaryValue(double? value) {
-    _$_unitaryValueAtom.reportWrite(value, super._unitaryValue, () {
-      super._unitaryValue = value;
+  set syndicate(String? value) {
+    _$syndicateAtom.reportWrite(value, super.syndicate, () {
+      super.syndicate = value;
     });
   }
 
-  late final _$_totalValueAtom =
-      Atom(name: 'TaskRegisterControllerBase._totalValue', context: context);
+  late final _$_codeAtom =
+      Atom(name: 'TaskRegisterControllerBase._code', context: context);
 
-  double? get totalValue {
-    _$_totalValueAtom.reportRead();
-    return super._totalValue;
+  String? get code {
+    _$_codeAtom.reportRead();
+    return super._code;
   }
 
   @override
-  double? get _totalValue => totalValue;
+  String? get _code => code;
 
   @override
-  set _totalValue(double? value) {
-    _$_totalValueAtom.reportWrite(value, super._totalValue, () {
-      super._totalValue = value;
+  set _code(String? value) {
+    _$_codeAtom.reportWrite(value, super._code, () {
+      super._code = value;
     });
   }
 
@@ -495,39 +395,6 @@ mixin _$TaskRegisterController on TaskRegisterControllerBase, Store {
         .startAction(name: 'TaskRegisterControllerBase.setDescriptionService');
     try {
       return super.setDescriptionService(value);
-    } finally {
-      _$TaskRegisterControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void setServiceTaker(ServiceTakerModel? value) {
-    final _$actionInfo = _$TaskRegisterControllerBaseActionController
-        .startAction(name: 'TaskRegisterControllerBase.setServiceTaker');
-    try {
-      return super.setServiceTaker(value);
-    } finally {
-      _$TaskRegisterControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void setServTaker(ServTakerModel? value) {
-    final _$actionInfo = _$TaskRegisterControllerBaseActionController
-        .startAction(name: 'TaskRegisterControllerBase.setServTaker');
-    try {
-      return super.setServTaker(value);
-    } finally {
-      _$TaskRegisterControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void setDescCostCenter(String value) {
-    final _$actionInfo = _$TaskRegisterControllerBaseActionController
-        .startAction(name: 'TaskRegisterControllerBase.setDescCostCenter');
-    try {
-      return super.setDescCostCenter(value);
     } finally {
       _$TaskRegisterControllerBaseActionController.endAction(_$actionInfo);
     }
@@ -567,55 +434,11 @@ mixin _$TaskRegisterController on TaskRegisterControllerBase, Store {
   }
 
   @override
-  void setCalculateNightTime(bool value) {
+  void setSyndicate(String value) {
     final _$actionInfo = _$TaskRegisterControllerBaseActionController
-        .startAction(name: 'TaskRegisterControllerBase.setCalculateNightTime');
+        .startAction(name: 'TaskRegisterControllerBase.setSyndicate');
     try {
-      return super.setCalculateNightTime(value);
-    } finally {
-      _$TaskRegisterControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void setHourDays(String value) {
-    final _$actionInfo = _$TaskRegisterControllerBaseActionController
-        .startAction(name: 'TaskRegisterControllerBase.setHourDays');
-    try {
-      return super.setHourDays(value);
-    } finally {
-      _$TaskRegisterControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void setValuePayroll(String value) {
-    final _$actionInfo = _$TaskRegisterControllerBaseActionController
-        .startAction(name: 'TaskRegisterControllerBase.setValuePayroll');
-    try {
-      return super.setValuePayroll(value);
-    } finally {
-      _$TaskRegisterControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void setInvoiceAmount(String value) {
-    final _$actionInfo = _$TaskRegisterControllerBaseActionController
-        .startAction(name: 'TaskRegisterControllerBase.setInvoiceAmount');
-    try {
-      return super.setInvoiceAmount(value);
-    } finally {
-      _$TaskRegisterControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void setValueInvoice(String value) {
-    final _$actionInfo = _$TaskRegisterControllerBaseActionController
-        .startAction(name: 'TaskRegisterControllerBase.setValueInvoice');
-    try {
-      return super.setValueInvoice(value);
+      return super.setSyndicate(value);
     } finally {
       _$TaskRegisterControllerBaseActionController.endAction(_$actionInfo);
     }
@@ -627,6 +450,61 @@ mixin _$TaskRegisterController on TaskRegisterControllerBase, Store {
         .startAction(name: 'TaskRegisterControllerBase.setQuantity');
     try {
       return super.setQuantity(value);
+    } finally {
+      _$TaskRegisterControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setUnitaryValue(String value) {
+    final _$actionInfo = _$TaskRegisterControllerBaseActionController
+        .startAction(name: 'TaskRegisterControllerBase.setUnitaryValue');
+    try {
+      return super.setUnitaryValue(value);
+    } finally {
+      _$TaskRegisterControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setInvoiceAmount(String? value) {
+    final _$actionInfo = _$TaskRegisterControllerBaseActionController
+        .startAction(name: 'TaskRegisterControllerBase.setInvoiceAmount');
+    try {
+      return super.setInvoiceAmount(value);
+    } finally {
+      _$TaskRegisterControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setValueInvoice(String? value) {
+    final _$actionInfo = _$TaskRegisterControllerBaseActionController
+        .startAction(name: 'TaskRegisterControllerBase.setValueInvoice');
+    try {
+      return super.setValueInvoice(value);
+    } finally {
+      _$TaskRegisterControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setValuePayroll(String? value) {
+    final _$actionInfo = _$TaskRegisterControllerBaseActionController
+        .startAction(name: 'TaskRegisterControllerBase.setValuePayroll');
+    try {
+      return super.setValuePayroll(value);
+    } finally {
+      _$TaskRegisterControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setServTaker(ServTakerModel? value) {
+    final _$actionInfo = _$TaskRegisterControllerBaseActionController
+        .startAction(name: 'TaskRegisterControllerBase.setServTaker');
+    try {
+      return super.setServTaker(value);
     } finally {
       _$TaskRegisterControllerBaseActionController.endAction(_$actionInfo);
     }
@@ -647,30 +525,26 @@ mixin _$TaskRegisterController on TaskRegisterControllerBase, Store {
   String toString() {
     return '''
 descriptionService: ${descriptionService},
-serviceTaker: ${serviceTaker},
-servTaker: ${servTaker},
-descCostCenter: ${descCostCenter},
-extraPercentage: ${extraPercentage},
 productionType: ${productionType},
+extraPercentage: ${extraPercentage},
 reportType: ${reportType},
-calculateNightTime: ${calculateNightTime},
-hourDays: ${hourDays},
-valuePayroll: ${valuePayroll},
+quantity: ${quantity},
+unitaryValue: ${unitaryValue},
 invoiceAmount: ${invoiceAmount},
 valueInvoice: ${valueInvoice},
-quantity: ${quantity},
+valuePayroll: ${valuePayroll},
+servTaker: ${servTaker},
+syndicate: ${syndicate},
+servTakerValid: ${servTakerValid},
 descriptionServiceValid: ${descriptionServiceValid},
-serviceTakerValid: ${serviceTakerValid},
-descCostCenterValid: ${descCostCenterValid},
 productionTypeValid: ${productionTypeValid},
 extraPercentageValid: ${extraPercentageValid},
 reportTypeValid: ${reportTypeValid},
-servTakerValid: ${servTakerValid},
-hourDaysValid: ${hourDaysValid},
-valuePayrollValid: ${valuePayrollValid},
+quantityValid: ${quantityValid},
+unitaryValueValid: ${unitaryValueValid},
 invoiceAmountValid: ${invoiceAmountValid},
 valueInvoiceValid: ${valueInvoiceValid},
-quantityValid: ${quantityValid},
+valuePayrollValid: ${valuePayrollValid},
 isFormValid: ${isFormValid},
 sendPressed: ${sendPressed}
     ''';

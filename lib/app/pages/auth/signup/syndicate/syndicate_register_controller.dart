@@ -326,7 +326,7 @@ abstract class SyndicateRegisterControllerBase with Store {
       // final
       await SyndicateService().saveSyndicate(user);
       await UserService().login(user.user, user.password, false);
-      GetIt.I<UserController>().getCurrentUser(user.user);
+      await GetIt.I<UserController>().getCurrentUser(user.user);
       _status = SyndicateRegisterStateStatus.saved;
     } catch (e, s) {
       log('Erro ao registrar usuário', error: e, stackTrace: s);
