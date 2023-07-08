@@ -221,9 +221,7 @@ abstract class TaskServiceTakerRegisterControllerBase with Store {
   }
 
   @computed
-  bool get hourUnitaryValid => hourDays != null || hourDays!.isNotEmpty
-      ? (hourUnitary != null && hourUnitary!.isNotEmpty)
-      : true;
+  bool get hourUnitaryValid => hourDays != null ? hourUnitary != null : true;
   String? get hourUnitaryError {
     if (!_showErrors || hourUnitaryValid) {
       return null;

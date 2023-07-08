@@ -9,7 +9,12 @@ import '../syndicate_register_controller.dart';
 
 class SyndicateRegisterInitialDataPage extends StatefulWidget {
   final SyndicateRegisterController controller;
-  const SyndicateRegisterInitialDataPage(this.controller, {super.key});
+  final List<TextEditingController> editController;
+  const SyndicateRegisterInitialDataPage(
+    this.controller,
+    this.editController, {
+    super.key,
+  });
 
   @override
   State<SyndicateRegisterInitialDataPage> createState() =>
@@ -42,6 +47,7 @@ class _SyndicateRegisterInitialDataPageState
         ),
         Observer(
           builder: (_) => TextFieldWidget(
+            controller: widget.editController[0],
             label: 'Razão Social',
             hintText: 'Digite a razão social',
             errorText: widget.controller.corporateNameError,
@@ -51,6 +57,7 @@ class _SyndicateRegisterInitialDataPageState
         ),
         Observer(
           builder: (_) => TextFieldWidget(
+            controller: widget.editController[1],
             label: 'Nome Fantasia',
             hintText: 'Digite o nome fantasia',
             errorText: widget.controller.fantasyNameError,
@@ -60,6 +67,7 @@ class _SyndicateRegisterInitialDataPageState
         ),
         Observer(
           builder: (_) => TextFieldWidget(
+            controller: widget.editController[2],
             label: 'CNPJ',
             hintText: 'Digite o CNPJ',
             errorText: widget.controller.cnpjError,
@@ -74,6 +82,7 @@ class _SyndicateRegisterInitialDataPageState
         ),
         Observer(
           builder: (_) => TextFieldWidget(
+            controller: widget.editController[3],
             label: 'Senha',
             hintText: 'Crie uma senha',
             errorText: widget.controller.passwordError,
@@ -84,6 +93,7 @@ class _SyndicateRegisterInitialDataPageState
         ),
         Observer(
           builder: (_) => TextFieldWidget(
+            controller: widget.editController[4],
             label: 'Confirmar a senha',
             hintText: 'Confirme sua senha',
             errorText: widget.controller.retypePassError,

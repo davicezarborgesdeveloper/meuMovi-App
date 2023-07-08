@@ -210,8 +210,6 @@ abstract class ServiceTakerSignupControllerBase with Store {
   String? get employeerError {
     if (!_showErrors || employeerValid) {
       return null;
-      // } else if (employeer == null || email!.isEmpty) {
-      //   return 'Campo obrigatório';
     } else {
       return 'Empregadora Obrigatória';
     }

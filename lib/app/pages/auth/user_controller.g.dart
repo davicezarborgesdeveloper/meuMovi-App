@@ -106,6 +106,14 @@ mixin _$UserController on UserControllerBase, Store {
     });
   }
 
+  late final _$loadCurrentUserAsyncAction =
+      AsyncAction('UserControllerBase.loadCurrentUser', context: context);
+
+  @override
+  Future<void> loadCurrentUser() {
+    return _$loadCurrentUserAsyncAction.run(() => super.loadCurrentUser());
+  }
+
   late final _$getCurrentUserAsyncAction =
       AsyncAction('UserControllerBase.getCurrentUser', context: context);
 

@@ -8,7 +8,10 @@ import '../../../../../core/ui/helpers/loader.dart';
 import '../../../../../core/ui/helpers/messages.dart';
 import '../../../../../core/ui/styles/colors_app.dart';
 import '../../../../../core/ui/styles/text_styles.dart';
+import '../../../../../core/widget/text_field_changed_widget.dart';
 import '../../../../../core/widget/text_field_widget.dart';
+import '../../../../../models/worker_model.dart';
+import '../../../worker/profile/documents/widgets/employeer_picker.dart';
 import 'service_taker_edit_data_controller.dart';
 
 class ServiceTakerEditDataPage extends StatefulWidget {
@@ -26,6 +29,7 @@ class _ServiceTakerEditDataPageState extends State<ServiceTakerEditDataPage>
   late final ReactionDisposer statusDisposer;
   final companyNameEC = TextEditingController();
   final fantasyNameEC = TextEditingController();
+  final employeerEC = TextEditingController();
   final cnpjEC = TextEditingController();
   final nameEC = TextEditingController();
   final phoneEC = TextEditingController();
@@ -33,6 +37,10 @@ class _ServiceTakerEditDataPageState extends State<ServiceTakerEditDataPage>
   final zipEC = TextEditingController();
   final numberEC = TextEditingController();
   final cityEC = TextEditingController();
+  final passEC = TextEditingController();
+  final retypassEC = TextEditingController();
+  final focusPassword = FocusNode();
+  final focusRetypePass = FocusNode();
 
   @override
   void initState() {
@@ -49,8 +57,7 @@ class _ServiceTakerEditDataPageState extends State<ServiceTakerEditDataPage>
             break;
           case ServiceTakerEditDataStateStatus.saved:
             hideLoader();
-            Navigator.of(context)
-                .pushNamedAndRemoveUntil('/home', (route) => false);
+            Navigator.pop(context);
             break;
           case ServiceTakerEditDataStateStatus.error:
             hideLoader();
@@ -60,6 +67,18 @@ class _ServiceTakerEditDataPageState extends State<ServiceTakerEditDataPage>
       });
     });
     super.initState();
+  }
+
+  Future<EmployeerModel?> showDialogEmployeer() async {
+    final employeerResult = await showDialog(
+      context: context,
+      builder: (context) => const EmployeerPicker(),
+    );
+    if (employeerResult != null) {
+      return employeerResult;
+    } else {
+      return null;
+    }
   }
 
   @override
@@ -73,6 +92,11 @@ class _ServiceTakerEditDataPageState extends State<ServiceTakerEditDataPage>
     zipEC.dispose();
     numberEC.dispose();
     cityEC.dispose();
+    passEC.dispose();
+    retypassEC.dispose();
+    employeerEC.dispose();
+    focusPassword.dispose();
+    focusRetypePass.dispose();
     statusDisposer();
     super.dispose();
   }
@@ -85,10 +109,10 @@ class _ServiceTakerEditDataPageState extends State<ServiceTakerEditDataPage>
         title: Text(
           'Tomadora de Serviços',
           style: context.textStyles.textBold
-              .copyWith(fontSize: 18, color: Colors.black),
+              .copyWith(fontSize: 18, color: ColorsApp.i.secondary),
         ),
         centerTitle: true,
-        iconTheme: const IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: ColorsApp.i.secondary),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -114,6 +138,23 @@ class _ServiceTakerEditDataPageState extends State<ServiceTakerEditDataPage>
                   errorText: controller.companyNameError,
                   onChanged: controller.setCompanyName,
                   initialValue: controller.companyName,
+                ),
+              ),
+              Observer(
+                builder: (_) => TextFieldChangedWidget(
+                  controller: employeerEC,
+                  label: 'Empregadora',
+                  hintText: '',
+                  readOnly: true,
+                  initialValue: controller.employeer?.name,
+                  errorText: controller.employeerError,
+                  onTap: () async {
+                    final result = await showDialogEmployeer();
+                    if (result != null) {
+                      employeerEC.text = result.name;
+                      controller.setEmployeer(result);
+                    }
+                  },
                 ),
               ),
               Observer(
@@ -230,6 +271,7 @@ class _ServiceTakerEditDataPageState extends State<ServiceTakerEditDataPage>
               ),
               Observer(
                 builder: (_) => TextFieldWidget(
+                  controller: passEC,
                   label: 'Senha',
                   hintText: 'Crie uma senha',
                   errorText: controller.passwordError,
@@ -240,6 +282,7 @@ class _ServiceTakerEditDataPageState extends State<ServiceTakerEditDataPage>
               ),
               Observer(
                 builder: (_) => TextFieldWidget(
+                  controller: retypassEC,
                   label: 'Confirmar a senha',
                   hintText: 'Confirme sua senha',
                   errorText: controller.retypePassError,

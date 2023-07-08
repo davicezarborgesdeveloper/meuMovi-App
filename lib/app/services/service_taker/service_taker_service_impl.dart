@@ -37,7 +37,7 @@ class ServiceTakerServiceImpl implements ServiceTakerService {
       final map = doc.data() as Map<String, dynamic>;
       if (map['profileType'] == 0) {
         if (userId != null) {
-          if (map['employeer']['code'] == userId) {
+          if (map['employeer'] != null && map['employeer']['code'] == userId) {
             serviceTakerList.add(ServiceTakerModel.fromMap(map));
           }
         } else {

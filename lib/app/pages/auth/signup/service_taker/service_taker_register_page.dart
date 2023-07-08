@@ -77,6 +77,9 @@ class _ServiceTakerRegisterPageState extends State<ServiceTakerRegisterPage>
 
   @override
   void dispose() {
+    employeerEC.dispose();
+    focusPassword.dispose();
+    focusRetypePass.dispose();
     statusDisposer();
     super.dispose();
   }

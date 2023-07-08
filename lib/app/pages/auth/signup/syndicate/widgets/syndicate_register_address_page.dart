@@ -13,7 +13,12 @@ import '../syndicate_register_controller.dart';
 
 class SyndicateRegisterAddressPage extends StatefulWidget {
   final SyndicateRegisterController controller;
-  const SyndicateRegisterAddressPage(this.controller, {super.key});
+  final List<TextEditingController> editController;
+  const SyndicateRegisterAddressPage(
+    this.controller,
+    this.editController, {
+    super.key,
+  });
 
   @override
   State<SyndicateRegisterAddressPage> createState() =>
@@ -22,17 +27,8 @@ class SyndicateRegisterAddressPage extends StatefulWidget {
 
 class _SyndicateRegisterAddressPageState
     extends State<SyndicateRegisterAddressPage> {
-  final cityEC = TextEditingController();
-  final stateEC = TextEditingController();
-  final streetEC = TextEditingController();
-  final districtEC = TextEditingController();
-
   @override
   void dispose() {
-    cityEC.dispose();
-    stateEC.dispose();
-    streetEC.dispose();
-    districtEC.dispose();
     super.dispose();
   }
 
@@ -60,6 +56,7 @@ class _SyndicateRegisterAddressPageState
         ),
         Observer(
           builder: (_) => TextFieldWidget(
+            controller: widget.editController[0],
             label: 'CEP',
             hintText: 'Digite seu CEP',
             errorText: widget.controller.zipError,
@@ -67,10 +64,10 @@ class _SyndicateRegisterAddressPageState
               widget.controller.setZip(value);
               if (value.length >= 10) {
                 await widget.controller.searchZip(value);
-                cityEC.text = widget.controller.city!;
-                stateEC.text = widget.controller.state!;
-                streetEC.text = widget.controller.street!;
-                districtEC.text = widget.controller.district!;
+                widget.editController[1].text = widget.controller.city!;
+                widget.editController[2].text = widget.controller.state!;
+                widget.editController[3].text = widget.controller.street!;
+                widget.editController[4].text = widget.controller.district!;
               }
             },
             initialValue: widget.controller.zip,
@@ -84,7 +81,7 @@ class _SyndicateRegisterAddressPageState
         Observer(
           builder: (_) {
             return TextFieldChangedWidget(
-              controller: cityEC,
+              controller: widget.editController[1],
               label: 'Cidade',
               hintText: 'Cidade',
               readOnly: true,
@@ -96,7 +93,7 @@ class _SyndicateRegisterAddressPageState
         Observer(
           builder: (_) {
             return TextFieldChangedWidget(
-              controller: stateEC,
+              controller: widget.editController[2],
               label: 'Estado',
               hintText: 'Estado',
               readOnly: true,
@@ -108,7 +105,7 @@ class _SyndicateRegisterAddressPageState
         Observer(
           builder: (_) {
             return TextFieldChangedWidget(
-              controller: streetEC,
+              controller: widget.editController[3],
               label: 'Rua',
               hintText: 'Digite o nome da sua rua',
               readOnly: false,
@@ -120,7 +117,7 @@ class _SyndicateRegisterAddressPageState
         Observer(
           builder: (_) {
             return TextFieldChangedWidget(
-              controller: districtEC,
+              controller: widget.editController[4],
               label: 'Bairro',
               hintText: 'Digite o nome do seu bairro',
               readOnly: false,
@@ -143,6 +140,7 @@ class _SyndicateRegisterAddressPageState
                     ),
                     const SizedBox(height: 8),
                     TextFormField(
+                      controller: widget.editController[5],
                       onChanged: widget.controller.setNumber,
                       decoration: const InputDecoration(hintText: 'Número'),
                     ),
@@ -162,6 +160,7 @@ class _SyndicateRegisterAddressPageState
                     ),
                     const SizedBox(height: 8),
                     TextFormField(
+                      controller: widget.editController[6],
                       onChanged: widget.controller.setComplement,
                       decoration:
                           const InputDecoration(hintText: 'Bloco, apto...'),
@@ -178,6 +177,7 @@ class _SyndicateRegisterAddressPageState
             children: [
               Observer(
                 builder: (_) => Checkbox(
+                  activeColor: ColorsApp.i.primary,
                   value: widget.controller.termsAccepted,
                   onChanged: (value) =>
                       widget.controller.setTermsAccepted(value!),
@@ -195,7 +195,7 @@ class _SyndicateRegisterAddressPageState
                       TextSpan(
                         text: 'Termo de uso ',
                         style: context.textStyles.textRegular
-                            .copyWith(color: ColorsApp.i.secondary),
+                            .copyWith(color: ColorsApp.i.primary),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () => Navigator.of(context)
                               .pushNamed('/auth/signup/termsUse'),

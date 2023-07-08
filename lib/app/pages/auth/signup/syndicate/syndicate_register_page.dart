@@ -24,6 +24,22 @@ class _SyndicateRegisterPageState extends State<SyndicateRegisterPage>
   final SyndicateRegisterController controller = SyndicateRegisterController();
   late final ReactionDisposer statusDisposer;
   int _index = 0;
+  final companyNameEC = TextEditingController();
+  final fantasyNameEC = TextEditingController();
+  final cnpjEC = TextEditingController();
+  final passEC = TextEditingController();
+  final retypassEC = TextEditingController();
+  final nameEC = TextEditingController();
+  final emailEC = TextEditingController();
+  final phoneEC = TextEditingController();
+  final mobileEC = TextEditingController();
+  final zipyEC = TextEditingController();
+  final cityEC = TextEditingController();
+  final stateEC = TextEditingController();
+  final streetEC = TextEditingController();
+  final districtEC = TextEditingController();
+  final numberEC = TextEditingController();
+  final complementEC = TextEditingController();
 
   @override
   void initState() {
@@ -55,6 +71,22 @@ class _SyndicateRegisterPageState extends State<SyndicateRegisterPage>
 
   @override
   void dispose() {
+    companyNameEC.dispose();
+    fantasyNameEC.dispose();
+    cnpjEC.dispose();
+    passEC.dispose();
+    retypassEC.dispose();
+    nameEC.dispose();
+    emailEC.dispose();
+    phoneEC.dispose();
+    mobileEC.dispose();
+    zipyEC.dispose();
+    cityEC.dispose();
+    stateEC.dispose();
+    streetEC.dispose();
+    districtEC.dispose();
+    numberEC.dispose();
+    complementEC.dispose();
     statusDisposer();
     super.dispose();
   }
@@ -102,8 +134,18 @@ class _SyndicateRegisterPageState extends State<SyndicateRegisterPage>
           style: context.textStyles.textBold
               .copyWith(fontSize: 18, color: ColorsApp.i.primary),
         ),
+        automaticallyImplyLeading: false,
         centerTitle: true,
         iconTheme: const IconThemeData(color: Colors.black),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(
+              'CANCELAR',
+              style: context.textStyles.textBold.copyWith(color: Colors.red),
+            ),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -147,9 +189,28 @@ class _SyndicateRegisterPageState extends State<SyndicateRegisterPage>
                       ),
                     ),
                     steps: [
-                      SyndicateRegisterInitialDataPage(controller),
-                      SyndicateRegisterResponsibleContactPage(controller),
-                      SyndicateRegisterAddressPage(controller),
+                      SyndicateRegisterInitialDataPage(controller, [
+                        companyNameEC,
+                        fantasyNameEC,
+                        cnpjEC,
+                        passEC,
+                        retypassEC,
+                      ]),
+                      SyndicateRegisterResponsibleContactPage(controller, [
+                        nameEC,
+                        emailEC,
+                        phoneEC,
+                        mobileEC,
+                      ]),
+                      SyndicateRegisterAddressPage(controller, [
+                        zipyEC,
+                        cityEC,
+                        stateEC,
+                        streetEC,
+                        districtEC,
+                        numberEC,
+                        complementEC,
+                      ]),
                     ],
                   );
                 },

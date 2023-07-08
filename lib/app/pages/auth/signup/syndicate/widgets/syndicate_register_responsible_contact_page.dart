@@ -11,7 +11,12 @@ import '../syndicate_register_controller.dart';
 
 class SyndicateRegisterResponsibleContactPage extends StatefulWidget {
   final SyndicateRegisterController controller;
-  const SyndicateRegisterResponsibleContactPage(this.controller, {super.key});
+  final List<TextEditingController> editController;
+  const SyndicateRegisterResponsibleContactPage(
+    this.controller,
+    this.editController, {
+    super.key,
+  });
 
   @override
   State<SyndicateRegisterResponsibleContactPage> createState() =>
@@ -44,6 +49,7 @@ class _SyndicateRegisterResponsibleContactPageState
         ),
         Observer(
           builder: (_) => TextFieldWidget(
+            controller: widget.editController[0],
             label: 'Nome',
             hintText: 'Digite o nome',
             errorText: widget.controller.nameError,
@@ -53,6 +59,7 @@ class _SyndicateRegisterResponsibleContactPageState
         ),
         Observer(
           builder: (_) => TextFieldWidget(
+            controller: widget.editController[1],
             label: 'E-mail',
             hintText: 'Digite seu e-mail',
             onChanged: widget.controller.setEmail,
@@ -62,6 +69,7 @@ class _SyndicateRegisterResponsibleContactPageState
         ),
         Observer(
           builder: (_) => TextFieldWidget(
+            controller: widget.editController[2],
             label: 'Telefone',
             hintText: 'Digite o telefone',
             errorText: widget.controller.phoneError,
@@ -76,6 +84,7 @@ class _SyndicateRegisterResponsibleContactPageState
         ),
         Observer(
           builder: (_) => TextFieldWidget(
+            controller: widget.editController[3],
             label: 'Celular',
             hintText: 'Digite o celular',
             errorText: widget.controller.mobilePhoneError,

@@ -50,7 +50,7 @@ class SignupMenuPage extends StatelessWidget {
                           icon: Icons.business_outlined,
                           title: 'TOMADORA DE SERVIÇOS',
                           description:
-                              'Solicite um trabalhador avulson sindicalizado e formal',
+                              'Solicite um trabalhador avulso sindicalizado e formal',
                           onTap: () => Navigator.of(context)
                               .pushNamed('/auth/signup/serviceTaker'),
                           height: height,

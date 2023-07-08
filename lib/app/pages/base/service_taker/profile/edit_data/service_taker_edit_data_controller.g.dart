@@ -66,6 +66,13 @@ mixin _$ServiceTakerEditDataController
       (_$retypePassValidComputed ??= Computed<bool>(() => super.retypePassValid,
               name: 'ServiceTakerEditDataControllerBase.retypePassValid'))
           .value;
+  Computed<bool>? _$employeerValidComputed;
+
+  @override
+  bool get employeerValid =>
+      (_$employeerValidComputed ??= Computed<bool>(() => super.employeerValid,
+              name: 'ServiceTakerEditDataControllerBase.employeerValid'))
+          .value;
   Computed<bool>? _$isFormValidComputed;
 
   @override
@@ -165,6 +172,22 @@ mixin _$ServiceTakerEditDataController
   set fantasyName(String? value) {
     _$fantasyNameAtom.reportWrite(value, super.fantasyName, () {
       super.fantasyName = value;
+    });
+  }
+
+  late final _$employeerAtom = Atom(
+      name: 'ServiceTakerEditDataControllerBase.employeer', context: context);
+
+  @override
+  EmployeerModel? get employeer {
+    _$employeerAtom.reportRead();
+    return super.employeer;
+  }
+
+  @override
+  set employeer(EmployeerModel? value) {
+    _$employeerAtom.reportWrite(value, super.employeer, () {
+      super.employeer = value;
     });
   }
 
@@ -466,6 +489,18 @@ mixin _$ServiceTakerEditDataController
   }
 
   @override
+  void setEmployeer(EmployeerModel? value) {
+    final _$actionInfo = _$ServiceTakerEditDataControllerBaseActionController
+        .startAction(name: 'ServiceTakerEditDataControllerBase.setEmployeer');
+    try {
+      return super.setEmployeer(value);
+    } finally {
+      _$ServiceTakerEditDataControllerBaseActionController
+          .endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void invalidSendPressed() {
     final _$actionInfo =
         _$ServiceTakerEditDataControllerBaseActionController.startAction(
@@ -483,6 +518,7 @@ mixin _$ServiceTakerEditDataController
     return '''
 companyName: ${companyName},
 fantasyName: ${fantasyName},
+employeer: ${employeer},
 cnpj: ${cnpj},
 name: ${name},
 phone: ${phone},
@@ -499,6 +535,7 @@ emailValid: ${emailValid},
 zipValid: ${zipValid},
 passwordValid: ${passwordValid},
 retypePassValid: ${retypePassValid},
+employeerValid: ${employeerValid},
 isFormValid: ${isFormValid},
 sendPressedSignup: ${sendPressedSignup}
     ''';

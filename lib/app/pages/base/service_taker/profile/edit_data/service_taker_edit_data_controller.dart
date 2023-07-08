@@ -5,7 +5,7 @@ import 'package:mobx/mobx.dart';
 
 import '../../../../../core/extensions/formatter_extensions.dart';
 import '../../../../../core/extensions/validator_extensions.dart';
-import '../../../../../models/service_taker_model.dart';
+import '../../../../../models/worker_model.dart';
 import '../../../../../repositories/zip/zip_repository.dart';
 import '../../../../../services/service_taker/service_taker_service.dart';
 import '../../../../../services/user/user_service.dart';
@@ -41,6 +41,9 @@ abstract class ServiceTakerEditDataControllerBase with Store {
 
   @observable
   String? fantasyName;
+
+  @observable
+  EmployeerModel? employeer;
 
   @observable
   String? cnpj;
@@ -98,6 +101,9 @@ abstract class ServiceTakerEditDataControllerBase with Store {
 
   @action
   void setRetypePass(String value) => retypePass = value;
+
+  @action
+  void setEmployeer(EmployeerModel? value) => employeer = value;
 
   @computed
   bool get companyNameValid => companyName != null && companyName!.length > 3;
@@ -195,6 +201,16 @@ abstract class ServiceTakerEditDataControllerBase with Store {
     }
   }
 
+  @computed
+  bool get employeerValid => employeer != null;
+  String? get employeerError {
+    if (!_showErrors || employeerValid) {
+      return null;
+    } else {
+      return 'Empregadora Obrigatória';
+    }
+  }
+
   @action
   void invalidSendPressed() => _showErrors = true;
 
@@ -204,6 +220,7 @@ abstract class ServiceTakerEditDataControllerBase with Store {
       nameValid &&
       emailValid &&
       zipValid &&
+      employeerValid &&
       passwordValid &&
       retypePassValid;
 
@@ -214,13 +231,18 @@ abstract class ServiceTakerEditDataControllerBase with Store {
   Future<void> register() async {
     _status = ServiceTakerEditDataStateStatus.loading;
     try {
-      final user = ServiceTakerModel(
+      final data = GetIt.I<UserController>().serviceTaker;
+      final user = data!.copyWith(
         user: cnpj!.replaceAll(RegExp(r'[^0-9]'), ''),
         password: password!,
         profileType: 0,
         active: true,
         fantasyName: fantasyName!,
         companyName: companyName!,
+        employeer: EmployeerModel(
+          code: employeer!.code,
+          name: employeer!.name,
+        ),
         cnpj: cnpj!.replaceAll(RegExp(r'[^0-9]'), ''),
         name: name!,
         phone: phone!.replaceAll(RegExp(r'[^0-9]'), ''),
@@ -228,6 +250,7 @@ abstract class ServiceTakerEditDataControllerBase with Store {
         zip: zip!.replaceAll(RegExp(r'[^0-9]'), ''),
         number: number!,
       );
+
       await ServiceTakerService().saveServiceTaker(user);
       await UserService().login(user.user, user.password, false);
       GetIt.I<UserController>().getCurrentUser(user.user);
@@ -266,6 +289,12 @@ abstract class ServiceTakerEditDataControllerBase with Store {
     number = data.number;
     password = data.password;
     retypePass = data.password;
+    employeer = data.employeer != null
+        ? EmployeerModel(
+            code: data.employeer!.code,
+            name: data.employeer!.name,
+          )
+        : EmployeerModel(code: '', name: '');
     await searchZip(data.zip);
   }
 }

@@ -184,6 +184,7 @@ class _WorkerSignupAddressDataState extends State<WorkerSignupAddressData> {
             children: [
               Observer(
                 builder: (_) => Checkbox(
+                  activeColor: ColorsApp.i.ternary,
                   value: widget.controller.termsAccepted,
                   onChanged: (value) =>
                       widget.controller.setTermsAccepted(value!),
@@ -201,7 +202,7 @@ class _WorkerSignupAddressDataState extends State<WorkerSignupAddressData> {
                       TextSpan(
                         text: 'Termo de uso ',
                         style: context.textStyles.textRegular
-                            .copyWith(color: ColorsApp.i.secondary),
+                            .copyWith(color: ColorsApp.i.ternary),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () => Navigator.of(context)
                               .pushNamed('/auth/signup/termsUse'),

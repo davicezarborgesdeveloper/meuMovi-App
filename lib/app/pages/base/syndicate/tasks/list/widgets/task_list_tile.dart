@@ -66,11 +66,11 @@ class TaskListTile extends StatelessWidget {
                       style: context.textStyles.textBold,
                     ),
                     const SizedBox(height: 6),
-                    // if (task.hourDays != null)
-                    //   Text(
-                    //     'HORAS EXTRAS',
-                    //     style: context.textStyles.textBold,
-                    //   ),
+                    if (task.hourDays != null)
+                      Text(
+                        'HORAS EXTRAS',
+                        style: context.textStyles.textBold,
+                      ),
                   ],
                 ),
                 SizedBox(
@@ -91,11 +91,11 @@ class TaskListTile extends StatelessWidget {
                             style: context.textStyles.textRegular,
                           ),
                           const SizedBox(height: 6),
-                          // if (task.hourDays != null)
-                          //   Text(
-                          //     '${task.hourDays}',
-                          //     style: context.textStyles.textRegular,
-                          //   ),
+                          if (task.hourDays != null)
+                            Text(
+                              '${task.hourDays}',
+                              style: context.textStyles.textRegular,
+                            ),
                         ],
                       ),
                       Column(
@@ -114,11 +114,14 @@ class TaskListTile extends StatelessWidget {
                             style: context.textStyles.textRegular,
                           ),
                           const SizedBox(height: 6),
-                          // if (task.hourDays != null)
-                          //   Text(
-                          //     '${task.hourDays}',
-                          //     style: context.textStyles.textRegular,
-                          //   ),
+                          if (task.hourUnitary != null)
+                            Text(
+                              UtilBrasilFields.obterReal(
+                                task.hourUnitary!,
+                                moeda: false,
+                              ),
+                              style: context.textStyles.textRegular,
+                            ),
                         ],
                       ),
                       Column(
@@ -137,11 +140,17 @@ class TaskListTile extends StatelessWidget {
                             style: context.textStyles.textRegular,
                           ),
                           const SizedBox(height: 6),
-                          // if (task.hourDays != null)
-                          //   Text(
-                          //     '${task.hourDays}',
-                          //     style: context.textStyles.textRegular,
-                          //   ),
+                          if (task.hourDays != null && task.hourUnitary != null)
+                            Text(
+                              UtilBrasilFields.obterReal(
+                                task.hourUnitary! *
+                                    double.tryParse(
+                                      task.hourDays!.replaceAll(',', '.'),
+                                    )!,
+                                moeda: false,
+                              ),
+                              style: context.textStyles.textRegular,
+                            ),
                         ],
                       ),
                     ],
@@ -157,10 +166,19 @@ class TaskListTile extends StatelessWidget {
                   'Total',
                   style: context.textStyles.textSemiBold,
                 ),
-                Text(
-                  (task.unitaryValue! * task.quantity!).currencyPTBR,
-                  style: context.textStyles.textRegular,
-                ),
+                (task.hourDays != null && task.hourUnitary != null)
+                    ? Text(
+                        ((task.hourUnitary! *
+                                    double.tryParse(
+                                      task.hourDays!.replaceAll(',', '.'),
+                                    )!) +
+                                (task.unitaryValue! * task.quantity!))
+                            .currencyPTBR,
+                      )
+                    : Text(
+                        (task.unitaryValue! * task.quantity!).currencyPTBR,
+                        style: context.textStyles.textRegular,
+                      ),
               ],
             ),
           ],
