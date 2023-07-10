@@ -176,10 +176,8 @@ abstract class ServiceTakerSignupControllerBase with Store {
   String? get zipError {
     if (!_showErrors || zipValid) {
       return null;
-    } else if (zip == null || zip!.isEmpty) {
-      return 'CEP Obrigatório';
     } else {
-      return 'CEP muito curto';
+      return 'CEP Obrigatório';
     }
   }
 
@@ -215,6 +213,18 @@ abstract class ServiceTakerSignupControllerBase with Store {
     }
   }
 
+  @computed
+  bool get phoneValid => phone != null && phone!.isPhoneValid;
+  String? get phoneError {
+    if (!_showErrors || phoneValid) {
+      return null;
+    } else if (phone == null || phone!.isEmpty) {
+      return 'Telefone Obrigatório';
+    } else {
+      return 'Telefone muito curto';
+    }
+  }
+
   @action
   void invalidSendPressed() => _showErrors = true;
 
@@ -225,6 +235,7 @@ abstract class ServiceTakerSignupControllerBase with Store {
       emailValid &&
       zipValid &&
       passwordValid &&
+      phoneValid &&
       retypePassValid &&
       employeerValid &&
       termsAccepted;
@@ -234,6 +245,7 @@ abstract class ServiceTakerSignupControllerBase with Store {
       fantasyNameValid &&
       companyNameValid &&
       emailValid &&
+      phoneValid &&
       cnpjValid &&
       nameValid &&
       zipValid;

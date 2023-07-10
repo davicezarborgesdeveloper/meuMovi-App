@@ -45,6 +45,13 @@ mixin _$WorkerSyndicateRegisterController
       (_$passwordValidComputed ??= Computed<bool>(() => super.passwordValid,
               name: 'WorkerSyndicateRegisterControllerBase.passwordValid'))
           .value;
+  Computed<bool>? _$phoneValidComputed;
+
+  @override
+  bool get phoneValid =>
+      (_$phoneValidComputed ??= Computed<bool>(() => super.phoneValid,
+              name: 'WorkerSyndicateRegisterControllerBase.phoneValid'))
+          .value;
   Computed<bool>? _$retypePassValidComputed;
 
   @override
@@ -211,6 +218,22 @@ mixin _$WorkerSyndicateRegisterController
   set birthdate(String? value) {
     _$birthdateAtom.reportWrite(value, super.birthdate, () {
       super.birthdate = value;
+    });
+  }
+
+  late final _$phoneAtom = Atom(
+      name: 'WorkerSyndicateRegisterControllerBase.phone', context: context);
+
+  @override
+  String? get phone {
+    _$phoneAtom.reportRead();
+    return super.phone;
+  }
+
+  @override
+  set phone(String? value) {
+    _$phoneAtom.reportWrite(value, super.phone, () {
+      super.phone = value;
     });
   }
 
@@ -529,6 +552,18 @@ mixin _$WorkerSyndicateRegisterController
   }
 
   @override
+  void setPhone(String value) {
+    final _$actionInfo = _$WorkerSyndicateRegisterControllerBaseActionController
+        .startAction(name: 'WorkerSyndicateRegisterControllerBase.setPhone');
+    try {
+      return super.setPhone(value);
+    } finally {
+      _$WorkerSyndicateRegisterControllerBaseActionController
+          .endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setEmail(String value) {
     final _$actionInfo = _$WorkerSyndicateRegisterControllerBaseActionController
         .startAction(name: 'WorkerSyndicateRegisterControllerBase.setEmail');
@@ -745,6 +780,7 @@ mixin _$WorkerSyndicateRegisterController
 name: ${name},
 lastname: ${lastname},
 birthdate: ${birthdate},
+phone: ${phone},
 email: ${email},
 password: ${password},
 retypePass: ${retypePass},
@@ -765,6 +801,7 @@ lastnameValid: ${lastnameValid},
 birthdateValid: ${birthdateValid},
 emailValid: ${emailValid},
 passwordValid: ${passwordValid},
+phoneValid: ${phoneValid},
 retypePassValid: ${retypePassValid},
 cpfValid: ${cpfValid},
 rgValid: ${rgValid},

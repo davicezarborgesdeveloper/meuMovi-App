@@ -203,6 +203,7 @@ class _ServiceTakerSyndicateRegisterPageState
                   hintText: 'Digite o telefone',
                   onChanged: controller.setPhone,
                   initialValue: controller.phone,
+                  errorText: controller.phoneError,
                   keyboardType: TextInputType.number,
                   inputFormatters: [
                     FilteringTextInputFormatter.digitsOnly,

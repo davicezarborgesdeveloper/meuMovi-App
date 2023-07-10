@@ -73,6 +73,13 @@ mixin _$ServiceTakerSignupController
       (_$employeerValidComputed ??= Computed<bool>(() => super.employeerValid,
               name: 'ServiceTakerSignupControllerBase.employeerValid'))
           .value;
+  Computed<bool>? _$phoneValidComputed;
+
+  @override
+  bool get phoneValid =>
+      (_$phoneValidComputed ??= Computed<bool>(() => super.phoneValid,
+              name: 'ServiceTakerSignupControllerBase.phoneValid'))
+          .value;
   Computed<bool>? _$isFormValidSignupComputed;
 
   @override
@@ -579,6 +586,7 @@ zipValid: ${zipValid},
 passwordValid: ${passwordValid},
 retypePassValid: ${retypePassValid},
 employeerValid: ${employeerValid},
+phoneValid: ${phoneValid},
 isFormValidSignup: ${isFormValidSignup},
 isFormValidRegister: ${isFormValidRegister},
 sendPressedSignup: ${sendPressedSignup},

@@ -211,6 +211,18 @@ abstract class ServiceTakerEditDataControllerBase with Store {
     }
   }
 
+  @computed
+  bool get phoneValid => phone != null && phone!.isPhoneValid;
+  String? get phoneError {
+    if (!_showErrors || phoneValid) {
+      return null;
+    } else if (phone == null || phone!.isEmpty) {
+      return 'Telefone Obrigatório';
+    } else {
+      return 'Telefone muito curto';
+    }
+  }
+
   @action
   void invalidSendPressed() => _showErrors = true;
 
@@ -221,6 +233,7 @@ abstract class ServiceTakerEditDataControllerBase with Store {
       emailValid &&
       zipValid &&
       employeerValid &&
+      phoneValid &&
       passwordValid &&
       retypePassValid;
 

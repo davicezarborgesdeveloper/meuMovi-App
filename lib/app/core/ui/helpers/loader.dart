@@ -24,7 +24,6 @@ mixin Loader<T extends StatefulWidget> on State<T> {
     if (isOpen) {
       isOpen = false;
       Navigator.of(context).pop();
-      // Modular.to.pop();
     }
   }
 

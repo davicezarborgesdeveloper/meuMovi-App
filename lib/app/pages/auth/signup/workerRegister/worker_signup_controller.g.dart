@@ -37,6 +37,13 @@ mixin _$WorkerSignupController on WorkerSignupControllerBase, Store {
       (_$emailValidComputed ??= Computed<bool>(() => super.emailValid,
               name: 'WorkerSignupControllerBase.emailValid'))
           .value;
+  Computed<bool>? _$phoneValidComputed;
+
+  @override
+  bool get phoneValid =>
+      (_$phoneValidComputed ??= Computed<bool>(() => super.phoneValid,
+              name: 'WorkerSignupControllerBase.phoneValid'))
+          .value;
   Computed<bool>? _$passwordValidComputed;
 
   @override
@@ -222,6 +229,22 @@ mixin _$WorkerSignupController on WorkerSignupControllerBase, Store {
   set email(String? value) {
     _$emailAtom.reportWrite(value, super.email, () {
       super.email = value;
+    });
+  }
+
+  late final _$phoneAtom =
+      Atom(name: 'WorkerSignupControllerBase.phone', context: context);
+
+  @override
+  String? get phone {
+    _$phoneAtom.reportRead();
+    return super.phone;
+  }
+
+  @override
+  set phone(String? value) {
+    _$phoneAtom.reportWrite(value, super.phone, () {
+      super.phone = value;
     });
   }
 
@@ -523,6 +546,17 @@ mixin _$WorkerSignupController on WorkerSignupControllerBase, Store {
   }
 
   @override
+  void setPhone(String value) {
+    final _$actionInfo = _$WorkerSignupControllerBaseActionController
+        .startAction(name: 'WorkerSignupControllerBase.setPhone');
+    try {
+      return super.setPhone(value);
+    } finally {
+      _$WorkerSignupControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setPassword(String value) {
     final _$actionInfo = _$WorkerSignupControllerBaseActionController
         .startAction(name: 'WorkerSignupControllerBase.setPassword');
@@ -705,6 +739,7 @@ name: ${name},
 lastname: ${lastname},
 birthdate: ${birthdate},
 email: ${email},
+phone: ${phone},
 password: ${password},
 retypePass: ${retypePass},
 cpf: ${cpf},
@@ -723,6 +758,7 @@ nameValid: ${nameValid},
 lastnameValid: ${lastnameValid},
 birthdateValid: ${birthdateValid},
 emailValid: ${emailValid},
+phoneValid: ${phoneValid},
 passwordValid: ${passwordValid},
 retypePassValid: ${retypePassValid},
 cpfValid: ${cpfValid},

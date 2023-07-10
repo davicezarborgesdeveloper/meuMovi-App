@@ -66,7 +66,8 @@ class TaskListTile extends StatelessWidget {
                       style: context.textStyles.textBold,
                     ),
                     const SizedBox(height: 6),
-                    if (task.hourDays != null)
+                    if ((task.hourDays != null && task.hourDays!.isNotEmpty) &&
+                        task.hourUnitary != null)
                       Text(
                         'HORAS EXTRAS',
                         style: context.textStyles.textBold,
@@ -91,7 +92,8 @@ class TaskListTile extends StatelessWidget {
                             style: context.textStyles.textRegular,
                           ),
                           const SizedBox(height: 6),
-                          if (task.hourDays != null)
+                          if (task.hourDays != null &&
+                              task.hourDays!.isNotEmpty)
                             Text(
                               '${task.hourDays}',
                               style: context.textStyles.textRegular,
@@ -114,7 +116,9 @@ class TaskListTile extends StatelessWidget {
                             style: context.textStyles.textRegular,
                           ),
                           const SizedBox(height: 6),
-                          if (task.hourUnitary != null)
+                          if ((task.hourDays != null &&
+                                  task.hourDays!.isNotEmpty) &&
+                              task.hourUnitary != null)
                             Text(
                               UtilBrasilFields.obterReal(
                                 task.hourUnitary!,
@@ -140,7 +144,9 @@ class TaskListTile extends StatelessWidget {
                             style: context.textStyles.textRegular,
                           ),
                           const SizedBox(height: 6),
-                          if (task.hourDays != null && task.hourUnitary != null)
+                          if ((task.hourDays != null &&
+                                  task.hourDays!.isNotEmpty) &&
+                              task.hourUnitary != null)
                             Text(
                               UtilBrasilFields.obterReal(
                                 task.hourUnitary! *
@@ -166,7 +172,8 @@ class TaskListTile extends StatelessWidget {
                   'Total',
                   style: context.textStyles.textSemiBold,
                 ),
-                (task.hourDays != null && task.hourUnitary != null)
+                ((task.hourDays != null && task.hourDays!.isNotEmpty) &&
+                        task.hourUnitary != null)
                     ? Text(
                         ((task.hourUnitary! *
                                     double.tryParse(

@@ -155,6 +155,22 @@ class _WorkerRegisterPersonalDataState
         Observer(
           builder: (_) => TextFieldWidget(
             controller: widget.textControllers[3],
+            label: 'Telefone',
+            hintText: 'Digite seu telefone',
+            errorText: widget.controller.phoneError,
+            onChanged: widget.controller.setPhone,
+            initialValue: widget.controller.phone,
+            keyboardType: TextInputType.number,
+            inputFormatters: [
+              FilteringTextInputFormatter.digitsOnly,
+              TelefoneInputFormatter(),
+            ],
+          ),
+        ),
+
+        Observer(
+          builder: (_) => TextFieldWidget(
+            controller: widget.textControllers[4],
             label: 'E-mail',
             hintText: 'Digite seu e-mail',
             errorText: widget.controller.emailError,

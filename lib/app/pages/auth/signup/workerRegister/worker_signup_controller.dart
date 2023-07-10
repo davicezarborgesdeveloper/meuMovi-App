@@ -49,6 +49,9 @@ abstract class WorkerSignupControllerBase with Store {
   String? email;
 
   @observable
+  String? phone;
+
+  @observable
   String? password;
 
   @observable
@@ -65,6 +68,9 @@ abstract class WorkerSignupControllerBase with Store {
 
   @action
   void setEmail(String value) => email = value;
+
+  @action
+  void setPhone(String value) => phone = value;
 
   @action
   void setPassword(String value) => password = value;
@@ -115,6 +121,18 @@ abstract class WorkerSignupControllerBase with Store {
       return 'Campo obrigatório';
     } else {
       return 'E-mail inválido';
+    }
+  }
+
+  @computed
+  bool get phoneValid => phone != null && phone!.isPhoneValid;
+  String? get phoneError {
+    if (!_showErrors || phoneValid) {
+      return null;
+    } else if (phone == null || phone!.isEmpty) {
+      return 'Telefone Obrigatório';
+    } else {
+      return 'Telefone muito curto';
     }
   }
 
@@ -289,6 +307,7 @@ abstract class WorkerSignupControllerBase with Store {
       nameValid &&
       lastnameValid &&
       birthdateValid &&
+      phoneValid &&
       emailValid &&
       passwordValid &&
       retypePassValid;
@@ -329,6 +348,7 @@ abstract class WorkerSignupControllerBase with Store {
         personal: PersonalModel(
           birthdate: DateFormat('yyyy-MM-dd').format(dt),
           email: email!,
+          phone: phone!.replaceAll(RegExp(r'[^0-9]'), ''),
         ),
         address: AddressModel(
           zip: zip!.replaceAll(RegExp(r'[^0-9]'), ''),

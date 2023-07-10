@@ -28,6 +28,7 @@ class _WorkerSignupPageState extends State<WorkerSignupPage>
   final lastnameEC = TextEditingController();
   final birthDateEC = TextEditingController();
   final emailEC = TextEditingController();
+  final phoneEC = TextEditingController();
   final passEC = TextEditingController();
   final repassEC = TextEditingController();
   final cpfEC = TextEditingController();
@@ -84,6 +85,7 @@ class _WorkerSignupPageState extends State<WorkerSignupPage>
     zipEC.dispose();
     cityEC.dispose();
     stateEC.dispose();
+    phoneEC.dispose();
     streetEC.dispose();
     districtEC.dispose();
     numberEC.dispose();
@@ -185,6 +187,7 @@ class _WorkerSignupPageState extends State<WorkerSignupPage>
                         nameEC,
                         lastnameEC,
                         birthDateEC,
+                        phoneEC,
                         emailEC,
                         passEC,
                         repassEC,

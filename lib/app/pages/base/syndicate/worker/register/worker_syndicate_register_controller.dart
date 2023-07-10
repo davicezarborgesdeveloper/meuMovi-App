@@ -43,6 +43,9 @@ abstract class WorkerSyndicateRegisterControllerBase with Store {
   String? birthdate;
 
   @observable
+  String? phone;
+
+  @observable
   String? email;
 
   @observable
@@ -59,6 +62,9 @@ abstract class WorkerSyndicateRegisterControllerBase with Store {
 
   @action
   void setBirthdate(String value) => birthdate = value;
+
+  @action
+  void setPhone(String value) => phone = value;
 
   @action
   void setEmail(String value) => email = value;
@@ -124,6 +130,18 @@ abstract class WorkerSyndicateRegisterControllerBase with Store {
       return 'Senha Obrigatória';
     } else {
       return 'Senha muito curta';
+    }
+  }
+
+  @computed
+  bool get phoneValid => phone != null && phone!.isPhoneValid;
+  String? get phoneError {
+    if (!_showErrors || phoneValid) {
+      return null;
+    } else if (phone == null || phone!.isEmpty) {
+      return 'Telefone Obrigatório';
+    } else {
+      return 'Telefone muito curto';
     }
   }
 
@@ -286,13 +304,14 @@ abstract class WorkerSyndicateRegisterControllerBase with Store {
       nameValid &&
       lastnameValid &&
       birthdateValid &&
+      phoneValid &&
       emailValid &&
       passwordValid &&
       retypePassValid;
 
   @computed
   bool get isFormValidRegister =>
-      nameValid && lastnameValid && birthdateValid && emailValid;
+      nameValid && lastnameValid && birthdateValid && phoneValid && emailValid;
 
   @computed
   bool get isFormValid2 => cpfValid && rgValid;
@@ -326,6 +345,7 @@ abstract class WorkerSyndicateRegisterControllerBase with Store {
         personal: PersonalModel(
           birthdate: DateFormat('yyyy-MM-dd').format(dt),
           email: email!,
+          phone: phone!.replaceAll(RegExp(r'[^0-9]'), ''),
         ),
         address: AddressModel(
           zip: zip!.replaceAll(RegExp(r'[^0-9]'), ''),

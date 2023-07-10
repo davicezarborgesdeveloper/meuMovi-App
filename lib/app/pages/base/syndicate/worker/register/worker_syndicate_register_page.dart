@@ -32,6 +32,7 @@ class _WorkerSyndicateRegisterPageState
   final nameEC = TextEditingController();
   final lastnameEC = TextEditingController();
   final birthDateEC = TextEditingController();
+  final phoneEC = TextEditingController();
   final emailEC = TextEditingController();
   final cpfEC = TextEditingController();
   final rgEC = TextEditingController();
@@ -90,6 +91,7 @@ class _WorkerSyndicateRegisterPageState
     emailEC.dispose();
     cpfEC.dispose();
     rgEC.dispose();
+    phoneEC.dispose();
     employeeEC.dispose();
     zipEC.dispose();
     cityEC.dispose();
@@ -191,6 +193,7 @@ class _WorkerSyndicateRegisterPageState
                         nameEC,
                         lastnameEC,
                         birthDateEC,
+                        phoneEC,
                         emailEC,
                       ]),
                       WorkerRegisterDocumentsData(controller, [

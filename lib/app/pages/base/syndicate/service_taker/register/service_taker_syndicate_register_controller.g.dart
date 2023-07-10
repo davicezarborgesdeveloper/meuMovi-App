@@ -73,6 +73,13 @@ mixin _$ServiceTakerSyndicateRegisterController
           () => super.employeerValid,
           name: 'ServiceTakerSyndicateRegisterControllerBase.employeerValid'))
       .value;
+  Computed<bool>? _$phoneValidComputed;
+
+  @override
+  bool get phoneValid =>
+      (_$phoneValidComputed ??= Computed<bool>(() => super.phoneValid,
+              name: 'ServiceTakerSyndicateRegisterControllerBase.phoneValid'))
+          .value;
   Computed<bool>? _$isFormValidRegisterComputed;
 
   @override
@@ -610,6 +617,7 @@ zipValid: ${zipValid},
 passwordValid: ${passwordValid},
 retypePassValid: ${retypePassValid},
 employeerValid: ${employeerValid},
+phoneValid: ${phoneValid},
 isFormValidRegister: ${isFormValidRegister},
 sendPressedRegister: ${sendPressedRegister}
     ''';

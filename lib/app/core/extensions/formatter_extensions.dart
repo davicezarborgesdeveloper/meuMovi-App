@@ -16,7 +16,7 @@ extension FormatterString on String {
   }
 
   String get formattedPhone {
-    if (length > 0) {
+    if (length == 10 || length == 11) {
       return UtilBrasilFields.obterTelefone(this);
     } else {
       return this;

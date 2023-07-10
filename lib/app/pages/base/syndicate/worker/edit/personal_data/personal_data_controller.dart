@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
 
+import '../../../../../../core/extensions/validator_extensions.dart';
 import '../../../../../../core/ui/helpers/enums.dart';
 import '../../../../../../models/worker_model.dart';
 import '../../../../../../services/worker/worker_service.dart';
@@ -149,7 +150,7 @@ abstract class PersonalDataControllerBase with Store {
   }
 
   @computed
-  bool get phoneValid => phone != null && phone!.length > 3;
+  bool get phoneValid => phone != null && phone!.isPhoneValid;
   String? get phoneError {
     if (!_showErrors || phoneValid) {
       return null;
