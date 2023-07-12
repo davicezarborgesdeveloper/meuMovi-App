@@ -28,13 +28,17 @@ abstract class TaskDashboardControllerBase with Store {
   int buttonSelected = 0;
 
   @readonly
-  DashboardTaskModel? _tasks = DashboardTaskModel(
-    inAnalysis: <TaskModel>[],
-    opened: <TaskModel>[],
-    waitStart: <TaskModel>[],
-    inProgress: <TaskModel>[],
-    finished: <TaskModel>[],
+  DashboardTaskModell? _tasks = DashboardTaskModell(
+    inAnalysis: DashboardList(list: <TaskModel>[]),
+    opened: DashboardList(list: <TaskModel>[]),
+    waitStart: DashboardList(list: <TaskModel>[]),
+    inProgress: DashboardList(list: <TaskModel>[]),
+    finished: DashboardList(list: <TaskModel>[]),
   );
+
+  @readonly
+  DashboardList? _selectedDashboard =
+      DashboardList(list: <TaskModel>[], amountValue: 0.0);
 
   @action
   void setButtonSelected(int value) => buttonSelected = value;
@@ -43,11 +47,32 @@ abstract class TaskDashboardControllerBase with Store {
     try {
       _status = TaskDashboardStateStatus.loading;
       _tasks = await TaskService().getTasksDashboardSyndicate(id);
+      await setDashboardList();
       _status = TaskDashboardStateStatus.loaded;
     } catch (e, s) {
       log('Erro ao buscar listar tarefas', error: e, stackTrace: s);
       _status = TaskDashboardStateStatus.error;
       _errorMessage = 'Erro ao buscar listar tarefas';
+    }
+  }
+
+  Future<void> setDashboardList() async {
+    switch (buttonSelected) {
+      case 0:
+        _selectedDashboard = _tasks!.inAnalysis;
+        break;
+      case 1:
+        _selectedDashboard = _tasks!.opened;
+        break;
+      case 2:
+        _selectedDashboard = _tasks!.waitStart;
+        break;
+      case 3:
+        _selectedDashboard = _tasks!.inProgress;
+        break;
+      case 4:
+        _selectedDashboard = _tasks!.finished;
+        break;
     }
   }
 

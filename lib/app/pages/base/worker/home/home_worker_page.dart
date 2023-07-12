@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 
+import '../../../../core/extensions/formatter_extensions.dart';
 import '../../../../core/ui/helpers/loader.dart';
 import '../../../../core/ui/helpers/messages.dart';
 import '../../../../core/ui/helpers/size_extensions.dart';
@@ -162,8 +163,9 @@ class _HomeWorkerPageState extends State<HomeWorkerPage> with Loader, Messages {
                         children: [
                           TaskButton(
                             label: 'disponíveis',
-                            numberLabel:
-                                controller.tasks!.available!.length.toString(),
+                            numberLabel: controller
+                                .tasks!.available!.list!.length
+                                .toString(),
                             option: 0,
                             themeColor: ColorsApp.i.ternary,
                             selected: controller.buttonSelected,
@@ -178,8 +180,9 @@ class _HomeWorkerPageState extends State<HomeWorkerPage> with Loader, Messages {
                           ),
                           TaskButton(
                             label: 'confirmadas',
-                            numberLabel:
-                                controller.tasks!.confirmed!.length.toString(),
+                            numberLabel: controller
+                                .tasks!.confirmed!.list!.length
+                                .toString(),
                             option: 1,
                             themeColor: ColorsApp.i.ternary,
                             selected: controller.buttonSelected,
@@ -196,8 +199,9 @@ class _HomeWorkerPageState extends State<HomeWorkerPage> with Loader, Messages {
                             label: 'em andamento',
                             option: 2,
                             themeColor: ColorsApp.i.ternary,
-                            numberLabel:
-                                controller.tasks!.inProgress.length.toString(),
+                            numberLabel: controller
+                                .tasks!.inProgress.list!.length
+                                .toString(),
                             selected: controller.buttonSelected,
                             onPressed: () async {
                               controller.setButtonSelected(2);
@@ -210,8 +214,8 @@ class _HomeWorkerPageState extends State<HomeWorkerPage> with Loader, Messages {
                           ),
                           TaskButton(
                             label: 'finalizadas',
-                            numberLabel:
-                                controller.tasks!.finished.length.toString(),
+                            numberLabel: controller.tasks!.finished.list!.length
+                                .toString(),
                             option: 3,
                             themeColor: ColorsApp.i.ternary,
                             selected: controller.buttonSelected,
@@ -252,9 +256,9 @@ class _HomeWorkerPageState extends State<HomeWorkerPage> with Loader, Messages {
                               : controller.buttonSelected == 2
                                   ? controller.tasks!.inProgress
                                   : controller.tasks!.finished;
-                      return list!.isNotEmpty
+                      return controller.selectedDashboard!.list!.isNotEmpty
                           ? Column(
-                              children: list
+                              children: controller.selectedDashboard!.list!
                                   .map(
                                     (tsk) => TaskListTile(
                                       task: tsk,
@@ -283,6 +287,7 @@ class _HomeWorkerPageState extends State<HomeWorkerPage> with Loader, Messages {
                             );
                     },
                   ),
+                  const SizedBox(height: 60),
                 ],
               ),
             ),
@@ -298,13 +303,40 @@ class _HomeWorkerPageState extends State<HomeWorkerPage> with Loader, Messages {
                     height: 25,
                   ),
                   Align(
-                    alignment: Alignment.centerLeft,
+                    alignment: Alignment.topLeft,
                     child: Text(
                       'Tarefas',
                       style: context.textStyles.textExtraBold
                           .copyWith(color: ColorsApp.i.ternary, fontSize: 18),
                     ),
                   ),
+                ],
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              width: double.infinity,
+              height: 50,
+              color: Colors.white,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Total',
+                    style: context.textStyles.textBold.copyWith(fontSize: 16),
+                  ),
+                  Observer(
+                    builder: (_) {
+                      return Text(
+                        controller.selectedDashboard!.amountValue!.currencyPTBR,
+                        style: context.textStyles.textExtraBold
+                            .copyWith(fontSize: 18),
+                      );
+                    },
+                  )
                 ],
               ),
             ),

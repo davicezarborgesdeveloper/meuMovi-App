@@ -79,6 +79,24 @@ mixin _$ExtractWorkerController on ExtractWorkerControllerBase, Store {
     });
   }
 
+  late final _$_amountAtom =
+      Atom(name: 'ExtractWorkerControllerBase._amount', context: context);
+
+  double? get amount {
+    _$_amountAtom.reportRead();
+    return super._amount;
+  }
+
+  @override
+  double? get _amount => amount;
+
+  @override
+  set _amount(double? value) {
+    _$_amountAtom.reportWrite(value, super._amount, () {
+      super._amount = value;
+    });
+  }
+
   late final _$ExtractWorkerControllerBaseActionController =
       ActionController(name: 'ExtractWorkerControllerBase', context: context);
 

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 
+import '../../../../core/extensions/formatter_extensions.dart';
 import '../../../../core/ui/helpers/loader.dart';
 import '../../../../core/ui/helpers/messages.dart';
 import '../../../../core/ui/helpers/size_extensions.dart';
@@ -210,8 +211,8 @@ class _HomeServiceTakerPageState extends State<HomeServiceTakerPage>
                         children: [
                           TaskButton(
                             label: 'em aberto',
-                            numberLabel:
-                                controller.tasks!.opened!.length.toString(),
+                            numberLabel: controller.tasks!.opened!.list!.length
+                                .toString(),
                             option: 0,
                             selected: controller.buttonSelected,
                             themeColor: ColorsApp.i.secondary,
@@ -224,8 +225,9 @@ class _HomeServiceTakerPageState extends State<HomeServiceTakerPage>
                           ),
                           TaskButton(
                             label: 'confirmadas',
-                            numberLabel:
-                                controller.tasks!.confirmed!.length.toString(),
+                            numberLabel: controller
+                                .tasks!.confirmed!.list!.length
+                                .toString(),
                             option: 1,
                             selected: controller.buttonSelected,
                             themeColor: ColorsApp.i.secondary,
@@ -238,8 +240,9 @@ class _HomeServiceTakerPageState extends State<HomeServiceTakerPage>
                           ),
                           TaskButton(
                             label: 'em andamento',
-                            numberLabel:
-                                controller.tasks!.inProgress.length.toString(),
+                            numberLabel: controller
+                                .tasks!.inProgress.list!.length
+                                .toString(),
                             option: 2,
                             selected: controller.buttonSelected,
                             themeColor: ColorsApp.i.secondary,
@@ -252,8 +255,8 @@ class _HomeServiceTakerPageState extends State<HomeServiceTakerPage>
                           ),
                           TaskButton(
                             label: 'finalizadas',
-                            numberLabel:
-                                controller.tasks!.finished.length.toString(),
+                            numberLabel: controller.tasks!.finished.list!.length
+                                .toString(),
                             option: 3,
                             selected: controller.buttonSelected,
                             themeColor: ColorsApp.i.secondary,
@@ -285,17 +288,9 @@ class _HomeServiceTakerPageState extends State<HomeServiceTakerPage>
                   const SizedBox(height: 16),
                   Observer(
                     builder: (_) {
-                      final list = controller.buttonSelected == 0
-                          ? controller.tasks!.opened
-                          : controller.buttonSelected == 1
-                              ? controller.tasks!.confirmed
-                              : controller.buttonSelected == 2
-                                  ? controller.tasks!.inProgress
-                                  : controller.tasks!.finished;
-
-                      return list!.isNotEmpty
+                      return controller.selectedDashboard!.list!.isNotEmpty
                           ? Column(
-                              children: list
+                              children: controller.selectedDashboard!.list!
                                   .map(
                                     (tsk) => TaskListTile(
                                       themeColor: ColorsApp.i.secondary,
@@ -320,6 +315,7 @@ class _HomeServiceTakerPageState extends State<HomeServiceTakerPage>
                             );
                     },
                   ),
+                  const SizedBox(height: 60),
                 ],
               ),
             ),
@@ -355,6 +351,33 @@ class _HomeServiceTakerPageState extends State<HomeServiceTakerPage>
                       ),
                     ),
                   ),
+                ],
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              width: double.infinity,
+              height: 50,
+              color: Colors.white,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Total',
+                    style: context.textStyles.textBold.copyWith(fontSize: 16),
+                  ),
+                  Observer(
+                    builder: (_) {
+                      return Text(
+                        controller.selectedDashboard!.amountValue!.currencyPTBR,
+                        style: context.textStyles.textExtraBold
+                            .copyWith(fontSize: 18),
+                      );
+                    },
+                  )
                 ],
               ),
             ),

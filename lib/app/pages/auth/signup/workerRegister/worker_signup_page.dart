@@ -138,8 +138,18 @@ class _WorkerSignupPageState extends State<WorkerSignupPage>
           style: context.textStyles.textBold
               .copyWith(fontSize: 18, color: ColorsApp.i.ternary),
         ),
+        automaticallyImplyLeading: false,
         centerTitle: true,
         iconTheme: IconThemeData(color: ColorsApp.i.ternary),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(
+              'CANCELAR',
+              style: context.textStyles.textBold.copyWith(color: Colors.red),
+            ),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(

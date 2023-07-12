@@ -41,15 +41,36 @@ class TaskListTile extends StatelessWidget {
                 const SizedBox(
                   height: 4,
                 ),
-                Text(
-                  task.servTaker!.name,
-                  style: context.textStyles.textRegular.copyWith(fontSize: 12),
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
+                SizedBox(
+                  width: context.percentWidth(.9),
+                  child: Text(
+                    task.servTaker!.name.toUpperCase(),
+                    style:
+                        context.textStyles.textRegular.copyWith(fontSize: 12),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                  ),
                 ),
               ],
             ),
-            Divider(color: Colors.grey.shade700, thickness: 2),
+            Divider(
+              color: Colors.grey.shade700,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Descrição',
+                  style: context.textStyles.textSemiBold,
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  task.descriptionService.toUpperCase(),
+                  style: context.textStyles.textRegular,
+                ),
+              ],
+            ),
+            Divider(color: Colors.grey.shade700),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -57,12 +78,12 @@ class TaskListTile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Descrição',
+                      '',
                       style: context.textStyles.textSemiBold,
                     ),
                     const SizedBox(height: 6),
                     Text(
-                      task.descriptionService.toUpperCase(),
+                      task.reportType!.name.toUpperCase(),
                       style: context.textStyles.textBold,
                     ),
                     const SizedBox(height: 6),
@@ -78,6 +99,7 @@ class TaskListTile extends StatelessWidget {
                   width: context.percentWidth(.45),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -92,8 +114,9 @@ class TaskListTile extends StatelessWidget {
                             style: context.textStyles.textRegular,
                           ),
                           const SizedBox(height: 6),
-                          if (task.hourDays != null &&
-                              task.hourDays!.isNotEmpty)
+                          if ((task.hourDays != null &&
+                                  task.hourDays!.isNotEmpty) &&
+                              task.hourUnitary != null)
                             Text(
                               '${task.hourDays}',
                               style: context.textStyles.textRegular,
@@ -116,9 +139,8 @@ class TaskListTile extends StatelessWidget {
                             style: context.textStyles.textRegular,
                           ),
                           const SizedBox(height: 6),
-                          if ((task.hourDays != null &&
-                                  task.hourDays!.isNotEmpty) &&
-                              task.hourUnitary != null)
+                          if (task.hourUnitary != null &&
+                              task.hourUnitary != 0.0)
                             Text(
                               UtilBrasilFields.obterReal(
                                 task.hourUnitary!,
@@ -164,7 +186,7 @@ class TaskListTile extends StatelessWidget {
                 ),
               ],
             ),
-            const Divider(),
+            Divider(color: Colors.grey.shade700),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -172,20 +194,10 @@ class TaskListTile extends StatelessWidget {
                   'Total',
                   style: context.textStyles.textSemiBold,
                 ),
-                ((task.hourDays != null && task.hourDays!.isNotEmpty) &&
-                        task.hourUnitary != null)
-                    ? Text(
-                        ((task.hourUnitary! *
-                                    double.tryParse(
-                                      task.hourDays!.replaceAll(',', '.'),
-                                    )!) +
-                                (task.unitaryValue! * task.quantity!))
-                            .currencyPTBR,
-                      )
-                    : Text(
-                        (task.unitaryValue! * task.quantity!).currencyPTBR,
-                        style: context.textStyles.textRegular,
-                      ),
+                Text(
+                  task.totalValueTask!.currencyPTBR,
+                  style: context.textStyles.textRegular,
+                ),
               ],
             ),
           ],

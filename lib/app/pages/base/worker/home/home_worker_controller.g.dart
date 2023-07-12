@@ -64,16 +64,16 @@ mixin _$HomeWorkerController on HomeWorkerControllerBase, Store {
   late final _$_tasksAtom =
       Atom(name: 'HomeWorkerControllerBase._tasks', context: context);
 
-  DashboardTaskModel? get tasks {
+  DashboardTaskModell? get tasks {
     _$_tasksAtom.reportRead();
     return super._tasks;
   }
 
   @override
-  DashboardTaskModel? get _tasks => tasks;
+  DashboardTaskModell? get _tasks => tasks;
 
   @override
-  set _tasks(DashboardTaskModel? value) {
+  set _tasks(DashboardTaskModell? value) {
     _$_tasksAtom.reportWrite(value, super._tasks, () {
       super._tasks = value;
     });
@@ -94,6 +94,24 @@ mixin _$HomeWorkerController on HomeWorkerControllerBase, Store {
   set _employeerCode(String? value) {
     _$_employeerCodeAtom.reportWrite(value, super._employeerCode, () {
       super._employeerCode = value;
+    });
+  }
+
+  late final _$_selectedDashboardAtom = Atom(
+      name: 'HomeWorkerControllerBase._selectedDashboard', context: context);
+
+  DashboardList? get selectedDashboard {
+    _$_selectedDashboardAtom.reportRead();
+    return super._selectedDashboard;
+  }
+
+  @override
+  DashboardList? get _selectedDashboard => selectedDashboard;
+
+  @override
+  set _selectedDashboard(DashboardList? value) {
+    _$_selectedDashboardAtom.reportWrite(value, super._selectedDashboard, () {
+      super._selectedDashboard = value;
     });
   }
 

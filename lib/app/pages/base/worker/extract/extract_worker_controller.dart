@@ -29,13 +29,22 @@ abstract class ExtractWorkerControllerBase with Store {
   @readonly
   List<OrderModel> _orders = <OrderModel>[];
 
+  @readonly
+  double? _amount = 0.0;
+
   @action
   void setButtonSelected(int value) => buttonSelected = value;
+
+  Future<void> getAmount() async {
+    _amount = _orders.fold(
+        0.0, (previousValue, o) => previousValue! + o.amountReceivable);
+  }
 
   Future<void> getPayments(String orderId) async {
     try {
       _status = ExtractWorkerStateStatus.loading;
       _orders = await OrderService().getOrderByWorker(orderId);
+      await getAmount();
       _status = ExtractWorkerStateStatus.loaded;
     } catch (e, s) {
       log('Erro ao buscar listar tarefas', error: e, stackTrace: s);

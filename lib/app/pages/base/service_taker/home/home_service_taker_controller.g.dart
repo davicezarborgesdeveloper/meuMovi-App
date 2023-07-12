@@ -64,18 +64,35 @@ mixin _$HomeServiceTakerController on HomeServiceTakerControllerBase, Store {
   late final _$_tasksAtom =
       Atom(name: 'HomeServiceTakerControllerBase._tasks', context: context);
 
-  DashboardTaskModel? get tasks {
+  DashboardTaskModell? get tasks {
     _$_tasksAtom.reportRead();
     return super._tasks;
   }
 
   @override
-  DashboardTaskModel? get _tasks => tasks;
+  DashboardTaskModell? get _tasks => tasks;
 
   @override
-  set _tasks(DashboardTaskModel? value) {
+  set _tasks(DashboardTaskModell? value) {
     _$_tasksAtom.reportWrite(value, super._tasks, () {
       super._tasks = value;
+    });
+  }
+
+  late final _$selectedDashboardAtom = Atom(
+      name: 'HomeServiceTakerControllerBase.selectedDashboard',
+      context: context);
+
+  @override
+  DashboardList? get selectedDashboard {
+    _$selectedDashboardAtom.reportRead();
+    return super.selectedDashboard;
+  }
+
+  @override
+  set selectedDashboard(DashboardList? value) {
+    _$selectedDashboardAtom.reportWrite(value, super.selectedDashboard, () {
+      super.selectedDashboard = value;
     });
   }
 
@@ -113,9 +130,22 @@ mixin _$HomeServiceTakerController on HomeServiceTakerControllerBase, Store {
   }
 
   @override
+  void setSelectedDashboard(DashboardList? value) {
+    final _$actionInfo =
+        _$HomeServiceTakerControllerBaseActionController.startAction(
+            name: 'HomeServiceTakerControllerBase.setSelectedDashboard');
+    try {
+      return super.setSelectedDashboard(value);
+    } finally {
+      _$HomeServiceTakerControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
-buttonSelected: ${buttonSelected}
+buttonSelected: ${buttonSelected},
+selectedDashboard: ${selectedDashboard}
     ''';
   }
 }

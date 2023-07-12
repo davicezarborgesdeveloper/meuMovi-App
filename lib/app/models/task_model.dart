@@ -19,6 +19,7 @@ class TaskModel {
   final double? valueInvoice;
   final int? quantity;
   final double? unitaryValue;
+  final double? totalValueTask;
   final int status;
   final int access;
   TaskModel({
@@ -37,6 +38,7 @@ class TaskModel {
     this.valueInvoice,
     this.quantity,
     this.unitaryValue,
+    this.totalValueTask,
     required this.status,
     required this.access,
   });
@@ -58,6 +60,7 @@ class TaskModel {
       'valueInvoice': valueInvoice,
       'quantity': quantity,
       'unitaryValue': unitaryValue,
+      'totalValueTask': totalValueTask,
       'status': status,
       'access': access,
     };
@@ -88,6 +91,7 @@ class TaskModel {
       quantity: (map['quantity'] ?? 0) as int,
       unitaryValue: (map['unitaryValue'] ?? 0.0) as double,
       hourUnitary: (map['hourUnitary'] ?? 0.0) as double,
+      totalValueTask: (map['totalValueTask'] ?? 0.0) as double,
       status: (map['status'] ?? 0) as int,
       access: (map['access'] ?? 0) as int,
     );
@@ -115,6 +119,7 @@ class TaskModel {
     int? quantity,
     double? unitaryValue,
     double? hourUnitary,
+    double? totalValueTask,
     int? status,
     int? access,
   }) {
@@ -134,6 +139,7 @@ class TaskModel {
       quantity: quantity ?? this.quantity,
       unitaryValue: unitaryValue ?? this.unitaryValue,
       hourUnitary: hourUnitary ?? this.hourUnitary,
+      totalValueTask: totalValueTask ?? this.totalValueTask,
       status: status ?? this.status,
       access: access ?? this.access,
     );

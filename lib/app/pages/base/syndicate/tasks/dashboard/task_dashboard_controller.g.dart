@@ -64,18 +64,36 @@ mixin _$TaskDashboardController on TaskDashboardControllerBase, Store {
   late final _$_tasksAtom =
       Atom(name: 'TaskDashboardControllerBase._tasks', context: context);
 
-  DashboardTaskModel? get tasks {
+  DashboardTaskModell? get tasks {
     _$_tasksAtom.reportRead();
     return super._tasks;
   }
 
   @override
-  DashboardTaskModel? get _tasks => tasks;
+  DashboardTaskModell? get _tasks => tasks;
 
   @override
-  set _tasks(DashboardTaskModel? value) {
+  set _tasks(DashboardTaskModell? value) {
     _$_tasksAtom.reportWrite(value, super._tasks, () {
       super._tasks = value;
+    });
+  }
+
+  late final _$_selectedDashboardAtom = Atom(
+      name: 'TaskDashboardControllerBase._selectedDashboard', context: context);
+
+  DashboardList? get selectedDashboard {
+    _$_selectedDashboardAtom.reportRead();
+    return super._selectedDashboard;
+  }
+
+  @override
+  DashboardList? get _selectedDashboard => selectedDashboard;
+
+  @override
+  set _selectedDashboard(DashboardList? value) {
+    _$_selectedDashboardAtom.reportWrite(value, super._selectedDashboard, () {
+      super._selectedDashboard = value;
     });
   }
 

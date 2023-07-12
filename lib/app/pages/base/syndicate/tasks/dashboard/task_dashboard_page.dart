@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 
+import '../../../../../core/extensions/formatter_extensions.dart';
 import '../../../../../core/ui/helpers/loader.dart';
 import '../../../../../core/ui/helpers/messages.dart';
 import '../../../../../core/ui/helpers/size_extensions.dart';
@@ -28,6 +29,8 @@ class _TaskDashboardPageState extends State<TaskDashboardPage>
     with Loader, Messages {
   final TaskDashboardController controller = TaskDashboardController();
   late final ReactionDisposer statusDisposer;
+  // DashboardList? dashboardList =
+  //     DashboardList(list: <TaskModel>[], amountValue: 0.0);
 
   @override
   void initState() {
@@ -182,153 +185,180 @@ class _TaskDashboardPageState extends State<TaskDashboardPage>
         ],
       ),
       drawer: const MenuDrawer(),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Observer(
-                builder: (_) => SizedBox(
-                  height: context.percentHeight(kIsWeb ? 0.56 : 0.30),
-                  child: GridView.count(
-                    physics: const NeverScrollableScrollPhysics(),
-                    crossAxisSpacing: 4,
-                    mainAxisSpacing: 4,
-                    crossAxisCount: 3,
-                    shrinkWrap: true,
-                    children: [
-                      TaskButton(
-                        label: 'em análise',
-                        numberLabel:
-                            controller.tasks!.inAnalysis!.length.toString(),
-                        option: 0,
-                        themeColor: ColorsApp.i.primary,
-                        selected: controller.buttonSelected,
-                        onPressed: () async {
-                          controller.setButtonSelected(0);
-                          await controller.getTasks(
-                            widget.userController.syndicate!.user,
-                          );
-                        },
-                      ),
-                      TaskButton(
-                        label: 'em aberto',
-                        numberLabel:
-                            controller.tasks!.opened!.length.toString(),
-                        option: 1,
-                        themeColor: ColorsApp.i.primary,
-                        selected: controller.buttonSelected,
-                        onPressed: () async {
-                          controller.setButtonSelected(1);
-                          await controller.getTasks(
-                            widget.userController.syndicate!.user,
-                          );
-                        },
-                      ),
-                      TaskButton(
-                        label: 'aguardando início',
-                        numberLabel:
-                            controller.tasks!.waitStart!.length.toString(),
-                        option: 2,
-                        themeColor: ColorsApp.i.primary,
-                        selected: controller.buttonSelected,
-                        onPressed: () async {
-                          controller.setButtonSelected(2);
-                          await controller.getTasks(
-                            widget.userController.syndicate!.user,
-                          );
-                        },
-                      ),
-                      TaskButton(
-                        label: 'em andamento',
-                        numberLabel:
-                            controller.tasks!.inProgress.length.toString(),
-                        option: 3,
-                        themeColor: ColorsApp.i.primary,
-                        selected: controller.buttonSelected,
-                        onPressed: () async {
-                          controller.setButtonSelected(3);
-                          await controller.getTasks(
-                            widget.userController.syndicate!.user,
-                          );
-                        },
-                      ),
-                      TaskButton(
-                        label: 'finalizadas',
-                        numberLabel:
-                            controller.tasks!.finished.length.toString(),
-                        option: 4,
-                        themeColor: ColorsApp.i.primary,
-                        selected: controller.buttonSelected,
-                        onPressed: () async {
-                          controller.setButtonSelected(4);
-                          await controller.getTasks(
-                            widget.userController.serviceTaker!.user,
-                          );
-                        },
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 32),
-              Observer(
-                builder: (_) => Text(
-                  controller.buttonSelected == 0
-                      ? 'Em análise'
-                      : controller.buttonSelected == 1
-                          ? 'Em aberto'
-                          : controller.buttonSelected == 2
-                              ? 'Aguardando início'
-                              : controller.buttonSelected == 3
-                                  ? 'Em andamento'
-                                  : 'Finalizadas',
-                  style: context.textStyles.textExtraBold
-                      .copyWith(color: Colors.black, fontSize: 18),
-                ),
-              ),
-              const SizedBox(height: 16),
-              Observer(
-                builder: (_) {
-                  final list = controller.buttonSelected == 0
-                      ? controller.tasks!.inAnalysis
-                      : controller.buttonSelected == 1
-                          ? controller.tasks!.opened
-                          : controller.buttonSelected == 2
-                              ? controller.tasks!.waitStart
-                              : controller.buttonSelected == 3
-                                  ? controller.tasks!.inProgress
-                                  : controller.tasks!.finished;
-                  return list!.isNotEmpty
-                      ? Column(
-                          children: list
-                              .map(
-                                (tsk) => TaskListTile(
-                                  tsk,
-                                  () => _optionOpenDialog(tsk),
-                                  themeColor: ColorsApp.i.primary,
-                                ),
-                              )
-                              .toList(),
-                        )
-                      : Padding(
-                          padding: const EdgeInsets.only(top: 24),
-                          child: Center(
-                            child: Text(
-                              'não há tarefas ${controller.buttonSelected == 0 ? 'em análise' : controller.buttonSelected == 1 ? 'em aberto' : controller.buttonSelected == 2 ? 'aguardando inicio' : controller.buttonSelected == 3 ? 'em andamento' : 'finalizadas'}',
-                              style: context.textStyles.textRegular.copyWith(
-                                color: Colors.grey,
-                                fontSize: 16,
-                              ),
-                            ),
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Observer(
+                    builder: (_) => SizedBox(
+                      height: context.percentHeight(kIsWeb ? 0.56 : 0.30),
+                      child: GridView.count(
+                        physics: const NeverScrollableScrollPhysics(),
+                        crossAxisSpacing: 4,
+                        mainAxisSpacing: 4,
+                        crossAxisCount: 3,
+                        shrinkWrap: true,
+                        children: [
+                          TaskButton(
+                            label: 'em análise',
+                            numberLabel: controller
+                                .tasks!.inAnalysis!.list!.length
+                                .toString(),
+                            option: 0,
+                            themeColor: ColorsApp.i.primary,
+                            selected: controller.buttonSelected,
+                            onPressed: () async {
+                              controller.setButtonSelected(0);
+                              await controller.getTasks(
+                                widget.userController.syndicate!.user,
+                              );
+                            },
                           ),
-                        );
-                },
+                          TaskButton(
+                            label: 'em aberto',
+                            numberLabel: controller.tasks!.opened!.list!.length
+                                .toString(),
+                            option: 1,
+                            themeColor: ColorsApp.i.primary,
+                            selected: controller.buttonSelected,
+                            onPressed: () async {
+                              controller.setButtonSelected(1);
+                              await controller.getTasks(
+                                widget.userController.syndicate!.user,
+                              );
+                            },
+                          ),
+                          TaskButton(
+                            label: 'aguardando início',
+                            numberLabel: controller
+                                .tasks!.waitStart!.list!.length
+                                .toString(),
+                            option: 2,
+                            themeColor: ColorsApp.i.primary,
+                            selected: controller.buttonSelected,
+                            onPressed: () async {
+                              controller.setButtonSelected(2);
+                              await controller.getTasks(
+                                widget.userController.syndicate!.user,
+                              );
+                            },
+                          ),
+                          TaskButton(
+                            label: 'em andamento',
+                            numberLabel: controller
+                                .tasks!.inProgress.list!.length
+                                .toString(),
+                            option: 3,
+                            themeColor: ColorsApp.i.primary,
+                            selected: controller.buttonSelected,
+                            onPressed: () async {
+                              controller.setButtonSelected(3);
+                              await controller.getTasks(
+                                widget.userController.syndicate!.user,
+                              );
+                            },
+                          ),
+                          TaskButton(
+                            label: 'finalizadas',
+                            numberLabel: controller.tasks!.finished.list!.length
+                                .toString(),
+                            option: 4,
+                            themeColor: ColorsApp.i.primary,
+                            selected: controller.buttonSelected,
+                            onPressed: () async {
+                              controller.setButtonSelected(4);
+                              await controller.getTasks(
+                                widget.userController.syndicate!.user,
+                              );
+                            },
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 32),
+                  Observer(
+                    builder: (_) => Text(
+                      controller.buttonSelected == 0
+                          ? 'Em análise'
+                          : controller.buttonSelected == 1
+                              ? 'Em aberto'
+                              : controller.buttonSelected == 2
+                                  ? 'Aguardando início'
+                                  : controller.buttonSelected == 3
+                                      ? 'Em andamento'
+                                      : 'Finalizadas',
+                      style: context.textStyles.textExtraBold
+                          .copyWith(color: Colors.black, fontSize: 18),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Observer(
+                    builder: (_) {
+                      return controller.selectedDashboard!.list!.isNotEmpty
+                          ? Column(
+                              children: controller.selectedDashboard!.list!
+                                  .map(
+                                    (tsk) => TaskListTile(
+                                      tsk,
+                                      () => _optionOpenDialog(tsk),
+                                      themeColor: ColorsApp.i.primary,
+                                    ),
+                                  )
+                                  .toList(),
+                            )
+                          : Padding(
+                              padding: const EdgeInsets.only(top: 24),
+                              child: Center(
+                                child: Text(
+                                  'não há tarefas ${controller.buttonSelected == 0 ? 'em análise' : controller.buttonSelected == 1 ? 'em aberto' : controller.buttonSelected == 2 ? 'aguardando inicio' : controller.buttonSelected == 3 ? 'em andamento' : 'finalizadas'}',
+                                  style:
+                                      context.textStyles.textRegular.copyWith(
+                                    color: Colors.grey,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ),
+                            );
+                    },
+                  ),
+                  const SizedBox(height: 60),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              width: double.infinity,
+              height: 50,
+              color: Colors.white,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Total',
+                    style: context.textStyles.textBold.copyWith(fontSize: 16),
+                  ),
+                  Observer(
+                    builder: (_) {
+                      return Text(
+                        controller.selectedDashboard!.amountValue!.currencyPTBR,
+                        style: context.textStyles.textExtraBold
+                            .copyWith(fontSize: 18),
+                      );
+                    },
+                  )
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

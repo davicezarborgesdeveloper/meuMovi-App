@@ -89,7 +89,7 @@ enum ProductionType {
 enum ReportType {
   tonelada('Tonelada', 'T'),
   saca('Saca', 'S'),
-  dia('Dia', 'D'),
+  dia('Diária', 'D'),
   hora('Hora', 'H'),
   unidade('Unidade', 'U');
 

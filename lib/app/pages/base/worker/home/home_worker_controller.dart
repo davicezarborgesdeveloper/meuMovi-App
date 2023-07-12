@@ -28,15 +28,19 @@ abstract class HomeWorkerControllerBase with Store {
   int buttonSelected = 0;
 
   @readonly
-  DashboardTaskModel? _tasks = DashboardTaskModel(
-    available: <TaskModel>[],
-    confirmed: <TaskModel>[],
-    inProgress: <TaskModel>[],
-    finished: <TaskModel>[],
+  DashboardTaskModell? _tasks = DashboardTaskModell(
+    available: DashboardList(list: <TaskModel>[]),
+    confirmed: DashboardList(list: <TaskModel>[]),
+    inProgress: DashboardList(list: <TaskModel>[]),
+    finished: DashboardList(list: <TaskModel>[]),
   );
 
   @readonly
   String? _employeerCode;
+
+  @readonly
+  DashboardList? _selectedDashboard =
+      DashboardList(list: <TaskModel>[], amountValue: 0.0);
 
   @action
   void setButtonSelected(int value) => buttonSelected = value;
@@ -45,11 +49,29 @@ abstract class HomeWorkerControllerBase with Store {
     try {
       _status = HomeWorkerStateStatus.loading;
       _tasks = await TaskService().getTasksDashboardWorker(synId, orderId);
+      await setDashboardList();
       _status = HomeWorkerStateStatus.loaded;
     } catch (e, s) {
       log('Erro ao buscar listar tarefas', error: e, stackTrace: s);
       _status = HomeWorkerStateStatus.error;
       _errorMessage = 'Erro ao buscar listar tarefas';
+    }
+  }
+
+  Future<void> setDashboardList() async {
+    switch (buttonSelected) {
+      case 0:
+        _selectedDashboard = _tasks!.available;
+        break;
+      case 1:
+        _selectedDashboard = _tasks!.confirmed;
+        break;
+      case 2:
+        _selectedDashboard = _tasks!.inProgress;
+        break;
+      case 3:
+        _selectedDashboard = _tasks!.finished;
+        break;
     }
   }
 

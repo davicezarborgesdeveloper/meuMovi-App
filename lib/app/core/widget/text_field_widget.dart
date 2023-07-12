@@ -69,6 +69,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
           TextFormField(
             focusNode: widget.focusNode,
             controller: widget.controller,
+            maxLength: null,
             decoration: InputDecoration(
               errorText: widget.errorText,
               hintText: widget.hintText,

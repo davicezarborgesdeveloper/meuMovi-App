@@ -84,16 +84,16 @@ class TaskServiceImpl implements TaskService {
   }
 
   @override
-  Future<DashboardTaskModel> getTasksDashboardServiceTaker(
+  Future<DashboardTaskModell> getTasksDashboardServiceTaker(
     String? userId,
   ) async {
     final collectionRef = FirebaseFirestore.instance.collection(taskCollection);
     final QuerySnapshot querySnapshot = await collectionRef.get();
-    final DashboardTaskModel dash = DashboardTaskModel(
-      opened: <TaskModel>[],
-      confirmed: <TaskModel>[],
-      inProgress: <TaskModel>[],
-      finished: <TaskModel>[],
+    final DashboardTaskModell dash = DashboardTaskModell(
+      opened: DashboardList(list: <TaskModel>[], amountValue: 0.0),
+      confirmed: DashboardList(list: <TaskModel>[], amountValue: 0.0),
+      inProgress: DashboardList(list: <TaskModel>[], amountValue: 0.0),
+      finished: DashboardList(list: <TaskModel>[], amountValue: 0.0),
     );
     for (var doc in querySnapshot.docs) {
       final map = doc.data() as Map<String, dynamic>;
@@ -101,58 +101,76 @@ class TaskServiceImpl implements TaskService {
         switch (map['status']) {
           case 0:
           case 1:
-            dash.opened!.add(TaskModel.fromMap(map));
+            dash.opened!.list!.add(TaskModel.fromMap(map));
             break;
           case 2:
-            dash.confirmed!.add(TaskModel.fromMap(map));
+            dash.confirmed!.list!.add(TaskModel.fromMap(map));
             break;
           case 3:
-            dash.inProgress.add(TaskModel.fromMap(map));
+            dash.inProgress.list!.add(TaskModel.fromMap(map));
             break;
           case 4:
-            dash.finished.add(TaskModel.fromMap(map));
+            dash.finished.list!.add(TaskModel.fromMap(map));
         }
       }
     }
+    dash.opened!.amountValue = dash.opened!.list!
+        .fold(0.0, (previousValue, p) => previousValue! + p.totalValueTask!);
+    dash.confirmed!.amountValue = dash.confirmed!.list!
+        .fold(0.0, (previousValue, p) => previousValue! + p.totalValueTask!);
+    dash.inProgress.amountValue = dash.inProgress.list!
+        .fold(0.0, (previousValue, p) => previousValue! + p.totalValueTask!);
+    dash.finished.amountValue = dash.finished.list!
+        .fold(0.0, (previousValue, p) => previousValue! + p.totalValueTask!);
     return dash;
   }
 
   @override
-  Future<DashboardTaskModel> getTasksDashboardSyndicate(String? userId) async {
+  Future<DashboardTaskModell> getTasksDashboardSyndicate(String? userId) async {
     final collectionRef = FirebaseFirestore.instance.collection(taskCollection);
     final QuerySnapshot querySnapshot = await collectionRef.get();
-    final DashboardTaskModel dash = DashboardTaskModel(
-      inAnalysis: <TaskModel>[],
-      opened: <TaskModel>[],
-      waitStart: <TaskModel>[],
-      inProgress: <TaskModel>[],
-      finished: <TaskModel>[],
+    final DashboardTaskModell dash = DashboardTaskModell(
+      inAnalysis: DashboardList(list: <TaskModel>[], amountValue: 0.0),
+      opened: DashboardList(list: <TaskModel>[], amountValue: 0.0),
+      waitStart: DashboardList(list: <TaskModel>[], amountValue: 0.0),
+      inProgress: DashboardList(list: <TaskModel>[], amountValue: 0.0),
+      finished: DashboardList(list: <TaskModel>[], amountValue: 0.0),
     );
     for (var doc in querySnapshot.docs) {
       final map = doc.data() as Map<String, dynamic>;
       if (map['syndicate'] == userId && map['access'] >= 1) {
         switch (map['status']) {
           case 0:
-            dash.inAnalysis!.add(TaskModel.fromMap(map));
+            dash.inAnalysis!.list!.add(TaskModel.fromMap(map));
           case 1:
-            dash.opened!.add(TaskModel.fromMap(map));
+            dash.opened!.list!.add(TaskModel.fromMap(map));
             break;
           case 2:
-            dash.waitStart!.add(TaskModel.fromMap(map));
+            dash.waitStart!.list!.add(TaskModel.fromMap(map));
             break;
           case 3:
-            dash.inProgress.add(TaskModel.fromMap(map));
+            dash.inProgress.list!.add(TaskModel.fromMap(map));
             break;
           case 4:
-            dash.finished.add(TaskModel.fromMap(map));
+            dash.finished.list!.add(TaskModel.fromMap(map));
         }
       }
     }
+    dash.inAnalysis!.amountValue = dash.inAnalysis!.list!
+        .fold(0.0, (previousValue, p) => previousValue! + p.totalValueTask!);
+    dash.opened!.amountValue = dash.opened!.list!
+        .fold(0.0, (previousValue, p) => previousValue! + p.totalValueTask!);
+    dash.waitStart!.amountValue = dash.waitStart!.list!
+        .fold(0.0, (previousValue, p) => previousValue! + p.totalValueTask!);
+    dash.inProgress.amountValue = dash.inProgress.list!
+        .fold(0.0, (previousValue, p) => previousValue! + p.totalValueTask!);
+    dash.finished.amountValue = dash.finished.list!
+        .fold(0.0, (previousValue, p) => previousValue! + p.totalValueTask!);
     return dash;
   }
 
   @override
-  Future<DashboardTaskModel> getTasksDashboardWorker(
+  Future<DashboardTaskModell> getTasksDashboardWorker(
     String? synId,
     String orderId,
   ) async {
@@ -163,11 +181,11 @@ class TaskServiceImpl implements TaskService {
         .doc(orderId)
         .collection('task');
 
-    final DashboardTaskModel dash = DashboardTaskModel(
-      available: <TaskModel>[],
-      confirmed: <TaskModel>[],
-      inProgress: <TaskModel>[],
-      finished: <TaskModel>[],
+    final DashboardTaskModell dash = DashboardTaskModell(
+      available: DashboardList(list: <TaskModel>[], amountValue: 0.0),
+      confirmed: DashboardList(list: <TaskModel>[], amountValue: 0.0),
+      inProgress: DashboardList(list: <TaskModel>[], amountValue: 0.0),
+      finished: DashboardList(list: <TaskModel>[], amountValue: 0.0),
     );
     for (var doc in querySnapshot.docs) {
       final map = doc.data() as Map<String, dynamic>;
@@ -176,22 +194,30 @@ class TaskServiceImpl implements TaskService {
           case 1:
             final taskMap = await docOrder.doc(map['code']).get();
             if (taskMap.exists && taskMap['statusTask'] == 2) {
-              dash.confirmed!.add(TaskModel.fromMap(map));
+              dash.confirmed!.list!.add(TaskModel.fromMap(map));
             } else {
-              dash.available!.add(TaskModel.fromMap(map));
+              dash.available!.list!.add(TaskModel.fromMap(map));
             }
             break;
           case 2:
-            dash.confirmed!.add(TaskModel.fromMap(map));
+            dash.confirmed!.list!.add(TaskModel.fromMap(map));
             break;
           case 3:
-            dash.inProgress.add(TaskModel.fromMap(map));
+            dash.inProgress.list!.add(TaskModel.fromMap(map));
             break;
           case 4:
-            dash.finished.add(TaskModel.fromMap(map));
+            dash.finished.list!.add(TaskModel.fromMap(map));
         }
       }
     }
+    dash.available!.amountValue = dash.available!.list!
+        .fold(0.0, (previousValue, p) => previousValue! + p.totalValueTask!);
+    dash.confirmed!.amountValue = dash.confirmed!.list!
+        .fold(0.0, (previousValue, p) => previousValue! + p.totalValueTask!);
+    dash.inProgress.amountValue = dash.inProgress.list!
+        .fold(0.0, (previousValue, p) => previousValue! + p.totalValueTask!);
+    dash.finished.amountValue = dash.finished.list!
+        .fold(0.0, (previousValue, p) => previousValue! + p.totalValueTask!);
     return dash;
   }
 

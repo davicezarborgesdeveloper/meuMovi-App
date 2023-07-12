@@ -29,12 +29,16 @@ abstract class HomeServiceTakerControllerBase with Store {
   int buttonSelected = 0;
 
   @readonly
-  DashboardTaskModel? _tasks = DashboardTaskModel(
-    opened: <TaskModel>[],
-    confirmed: <TaskModel>[],
-    inProgress: <TaskModel>[],
-    finished: <TaskModel>[],
+  DashboardTaskModell? _tasks = DashboardTaskModell(
+    opened: DashboardList(list: <TaskModel>[]),
+    confirmed: DashboardList(list: <TaskModel>[]),
+    inProgress: DashboardList(list: <TaskModel>[]),
+    finished: DashboardList(list: <TaskModel>[]),
   );
+
+  @observable
+  DashboardList? selectedDashboard =
+      DashboardList(list: <TaskModel>[], amountValue: 0.0);
 
   @readonly
   String? _employeerCode;
@@ -42,15 +46,36 @@ abstract class HomeServiceTakerControllerBase with Store {
   @action
   void setButtonSelected(int value) => buttonSelected = value;
 
+  @action
+  void setSelectedDashboard(DashboardList? value) => selectedDashboard = value;
+
   Future<void> getTasks(String? id) async {
     try {
       _status = HomeServiceTakerStateStatus.loading;
       _tasks = await TaskService().getTasksDashboardServiceTaker(id);
+      await setDashboardList();
       _status = HomeServiceTakerStateStatus.loaded;
     } catch (e, s) {
       log('Erro ao buscar listar tarefas', error: e, stackTrace: s);
       _status = HomeServiceTakerStateStatus.error;
       _errorMessage = 'Erro ao buscar listar tarefas';
+    }
+  }
+
+  Future<void> setDashboardList() async {
+    switch (buttonSelected) {
+      case 0:
+        selectedDashboard = _tasks!.opened;
+        break;
+      case 1:
+        selectedDashboard = _tasks!.confirmed;
+        break;
+      case 2:
+        selectedDashboard = _tasks!.inProgress;
+        break;
+      case 3:
+        selectedDashboard = _tasks!.finished;
+        break;
     }
   }
 

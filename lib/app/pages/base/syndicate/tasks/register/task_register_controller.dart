@@ -242,7 +242,9 @@ abstract class TaskRegisterControllerBase with Store {
   }
 
   @computed
-  bool get hourUnitaryValid => hourDays != null ? hourUnitary != null : true;
+  bool get hourUnitaryValid => hourDays != null && hourDays!.isNotEmpty
+      ? hourUnitary != null && hourUnitary!.isNotEmpty
+      : true;
   String? get hourUnitaryError {
     if (!_showErrors || hourUnitaryValid) {
       return null;
@@ -295,7 +297,10 @@ abstract class TaskRegisterControllerBase with Store {
         syndicate: syndicate,
         quantity: int.tryParse(quantity!),
         unitaryValue: double.tryParse(unitaryValue!.replaceAll(',', '.')),
-        hourUnitary: double.tryParse(hourUnitary!.replaceAll(',', '.')),
+        hourUnitary: hourUnitary != null
+            ? double.tryParse(hourUnitary!.replaceAll(',', '.'))
+            : null,
+        totalValueTask: await setTotalTask(),
         status: _statusTask ?? 0,
         access: _access ?? 1,
       );
@@ -306,6 +311,18 @@ abstract class TaskRegisterControllerBase with Store {
       _errorMessage = 'Erro ao registrar usuário';
       _status = TaskRegisterStateStatus.error;
     }
+  }
+
+  Future<double> setTotalTask() async {
+    double total = (int.tryParse(quantity!)! *
+        double.tryParse(unitaryValue!.replaceAll(',', '.'))!);
+    if (hourDays != null && hourDays!.isNotEmpty && hourUnitary != null) {
+      total += double.tryParse(hourDays!.replaceAll(',', '.'))! *
+          double.tryParse(
+            hourUnitary!.replaceAll('.', '').replaceAll(',', '.'),
+          )!;
+    }
+    return total;
   }
 
   Future<void> loadData(TaskModel? model) async {

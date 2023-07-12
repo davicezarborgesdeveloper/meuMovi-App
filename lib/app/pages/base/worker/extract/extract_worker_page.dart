@@ -74,10 +74,12 @@ class _ExtractWorkerPageState extends State<ExtractWorkerPage>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  0.00.currencyPTBR,
-                  style: context.textStyles.textSemiBold
-                      .copyWith(fontSize: 28, color: ColorsApp.i.ternary),
+                Observer(
+                  builder: (_) => Text(
+                    controller.amount!.currencyPTBR,
+                    style: context.textStyles.textSemiBold
+                        .copyWith(fontSize: 28, color: ColorsApp.i.ternary),
+                  ),
                 ),
                 const SizedBox(height: 8),
                 Text(
