@@ -174,6 +174,14 @@ class _HomeServiceTakerPageState extends State<HomeServiceTakerPage>
         actions: [
           IconButton(
             onPressed: () async {
+              await controller.getTasks(
+                widget.userController.serviceTaker!.user,
+              );
+            },
+            icon: const Icon(Icons.refresh),
+          ),
+          IconButton(
+            onPressed: () async {
               await Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (_) => const TaskServiceTakerRegisterPage(),

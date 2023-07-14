@@ -88,7 +88,8 @@ class TaskListTile extends StatelessWidget {
                     ),
                     const SizedBox(height: 6),
                     if ((task.hourDays != null && task.hourDays!.isNotEmpty) &&
-                        task.hourUnitary != null)
+                        task.hourUnitary != null &&
+                        task.hourDays != '0,00')
                       Text(
                         'HORAS EXTRAS',
                         style: context.textStyles.textBold,
@@ -116,7 +117,8 @@ class TaskListTile extends StatelessWidget {
                           const SizedBox(height: 6),
                           if ((task.hourDays != null &&
                                   task.hourDays!.isNotEmpty) &&
-                              task.hourUnitary != null)
+                              task.hourUnitary != null &&
+                              task.hourDays != '0,00')
                             Text(
                               '${task.hourDays}',
                               style: context.textStyles.textRegular,
@@ -140,7 +142,8 @@ class TaskListTile extends StatelessWidget {
                           ),
                           const SizedBox(height: 6),
                           if (task.hourUnitary != null &&
-                              task.hourUnitary != 0.0)
+                              task.hourUnitary != 0.0 &&
+                              task.hourDays != '0,00')
                             Text(
                               UtilBrasilFields.obterReal(
                                 task.hourUnitary!,
@@ -168,7 +171,8 @@ class TaskListTile extends StatelessWidget {
                           const SizedBox(height: 6),
                           if ((task.hourDays != null &&
                                   task.hourDays!.isNotEmpty) &&
-                              task.hourUnitary != null)
+                              task.hourUnitary != null &&
+                              task.hourDays != '0,00')
                             Text(
                               UtilBrasilFields.obterReal(
                                 task.hourUnitary! *
