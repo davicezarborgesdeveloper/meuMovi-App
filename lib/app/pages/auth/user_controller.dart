@@ -44,64 +44,59 @@ abstract class UserControllerBase with Store {
   @action
   void setSyndicate(SyndicateModel? value) => syndicate = value;
 
- Future<void> setCleanUser() async {
+  Future<void> setCleanUser() async {
     setUser(null);
     setWorker(null);
     setSyndicate(null);
     setServiceTaker(null);
   }
-  
+
   @action
   Future<void> getCurrentUser([String? userId]) async {
     setCleanUser();
-    if (userId != null) {
-      final user = await UserService().getUserById(userId);
-      if (user is WorkerModel) {
-        setWorker(user);
-      } else if (user is ServiceTakerModel) {
-        setServiceTaker(user);
-      } else {
-        setSyndicate(user as SyndicateModel);
-      }
-    } else {
-      _keepLogged =
-          (await Storage().getBool(SharedStoreKeys.keepLogged.key)) ?? false;
-      setCleanUser();
-      final userShared =
-          await Storage().getData(SharedStoreKeys.authAccess.key);
-      if (userShared != null) {
-      //   try {
-      //     final user =
-      //         await UserService().getUserById(jsonDecode(userShared)['user']);
-      //     if (jsonDecode(userShared)['profileType'] == 0) {
-      //       setServiceTaker(user as ServiceTakerModel);
-      //     } else if (jsonDecode(userShared)['profileType'] == 1) {
-      //       setSyndicate(user as SyndicateModel);
-      //     } else {
-      //       setWorker(user as WorkerModel);
-      //     }
-      //   } catch (e, s) {
-      //     log(
-      //       'Erro ao buscar informações do usuario',
-      //       error: e,
-      //       stackTrace: s,
-      //     );
-      //   }
-      // } else {
-      //   setUser(null);
-      // }
-    }
+//     if (userId != null) {
+//       final user = await UserService().getUserById(userId);
+//       if (user is WorkerModel) {
+//         setWorker(user);
+//       } else if (user is ServiceTakerModel) {
+//         setServiceTaker(user);
+//       } else {
+//         setSyndicate(user as SyndicateModel);
+//       }
+//     } else {
+//       _keepLogged =
+//           (await Storage().getBool(SharedStoreKeys.keepLogged.key)) ?? false;
+//       setCleanUser();
+//       final userShared =
+//           await Storage().getData(SharedStoreKeys.authAccess.key);
+//       if (userShared != null) {
+//       //   try {
+//       //     final user =
+//       //         await UserService().getUserById(jsonDecode(userShared)['user']);
+//       //     if (jsonDecode(userShared)['profileType'] == 0) {
+//       //       setServiceTaker(user as ServiceTakerModel);
+//       //     } else if (jsonDecode(userShared)['profileType'] == 1) {
+//       //       setSyndicate(user as SyndicateModel);
+//       //     } else {
+//       //       setWorker(user as WorkerModel);
+//       //     }
+//       //   } catch (e, s) {
+//       //     log(
+//       //       'Erro ao buscar informações do usuario',
+//       //       error: e,
+//       //       stackTrace: s,
+//       //     );
+//       //   }
+//       // } else {
+//       //   setUser(null);
+//       // }
+//     }
   }
-
- 
 
   @action
   Future<void> logout() async {
     Storage().clean();
-    setUser(null);
-    setWorker(null);
-    setServiceTaker(null);
-    setSyndicate(null);
+    setCleanUser();
   }
 
   @action
