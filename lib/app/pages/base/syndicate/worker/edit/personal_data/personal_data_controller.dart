@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
 
+import '../../../../../../core/extensions/formatter_extensions.dart';
 import '../../../../../../core/extensions/validator_extensions.dart';
 import '../../../../../../core/ui/helpers/enums.dart';
 import '../../../../../../models/worker_model.dart';
@@ -232,7 +233,7 @@ abstract class PersonalDataControllerBase with Store {
     birthdate = worker.personal.birthdate;
     motherName = worker.personal.motherName;
     maritalStatus = worker.personal.maritalStatus;
-    phone = worker.personal.phone;
+    phone = worker.personal.phone?.formattedPhone;
     email = worker.personal.email;
     _status = PersonalDataStateStatus.loaded;
   }

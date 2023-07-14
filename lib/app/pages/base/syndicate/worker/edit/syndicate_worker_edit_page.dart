@@ -137,8 +137,11 @@ class _SyndicateWorkerEditPageState extends State<SyndicateWorkerEditPage>
                               ),
                               PersonalTile(
                                 icon: Icons.phone,
-                                text: controller.workerModel!.personal.phone ??
-                                    '',
+                                text: controller.workerModel!.personal.phone !=
+                                        null
+                                    ? controller.workerModel!.personal.phone!
+                                        .formattedPhone
+                                    : '',
                               ),
                               PersonalTile(
                                 urlIcon: 'assets/images/ic-marital-status.png',
