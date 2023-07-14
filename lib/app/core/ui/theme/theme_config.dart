@@ -8,14 +8,14 @@ class ThemeConfig {
   ThemeConfig._();
 
   static final _defaultInputBorder = OutlineInputBorder(
-    borderRadius: BorderRadius.circular(7),
+    borderRadius: BorderRadius.circular(4),
     borderSide: BorderSide(color: Colors.grey[400]!),
   );
 
   static final theme = ThemeData(
     scaffoldBackgroundColor: ColorsApp.i.bg,
     appBarTheme: AppBarTheme(
-      backgroundColor: ColorsApp.i.primary,
+      backgroundColor: ColorsApp.i.bg,
       elevation: 0,
       centerTitle: true,
     ),

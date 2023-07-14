@@ -86,6 +86,7 @@ class _LoginPageState extends State<LoginPage> with Loader, Messages {
                       errorText: controller.userLoginError,
                       onChanged: controller.setUserLogin,
                       keyboardType: TextInputType.number,
+                      textInputAction: TextInputAction.next,
                       inputFormatters: [
                         FilteringTextInputFormatter.digitsOnly,
                         if (controller.userLogin != null &&
@@ -103,6 +104,10 @@ class _LoginPageState extends State<LoginPage> with Loader, Messages {
                       errorText: controller.passwordError,
                       onChanged: controller.setPassword,
                       obscure: true,
+                      textInputAction: TextInputAction.done,
+                      onFieldSubmitted: (value) => !controller.isFormValid
+                          ? controller.invalidSendPressed()
+                          : controller.sendPressed(),
                     ),
                   ),
                   Row(

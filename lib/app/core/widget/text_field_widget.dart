@@ -16,6 +16,8 @@ class TextFieldWidget extends StatefulWidget {
   final TextEditingController? controller;
   final FocusNode? focusNode;
   final Color? themeColor;
+  final TextInputAction? textInputAction;
+  final ValueChanged<String>? onFieldSubmitted;
   const TextFieldWidget({
     Key? key,
     this.label,
@@ -30,6 +32,8 @@ class TextFieldWidget extends StatefulWidget {
     this.controller,
     this.focusNode,
     this.themeColor,
+    this.textInputAction,
+    this.onFieldSubmitted,
   }) : super(key: key);
 
   @override
@@ -70,6 +74,8 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
             focusNode: widget.focusNode,
             controller: widget.controller,
             maxLength: null,
+            textInputAction: widget.textInputAction,
+            onFieldSubmitted: widget.onFieldSubmitted,
             decoration: InputDecoration(
               errorText: widget.errorText,
               hintText: widget.hintText,

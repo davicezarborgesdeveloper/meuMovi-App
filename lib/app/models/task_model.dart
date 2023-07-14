@@ -67,6 +67,7 @@ class TaskModel {
   }
 
   factory TaskModel.fromMap(Map<String, dynamic> map) {
+    print('${(map['valuePayroll']).toDouble()}');
     return TaskModel(
       code: map['code'] != null ? map['code'] as String : null,
       descriptionService: (map['descriptionService'] ?? '') as String,
@@ -85,13 +86,21 @@ class TaskModel {
           ? ReportType.parse(map['reportType'])
           : null,
       hourDays: map['hourDays'] != null ? map['hourDays'] as String : null,
-      valuePayroll: (map['valuePayroll'] ?? 0.0) as double,
-      invoiceAmount: (map['invoiceAmount'] ?? 0.0) as double,
-      valueInvoice: (map['valueInvoice'] ?? 0.0) as double,
+      valuePayroll:
+          map['valuePayroll'] != null ? (map['valuePayroll']).toDouble() : 0.0,
+      invoiceAmount: map['invoiceAmount'] != null
+          ? (map['invoiceAmount']).toDouble()
+          : 0.0,
+      valueInvoice:
+          map['valueInvoice'] != null ? (map['valueInvoice']).toDouble() : 0.0,
       quantity: (map['quantity'] ?? 0) as int,
-      unitaryValue: (map['unitaryValue'] ?? 0.0) as double,
-      hourUnitary: (map['hourUnitary'] ?? 0.0) as double,
-      totalValueTask: (map['totalValueTask'] ?? 0.0) as double,
+      unitaryValue:
+          map['unitaryValue'] != null ? (map['unitaryValue']).toDouble() : 0.0,
+      hourUnitary:
+          map['hourUnitary'] != null ? (map['hourUnitary']).toDouble() : 0.0,
+      totalValueTask: map['totalValueTask'] != null
+          ? (map['totalValueTask']).toDouble()
+          : 0.0,
       status: (map['status'] ?? 0) as int,
       access: (map['access'] ?? 0) as int,
     );

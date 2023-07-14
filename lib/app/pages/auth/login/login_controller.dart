@@ -68,12 +68,18 @@ abstract class LoginControllerBase with Store {
   String? get userLoginError {
     if (!_showErrors || userLoginValid) {
       return null;
-    } else if (userLogin != null && userLogin!.isEmpty) {
-      return 'CPF Obrigatório';
-    } else if (!userLogin!.isCPFValid) {
-      return 'CPF inválido';
+    } else if (userLogin != null) {
+      if (userLogin!.isEmpty) {
+        return 'login Obrigatório';
+      } else if (userLogin!.length == 14 && !userLogin!.isCPFValid) {
+        return 'CPF inválido';
+      } else if (userLogin!.length == 18 && !userLogin!.isCNPJValid) {
+        return 'CNPJ inválido';
+      } else {
+        return 'login muito curto';
+      }
     } else {
-      return 'CPF muito curto';
+      return 'login Obrigatório';
     }
   }
 
@@ -97,24 +103,27 @@ abstract class LoginControllerBase with Store {
 
   @action
   Future<void> login() async {
-    try {
-      _status = LoginStateStatus.loading;
-      final map = await UserService().login(
-        userLogin!.replaceAll(RegExp(r'[^0-9]'), ''),
-        password!,
-        rememberMe,
-      );
-      // GetIt.I<AuthController>().setAuth(auth);
-      _loginType = map['profileType'];
-      await GetIt.I<UserController>().getCurrentUser(map['user']);
-      _status = LoginStateStatus.success;
-    } on UnauthorizedException {
-      _errorMessage = 'Login ou senha inválidos';
-      _status = LoginStateStatus.error;
-    } catch (e, s) {
-      log('Erro ao realizar login', error: e, stackTrace: s);
-      _errorMessage = 'Tente novamente mais tarde';
-      _status = LoginStateStatus.error;
-    }
+    _status = LoginStateStatus.loading;
+    await Future.delayed(Duration(seconds: 3));
+    _status = LoginStateStatus.error;
+    // try {
+    //   _status = LoginStateStatus.loading;
+    //   final map = await UserService().login(
+    //     userLogin!.replaceAll(RegExp(r'[^0-9]'), ''),
+    //     password!,
+    //     rememberMe,
+    //   );
+    //   // GetIt.I<AuthController>().setAuth(auth);
+    //   _loginType = map['profileType'];
+    //   await GetIt.I<UserController>().getCurrentUser(map['user']);
+    //   _status = LoginStateStatus.success;
+    // } on UnauthorizedException {
+    //   _errorMessage = 'Login ou senha inválidos';
+    //   _status = LoginStateStatus.error;
+    // } catch (e, s) {
+    //   log('Erro ao realizar login', error: e, stackTrace: s);
+    //   _errorMessage = 'Tente novamente mais tarde';
+    //   _status = LoginStateStatus.error;
+    // }
   }
 }

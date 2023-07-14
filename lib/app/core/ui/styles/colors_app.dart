@@ -25,7 +25,7 @@ class ColorsApp {
   Color get neutral => const Color(0XFF00fa9a);
   Color get neutralDark => const Color(0XFF229f64);
 
-  Color get bg => Colors.grey.shade100;
+  Color get bg => Colors.grey.shade50;
 }
 
 extension ColorsAppExtensions on BuildContext {
