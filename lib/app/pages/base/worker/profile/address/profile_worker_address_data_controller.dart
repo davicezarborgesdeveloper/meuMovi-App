@@ -4,7 +4,6 @@ import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../../core/extensions/formatter_extensions.dart';
-import '../../../../../models/worker_model.dart';
 import '../../../../../repositories/zip/zip_repository.dart';
 import '../../../../../services/worker/worker_service.dart';
 import '../../../../auth/user_controller.dart';

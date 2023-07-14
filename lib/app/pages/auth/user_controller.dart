@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:developer';
-
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
@@ -36,10 +33,7 @@ abstract class UserControllerBase with Store {
   bool _keepLogged = false;
 
   @action
-  void setUser(UserModel? value) {
-    user = null;
-    user = value;
-  }
+  void setUser(UserModel? value) => user = value;
 
   @action
   void setWorker(WorkerModel? value) => worker = value;
@@ -50,13 +44,16 @@ abstract class UserControllerBase with Store {
   @action
   void setSyndicate(SyndicateModel? value) => syndicate = value;
 
-  @action
-  Future<void> loadCurrentUser() async {
-    getCurrentUser();
+ Future<void> setCleanUser() async {
+    setUser(null);
+    setWorker(null);
+    setSyndicate(null);
+    setServiceTaker(null);
   }
-
+  
   @action
   Future<void> getCurrentUser([String? userId]) async {
+    setCleanUser();
     if (userId != null) {
       final user = await UserService().getUserById(userId);
       if (user is WorkerModel) {
@@ -69,33 +66,34 @@ abstract class UserControllerBase with Store {
     } else {
       _keepLogged =
           (await Storage().getBool(SharedStoreKeys.keepLogged.key)) ?? false;
-      setUser(null);
+      setCleanUser();
       final userShared =
           await Storage().getData(SharedStoreKeys.authAccess.key);
-
       if (userShared != null) {
-        try {
-          final user =
-              await UserService().getUserById(jsonDecode(userShared)['user']);
-          if (jsonDecode(userShared)['profileType'] == 0) {
-            setServiceTaker(user as ServiceTakerModel);
-          } else if (jsonDecode(userShared)['profileType'] == 1) {
-            setSyndicate(user as SyndicateModel);
-          } else {
-            setWorker(user as WorkerModel);
-          }
-        } catch (e, s) {
-          log(
-            'Erro ao buscar informações do usuario',
-            error: e,
-            stackTrace: s,
-          );
-        }
-      } else {
-        setUser(null);
-      }
+      //   try {
+      //     final user =
+      //         await UserService().getUserById(jsonDecode(userShared)['user']);
+      //     if (jsonDecode(userShared)['profileType'] == 0) {
+      //       setServiceTaker(user as ServiceTakerModel);
+      //     } else if (jsonDecode(userShared)['profileType'] == 1) {
+      //       setSyndicate(user as SyndicateModel);
+      //     } else {
+      //       setWorker(user as WorkerModel);
+      //     }
+      //   } catch (e, s) {
+      //     log(
+      //       'Erro ao buscar informações do usuario',
+      //       error: e,
+      //       stackTrace: s,
+      //     );
+      //   }
+      // } else {
+      //   setUser(null);
+      // }
     }
   }
+
+ 
 
   @action
   Future<void> logout() async {

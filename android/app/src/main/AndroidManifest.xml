@@ -1,10 +1,8 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-package="br.com.dcbsystem.meumovi">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="Meu Movi"
+        android:label="meu_movi_app"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher"
-		android:roundIcon="@mipmap/ic_launcher_round">
+        android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
             android:exported="true"

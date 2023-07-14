@@ -37,7 +37,9 @@ abstract class ExtractWorkerControllerBase with Store {
 
   Future<void> getAmount() async {
     _amount = _orders.fold(
-        0.0, (previousValue, o) => previousValue! + o.amountReceivable);
+      0.0,
+      (previousValue, o) => previousValue! + o.amountReceivable,
+    );
   }
 
   Future<void> getPayments(String orderId) async {
