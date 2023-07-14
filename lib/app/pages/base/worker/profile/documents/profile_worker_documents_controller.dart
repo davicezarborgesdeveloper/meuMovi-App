@@ -139,8 +139,8 @@ abstract class ProfileWorkerDocumentsControllerBase with Store {
     try {
       _status = ProfileWorkerDocumentsStateStatus.loading;
       final dt = DateFormat('dd/MM/yyyy').parse(dataEmissao!);
-      final getData = GetIt.I<UserController>().user as WorkerModel;
-      final saveData = getData.copyWith(
+      final getData = GetIt.I<UserController>().worker;
+      final saveData = getData!.copyWith(
         documents: DocumentsModel(
           cpf: cpf!.replaceAll(RegExp(r'[^0-9]'), ''),
           rg: rg!,
@@ -153,7 +153,7 @@ abstract class ProfileWorkerDocumentsControllerBase with Store {
         ),
       );
       await WorkerService().workerUpdate(saveData);
-      GetIt.I<UserController>().setUser(saveData);
+      GetIt.I<UserController>().setWorker(saveData);
       _status = ProfileWorkerDocumentsStateStatus.saved;
     } on Exception catch (e, s) {
       log('Erro ao atualizar usuário', error: e, stackTrace: s);

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -49,6 +50,7 @@ class UserServiceImpl implements UserService {
   Future<UserModel?> getUserById(String userId) async {
     final users = FirebaseFirestore.instance.collection(userCollection);
     final document = await users.doc(userId).get();
+    print(jsonEncode(document.data()!));
     switch (document.data()!['profileType']) {
       case 0:
         return ServiceTakerModel.fromMap(document.data()!);

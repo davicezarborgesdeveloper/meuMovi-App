@@ -124,8 +124,8 @@ abstract class ProfileWorkerAddressDataControllerBase with Store {
   Future<void> save() async {
     try {
       _status = ProfileWorkerAddressDataStateStatus.loading;
-      final getData = GetIt.I<UserController>().user as WorkerModel;
-      final saveData = getData.copyWith(
+      final getData = GetIt.I<UserController>().worker;
+      final saveData = getData!.copyWith(
         address: getData.address.copyWith(
           zip: zip!.replaceAll(RegExp(r'[^0-9]'), ''),
           city: city,
@@ -138,7 +138,7 @@ abstract class ProfileWorkerAddressDataControllerBase with Store {
         ),
       );
       await WorkerService().workerUpdate(saveData);
-      GetIt.I<UserController>().setUser(saveData);
+      GetIt.I<UserController>().setWorker(saveData);
       _status = ProfileWorkerAddressDataStateStatus.saved;
     } on Exception catch (e, s) {
       log('Erro ao atualizar usuário', error: e, stackTrace: s);

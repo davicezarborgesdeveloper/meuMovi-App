@@ -33,7 +33,7 @@ abstract class ProfileWorkerBankAccountControllerBase with Store {
   Future<void> getBankReceipt() async {
     try {
       _status = ProfileWorkerBankAccountStateStatus.loading;
-      final userId = (GetIt.I<UserController>().user as WorkerModel).user;
+      final userId = GetIt.I<UserController>().worker!.user;
       bankData =
           (await UserService().getUserById(userId!) as WorkerModel).bankData;
       _status = ProfileWorkerBankAccountStateStatus.loaded;
@@ -48,8 +48,8 @@ abstract class ProfileWorkerBankAccountControllerBase with Store {
   Future<void> clearBankReceipt() async {
     try {
       _status = ProfileWorkerBankAccountStateStatus.loading;
-      final getData = GetIt.I<UserController>().user as WorkerModel;
-      await UserService().deleteField(getData.user!, 'bankData');
+      final getData = GetIt.I<UserController>().worker;
+      await UserService().deleteField(getData!.user!, 'bankData');
       GetIt.I<UserController>().setUser(getData.copyWith(bankData: null));
       getBankReceipt();
     } catch (e, s) {

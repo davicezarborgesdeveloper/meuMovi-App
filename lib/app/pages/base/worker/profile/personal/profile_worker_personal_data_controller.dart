@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
 
+import '../../../../../core/extensions/formatter_extensions.dart';
 import '../../../../../core/extensions/validator_extensions.dart';
 import '../../../../../core/ui/helpers/enums.dart';
 import '../../../../../models/worker_model.dart';
@@ -207,12 +208,12 @@ abstract class ProfileWorkerPersonalDataControllerBase with Store {
           birthdate: DateFormat('yyyy-MM-dd').format(dt),
           motherName: motherName,
           maritalStatus: maritalStatus,
-          phone: phone,
+          phone: phone!.replaceAll(RegExp(r'[^0-9]'), ''),
           email: email!,
         ),
       );
       await WorkerService().workerUpdate(saveData);
-      GetIt.I<UserController>().setUser(saveData);
+      GetIt.I<UserController>().setWorker(saveData);
       _status = ProfileWorkerPersonalStateStatus.saved;
     } on Exception catch (e, s) {
       log('Erro ao atualizar usuário', error: e, stackTrace: s);
@@ -223,6 +224,7 @@ abstract class ProfileWorkerPersonalDataControllerBase with Store {
 
   @action
   Future<void> getUserData() async {
+    _status = ProfileWorkerPersonalStateStatus.loading;
     final data = GetIt.I<UserController>().worker;
     name = data!.name;
     lastname = data.lastname;
@@ -230,7 +232,8 @@ abstract class ProfileWorkerPersonalDataControllerBase with Store {
     birthdate = data.personal.birthdate;
     motherName = data.personal.motherName;
     maritalStatus = data.personal.maritalStatus;
-    phone = data.personal.phone;
+    phone = data.personal.phone!.formattedPhone;
     email = data.personal.email;
+    _status = ProfileWorkerPersonalStateStatus.loaded;
   }
 }

@@ -223,7 +223,7 @@ class _TasksSyndicateRegisterPageState extends State<TasksSyndicateRegisterPage>
                   ),
                   const SizedBox(width: 8),
                   Expanded(
-                    flex: 2,
+                    flex: 4,
                     child: Observer(
                       builder: (_) => TextFieldWidget(
                         controller: extraPercentageEC,

@@ -41,9 +41,8 @@ class _DropdownWidgetState extends State<DropdownWidget> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 4.0),
             child: DropdownButtonFormField(
-              decoration: InputDecoration(
-                errorText: widget.errorText,
-              ),
+              decoration:
+                  InputDecoration(errorText: widget.errorText, isDense: true),
               value: widget.statusSelected ?? widget.selected,
               items: [
                 DropdownMenuItem(
