@@ -8,7 +8,7 @@ import 'meu_movi_app.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await setupLocators();
-  runApp(const MeuMoviApp());
+  runApp(MeuMoviApp());
 }
 
 Future<void> setupLocators() async {
