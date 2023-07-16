@@ -280,7 +280,7 @@ abstract class ServiceTakerEditDataControllerBase with Store {
     _status = ServiceTakerEditDataStateStatus.loading;
     try {
       final address = await ZipRepository().getAddressFromZip(zipFilter);
-      _city = '${address!.cidade.nome}-${address.estado.sigla}';
+      _city = '${address!.cidade}-${address.estado}';
       _status = ServiceTakerEditDataStateStatus.loaded;
     } catch (e, s) {
       log('Erro ao buscar cep', error: e, stackTrace: s);

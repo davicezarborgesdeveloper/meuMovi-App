@@ -7,7 +7,7 @@ import 'rotas.dart';
 class MeuMoviApp extends StatelessWidget {
   final _navKey = GlobalKey<NavigatorState>();
 
-  MeuMoviApp({Key? key}) {
+  MeuMoviApp({super.key}) {
     GlobalContext.instance.navigatorKey = _navKey;
   }
 

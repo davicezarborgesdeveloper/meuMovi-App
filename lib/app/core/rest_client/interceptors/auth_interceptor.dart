@@ -6,7 +6,9 @@ import '../../global/global_context.dart';
 class AuthInterceptor extends Interceptor {
   @override
   void onRequest(
-      RequestOptions options, RequestInterceptorHandler handler) async {
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
     final sp = await SharedPreferences.getInstance();
     final accessToken = sp.getString('accessToken');
     options.headers['Authorization'] = 'Bearer $accessToken';

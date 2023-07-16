@@ -279,8 +279,8 @@ abstract class SyndicateRegisterControllerBase with Store {
     _status = SyndicateRegisterStateStatus.loading;
     try {
       final address = await ZipRepository().getAddressFromZip(zipFilter);
-      city = address!.cidade.nome;
-      state = address.estado.sigla;
+      city = address!.cidade;
+      state = address.estado;
       street = address.logradouro;
       district = address.bairro;
       _status = SyndicateRegisterStateStatus.loaded;

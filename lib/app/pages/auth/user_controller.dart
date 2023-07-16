@@ -1,7 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
-import '../../core/global/constants.dart';
 import '../../core/storage/storage.dart';
 import '../../models/service_taker_model.dart';
 import '../../models/syndicate_model.dart';

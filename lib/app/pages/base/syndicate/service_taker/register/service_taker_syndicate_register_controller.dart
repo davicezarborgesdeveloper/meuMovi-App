@@ -296,7 +296,7 @@ abstract class ServiceTakerSyndicateRegisterControllerBase with Store {
     _status = ServiceTakerRegisterStateStatus.loading;
     try {
       final address = await ZipRepository().getAddressFromZip(zipFilter);
-      _city = '${address!.cidade.nome}-${address.estado.sigla}';
+      _city = '${address!.cidade}-${address.estado}';
       _status = ServiceTakerRegisterStateStatus.loaded;
     } catch (e, s) {
       log('Erro ao buscar cep', error: e, stackTrace: s);
