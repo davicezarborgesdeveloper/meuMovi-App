@@ -67,7 +67,6 @@ class TaskModel {
   }
 
   factory TaskModel.fromMap(Map<String, dynamic> map) {
-    print('${(map['valuePayroll']).toDouble()}');
     return TaskModel(
       code: map['code'] != null ? map['code'] as String : null,
       descriptionService: (map['descriptionService'] ?? '') as String,

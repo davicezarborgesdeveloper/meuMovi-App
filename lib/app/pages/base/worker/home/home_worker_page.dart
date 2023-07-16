@@ -249,13 +249,6 @@ class _HomeWorkerPageState extends State<HomeWorkerPage> with Loader, Messages {
                   const SizedBox(height: 16),
                   Observer(
                     builder: (_) {
-                      final list = controller.buttonSelected == 0
-                          ? controller.tasks!.available
-                          : controller.buttonSelected == 1
-                              ? controller.tasks!.confirmed
-                              : controller.buttonSelected == 2
-                                  ? controller.tasks!.inProgress
-                                  : controller.tasks!.finished;
                       return controller.selectedDashboard!.list!.isNotEmpty
                           ? Column(
                               children: controller.selectedDashboard!.list!

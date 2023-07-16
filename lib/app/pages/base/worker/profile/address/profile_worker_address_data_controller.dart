@@ -4,7 +4,6 @@ import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../../core/extensions/formatter_extensions.dart';
-import '../../../../../models/worker_model.dart';
 import '../../../../../repositories/zip/zip_repository.dart';
 import '../../../../../services/worker/worker_service.dart';
 import '../../../../auth/user_controller.dart';
@@ -100,8 +99,8 @@ abstract class ProfileWorkerAddressDataControllerBase with Store {
     _status = ProfileWorkerAddressDataStateStatus.loading;
     try {
       final address = await ZipRepository().getAddressFromZip(zipFilter);
-      city = address!.cidade.nome;
-      state = address.estado.sigla;
+      city = address!.cidade;
+      state = address.estado;
       street = address.logradouro;
       district = address.bairro;
       _status = ProfileWorkerAddressDataStateStatus.loaded;

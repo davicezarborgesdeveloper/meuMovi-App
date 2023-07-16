@@ -301,10 +301,11 @@ abstract class ServiceTakerSignupControllerBase with Store {
     _status = ServiceTakerSignupStateStatus.loading;
     try {
       final address = await ZipRepository().getAddressFromZip(zipFilter);
-      _city = '${address!.cidade.nome}-${address.estado.sigla}';
+      _city = '${address!.cidade}-${address.estado}';
       _status = ServiceTakerSignupStateStatus.loaded;
     } catch (e, s) {
       log('Erro ao buscar cep', error: e, stackTrace: s);
+      _errorMessage = 'Erro ao buscar cep';
       _status = ServiceTakerSignupStateStatus.error;
     }
   }
