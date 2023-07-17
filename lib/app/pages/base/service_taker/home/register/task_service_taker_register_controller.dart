@@ -309,8 +309,6 @@ abstract class TaskServiceTakerRegisterControllerBase with Store {
     descCostCenter = model.descCostCenter ?? '';
     extraPercentage = model.extraPercentage;
     hourDays = model.hourDays ?? '0,00';
-    invoiceAmount = model.invoiceAmount.toString();
-    valueInvoice = model.valueInvoice.toString();
     productionType = ProductionType.parse(model.productionType!.acronym);
     reportType = ReportType.parse(model.reportType!.acronym);
     quantity = model.quantity.toString();
@@ -326,7 +324,9 @@ abstract class TaskServiceTakerRegisterControllerBase with Store {
     _access = model.access;
     _statusTask = model.status;
     _syndicate = model.syndicate;
-    valuePayroll = model.valuePayroll.toString();
+    valuePayroll = model.valuePayroll.toString().replaceAll('.', ',');
+    invoiceAmount = model.invoiceAmount.toString().replaceAll('.', ',');
+    valueInvoice = model.valueInvoice.toString().replaceAll('.', ',');
     _status = TaskServiceTakerRegisterStateStatus.loaded;
   }
 }

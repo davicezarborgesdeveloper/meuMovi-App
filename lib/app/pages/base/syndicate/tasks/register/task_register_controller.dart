@@ -330,9 +330,9 @@ abstract class TaskRegisterControllerBase with Store {
     _code = model!.code;
     descriptionService = model.descriptionService;
     extraPercentage = model.extraPercentage;
-    valuePayroll = model.valuePayroll.toString();
-    invoiceAmount = model.invoiceAmount.toString();
-    valueInvoice = model.valueInvoice.toString();
+    valuePayroll = model.valuePayroll.toString().replaceAll('.', ',');
+    invoiceAmount = model.invoiceAmount.toString().replaceAll('.', ',');
+    valueInvoice = model.valueInvoice.toString().replaceAll('.', ',');
     hourDays = model.hourDays ?? '0,00';
     quantity = model.quantity.toString();
     unitaryValue = model.unitaryValue.toString().replaceAll('.', ',');

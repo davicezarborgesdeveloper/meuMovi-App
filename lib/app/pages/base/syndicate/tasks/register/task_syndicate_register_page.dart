@@ -397,6 +397,8 @@ class _TasksSyndicateRegisterPageState extends State<TasksSyndicateRegisterPage>
                   child: GestureDetector(
                     onTap: controller.invalidSendPressed,
                     child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: ColorsApp.i.primary),
                       onPressed: controller.sendPressed,
                       child: Text(
                         widget.task != null
