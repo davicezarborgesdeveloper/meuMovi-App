@@ -22,7 +22,7 @@ import 'app/pages/base/worker/profile/settings/profile_worker_settings_page.dart
 import 'app/pages/splash/splash_page.dart';
 import 'app/pages/terms_user/terms_use.dart';
 
-class Rotas {
+class Routes {
   static Route<dynamic> gerarRota(RouteSettings settings) {
     // final args = settings.arguments;
     switch (settings.name) {

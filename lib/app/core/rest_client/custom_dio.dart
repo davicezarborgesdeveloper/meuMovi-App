@@ -9,7 +9,7 @@ class CustomDio extends DioForNative {
   CustomDio()
       : super(
           BaseOptions(
-            baseUrl: Env.instance.get('backend_base_url'),
+            baseUrl: Env.i.get('backend_base_url_local'),
             connectTimeout: const Duration(seconds: 5),
             receiveTimeout: const Duration(seconds: 60),
           ),

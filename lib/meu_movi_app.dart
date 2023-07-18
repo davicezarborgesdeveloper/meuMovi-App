@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'app/core/global/global_context.dart';
 import 'app/core/ui/theme/theme_config.dart';
-import 'rotas.dart';
+import 'routes.dart';
 
 class MeuMoviApp extends StatelessWidget {
   final _navKey = GlobalKey<NavigatorState>();
@@ -19,7 +19,7 @@ class MeuMoviApp extends StatelessWidget {
       theme: ThemeConfig.theme,
       navigatorKey: _navKey,
       initialRoute: '/',
-      onGenerateRoute: Rotas.gerarRota,
+      onGenerateRoute: Routes.gerarRota,
     );
   }
 }
