@@ -1,15 +1,15 @@
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 
-import '../env/env.dart';
-import 'interceptors/auth_interceptor.dart';
+import '../env.dart';
+import 'interceptor/auth_interceptor.dart';
 
 class CustomDio extends DioForNative {
   late AuthInterceptor _authInterceptor;
   CustomDio()
       : super(
           BaseOptions(
-            baseUrl: Env.i.get('backend_base_url_local'),
+            baseUrl: Env.i.get('backend_base_url_cloud'),
             connectTimeout: const Duration(seconds: 5),
             receiveTimeout: const Duration(seconds: 60),
           ),

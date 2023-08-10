@@ -1,26 +1,23 @@
 import 'package:flutter/material.dart';
 
-import 'app/pages/auth/login/login_page.dart';
-import 'app/pages/auth/remember/remember_me_page.dart';
-import 'app/pages/auth/signup/service_taker/service_taker_register_page.dart';
+import 'app/pages/auth/signup/serviceTakerSignup/service_taker_signup_page.dart';
+import 'app/pages/auth/signup/syndicateSignup/syndicate_signup_page.dart';
+import 'app/pages/auth/signup/workerSignup/worker_signup_page.dart';
 import 'app/pages/auth/signup/signup_menu_page.dart';
-import 'app/pages/auth/signup/syndicate/syndicate_register_page.dart';
-import 'app/pages/auth/signup/workerRegister/worker_signup_page.dart';
-import 'app/pages/base/base_service_taker_page.dart';
-import 'app/pages/base/base_syndicate_page.dart';
-import 'app/pages/base/base_worker_page.dart';
-import 'app/pages/base/service_taker/profile/edit_data/service_taker_edit_data_page.dart';
-import 'app/pages/base/service_taker/profile/settings/service_taker_settings_page.dart';
-import 'app/pages/base/syndicate/profile/address_data/address_data_syndicate_page.dart';
-import 'app/pages/base/syndicate/profile/contact_data/contact_data_syndicate_page.dart';
-import 'app/pages/base/syndicate/profile/legal_data/legal_data_page.dart';
-import 'app/pages/base/worker/profile/address/profile_worker_address_data_page.dart';
-import 'app/pages/base/worker/profile/bank_account/profile_worker_bank_account_page.dart';
-import 'app/pages/base/worker/profile/documents/profile_worker_documents_page.dart';
-import 'app/pages/base/worker/profile/personal/profile_worker_personal_data_page.dart';
-import 'app/pages/base/worker/profile/settings/profile_worker_settings_page.dart';
+import 'app/pages/login/login_page.dart';
+import 'app/pages/rememberPage/remember_page.dart';
+import 'app/pages/serviceTaker/base/base_service_taker_page.dart';
+import 'app/pages/serviceTaker/editData/edit_service_taker_edit_data_page.dart';
+import 'app/pages/serviceTaker/settings/settings_service_taker_page.dart';
 import 'app/pages/splash/splash_page.dart';
-import 'app/pages/terms_user/terms_use.dart';
+import 'app/pages/syndicate/base/base_syndicate_page.dart';
+import 'app/pages/syndicate/profile/addressData/address_data_page.dart';
+import 'app/pages/syndicate/profile/contactData/contact_data_page.dart';
+import 'app/pages/syndicate/profile/legalData/legal_data_page.dart';
+import 'app/pages/syndicate/profile/settingsSyndicate/settings_syndicate_page.dart';
+import 'app/pages/termUse/term_use_page.dart';
+import 'app/pages/worker/baseWorker/base_worker_page.dart';
+import 'app/pages/worker/profileWorker/settings/profile_worker_settings_page.dart';
 
 class Routes {
   static Route<dynamic> gerarRota(RouteSettings settings) {
@@ -36,14 +33,14 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const WorkerSignupPage());
       case '/auth/signup/serviceTaker':
         return MaterialPageRoute(
-          builder: (_) => const ServiceTakerRegisterPage(),
+          builder: (_) => const ServiceTakerSignupPage(),
         );
       case '/auth/signup/syndicate':
-        return MaterialPageRoute(builder: (_) => const SyndicateRegisterPage());
+        return MaterialPageRoute(builder: (_) => const SyndicateSignupPage());
       case '/auth/signup/termsUse':
-        return MaterialPageRoute(builder: (_) => const TermsUse());
+        return MaterialPageRoute(builder: (_) => const TermsUsePage());
       case '/auth/remember':
-        return MaterialPageRoute(builder: (_) => const RememberMePage());
+        return MaterialPageRoute(builder: (_) => const RememberPage());
       case '/home/worker':
         return MaterialPageRoute(builder: (_) => const BaseWorkerPage());
       case '/home/serviceTaker':
@@ -56,27 +53,15 @@ class Routes {
         );
       case '/home/syndicate/contactData':
         return MaterialPageRoute(
-          builder: (_) => const ContactDataSyndicatePage(),
+          builder: (_) => const ContactDataPage(),
         );
       case '/home/syndicate/addressData':
         return MaterialPageRoute(
-          builder: (_) => const AddressDataSyndicatePage(),
+          builder: (_) => const AddressDataPage(),
         );
-      case '/home/worker/personalData':
+      case '/home/syndicate/settings':
         return MaterialPageRoute(
-          builder: (_) => const ProfileWorkerPersonalDataPage(),
-        );
-      case '/home/profile/documents':
-        return MaterialPageRoute(
-          builder: (_) => const ProfileWorkerDocumentsPage(),
-        );
-      case '/home/worker/address':
-        return MaterialPageRoute(
-          builder: (_) => const ProfileWorkerAddressDataPage(),
-        );
-      case '/home/worker/bankData':
-        return MaterialPageRoute(
-          builder: (_) => const ProfileWorkerBankAccountPage(),
+          builder: (_) => const SettingsSyndicatePage(),
         );
       case '/home/worker/settings':
         return MaterialPageRoute(
@@ -84,11 +69,11 @@ class Routes {
         );
       case '/home/serviceTaker/data':
         return MaterialPageRoute(
-          builder: (_) => const ServiceTakerEditDataPage(),
+          builder: (_) => const EditServiceTakerEditDataPage(),
         );
       case '/home/serviceTaker/settings':
         return MaterialPageRoute(
-          builder: (_) => const ServiceTakerSettingsPage(),
+          builder: (_) => const SettingsServiceTakerPage(),
         );
     }
     return _erroRota();

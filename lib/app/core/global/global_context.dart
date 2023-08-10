@@ -27,6 +27,5 @@ class GlobalContext {
         backgroundColor: Colors.black,
       ),
     );
-    _navigatorKey.currentState!.popUntil(ModalRoute.withName('/home'));
   }
 }

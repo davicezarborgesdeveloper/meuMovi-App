@@ -2,30 +2,29 @@ import 'package:flutter/material.dart';
 
 import '../../../core/ui/helpers/size_extensions.dart';
 import '../../../core/ui/styles/colors_app.dart';
-import '../login/widget/logo_widget.dart';
-import 'widget/signup_menu_button.dart';
+import '../../../core/widgets/logo_widget.dart';
+import 'widgets/signup_menu_button.dart';
 
 class SignupMenuPage extends StatelessWidget {
   const SignupMenuPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final double height = context.screenHeight - context.appbarHeight;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         iconTheme: IconThemeData(color: ColorsApp.i.primary),
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
+        child: Container(
+          padding: const EdgeInsets.only(bottom: 16, left: 16, right: 16),
+          height: height,
           child: Column(
             children: [
-              LogoWidget(
-                width: context.percentWidth(.32),
-              ),
-              const SizedBox(
-                height: 24,
-              ),
+              const Spacer(),
+              const LogoWidget(width: 0.32),
+              const Spacer(),
               SizedBox(
                 height: context.percentHeight(.55),
                 child: LayoutBuilder(

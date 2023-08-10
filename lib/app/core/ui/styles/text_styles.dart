@@ -9,7 +9,7 @@ class TextStyles {
     return _instance!;
   }
 
-  String get fontFamily => 'roboto';
+  String get fontFamily => 'NotoSerif';
 
   TextStyle get textLight =>
       TextStyle(fontWeight: FontWeight.w300, fontFamily: fontFamily);

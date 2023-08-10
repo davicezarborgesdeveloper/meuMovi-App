@@ -3,8 +3,6 @@ import 'dart:convert';
 import 'user_model.dart';
 import 'worker_model.dart';
 
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-
 class ServiceTakerModel implements UserModel {
   final int? id;
   final String user;
@@ -73,7 +71,11 @@ class ServiceTakerModel implements UserModel {
       phone: (map['phone'] ?? '') as String,
       zip: (map['zip'] ?? '') as String,
       number: (map['number'] ?? '') as String,
-      active: (map['active'] ?? false) as bool,
+      active: map['active'] != null
+          ? map['active'] == 1
+              ? true
+              : false
+          : false,
       imageUrl: map['imageUrl'] != null ? map['imageUrl'] as String : null,
       employeer: map['employeer'] != null
           ? EmployeerModel.fromMap(map['employeer'] as Map<String, dynamic>)

@@ -13,34 +13,32 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
-  loading_animation_widget: ^1.2.0+4
-  awesome_snackbar_content: ^0.1.3
+  flutter_dotenv: ^5.1.0
   get_it: ^7.6.0
-  brasil_fields: ^1.13.1
+  dio: ^5.3.0
+  shared_preferences: ^2.2.0
+  top_snackbar_flutter: ^3.1.0
   flutter_mobx: ^2.0.6+5
   mobx: ^2.2.0
+  loading_animation_widget: ^1.2.0+4
+  awesome_snackbar_content: ^0.1.3
+  brasil_fields: ^1.13.1
+  auto_size_text: ^3.0.0
   intl: ^0.18.0
-  dio: ^5.1.2
-  firebase_core: ^2.13.1
-  firebase_auth: ^4.6.2
-  cloud_firestore: ^4.8.0
-  shared_preferences: ^2.1.1
-  firebase_storage: ^11.2.2
-  image_picker: ^0.8.7+5
-  file_picker: ^5.3.1
+  jwt_decoder: ^2.0.1
+  image_picker: ^1.0.1
+  file_picker: ^5.3.3
   cached_network_image: ^3.2.3
-  flutter_dotenv: ^5.1.0
-  top_snackbar_flutter: ^3.1.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_lints: ^2.0.0
-  build_runner: ^2.4.4
+  build_runner: ^2.4.6
   mobx_codegen: ^2.3.0
-  flutter_native_splash: ^2.3.0
-  icons_launcher: ^2.1.0
+  flutter_native_splash: ^2.3.1
+  icons_launcher: ^2.1.3
 
 flutter:
   uses-material-design: true
@@ -50,15 +48,15 @@ flutter:
     - assets/images/
 
   fonts:
-    - family: roboto
+    - family: NotoSerif
       fonts:
-        - asset: assets\fonts\Roboto-Light.ttf
+        - asset: assets\fonts\NotoSerif-Light.ttf
           weight: 300
-        - asset: assets\fonts\Roboto-Regular.ttf
+        - asset: assets\fonts\NotoSerif-Regular.ttf
           style: normal
-        - asset: assets\fonts\Roboto-Medium.ttf
+        - asset: assets\fonts\NotoSerif-Medium.ttf
           weight: 500
-        - asset: assets\fonts\Roboto-Bold.ttf
+        - asset: assets\fonts\NotoSerif-Bold.ttf
           weight: 700
-        - asset: assets\fonts\Roboto-Black.ttf
+        - asset: assets\fonts\NotoSerif-ExtraBold.ttf
           weight: 800

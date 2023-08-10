@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
+import '../../controllers/user_controller.dart';
 import '../../core/ui/helpers/size_extensions.dart';
-import '../auth/user_controller.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);
@@ -17,14 +17,17 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> {
   UserController userCtrl = GetIt.I<UserController>();
   late ReactionDisposer statusDisposed;
+  late int timeInit;
+  late int timeEnd;
 
   bool _logged = false;
   String url = '/auth/login';
 
   @override
   void initState() {
+    timeInit = DateTime.now().millisecondsSinceEpoch;
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await userCtrl.getCurrentUser();
+      await userCtrl.loadCurrentUser();
       statusDisposed = when((_) => userCtrl.isLoggedInKeep, () async {
         if (userCtrl.worker != null) {
           url = '/home/worker';
@@ -47,7 +50,13 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   Timer startSplashScreenTimer() {
-    const duration = Duration(seconds: 1);
+    timeEnd = DateTime.now().millisecondsSinceEpoch;
+    final int timeResult = timeEnd - timeInit;
+    int timeDiff = 0;
+    if (timeResult < 3000) {
+      timeDiff = 3000 - timeResult;
+    }
+    final Duration duration = Duration(milliseconds: timeDiff);
     return Timer(duration, navigationToNextPage);
   }
 

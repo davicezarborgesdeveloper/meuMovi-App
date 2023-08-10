@@ -1,21 +1,10 @@
-import 'dart:typed_data';
-
-import '../../models/user_model.dart';
+import '../../core/rest_client/custom_dio.dart';
 import 'user_service_impl.dart';
 
 abstract class UserService {
-  Future<UserModel?> getUserById(String id);
-  Future<String> uploadImage(Uint8List image, String userId);
-  Future<Map<String, dynamic>> login(
-    String login,
-    String password,
-    bool rememberMe,
-  );
+  Future<void> delete(String id);
 
-  Future<void> deleteField(String userId, String field);
-  Future<void> deleteDocument(String userId);
-
-  factory UserService() {
-    return UserServiceImpl();
+  factory UserService(CustomDio dio) {
+    return UserServiceImpl(dio);
   }
 }

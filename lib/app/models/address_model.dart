@@ -85,9 +85,9 @@ class AddressModel {
     buffer.write(', $city');
     buffer.write(', $state');
     buffer.write(' - $zip');
-    buffer.write(referencePoint!.isNotEmpty ? ', $referencePoint' : '');
+    buffer.write(referencePoint ?? '');
+    // buffer.write(referencePoint?.isNotEmpty ? ', $referencePoint' : '');
 
     return buffer.toString();
-    // return 'AddressModel(zip: $zip, city: $city, state: $state, street: $street, district: $district, number: $number, complement: $complement, referencePoint: $referencePoint)';
   }
 }

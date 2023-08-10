@@ -46,9 +46,13 @@ class SyndicateModel implements UserModel {
       user: (map['user'] ?? '') as String,
       password: (map['password'] ?? '') as String,
       profileType: (map['profileType'] ?? 0) as int,
-      active: (map['active'] ?? false) as bool,
+      active: map['active'] != null
+          ? map['active'] == 1
+              ? true
+              : false
+          : false,
       companyData:
-          CompanyDataModel.fromMap(map['companyData'] as Map<String, dynamic>),
+          CompanyDataModel.fromMap(map['syndicate'] as Map<String, dynamic>),
       responsibleContact: ResponsibleContact.fromMap(
         map['responsibleContact'] as Map<String, dynamic>,
       ),
@@ -85,6 +89,11 @@ class SyndicateModel implements UserModel {
       address: address ?? this.address,
       imageUrl: imageUrl ?? this.imageUrl,
     );
+  }
+
+  @override
+  String toString() {
+    return 'SyndicateModel(id: $id, user: $user, password: $password, profileType: $profileType, active: $active, companyData: $companyData, responsibleContact: $responsibleContact, address: $address, imageUrl: $imageUrl)';
   }
 }
 
@@ -130,6 +139,10 @@ class CompanyDataModel {
       cnpj: cnpj ?? this.cnpj,
     );
   }
+
+  @override
+  String toString() =>
+      'CompanyDataModel(corporateName: $corporateName, fantasyName: $fantasyName, cnpj: $cnpj)';
 }
 
 class ResponsibleContact {

@@ -1,8 +1,8 @@
-enum SharedStoreKeys {
-  authAccess('authAccess'),
-  keepLogged('keepLogged');
+enum SessionStorageKeys {
+  accessToken('/ACCESS_TOKEN/'),
+  keepLogged('/KEEP_LOGGED/');
 
   final String key;
 
-  const SharedStoreKeys(this.key);
+  const SessionStorageKeys(this.key);
 }

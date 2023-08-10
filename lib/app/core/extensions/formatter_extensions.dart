@@ -27,13 +27,3 @@ extension FormatterString on String {
     return UtilBrasilFields.obterCep(this);
   }
 }
-
-
-
-
-
-// extension DateTimeExtension on DateTime {
-//   String formattedDate() {
-//     return DateFormat('dd/MM/yyyy HH:mm', 'pt-BR').format(this);
-//   }
-// }

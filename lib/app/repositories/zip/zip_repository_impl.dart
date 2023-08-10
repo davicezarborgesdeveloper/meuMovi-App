@@ -3,27 +3,31 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 
 import '../../core/exceptions/repository_exception.dart';
-import '../../models/address_cep_aberto.dart';
-import './zip_repository.dart';
+import '../../core/rest_client/custom_dio.dart';
+import '../../models/search_address.dart';
+import 'zip_repository.dart';
 
 class ZipRepositoryImpl implements ZipRepository {
+  final CustomDio _dio;
+  ZipRepositoryImpl(this._dio);
   @override
-  Future<AddressCepAberto?> getAddressFromZip(String zipCode) async {
-    final Dio dio = Dio();
+  Future<SearchAddress?> getAddressFromZip(String zipCode) async {
     try {
       final clearZip = zipCode.replaceAll(RegExp('[^0-9]'), '');
-      dio.options.headers['Authorization'] =
-          'Token token=2d4d83796dfe8c93d64d080bb6a38934';
-      final result = await dio.get(
-        'https://meumovi.fgsistem.com.br/api/address/search',
-        queryParameters: {'zip': clearZip},
-      );
+      final result = await _dio.unauth().get(
+            'external/zip/$clearZip',
+            options: Options(
+              headers: {
+                'Authorization': 'Token token=2d4d83796dfe8c93d64d080bb6a38934'
+              },
+            ),
+          );
       if (result.data['success']) {
-        return AddressCepAberto.fromMap(result.data['result']);
+        return SearchAddress.fromMap(result.data['result']);
       } else {
         throw RepositoryException(message: 'Erro ao buscar endereço');
       }
-    } on DioError catch (e, s) {
+    } on DioException catch (e, s) {
       log('Erro ao buscar endereço', error: e, stackTrace: s);
       throw RepositoryException(message: 'Erro ao buscar endereço');
     }

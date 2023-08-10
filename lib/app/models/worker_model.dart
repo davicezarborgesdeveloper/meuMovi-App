@@ -71,7 +71,7 @@ class WorkerModel implements UserModel {
           DocumentsModel.fromMap(map['documents'] as Map<String, dynamic>),
       personal: PersonalModel.fromMap(map['personal'] as Map<String, dynamic>),
       address: AddressModel.fromMap(map['address'] as Map<String, dynamic>),
-      bankData: map['bankData'] != null
+      bankData: map['bankData'] != null && map['bankData'].length > 0
           ? BankDataModel.fromMap(map['bankData'] as Map<String, dynamic>)
           : null,
       imageUrl: map['imageUrl'] != null ? map['imageUrl'] as String : null,
@@ -106,7 +106,7 @@ class WorkerModel implements UserModel {
       documents: documents ?? this.documents,
       personal: personal ?? this.personal,
       address: address ?? this.address,
-      bankData: bankData ?? this.bankData,
+      bankData: bankData,
       imageUrl: imageUrl ?? this.imageUrl,
     );
   }
@@ -117,6 +117,11 @@ class WorkerModel implements UserModel {
   }
 
   String get fullname => '$name $lastname';
+
+  @override
+  String toString() {
+    return 'WorkerModel(id: $id, user: $user, password: $password, profileType: $profileType, active: $active, name: $name, lastname: $lastname, documents: $documents, personal: $personal, address: $address, bankData: $bankData, imageUrl: $imageUrl)';
+  }
 }
 
 class DocumentsModel {
@@ -143,14 +148,22 @@ class DocumentsModel {
     };
   }
 
+  static String formatDate(String strData) {
+    if (strData != '0000-00-00 00:00:00') {
+      final DateTime dt = DateFormat('yyyy-MM-dd').parse(strData);
+      return DateFormat('dd/MM/yyyy').format(dt);
+    } else {
+      return '';
+    }
+  }
+
   factory DocumentsModel.fromMap(Map<String, dynamic> map) {
     return DocumentsModel(
       cpf: (map['cpf'] ?? '') as String,
       rg: (map['rg'] ?? '') as String,
       orgaoEmissor:
           map['orgaoEmissor'] != null ? map['orgaoEmissor'] as String : null,
-      dataEmissao:
-          map['dataEmissao'] != null ? map['dataEmissao'] as String : null,
+      dataEmissao: formatDate((map['dataEmissao'] ?? '') as String),
       employeer: map['employeer'] != null
           ? EmployeerModel.fromMap(map['employeer'] as Map<String, dynamic>)
           : null,
@@ -235,8 +248,12 @@ class PersonalModel {
   }
 
   static String formatDate(String strData) {
-    final DateTime dt = DateFormat('yyyy-MM-dd').parse(strData);
-    return DateFormat('dd/MM/yyyy').format(dt);
+    if (strData != '0000-00-00 00:00:00') {
+      final DateTime dt = DateFormat('yyyy-MM-dd').parse(strData);
+      return DateFormat('dd/MM/yyyy').format(dt);
+    } else {
+      return '';
+    }
   }
 
   factory PersonalModel.fromMap(Map<String, dynamic> map) {
@@ -244,9 +261,10 @@ class PersonalModel {
       birthdate: formatDate((map['birthdate'] ?? '') as String),
       motherName:
           map['motherName'] != null ? map['motherName'] as String : null,
-      maritalStatus: map['maritalStatus'] != null
-          ? MaritalStatus.parse(map['maritalStatus'])
-          : null,
+      maritalStatus:
+          map['maritalStatus'] != null && (map['maritalStatus']).length > 0
+              ? MaritalStatus.parse(map['maritalStatus'])
+              : null,
       phone: map['phone'] != null ? map['phone'] as String : null,
       email: (map['email'] ?? '') as String,
       surname: map['surname'] != null ? map['surname'] as String : null,
@@ -275,6 +293,11 @@ class PersonalModel {
       surname: surname ?? this.surname,
     );
   }
+
+  @override
+  String toString() {
+    return 'PersonalModel(birthdate: $birthdate, motherName: $motherName, maritalStatus: $maritalStatus, phone: $phone, email: $email, surname: $surname)';
+  }
 }
 
 class BankDataModel {
@@ -287,7 +310,7 @@ class BankDataModel {
   final String? account;
   final String? verifyingDigit;
   final AccountType? accountType;
-  final BankReceiptType bankReceiptType;
+  final BankReceiptType? bankReceiptType;
   BankDataModel({
     this.pixKeyType,
     this.pixKey,
@@ -298,21 +321,21 @@ class BankDataModel {
     this.account,
     this.verifyingDigit,
     this.accountType,
-    required this.bankReceiptType,
+    this.bankReceiptType,
   });
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'pixKeyType': pixKeyType?.acronym,
       'pixKey': pixKey,
-      'cardholderName': cardholderName,
-      'holdersCPF': holdersCPF,
-      'bankName': bankName,
+      'cardHolderName': cardholderName,
+      'holderCpf': holdersCPF,
+      'BankName': bankName,
       'agency': agency,
       'account': account,
       'verifyingDigit': verifyingDigit,
       'accountType': accountType?.acronym,
-      'bankReceiptType': bankReceiptType.acronym,
+      'bankReceiptType': bankReceiptType!.acronym,
     };
   }
 
@@ -322,12 +345,11 @@ class BankDataModel {
           ? PixKeyType.parse(map['pixKeyType'])
           : null,
       pixKey: map['pixKey'] != null ? map['pixKey'] as String : null,
-      cardholderName: map['cardholderName'] != null
-          ? map['cardholderName'] as String
+      cardholderName: map['cardHolderName'] != null
+          ? map['cardHolderName'] as String
           : null,
-      holdersCPF:
-          map['holdersCPF'] != null ? map['holdersCPF'] as String : null,
-      bankName: map['bankName'] != null ? map['bankName'] as String : null,
+      holdersCPF: map['holderCpf'] != null ? map['holderCpf'] as String : null,
+      bankName: map['BankName'] != null ? map['BankName'] as String : null,
       agency: map['agency'] != null ? map['agency'] as String : null,
       account: map['account'] != null ? map['account'] as String : null,
       verifyingDigit: map['verifyingDigit'] != null
@@ -371,5 +393,10 @@ class BankDataModel {
       accountType: accountType ?? this.accountType,
       bankReceiptType: bankReceiptType ?? this.bankReceiptType,
     );
+  }
+
+  @override
+  String toString() {
+    return 'BankDataModel(pixKeyType: $pixKeyType, pixKey: $pixKey, cardholderName: $cardholderName, holdersCPF: $holdersCPF, bankName: $bankName, agency: $agency, account: $account, verifyingDigit: $verifyingDigit, accountType: $accountType, bankReceiptType: $bankReceiptType)';
   }
 }

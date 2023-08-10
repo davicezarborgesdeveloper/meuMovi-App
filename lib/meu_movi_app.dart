@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'app/core/global/global_context.dart';
+import 'app/core/ui/helpers/size_extensions.dart';
 import 'app/core/ui/theme/theme_config.dart';
+import 'app/core/global/global_context.dart';
 import 'routes.dart';
 
 class MeuMoviApp extends StatelessWidget {
@@ -13,6 +14,7 @@ class MeuMoviApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('${context.screenWidth} x ${context.screenHeight}');
     return MaterialApp(
       title: 'Meu Movi',
       debugShowCheckedModeBanner: false,

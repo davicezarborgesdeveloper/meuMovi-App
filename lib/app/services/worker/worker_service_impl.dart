@@ -1,107 +1,38 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/intl.dart';
-
+import '../../core/rest_client/custom_dio.dart';
 import '../../models/worker_model.dart';
+import '../../repositories/worker/worker_repository.dart';
 import 'worker_service.dart';
 
-const String userCollection = 'users';
-
 class WorkerServiceImpl implements WorkerService {
+  final CustomDio _dio;
+  WorkerServiceImpl(this._dio);
   @override
-  Future<void> saveWorker(WorkerModel data) async {
-    final store = FirebaseFirestore.instance;
-    final docRef = store.collection(userCollection).doc(data.user);
-    late String? birthdate;
-    String? emissionDate = '';
-    try {
-      birthdate = DateFormat('yyyy-MM-dd')
-          .format(DateFormat('dd/MM/yyyy').parse(data.personal.birthdate));
-    } on FormatException {
-      birthdate = data.personal.birthdate;
-    }
-
-    if (data.documents.dataEmissao != null) {
-      try {
-        emissionDate = DateFormat('yyyy-MM-dd').format(
-          DateFormat('dd/MM/yyyy').parse(data.documents.dataEmissao!),
-        );
-      } on FormatException {
-        emissionDate = data.documents.dataEmissao!;
-      }
-    }
-
-    data = data.copyWith(
-      personal: data.personal.copyWith(
-        birthdate: birthdate,
-      ),
-      documents: data.documents.copyWith(
-        dataEmissao: emissionDate,
-      ),
-    );
-
-    docRef.set(data.toMap());
+  Future<void> save(WorkerModel worker) async {
+    await WorkerRepository(_dio).save(worker);
   }
 
   @override
-  Future<void> workerUpdate(WorkerModel data) async {
-    final store = FirebaseFirestore.instance;
-    final docRef = store.collection(userCollection).doc(data.user);
-    late String? birthdate;
-    String? emissionDate = '';
-
-    try {
-      birthdate = DateFormat('yyyy-MM-dd')
-          .format(DateFormat('dd/MM/yyyy').parse(data.personal.birthdate));
-    } on FormatException {
-      birthdate = data.personal.birthdate;
-    }
-
-    if (data.documents.dataEmissao != null) {
-      try {
-        emissionDate = DateFormat('yyyy-MM-dd').format(
-          DateFormat('dd/MM/yyyy').parse(data.documents.dataEmissao!),
-        );
-      } on FormatException {
-        emissionDate = data.documents.dataEmissao!;
-      }
-    }
-
-    data = data.copyWith(
-      personal: data.personal.copyWith(
-        birthdate: birthdate,
-        phone: data.personal.phone?.replaceAll(RegExp(r'[^0-9]'), ''),
-      ),
-      documents: data.documents.copyWith(
-        dataEmissao: emissionDate,
-      ),
-    );
-
-    docRef.update(data.toMap());
+  Future<WorkerModel?> getByToken(String token) {
+    return WorkerRepository(_dio).getByToken(token);
   }
 
   @override
-  Future<List<WorkerModel>> getAllWorkers([String? userId]) async {
-    final collectionRef = FirebaseFirestore.instance.collection(userCollection);
-    final QuerySnapshot querySnapshot = await collectionRef.get();
-    final workerList = <WorkerModel>[];
-    for (var doc in querySnapshot.docs) {
-      final map = doc.data() as Map<String, dynamic>;
-      if (map['profileType'] == 2) {
-        if (userId != null) {
-          if (map['documents']['employeer']['code'] == userId) {
-            workerList.add(WorkerModel.fromMap(map));
-          }
-        } else {
-          workerList.add(WorkerModel.fromMap(map));
-        }
-      }
-    }
-    return workerList;
+  Future<List<WorkerModel>> getWorkersBySyndicate([String? userId]) async {
+    return WorkerRepository(_dio).getWorkersBySyndicate(userId);
   }
 
   @override
-  Future<void> delete(String id) async {
-    final userRef = FirebaseFirestore.instance.collection(userCollection);
-    await userRef.doc(id).delete();
+  Future<void> update(WorkerModel worker, String updateType) async {
+    await WorkerRepository(_dio).update(worker, updateType);
+  }
+
+  @override
+  Future<void> deleteBankData(String userId) async {
+    await WorkerRepository(_dio).deleteBankData(userId);
+  }
+
+  @override
+  Future<void> delete(String userId) async {
+    await WorkerRepository(_dio).delete(userId);
   }
 }

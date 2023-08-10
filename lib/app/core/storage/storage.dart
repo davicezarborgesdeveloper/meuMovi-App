@@ -1,12 +1,16 @@
-import 'storage_impl.dart';
+import 'preferences_storage.dart';
 
 abstract class Storage {
-  Future<void> setData(String key, Object value);
+  Future<void> setData(String key, String value);
   Future<String?> getData(String key);
-  Future<bool?> getBool(String key);
   void clean();
 
   factory Storage() {
-    return SharedPreferencesStorage();
+    return PreferencesStorage();
+    // if (kIsWeb) {
+    //   return SessionStorage();
+    // } else {
+    //   return PreferencesStorage();
+    // }
   }
 }

@@ -1,12 +1,14 @@
+import '../../core/rest_client/custom_dio.dart';
 import '../../models/syndicate_model.dart';
 import 'syndicate_service_impl.dart';
 
 abstract class SyndicateService {
-  Future<void> saveSyndicate(SyndicateModel user);
-  Future<void> syndicateUpdate(SyndicateModel user);
-  Future<List<SyndicateModel>> getSyndicates();
+  Future<List<SyndicateModel>> findAll();
+  Future<void> save(SyndicateModel syndicate);
+  Future<SyndicateModel?> getByToken(String token);
+  Future<void> update(SyndicateModel syndicate, String updateType);
 
-  factory SyndicateService() {
-    return SyndicateServiceImpl();
+  factory SyndicateService(CustomDio dio) {
+    return SyndicateServiceImpl(dio);
   }
 }

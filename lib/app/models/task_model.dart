@@ -45,11 +45,11 @@ class TaskModel {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'code': code,
+      'id': code,
       'descriptionService': descriptionService,
       'descCostCenter': descCostCenter,
       'extraPercentage': extraPercentage,
-      'servTaker': servTaker?.toMap(),
+      'serviceTaker': servTaker?.toMap(),
       'productionType': productionType?.acronym,
       'syndicate': syndicate,
       'reportType': reportType?.acronym,
@@ -67,25 +67,31 @@ class TaskModel {
   }
 
   factory TaskModel.fromMap(Map<String, dynamic> map) {
-    print('${(map['valuePayroll']).toDouble()}');
     return TaskModel(
-      code: map['code'] != null ? map['code'] as String : null,
+      // code: map['id'] != null ? map['id'] as String : null,
+      //
+      code: map['id'] != null ? (map['id']).toString() : null,
       descriptionService: (map['descriptionService'] ?? '') as String,
       descCostCenter: map['descCostCenter'] != null
           ? map['descCostCenter'] as String
           : null,
-      extraPercentage: (map['extraPercentage'] ?? '') as String,
-      servTaker: map['servTaker'] != null
-          ? ServTakerModel.fromMap(map['servTaker'] as Map<String, dynamic>)
+      extraPercentage: map['extraPercentage'] != null
+          ? (map['extraPercentage']).toString()
+          : '0.0',
+      servTaker: map['serviceTaker'] != null
+          ? ServTakerModel.fromMap(
+              map['serviceTaker'] as Map<String, dynamic>,
+            )
           : null,
-      syndicate: map['syndicate'] != null ? map['syndicate'] as String : null,
+      syndicate:
+          map['syndicate'] != null ? map['syndicate']['code'] as String : null,
       productionType: map['productionType'] != null
           ? ProductionType.parse(map['productionType'])
           : null,
       reportType: map['reportType'] != null
           ? ReportType.parse(map['reportType'])
           : null,
-      hourDays: map['hourDays'] != null ? map['hourDays'] as String : null,
+      hourDays: map['hourDays'] != null ? (map['hourDays']).toString() : null,
       valuePayroll:
           map['valuePayroll'] != null ? (map['valuePayroll']).toDouble() : 0.0,
       invoiceAmount: map['invoiceAmount'] != null
@@ -153,6 +159,11 @@ class TaskModel {
       access: access ?? this.access,
     );
   }
+
+  @override
+  String toString() {
+    return 'TaskModel(code: $code, descriptionService: $descriptionService, descCostCenter: $descCostCenter, extraPercentage: $extraPercentage, servTaker: $servTaker, productionType: $productionType, syndicate: $syndicate, reportType: $reportType, hourDays: $hourDays, hourUnitary: $hourUnitary, valuePayroll: $valuePayroll, invoiceAmount: $invoiceAmount, valueInvoice: $valueInvoice, quantity: $quantity, unitaryValue: $unitaryValue, totalValueTask: $totalValueTask, status: $status, access: $access)';
+  }
 }
 
 class ServTakerModel {
@@ -181,4 +192,7 @@ class ServTakerModel {
 
   factory ServTakerModel.fromJson(String source) =>
       ServTakerModel.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  @override
+  String toString() => 'ServTakerModel(code: $code, name: $name)';
 }
