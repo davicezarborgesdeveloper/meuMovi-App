@@ -12,7 +12,6 @@ import '../core/extensions/validator_extensions.dart';
 import '../core/rest_client/custom_dio.dart';
 import '../core/ui/helpers/enums.dart';
 import 'http_controller.dart';
-import 'menu_drawer_controller.dart';
 import 'user_controller.dart';
 part 'syndicate_signup_controller.g.dart';
 

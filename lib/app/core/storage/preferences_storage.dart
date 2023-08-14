@@ -1,6 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../global/constants.dart';
 import 'storage.dart';
 
 class PreferencesStorage implements Storage {
@@ -8,8 +7,6 @@ class PreferencesStorage implements Storage {
   void clean() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.clear();
-    // prefs.remove(SessionStorageKeys.accessToken.key);
-    // prefs.remove(SessionStorageKeys.keepLogged.key);
   }
 
   @override

@@ -67,8 +67,8 @@ class _LoginPageState extends State<LoginPage> with Loader, Messages {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
-            height: context.screenHeight,
+            padding: const EdgeInsets.symmetric(horizontal: 32),
+            height: context.screenHeight - context.appbarHeight / 2,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [

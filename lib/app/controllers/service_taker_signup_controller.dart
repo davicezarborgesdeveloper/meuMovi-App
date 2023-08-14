@@ -11,7 +11,6 @@ import '../services/serviceTaker/service_taker_service.dart';
 import '../core/extensions/validator_extensions.dart';
 import '../core/rest_client/custom_dio.dart';
 import 'http_controller.dart';
-import 'menu_drawer_controller.dart';
 import 'user_controller.dart';
 part 'service_taker_signup_controller.g.dart';
 

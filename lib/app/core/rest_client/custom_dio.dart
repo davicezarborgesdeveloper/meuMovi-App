@@ -9,7 +9,7 @@ class CustomDio extends DioForNative {
   CustomDio()
       : super(
           BaseOptions(
-            baseUrl: Env.i.get('backend_base_url_cloud'),
+            baseUrl: 'https://meumovi.fgsistem.com.br/movi/',
             connectTimeout: const Duration(seconds: 5),
             receiveTimeout: const Duration(seconds: 60),
           ),

@@ -7,7 +7,6 @@ import '../core/exceptions/repository_exception.dart';
 import '../services/auth/login_service.dart';
 import '../core/exceptions/unauthorized_exception.dart';
 import '../core/extensions/validator_extensions.dart';
-import 'menu_drawer_controller.dart';
 import 'user_controller.dart';
 part 'login_controller.g.dart';
 
